@@ -1,25 +1,22 @@
 <?php
 /**
-* Loader Class for front-end template and scripts
-*
-* Adds a simple front-end template which lets the client side take
-* take care of everything and enqueues the scripts needed
-* to get this thing to kick-off.
-*
-* @since 0.0.1
-*/
+ * Loader Class for front-end template and scripts
+ *
+ * Adds a simple front-end template which lets the client side take
+ * take care of everything and enqueues the scripts needed
+ * to get this thing to kick-off.
+ *
+ * @since 0.0.1
+ */
 
 class Styleguide_Front {
 
 	static $instance = false;
-	
+
 	/**
-	 * Initialize Class with a new instance
-	 * 
-	 * @since 0.0.1
-	 * 
-	 * @global boolean $instance
-	 * 
+	 * Initialize the class with a new instance
+	 *
+	 * @return bool|Styleguide_Front
 	 */
 	public static function init() {
 		if ( ! self::$instance ) {

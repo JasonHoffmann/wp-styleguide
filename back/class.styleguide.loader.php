@@ -39,7 +39,9 @@ class Styleguide_Loader {
 	private function __construct() {
 		add_action('template_redirect', array( $this, 'load_styleguide_template') );
 		add_action( 'init', array( $this, 'handle_rewrites' ) );
-		//add_action('init', array( $this, 'load_rest_endpoints' ) );
+		add_action('rest_api_init', array( $this, 'load_rest_endpoints' ) );
+
+		Styleguide_Data::init();
 	}
 
 
@@ -58,6 +60,11 @@ class Styleguide_Loader {
 		if (isset($wp_query->query_vars['styleguide'])) {
 			Styleguide_Front::init();
 		}
+	}
+
+	public function load_rest_endpoints() {
+		$api = new Styleguide_Endpoints;
+		$api->register_routes();
 	}
 
 
