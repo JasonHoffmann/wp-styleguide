@@ -17,6 +17,8 @@ define( 'STYLEGUIDE__PLUGIN_BASE',         plugin_basename( __FILE__ ) );
 define( 'STYLEGUIDE__PLUGIN_FILE',        __FILE__ );
 
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.front.php' );
+require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.data.php' );
+require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.api.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.loader.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.activate.php' );
 
