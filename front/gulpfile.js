@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     include = require('gulp-include'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    plumber = require('gulp-plumber');
+    plumber = require('gulp-plumber'),
+    vueify = require('gulp-vueify');
 
 
 var paths = {
@@ -39,6 +40,12 @@ gulp.task('lint', function() {
       mangle: false
     }))
     .pipe(gulp.dest(paths.js.dest));
+});
+
+gulp.task('vueify', function () {
+  return gulp.src('./app/**/*.vue')
+    .pipe(vueify())
+    .pipe(gulp.dest('./app/build/components.js'));
 });
 
 gulp.task('watch', function(){
