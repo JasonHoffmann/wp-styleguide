@@ -78,6 +78,12 @@ class Styleguide_Endpoints {
 			'description' => apply_filters( 'the_content', $post->post_content ),
 		);
 
+		$sections = get_the_terms( $post, 'style_sections' );
+		$section_name = $sections ? wp_list_pluck( $sections, 'name' ) : array();
+		$section_slug = $sections ? wp_list_pluck( $sections, 'slug' ) : array();
+		$data['section_name'] = $section_name[0];
+		$data['section_slug'] = $section_slug[0];
+
 		$response = rest_ensure_response( $data );
 
 		return $response;
@@ -92,6 +98,7 @@ class Styleguide_Endpoints {
 
 		$post->post_type = $this->post_type;
 		$post_id = wp_insert_post( $post, true );
+		$terms = $this->handle_terms( $post_id, $request );
 
 		if ( is_wp_error( $post_id ) ) {
 			if ( in_array( $post_id->get_error_code(), array( 'db_insert_error' ) ) ) {
@@ -121,6 +128,8 @@ class Styleguide_Endpoints {
 		$post = $this->prepare_item_for_database( $request );
 
 		$post_id = wp_update_post( (array) $post, true );
+		$terms = $this->handle_terms( $post_id, $request );
+		
 		if ( is_wp_error( $post_id ) ) {
 			if ( in_array( $post_id->get_error_code(), array( 'db_update_error' ) ) ) {
 				$post_id->add_data( array( 'status' => 500 ) );
@@ -167,6 +176,8 @@ class Styleguide_Endpoints {
 			$prepared_post->post_content = wp_filter_post_kses( $request['html'] );
 		}
 
+
+
 		$prepared_post->post_type = $this->post_type;
 
 		if ( ! empty( $request['date'] ) ) {
@@ -181,6 +192,15 @@ class Styleguide_Endpoints {
 		}
 
 		return $prepared_post;
+	}
+
+	public function handle_sections( $post_id, $request ) {
+		if( isset( $request['section'] ) ) {
+			$result = wp_set_object_terms( $post_id, $request['section'], 'styles_section' );
+			if( is_wp_error( $result ) ) {
+				return $result;
+			}
+		}
 	}
 
 }

@@ -41,7 +41,13 @@ class Styleguide_Data {
 			// TODO: Set public to false and remove label
 			// This is only here to add data on the back-end while we're testing
 			'public' => true,
-			'supports' => array( 'title', 'editor', 'date' )
+			'supports' => array( 'title', 'editor', 'date' ),
+			'taxonomies' => array('style_sections')
+		));
+
+		register_taxonomy( 'style_sections', 'styles', array(
+			'label' => 'STYLE SECTIONS',
+			'public' => true
 		));
 	}
 
