@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
-    vueify = require('gulp-vueify');
+    webpack = require('gulp-webpack');
 
 
 var paths = {
@@ -31,22 +31,21 @@ gulp.task('lint', function() {
 // ========================================
 
 // Compiles js from app.js
-  gulp.task('app', function() {
-  return gulp.src(paths.js.src)
-    .pipe(include())
-    .pipe(plumber())
-    .pipe(gulp.dest(paths.js.dest))
-    .pipe(uglify({
-      mangle: false
-    }))
-    .pipe(gulp.dest(paths.js.dest));
+gulp.task('app', function() {
+    return gulp.src(paths.js.src)
+      .pipe(webpack({
+        output: {
+          filename: 'app.js',
+        },
+      }))
+      .pipe(gulp.dest(paths.js.dest));
 });
 
-gulp.task('vueify', function () {
-  return gulp.src('./app/**/*.vue')
-    .pipe(vueify())
-    .pipe(gulp.dest('./app/build/components.js'));
-});
+//gulp.task('vueify', function () {
+//  return gulp.src('./app/**/*.vue')
+//    .pipe(vueify())
+//    .pipe(gulp.dest('./app/build/components.js'));
+//});
 
 gulp.task('watch', function(){
   gulp.watch(paths.js.compile, ['lint', 'app']);

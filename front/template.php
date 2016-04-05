@@ -4,13 +4,13 @@
  * 
  */
 ?>
-
-
 <?php wp_head(); ?>
 
 <body id="styleguide-plugin">
 	<div id="styleguide-root">
-		Nothing Yet
+		<div id="app"></div>
 	</div>
+
+
 <?php wp_footer(); ?>
 </body>
