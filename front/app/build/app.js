@@ -70,8 +70,8 @@
 
 	      $.get(styleguide_options.url + '/wp-json/styles/style')
 	        .done(function(styles){
-	          this.$set('styles', styles[0].data);
-	          console.log(styles[0].data);
+	          this.$set('styles', styles);
+	          console.log(styles);
 	        })
 	        .fail(function (err) {
 	          console.log(err);
