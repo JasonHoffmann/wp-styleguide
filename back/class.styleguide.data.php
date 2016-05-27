@@ -49,6 +49,8 @@ class Styleguide_Data {
 			'label' => 'STYLE SECTIONS',
 			'public' => true
 		));
+		
+		register_taxonomy_for_object_type( 'style_sections', 'styles' );
 	}
 
 }

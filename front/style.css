@@ -1,0 +1,37 @@
+body#styleguide {
+	background: #eee;
+}
+
+body#styleguide:before {
+	height: auto;
+	width: auto;
+}
+
+#styleguide #app {
+	width: 85%;
+	margin: 0 auto;
+}
+
+.sg-container {
+	background: white;
+	padding: 2em;
+	margin-bottom: 2em;
+}
+
+.sg-container .sg-title {
+	border-bottom: 1px solid #eee;
+	text-transform: uppercase;
+	font-weight: 100;
+	margin-bottom: 2em;
+}
+
+.sg-container .sg-output {
+	margin-bottom: 2em;
+}
+
+.sg-container .sg-markup {
+	background: #222;
+	color: #eee;
+	padding: 1em;
+}
+

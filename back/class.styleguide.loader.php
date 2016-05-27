@@ -37,29 +37,14 @@ class Styleguide_Loader {
 	 * 
 	 */
 	private function __construct() {
-		add_action('template_redirect', array( $this, 'load_styleguide_template') );
-		add_action( 'init', array( $this, 'handle_rewrites' ) );
+		add_action('plugins_loaded', array( $this, 'load_styleguide_template') );
 		add_action('rest_api_init', array( $this, 'load_rest_endpoints' ) );
 
 		Styleguide_Data::init();
 	}
 
-
-	/**
-	 * Create a rewrite tag for our /styleguide route
-	 * 
-	 * @since 0.1.0
-	 * 
-	 */
-	public function handle_rewrites() {
-    	add_rewrite_tag('%styleguide%', 'true');	
-	}
-
 	public function load_styleguide_template() {
-		global $wp_query;
-		if (isset($wp_query->query_vars['styleguide'])) {
-			Styleguide_Front::init();
-		}
+		Styleguide_Front::init();
 	}
 
 	public function load_rest_endpoints() {

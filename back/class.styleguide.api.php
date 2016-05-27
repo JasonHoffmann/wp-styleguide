@@ -35,8 +35,77 @@ class Styleguide_Endpoints {
 				'permission_callback' 	=> array( $this, 'general_permissions_check' )
 			)
 		));
+		
+		register_rest_route( $this->namespace, '/sections', array(
+			array(
+				'methods' => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_sections' )
+			)
+		));
+		
+		register_rest_route( $this->namespace, '/sections/(?P<id>[\d]+)', array(
+			array(
+				'methods' => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_section_posts' )
+			)
+		));
 	}
+	
+	public function get_sections( $request ) {
+		$terms = get_terms( 'style_sections' );
+		$response = array();
+		foreach( $terms as $term ) {
+			$data = array();
+			$data['id'] = (int) $term->term_id;
+			$data['name'] = $term->name;
+			$data['slug'] = $term->slug;
+			// $data = rest_ensure_response( $data );
+			$response[] = $data;
+		}
+		
+		return $response;
+		
+		
+	}
+	
+	public function get_section_posts( $request ) {
+		$term = get_term( intval( $request['id'] ), 'style_sections' );
+		$response = array();
+		$response['id'] = (int) $term->term_id;
+		$response['name'] = $term->name;
+		$response['slug'] = $term->slug;
+			// $data = rest_ensure_response( $data );
+		
+		$id = intval( $request['id'] );
+		wp_reset_postdata();
+		$query_args = array(
+			'post_type' => $this->post_type,
+			'tax_query' => array(
+					array(
+							'taxonomy' => 'style_sections', 
+							'field' => 'term_id', 
+							'terms' => $id 
+			) ) 
+		);
+			
+		$styles_query = new WP_Query();
+		$query_result = $styles_query->query( $query_args );
+			
+		$posts = array();
 
+		foreach( $query_result as $result ) {
+				
+				$data = $this->prepare_item_for_response( $result, $request );
+				$posts[] = $data;
+			}
+			
+			$response['posts'] = $posts;
+
+		
+		return $response;
+		
+	}
+	
 	public function general_permissions_check( $request ) {
 		// TODO : SET UP PROPER PERMISSIONS CHECK
 		// if ( !current_user_can( $post_type->cap->edit_posts ) ) {
@@ -84,9 +153,9 @@ class Styleguide_Endpoints {
 		$data['section_name'] = $section_name[0];
 		$data['section_slug'] = $section_slug[0];
 
-		$response = rest_ensure_response( $data );
+		// $response = rest_ensure_response( $data );
 
-		return $response;
+		return $data;
 	}
 
 	public function create_item( $request ) {

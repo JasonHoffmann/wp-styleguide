@@ -16,6 +16,7 @@ define( 'STYLEGUIDE__PLUGIN_URL',         plugin_dir_url( __FILE__ ) );
 define( 'STYLEGUIDE__PLUGIN_BASE',         plugin_basename( __FILE__ ) );
 define( 'STYLEGUIDE__PLUGIN_FILE',        __FILE__ );
 
+require_once( STYLEGUIDE__PLUGIN_DIR . 'lib/wp-routes/wp-routes.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.front.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.data.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.api.php' );

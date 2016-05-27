@@ -35,7 +35,7 @@ class Styleguide_Front {
 	 * 
 	 */
 	private function __construct() {
-		add_filter('template_include', array($this, 'load_template'));
+		add_action( 'wp-routes/register_routes', array($this, 'load_template' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_all_scripts' ) );
 	}
 
@@ -48,11 +48,24 @@ class Styleguide_Front {
 	 * 
 	 */
 	public function load_template() {
-    	return STYLEGUIDE__PLUGIN_DIR . 'front/template.php';
+		respond('/styleguide', function() {
+			require_once( STYLEGUIDE__PLUGIN_DIR . 'front/template.php' );
+			die();
+		});
 	}
 
 	public function load_all_scripts() {
 		// TODO: Add in the proper scripts here, basically everything depends on this.
+		
+		wp_enqueue_script('app', STYLEGUIDE__PLUGIN_URL . 'front/app/build/app.js', array(), '1.0.0', true);
+		// Localize the script with new data
+		$site_options = array(
+			'url' => site_url(),
+		);
+		wp_localize_script( 'app', 'styleguide_options', $site_options );
+		// Enqueued script with localized data.
+		wp_enqueue_script( 'styleguide_options' );
+		wp_enqueue_style( 'app', STYLEGUIDE__PLUGIN_URL . 'front/style.css' );
 	}
 
 
