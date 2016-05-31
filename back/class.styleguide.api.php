@@ -6,7 +6,7 @@ class Styleguide_Endpoints {
 
 	public function __construct() {
 		$this->post_type = 'styles';
-		$this->namespace = 'styles';
+		$this->namespace = 'styleguide';
 	}
 
 	public function register_routes() {
@@ -80,6 +80,7 @@ class Styleguide_Endpoints {
 		wp_reset_postdata();
 		$query_args = array(
 			'post_type' => $this->post_type,
+			'order' => 'ASC',
 			'tax_query' => array(
 					array(
 							'taxonomy' => 'style_sections', 
@@ -162,12 +163,14 @@ class Styleguide_Endpoints {
 		if ( ! empty( $request['id'] ) ) {
 			return new WP_Error( 'rest_post_exists', __( 'Cannot create existing post.' ), array( 'status' => 400 ) );
 		}
+		$section_id = isset( $request['section_id'] ) ? intval( $request['section_id'] ) : '';
 
 		$post = $this->prepare_item_for_database( $request );
 
 		$post->post_type = $this->post_type;
+		$post->post_status = 'publish';
 		$post_id = wp_insert_post( $post, true );
-		$terms = $this->handle_terms( $post_id, $request );
+		wp_set_object_terms( $post_id, $section_id, 'style_sections');
 
 		if ( is_wp_error( $post_id ) ) {
 			if ( in_array( $post_id->get_error_code(), array( 'db_insert_error' ) ) ) {
@@ -189,15 +192,20 @@ class Styleguide_Endpoints {
 	public function update_item( $request ) {
 		$id = (int) $request['id'];
 		$post = get_post( $id );
+		$title = isset( $request['title'] ) ? $request['title'] : null;
+		$html = isset( $request['html'] ) ? $request['html'] : null;
 
-		if ( empty( $id ) || empty( $post->ID ) || $this->post_type !== $post->post_type ) {
+		if ( empty( $id ) || empty( $post->ID ) ) {
 			return new WP_Error( 'rest_post_invalid_id', __( 'Post id is invalid.' ), array( 'status' => 400 ) );
 		}
 
-		$post = $this->prepare_item_for_database( $request );
+		$post = $this->prepare_item_for_database( array( 
+							'id' => $id,
+							'title' => $title,
+							'html' => $html
+ 		) );
 
 		$post_id = wp_update_post( (array) $post, true );
-		$terms = $this->handle_terms( $post_id, $request );
 		
 		if ( is_wp_error( $post_id ) ) {
 			if ( in_array( $post_id->get_error_code(), array( 'db_update_error' ) ) ) {
@@ -232,32 +240,31 @@ class Styleguide_Endpoints {
 
 	public function prepare_item_for_database( $post ) {
 		$prepared_post = new stdClass;
-
-		if( isset( $request['id'] ) ) {
-			$prepared_post->ID = absint( $request['id'] );
+		
+		if( isset( $post['id'] ) ) {
+			$prepared_post->ID = absint( $post['id'] );
 		}
 
-		if( isset( $request['title'] ) && is_string( $request['title'] ) ) {
-			$prepared_post->post_title = wp_filter_post_kses( $request['title'] );
+		if( isset( $post['title'] ) && is_string( $post['title'] ) ) {
+			$prepared_post->post_title = wp_filter_post_kses( $post['title'] );
 		}
 
-		if( isset( $request['html'] ) && is_string( $request['html'] ) ) {
-			$prepared_post->post_content = wp_filter_post_kses( $request['html'] );
+		if( isset( $post['html'] ) && is_string( $post['html'] ) ) {
+			$prepared_post->post_content = wp_filter_post_kses( $post['html'] );
 		}
-
 
 
 		$prepared_post->post_type = $this->post_type;
 
-		if ( ! empty( $request['date'] ) ) {
-			$date_data = rest_get_date_with_gmt( $request['date'] );
+		if ( ! empty( $post['date'] ) ) {
+			$date_data = rest_get_date_with_gmt( $post['date'] );
 			if ( ! empty( $date_data ) ) {
 				list( $prepared_post->post_date, $prepared_post->post_date_gmt ) = $date_data;
 			}
 		}
 
-		if ( isset( $request['slug'] ) ) {
-			$prepared_post->post_name = $request['slug'];
+		if ( isset( $post['slug'] ) ) {
+			$prepared_post->post_name = $post['slug'];
 		}
 
 		return $prepared_post;

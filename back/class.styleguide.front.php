@@ -55,12 +55,14 @@ class Styleguide_Front {
 	}
 
 	public function load_all_scripts() {
+		wp_deregister_script('jquery');
 		// TODO: Add in the proper scripts here, basically everything depends on this.
-		
+		wp_enqueue_style( 'prism', STYLEGUIDE__PLUGIN_URL . 'front/app/vendor/prism.css' );
 		wp_enqueue_script('app', STYLEGUIDE__PLUGIN_URL . 'front/app/build/app.js', array(), '1.0.0', true);
+		
 		// Localize the script with new data
 		$site_options = array(
-			'url' => site_url(),
+			'url' => site_url('/wp-json/styleguide'),
 		);
 		wp_localize_script( 'app', 'styleguide_options', $site_options );
 		// Enqueued script with localized data.

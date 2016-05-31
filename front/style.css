@@ -16,6 +16,7 @@ body#styleguide:before {
 	background: white;
 	padding: 2em;
 	margin-bottom: 2em;
+	position: relative;
 }
 
 .sg-container .sg-title {
@@ -35,3 +36,21 @@ body#styleguide:before {
 	padding: 1em;
 }
 
+.sg-container .sg-edit {
+	font-size: 11px;
+	position: absolute;
+	top: 0.5em;
+	right: 1em;
+	opacity: 0;
+	transition: opacity 0.25s;
+}
+
+.sg-container:hover .sg-edit {
+	opacity: 1;
+}
+
+input[type="text"].sg-title {
+	border: none;
+	background: none;
+	border-bottom: 1px solid #eee;
+}

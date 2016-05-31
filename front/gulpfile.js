@@ -10,6 +10,7 @@ var paths = {
   js: {
     src: ['./app.js'],
     compile:  ['./app.js', './app/**/*.js', '!app/build/*.js', '!app/vendor/*.js'],
+    watch: [ './app.js', './app/**/*.js', './components/**/*.vue' ],
     dest: './app/build/'
   }
 };
@@ -37,18 +38,18 @@ gulp.task('app', function() {
         output: {
           filename: 'app.js',
         },
+        module: { loaders: [ 
+          { test: /\.vue$/, loader: 'vue'  },
+          { test: /\.js$/, exclude: /node_modules|vue\/src|vue-router\//,  loader: 'babel' }
+        ] },
+        babel: { presets: ['es2015'], plugins: ['transform-runtime'] },
+        resolve: { modulesDirectories: ['node_modules'] }
       }))
       .pipe(gulp.dest(paths.js.dest));
 });
 
-//gulp.task('vueify', function () {
-//  return gulp.src('./app/**/*.vue')
-//    .pipe(vueify())
-//    .pipe(gulp.dest('./app/build/components.js'));
-//});
-
 gulp.task('watch', function(){
-  gulp.watch(paths.js.compile, ['lint', 'app']);
+  gulp.watch(paths.js.watch, ['lint', 'app']);
 });
 
 gulp.task('default', ['lint', 'app', 'watch']);
