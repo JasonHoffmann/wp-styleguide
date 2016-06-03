@@ -6,7 +6,7 @@
     </div>
     <p>Example Code:</p>
     <div class="sg-markup">
-      <pre v-prism-directive contenteditable="">{{ html }}</pre>
+      <pre v-prism-directive="html" contenteditable="" class="language-markup">{{ html }}</pre>
       <!-- <textarea placeholder="Enter your markup here..." v-on:keyup="editHtml() | debounce 500" v-model="html"></textarea> -->
     </div>
   </div>
@@ -30,16 +30,14 @@ export default {
           data: obj
         });
     },
+		
+		watch: {
+			html : function(val, oldval) {
+			}
+		},
     
     log: function() {
       console.log('log');
-    },
-    
-    editHtml: function(evt) {
-      // this.html = evt.target.textContent;
-      // this.updateStyle( {
-      //   html: this.html
-      // } );
     },
     
     editTitle: function(title) {

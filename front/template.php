@@ -69,84 +69,113 @@ Object.defineProperty(HTMLPreElement.prototype, 'selectionEnd', {
 	enumerable: true,
 	configurable: true
 });
-var _ = window.Utopia = {
+
+String.prototype.splice = function(i, remove, add) {
+	remove = +remove || 0;
+	add = add || '';
 	
-	type: function(obj) {
-	if(obj === null) { return 'null'; }
-
-	if(obj === undefined) { return 'undefined'; }
-
-	var ret = Object.prototype.toString.call(obj).match(/^\[object\s+(.*?)\]$/)[1];
-
-	ret = ret? ret.toLowerCase() : '';
-
-	if(ret == 'number' && isNaN(obj)) {
-		return 'NaN';
+	return this.slice(0,i) + add + this.slice(i + remove);
+};
+ 
+ function offset(element) {
+    var left = 0, top = 0, el = element;
+    
+    if (el.parentNode) {
+		do {
+			left += el.offsetLeft - el.scrollLeft;
+			top += el.offsetTop - el.scrollTop;
+		} while ((el = el.parentNode) && el.nodeType < 9);
 	}
 
-	return ret;
-},
-	
-	event: {
-	/**
-	 * Binds one or more events to one or more elements
-	 */
-	bind: function(target, event, callback, traditional) {
-		if(_.type(target) === 'string' || _.type(target) === 'array') {
-			var elements = _.type(target) === 'string'? $$(target) : target;
-			
-			elements.forEach(function(element) {
-				_.event.bind(element, event, callback, traditional);
-			});
-		}
-		else if(_.type(event) === 'string') {
-			if(traditional) {
-				target['on' + event] = callback;
-			}
-			else {
-				target.addEventListener(event, callback, false);
-			}
-		}
-		else if(_.type(event) === 'array') {
-			for (var i=0; i<event.length; i++) {
-				_.event.bind(target, event[i], callback, arguments[2]);
-			}
-		}
-		else {
-			for (var name in event) {
-				_.event.bind(target, name, event[name], arguments[2]);
-			}
-		}
-	},
-	
-	/**
-	 * Fire a custom event
-	 */
-	fire: function(target, type, properties) {
-		if(_.type(target) === 'string' || _.type(target) === 'array') {
-			var elements = _.type(target) === 'string'? $$(target) : target;
-			
-			elements.forEach(function(element) {
-				_.event.fire(element, type, properties);
-			});
-		}
-		else {
-			var evt = document.createEvent("HTMLEvents");
-	
-			evt.initEvent(type, true, true );
-			evt.custom = true;
-	
-			if(properties) {
-				_.attach(evt, properties);
-			}
-
-			target.dispatchEvent(evt);
-		}
-	}
+    return {
+		top: top,
+    	right: innerWidth - left - element.offsetWidth,
+    	bottom: innerHeight - top - element.offsetHeight,
+    	left: left,
+    };
 }
+
+HTMLPreElement.prototype.setSelectionRange = function(ss, se) {
+	var range = document.createRange(),
+	    offset = findOffset(this, ss);
+
+	range.setStart(offset.element, offset.offset);
+	
+	if(se && se != ss) {
+		offset = findOffset(this, se);	
+	}
+	
+	range.setEnd(offset.element, offset.offset);
+		
+	var selection = window.getSelection();
+	selection.removeAllRanges();
+	selection.addRange(range);
+}
+
+function findOffset(root, ss) {
+	if(!root) {
+		return null;
+	}
+
+	var offset = 0,
+		element = root;
+	
+	do {
+		var container = element;
+		element = element.firstChild;
+		
+		if(element) {
+			do {
+				var len = element.textContent.length;
+				
+				if(offset <= ss && offset + len > ss) {
+					break;
+				}
+				
+				offset += len;
+			} while(element = element.nextSibling);
+		}
+		
+		if(!element) {
+			// It's the container's lastChild
+			break;
+		}
+	} while(element && element.hasChildNodes() && element.nodeType != 3);
+	
+	if(element) {
+		return {
+			element: element,
+			offset: ss - offset
+		};
+	}
+	else if(container) {
+		element = container;
+		
+		while(element && element.lastChild) {
+			element = element.lastChild;
+		}
+		
+		if(element.nodeType === 3) {
+			return {
+				element: element,
+				offset: element.textContent.length
+			};
+		}
+		else {
+			return {
+				element: element,
+				offset: 0
+			};
+		}
+	}
+	
+	return {
+		element: root,
+		offset: 0,
+		error: true
+	};
 }
 })();
-window.$u = window.$u || Utopia;
 </script>
 <?php wp_footer(); ?>
 </body>
