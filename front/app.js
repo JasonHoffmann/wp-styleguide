@@ -3,7 +3,8 @@ Vue.use(require('vue-resource'));
 var Wrapper = require('./components/Wrapper.vue');
 var Prism = require('prismjs');
 var Editor = require('./components/Editor.vue');
-// import Section from './components/Section.vue';
+var VueEditable= require('./plugins/vue-editable.js');
+Vue.use(VueEditable);
 
 var app = new Vue({
 	
@@ -25,7 +26,7 @@ var app = new Vue({
   methods: {
 		
     fetchStyles: function() {
-			var resource = this.$resource(styleguide_options.url + '/sections/{id}');
+			var resource = this.$resource(styleguide_options.url + '/section/{id}');
 			resource.get()
 			.then(function( response) {
 				this.sections = response.data;
@@ -43,7 +44,29 @@ var app = new Vue({
 			}, function(response) {
 				// TODO: error response
 			}); 
-    }
+    },
+		
+		addWrapper: function(evt) {
+			evt.preventDefault();
+			var newTitle = evt.target[0].value;
+			var len = this.all_sections.push({
+				title: newTitle,
+				id: 0,
+				styles: []
+			});
+			len = len - 1;
+			
+			
+			this.$http({
+				method: 'POST',
+				url: styleguide_options.url + '/section',
+				data: {
+					title : newTitle
+				}
+			}).then(function(response) {
+				this.all_sections[len].id = response.data.id.term_id;
+			});
+		}
 
   }
 });

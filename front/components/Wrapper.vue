@@ -1,13 +1,13 @@
 <template>
   <section class="sg-section">			
-      <h2>{{ title }}</h2>
+      <h2 class="sg-stack sg-font-dark sg-section-title">{{ title }}</h2>
       <style 
         v-for="style in styles"
         :title="style.title"
         :id="style.id"
         :html="style.html"
       ></style>
-      <section class="sg-section">
+      <section class="sg-section sg-stack">
           <button v-on:click="addStyle()" class="sg-button">Add New Element</button>
       </section>
   </section>
@@ -35,7 +35,7 @@ export default {
       });
       
       var len = len - 1;
-      
+      console.log(this);
       
       this.$http({
         method: 'POST',

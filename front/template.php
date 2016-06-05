@@ -15,6 +15,11 @@
 			:id="section.id"
 			:title="section.title"
 			:styles="section.styles"></wrapper>
+			
+			<form v-on:submit="addWrapper">
+				<input type="text" class="sg-wrapper-title" placeholder="New Section Title" />
+				<button>Add</button>
+			</form>
 	</div>
 <script>
 // Adding some utilities globally for now
@@ -175,6 +180,45 @@ function findOffset(root, ss) {
 		error: true
 	};
 }
+
+Function.prototype.debounce = function (milliseconds, context) {
+    var baseFunction = this,
+        timer = null,
+        wait = milliseconds;
+
+    return function () {
+        var self = context || this,
+            args = arguments;
+
+        function complete() {
+            baseFunction.apply(self, args);
+            timer = null;
+        }
+
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(complete, wait);
+    };
+};
+
+Function.prototype.throttle = function (milliseconds, context) {
+    var baseFunction = this,
+        lastEventTimestamp = null,
+        limit = milliseconds;
+
+    return function () {
+        var self = context || this,
+            args = arguments,
+            now = Date.now();
+
+        if (!lastEventTimestamp || now - lastEventTimestamp >= limit) {
+            lastEventTimestamp = now;
+            baseFunction.apply(self, args);
+        }
+    };
+};
 })();
 </script>
 <?php wp_footer(); ?>

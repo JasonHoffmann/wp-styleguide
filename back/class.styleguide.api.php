@@ -36,14 +36,19 @@ class Styleguide_Endpoints {
 			)
 		));
 		
-		register_rest_route( $this->namespace, '/sections', array(
+		register_rest_route( $this->namespace, '/section', array(
 			array(
 				'methods' => WP_REST_Server::READABLE,
 				'callback' => array( $this, 'get_sections' )
+			),
+			array(
+				'methods' => WP_REST_Server::CREATABLE,
+				'callback' => array( $this, 'create_section'),
+				'permission_callback' => array( $this, 'general_permissions_check' )
 			)
 		));
 		
-		register_rest_route( $this->namespace, '/sections/(?P<id>[\d]+)', array(
+		register_rest_route( $this->namespace, '/section/(?P<id>[\d]+)', array(
 			array(
 				'methods' => WP_REST_Server::READABLE,
 				'callback' => array( $this, 'get_section_posts' )
@@ -52,7 +57,7 @@ class Styleguide_Endpoints {
 	}
 	
 	public function get_sections( $request ) {
-		$terms = get_terms( 'style_sections' );
+		$terms = get_terms( 'style_sections', array( 'order' => 'DESC' ) );
 		$response = array();
 		foreach( $terms as $term ) {
 			$data = array();
@@ -183,6 +188,22 @@ class Styleguide_Endpoints {
 
 		$post = get_post( $post_id );
 		$response = $this->prepare_item_for_response( $post, $request );
+		$response = rest_ensure_response( $response );
+		$response->set_status( 201 );
+		$response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, 'style', $post_id ) ) );
+		return $response;
+	}
+	
+	public function create_section( $request ) {
+		$section_title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : 'New Title';
+		$slug = sanitize_title_with_dashes( $section_title );
+		$slug = strtolower( $slug );
+		
+		$id = wp_insert_term( $section_title, 'style_sections', array( 'slug' => $slug ) );
+		$response = array(
+			'id' => $id,
+			'slug' => $slug
+		);
 		$response = rest_ensure_response( $response );
 		$response->set_status( 201 );
 		$response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, 'style', $post_id ) ) );
