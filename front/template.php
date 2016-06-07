@@ -14,11 +14,12 @@
 			v-for="section in all_sections"
 			:id="section.id"
 			:title="section.title"
-			:styles="section.styles"></wrapper>
+			:styles="section.styles
+			"></wrapper>
 			
-			<form v-on:submit="addWrapper">
-				<input type="text" class="sg-wrapper-title" placeholder="New Section Title" />
-				<button>Add</button>
+			<form class="sg-section-title__edit" v-on:submit="addWrapper">
+				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
+				<button class="sg-button">Add</button>
 			</form>
 	</div>
 <script>

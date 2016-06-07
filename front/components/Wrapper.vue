@@ -1,6 +1,6 @@
 <template>
   <section class="sg-section">			
-      <h2 class="sg-stack sg-font-dark sg-section-title">{{ title }}</h2>
+      <input class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
       <style 
         v-for="style in styles"
         :title="style.title"
@@ -27,6 +27,20 @@ export default {
   },
   
   methods: {
+		editTitle: function() {
+			this.updateSection({
+				title: this.title
+			})
+		},
+		
+		updateSection: function( obj ) {
+			this.$http({ 
+					url: styleguide_options.url + '/section/' + this.id,
+					method: 'POST',
+					data: obj
+				});
+		}.debounce(300),
+		
     addStyle: function() {
       var len = this.styles.push({
         title: '',

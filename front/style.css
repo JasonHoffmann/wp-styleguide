@@ -35,7 +35,7 @@ body#styleguide:before {
 	margin: none;
 }
 
-#styleguide .sg-stack .sg-button:before {
+#styleguide .sg-stack .sg-button:before, #styleguide .sg-section-title__edit .sg-button:before {
 	content: "\f132";
 	font-family: 'Dashicons';
 	margin-right: 5px;
@@ -50,7 +50,7 @@ body#styleguide:before {
 	position: relative;
 }
 
-.sg-container .sg-style-title {
+#styleguide .sg-style-title {
 	border: none;
 	border-bottom: 1px solid #eee;
 	text-transform: uppercase;
@@ -59,11 +59,41 @@ body#styleguide:before {
 	width: 100%;
 	display: block;
 	padding-bottom: 6px;
+	transition: background-color .2s;
 }
 
-.sg-container .sg-style-title:hover, .sg-container .sg-style-title:focus {
-	border-bottom: 2px solid #eee;
-	padding-bottom: 5px;
+#styleguide .sg-style-title:focus, #styleguide .sg-style-title:hover {
+	background: #fafafa;
+	box-shadow: -1px 0 2px 0 rgba(0,0,0,0.05) , 1px 0 2px 0 rgba(0,0,0,0.05) , 0 1px 1px 0 rgba(0,0,0,0.12);
+}
+
+#styleguide .sg-section-title {
+	margin: 48px 0 24px 0;
+	padding: 10px 5px;
+	display: block;
+	width: 100%;
+	background: #eee;
+	border: none;
+	font-weight: 700;
+	font-size: 24px;
+	text-transform: inherit;
+}
+
+#styleguide .sg-section-title__edit  {
+	position: relative;
+	margin-bottom: 64px;
+	display: block;
+}
+
+#styleguide .sg-section-title__edit .sg-button {
+	position: absolute;
+	right: 1em;
+	top: 0;
+	opacity: 0;
+}
+
+#styleguide .sg-section-title__edit:focus .sg-button {
+	opacity: 1;
 }
 
 .sg-container .sg-edit-block {
@@ -87,9 +117,13 @@ body#styleguide:before {
 }
 
 .sg-container .sg-markup {
-	background: #222;
+	background: #272822;
 	color: #eee;
-	padding: 1em;
+	padding: 1em 0;
+}
+
+.sg-container .sg-markup pre {
+	border: none;
 }
 
 .sg-container .sg-edit {

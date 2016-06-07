@@ -52,12 +52,17 @@ class Styleguide_Endpoints {
 			array(
 				'methods' => WP_REST_Server::READABLE,
 				'callback' => array( $this, 'get_section_posts' )
+			),
+			array(
+				'methods'				=> WP_REST_Server::EDITABLE,
+				'callback' 			=> array( $this, 'update_section'),
+				'permission_callback' => array( $this, 'general_permissions_check')
 			)
 		));
 	}
 	
 	public function get_sections( $request ) {
-		$terms = get_terms( 'style_sections', array( 'order' => 'DESC' ) );
+		$terms = get_terms( 'style_sections', array( 'hide_empty' => 0, 'meta_key' => 'order', 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
 		$response = array();
 		foreach( $terms as $term ) {
 			$data = array();
@@ -195,18 +200,25 @@ class Styleguide_Endpoints {
 	}
 	
 	public function create_section( $request ) {
-		$section_title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : 'New Title';
-		$slug = sanitize_title_with_dashes( $section_title );
+		$section_title = isset( $request['title'] ) ? esc_html( $request['title'] ) : 'New Title';
+		$order = isset( $request['order'] ) ? absint( $request['order'] ) : false;
+		$slug = sanitize_title( $section_title );
 		$slug = strtolower( $slug );
 		
+		if( !$order ) {
+			$terms = get_terms('style_sections');
+			$order = count( $terms ) + 1;
+		}
+		
 		$id = wp_insert_term( $section_title, 'style_sections', array( 'slug' => $slug ) );
+		update_term_meta( $id['term_id'], 'order', $order );
 		$response = array(
 			'id' => $id,
 			'slug' => $slug
 		);
 		$response = rest_ensure_response( $response );
 		$response->set_status( 201 );
-		$response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, 'style', $post_id ) ) );
+		$response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, 'style', $id ) ) );
 		return $response;
 	}
 
@@ -239,6 +251,27 @@ class Styleguide_Endpoints {
 
 		$response = $this->prepare_item_for_response( $post, $request );
 		return rest_ensure_response( $response );
+	}
+	
+	public function update_section( $request ) {
+		$id = (int) $request['id'];
+		$title = isset( $request['title'] ) ? $request['title'] : null;
+		if( !$title ) {
+			return new WP_Error( 'rest_cannot_update', __( 'The section cannot be updated.' ), array( 'status' => 500 ) );
+		}
+		$slug = sanitize_title_with_dashes( $title );
+		$term = wp_update_term( $id, 'style_sections', array( 'name' => $title, 'slug' => $slug ) );
+		
+		if ( is_wp_error( $term ) ) {
+			if ( in_array( $term->get_error_code(), array( 'db_update_error' ) ) ) {
+				$term->add_data( array( 'status' => 500 ) );
+			} else {
+				$term->add_data( array( 'status' => 400 ) );
+			}
+			return $term;
+		}
+		
+		return rest_ensure_response( $term );
 	}
 
 	public function delete_item( $request ) {

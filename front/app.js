@@ -12,7 +12,8 @@ var app = new Vue({
 
   data: {
 		all_sections: [],
-		sections: []
+		sections: [],
+		adding: false
   },
 	
 	components: {
@@ -30,6 +31,7 @@ var app = new Vue({
 			resource.get()
 			.then(function( response) {
 				this.sections = response.data;
+				console.log(response.data);
 				for( var i = 0; i < this.sections.length; i++ ) {
 					resource.get({ id: this.sections[i].id } )
 					.then(function(response) {
@@ -49,23 +51,27 @@ var app = new Vue({
 		addWrapper: function(evt) {
 			evt.preventDefault();
 			var newTitle = evt.target[0].value;
+			evt.target[0].value = '';
 			var len = this.all_sections.push({
 				title: newTitle,
 				id: 0,
 				styles: []
 			});
-			len = len - 1;
+			var nl = len - 1;
 			
 			
 			this.$http({
 				method: 'POST',
 				url: styleguide_options.url + '/section',
 				data: {
-					title : newTitle
+					title : newTitle,
+					order: len
 				}
 			}).then(function(response) {
-				this.all_sections[len].id = response.data.id.term_id;
+				this.all_sections[nl].id = response.data.id.term_id;
 			});
+			
+			
 		}
 
   }

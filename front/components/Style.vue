@@ -1,25 +1,12 @@
 <template>
   <div class="sg-container">
-    <h2 class="sg-stack sg-font-light sg-style-title" v-on:dblclick="editable($event)">{{ title }}</h2>
-    <!-- <div class="sg-edit-block">
-      <input  class="sg-stack sg-font-light sg-style-title" 
-              placeholder="Add a title..." 
-              type="text" 
-              v-on:submit="editTitle()"
-              v-on:focus="enterEditing()"
-              v-on:blur="exitEditing()"
-              :value="title"
-        />
-        <button class="sg-stack sg-button sg-button__edit" 
-                v-show="editing"
-                v-on:click="editTitle()">
-          Save
-        </button>
-        <button class="sg-stack sg-button sg-button__edit sg-button__cancel" 
-                v-show="editing"
-                v-on:click="cancelTitle()">
-                Cancel</button>
-      </div> -->
+		<input 
+					placeholder="Add a title..." 
+					type="text" class="sg-style-title sg-stack sg-font-light" 
+					v-model="title" 
+					v-on:change="editTitle()"
+					v-bind:class="{'editing' : editing }"
+			/>
     <div class="sg-output">
         {{{ html }}}
     </div>
@@ -49,7 +36,7 @@ export default {
   watch: {
     html : function(val, oldval) {
       this.updateStyle({ html: val });
-    }
+    }.debounce(500)
   },
   
   methods: {
@@ -60,13 +47,6 @@ export default {
           data: obj
         });
     }.debounce(300),
-    
-    editable: function(evt) {
-      var self = this;
-      this.$editable(evt, function(value) {
-        self.updateStyle({title: value});
-      })
-    },
     
     enterEditing: function(evt) {
       this.editing = true;
