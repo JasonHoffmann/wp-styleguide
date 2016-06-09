@@ -27,25 +27,13 @@ var app = new Vue({
   methods: {
 		
     fetchStyles: function() {
-			var resource = this.$resource(styleguide_options.url + '/section/{id}');
-			resource.get()
-			.then(function( response) {
-				this.sections = response.data;
-				console.log(response.data);
-				for( var i = 0; i < this.sections.length; i++ ) {
-					resource.get({ id: this.sections[i].id } )
-					.then(function(response) {
-						this.all_sections.push({
-							id: response.data.id,
-							title: response.data.name,
-							slug: response.data.slug,
-							styles: response.data.posts
-						});
-					});
-				}
-			}, function(response) {
-				// TODO: error response
-			}); 
+			this.$http({
+				method: 'GET',
+				url: styleguide_options.url + '/data',
+			}).then(function(response) {
+				var sections = response.data.sections;
+				this.all_sections = sections;
+			});
     },
 		
 		addWrapper: function(evt) {
@@ -62,13 +50,14 @@ var app = new Vue({
 			
 			this.$http({
 				method: 'POST',
-				url: styleguide_options.url + '/section',
+				url: styleguide_options.url + '/sections',
 				data: {
 					title : newTitle,
 					order: len
 				}
 			}).then(function(response) {
-				this.all_sections[nl].id = response.data.id.term_id;
+				console.log(response);
+				this.all_sections[nl].id = response.data.id;
 			});
 			
 			

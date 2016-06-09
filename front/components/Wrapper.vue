@@ -21,6 +21,10 @@ export default {
     id: Number,
     styles: Array
   },
+	
+	ready: function() {
+		console.log(this);
+	},
   
   components: {
     Style
@@ -49,7 +53,6 @@ export default {
       });
       
       var len = len - 1;
-      console.log(this);
       
       this.$http({
         method: 'POST',

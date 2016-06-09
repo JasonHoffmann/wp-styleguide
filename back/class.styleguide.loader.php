@@ -50,6 +50,15 @@ class Styleguide_Loader {
 	public function load_rest_endpoints() {
 		$api = new Styleguide_Endpoints;
 		$api->register_routes();
+		
+		$styles = new Styleguide_API_Styles;
+		$styles->register_routes();
+		
+		$sections = new Styleguide_API_Sections;
+		$sections->register_routes();
+		
+		$data = new Styleguide_API_Data;
+		$data->register_routes();
 	}
 
 

@@ -20,6 +20,10 @@ require_once( STYLEGUIDE__PLUGIN_DIR . 'lib/wp-routes/wp-routes.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.front.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.data.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.api.php' );
+require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.api-base.php' );
+require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.api-styles.php' );
+require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.api-sections.php' );
+require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.api-data.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.loader.php' );
 require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.activate.php' );
 
