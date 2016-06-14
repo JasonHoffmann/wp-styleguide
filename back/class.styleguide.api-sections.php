@@ -70,8 +70,7 @@ class Styleguide_API_Sections extends Styleguide_API {
 		$prepared_term = $this->extract_section( $request );
 		
 		$term = wp_insert_term( $prepared_term->name, $this->taxonomy, $prepared_term );
-		update_term_meta( $term['term_id'], 'order', $prepared_term->order );
-		$term = get_term( $term['term_id'], $this->taxonomy );
+		$order = $this->update_term_order( $request, $term['term_id'] );
 		
 		$response = $this->prepare_section( $term, $request );
 		$response = rest_ensure_response( $response );
@@ -130,12 +129,9 @@ class Styleguide_API_Sections extends Styleguide_API {
 		}
 		
 		$term = $this->extract_section( $request, $id );
-		if( isset( $term->order ) ) {
-			update_term_meta( $id, 'order', $term->order );
-		}
 		
 		if( isset( $term->name ) ) {
-			$term = wp_update_term( $id, $this->taxonomy, $term );
+			$term = wp_update_term( $id, $this->taxonomy, (array) $term );
 			if ( is_wp_error( $term ) ) {
 				if ( in_array( $term->get_error_code(), array( 'db_update_error' ) ) ) {
 					$term->add_data( array( 'status' => 500 ) );
@@ -148,6 +144,8 @@ class Styleguide_API_Sections extends Styleguide_API {
 		} else {
 			$term_id = $id;
 		}
+		
+		$update_order = $this->update_term_order( $request, $id );
 		
 		$term = get_term( $term_id, $this->taxonomy );
 		$response = $this->prepare_section( $term, $request );
@@ -224,13 +222,6 @@ class Styleguide_API_Sections extends Styleguide_API {
 	 */
 	public function extract_section( $request ) {
 		$prepared_section = new stdClass;
-		
-		if( $request['order'] ) {
-			$prepared_section->order = absint( $request['order'] );
-		} else {
-			$terms = get_terms('style_sections');
-			$prepared_section->order = count( $terms ) + 1;
-		}
 
 		if( isset( $request['title'] ) && is_string( $request['title'] ) ) {
 			$prepared_section->name = wp_filter_post_kses( $request['title'] );
@@ -240,6 +231,26 @@ class Styleguide_API_Sections extends Styleguide_API {
 		}
 		
 		return $prepared_section;
+	}
+	
+	public function update_term_order( $request, $id ) {
+		if( !$request['order'] ) {
+			return;
+		}
+		
+		$current_order = get_term_meta( $id, 'order', true );
+		if( $request['order'] && $request['order'] === $current_order ) {
+			return;
+		}
+		
+		if( $request['order'] ) {
+			$order = absint( $request['order'] );
+		} else {
+			$terms = get_terms( $this->taxonomy );
+			$order = count( $terms ) + 1;
+		}
+		$term = update_term_meta( $id, 'order', $order );
+		return $term;
 	}
 	
 	/**

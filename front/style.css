@@ -8,8 +8,8 @@ body#styleguide:before {
 }
 
 #styleguide #app {
-	width: 85%;
-	margin: 0 auto;
+	width: 80%;
+	margin: 0 0 0 2em;
 }
 
 #styleguide .sg-stack {
@@ -35,12 +35,183 @@ body#styleguide:before {
 	margin: none;
 }
 
+#styleguide .sg-button__settings {
+	position: absolute;
+	top: 1.25em;
+	right: 1em;
+}
+
+#styleguide .sg-button__settings:before {
+	content: "\f111";
+	font-family: 'Dashicons';
+	margin-right: 5px;
+	position: relative;
+	top: 2px;
+}
+
+#styleguide .modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+#styleguide .modal-wrapper {
+  display: table-cell;
+  vertical-align: top;
+	text-align: center;
+}
+
+#styleguide .modal-container {
+
+}
+
+#styleguide .modal-enter, #styleguide .modal-leave {
+  opacity: 0;
+}
+
+#styleguide .modal-enter .modal-container,
+#styleguide .modal-leave .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+#styleguide .sg-setting-title {
+	text-transform: uppercase;
+	margin-bottom: 2em;
+}
+
+#styleguide .toggleWrapper .checkbox {
+  position: absolute;
+  left: -99em;
+}
+
+#styleguide .toggle {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  width: 90px;
+  height: 50px;
+  background-color: #83D8FF;
+  border-radius: 84px;
+  transition: background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+#styleguide .before, .after {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  top: 0;
+	width: 160px;
+}
+
+#styleguide .before .small, .after .small {
+  display: block;
+  font-size: 10px;
+	font-weight: 700;
+}
+
+#styleguide .before {
+  margin-right: 10px;
+}
+
+#styleguide .after {
+  margin-left: 10px;
+}
+
+#styleguide .toggle__handler {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  top: 3px;
+  left: -20px;
+  width: 44px;
+  height: 44px;
+  background-color: #FFCF96;
+  border-radius: 50px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform: rotate(-45deg);
+}
+
+#styleguide .checkbox:checked + .toggle {
+  background-color: #749DD6;
+}
+#styleguide .checkbox:checked + .toggle:before {
+  color: #749ED7;
+}
+#styleguide .checkbox:checked + .toggle:after {
+  color: #ffffff;
+}
+#styleguide .checkbox:checked + .toggle .toggle__handler {
+  background-color: #FFE5B5;
+  transform: translate3d(40px, 0, 0) rotate(0);
+}
+
+#styleguide .sg-settings-group {
+	margin: 2em auto;
+}
+
+#styleguide .sg-settings-input-label {
+	text-transform: uppercase;
+	display: block;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+#styleguide .sg-settings-endpoint {
+	border: none;
+	border-bottom: 1px solid #eee;
+	border-radius: 0;
+}
+
+#styleguide .sg-settings-endpoint:focus {
+	border-bottom-color: #333;
+}
+
+#styleguide .sg-button-settings-save {
+	
+}
+
+#styleguide .sg-button-settings-save:before {
+	content: '' !important;
+}
+
 #styleguide .sg-stack .sg-button:before, #styleguide .sg-section-title__edit .sg-button:before {
 	content: "\f132";
 	font-family: 'Dashicons';
 	margin-right: 5px;
 	position: relative;
 	top: 2px;
+}
+
+#styleguide .sg-nav {
+	position: fixed;
+	top: 60px;
+	right: 1em;
+	font-size: 14px;
+}
+
+#styleguide .sg-nav a {
+	color: #999;
+}
+
+#styleguide .sg-nav-links {
+	list-style-type: none;
+	padding: 0;
+}
+
+#styleguide .sg-nav-link {
+	padding: 0;
+}
+
+#styleguide .sg-nav .sg-nav-sublinks {
+	font-size: 12px;
 }
 
 .sg-container {

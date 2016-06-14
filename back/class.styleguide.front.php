@@ -35,8 +35,14 @@ class Styleguide_Front {
 	 * 
 	 */
 	private function __construct() {
-		add_action( 'wp-routes/register_routes', array($this, 'load_template' ) );
+		add_action( 'init', array($this, 'load_template' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_all_scripts' ) );
+		add_filter( 'query_vars', array( $this, 'add_stylguide_query_var' ) );
+	}
+	
+	public function add_stylguide_query_var( $vars ) {
+		$vars[] = 'styleguide';
+		return $vars;
 	}
 
 
@@ -48,26 +54,36 @@ class Styleguide_Front {
 	 * 
 	 */
 	public function load_template() {
-		respond('/styleguide', function() {
-			require_once( STYLEGUIDE__PLUGIN_DIR . 'front/template.php' );
-			die();
-		});
+		$settings = get_option( 'sg_styleguide_settings' );
+		
+		if( $settings['private'] === false || ( $settings['private'] && is_user_logged_in() ) ) {
+				set_query_var('styleguide', 'true' );
+				$url = $settings['endpoint'];
+				respond('/' . $url, function() {
+				require_once( STYLEGUIDE__PLUGIN_DIR . 'front/template.php' );
+				die();
+			});
+		}
 	}
 
 	public function load_all_scripts() {
-		wp_deregister_script('jquery');
-		// TODO: Add in the proper scripts here, basically everything depends on this.
-		wp_enqueue_style( 'prism', STYLEGUIDE__PLUGIN_URL . 'front/app/vendor/prism.css', array('dashicons') );
-		wp_enqueue_script('app', STYLEGUIDE__PLUGIN_URL . 'front/app/build/app.js', array(), '1.0.0', true);
-		
-		// Localize the script with new data
-		$site_options = array(
-			'url' => site_url('/wp-json/styleguide'),
-		);
-		wp_localize_script( 'app', 'styleguide_options', $site_options );
-		// Enqueued script with localized data.
-		wp_enqueue_script( 'styleguide_options' );
-		wp_enqueue_style( 'app', STYLEGUIDE__PLUGIN_URL . 'front/style.css' );
+		$styleguide = get_query_var('styleguide');
+		if( isset( $styleguide ) && $styleguide === 'true' ) {
+			wp_deregister_script('jquery');
+			wp_enqueue_style( 'prism', STYLEGUIDE__PLUGIN_URL . 'front/app/vendor/prism.css', array('dashicons') );
+			wp_enqueue_script('app', STYLEGUIDE__PLUGIN_URL . 'front/app/build/app.js', array(), '1.0.0', true);
+			
+			// Localize the script with new data
+			$site_options = array(
+				'url' => site_url('/wp-json/styleguide'),
+				'home_url' => home_url('/')
+			);
+			wp_localize_script( 'app', 'styleguide_options', $site_options );
+			// Enqueued script with localized data.
+			wp_enqueue_script( 'styleguide_options' );
+			wp_enqueue_style( 'app', STYLEGUIDE__PLUGIN_URL . 'front/style.css' );
+		}
+
 	}
 
 

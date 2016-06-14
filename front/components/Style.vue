@@ -1,5 +1,5 @@
-<template>
-  <div class="sg-container">
+ite<template>
+  <div id="{{ slug }}" class="sg-container">
 		<input 
 					placeholder="Add a title..." 
 					type="text" class="sg-style-title sg-stack sg-font-light" 
@@ -26,7 +26,8 @@ export default {
     editing: Boolean,
     title: String,
     prevTitle: String,
-    id: Number
+    id: Number,
+    slug: String
   },
   
   components: {
@@ -42,7 +43,7 @@ export default {
   methods: {
     updateStyle: function( obj ) {
       this.$http({ 
-          url: styleguide_options.url + '/style/' + this.id,
+          url: styleguide_options.url + '/styles/' + this.id,
           method: 'POST',
           data: obj
         });

@@ -23,7 +23,7 @@ class Styleguide_API_Styles extends Styleguide_API {
 			)
 		));
 		
-		register_rest_route( $this->namespace, '/style' . '/(?P<id>[\d]+)', array(
+		register_rest_route( $this->namespace, '/styles' . '/(?P<id>[\d]+)', array(
 			array(
 				'methods'									=> WP_REST_Server::EDITABLE,
 				'callback'								=> array( $this, 'update_style' ),
@@ -75,12 +75,12 @@ class Styleguide_API_Styles extends Styleguide_API {
 			return new WP_Error( 'rest_post_exists', __( 'Cannot create existing style.' ), array( 'status' => 400 ) );
 		}
 		
-		if ( ! empty( $request['section_id'] ) ) {
+		if ( empty( $request['section_id'] ) ) {
 			return new WP_Error( 'rest_post_exists', __( 'Cannot create style without attached section.' ), array( 'status' => 400 ) );
 		}
-
+		
+		$section_id = absint( $request['section_id'] );
 		$post = $this->extract_style( $request );
-		$post->post_status = 'publish';
 		$post_id = wp_insert_post( $post, true );
 		wp_set_object_terms( $post_id, $section_id, $this->taxonomy);
 
@@ -237,7 +237,8 @@ class Styleguide_API_Styles extends Styleguide_API {
 	public function styles_query( $options = array() ) {
 		$defaults = array(
 			'post_type' => $this->post_type,
-			'posts_per_page' => -1
+			'posts_per_page' => -1,
+			'order'	=> 'ASC'
 		);
 		
 		$args = wp_parse_args( $options, $defaults );

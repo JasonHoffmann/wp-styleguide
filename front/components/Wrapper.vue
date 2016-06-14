@@ -1,11 +1,13 @@
 <template>
-  <section class="sg-section">			
+  <section id="{{slug }}" class="sg-section">
+    <div v-bind:id="slug"></div>			
       <input class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
       <style 
         v-for="style in styles"
         :title="style.title"
         :id="style.id"
         :html="style.html"
+        :slug="style.slug"
       ></style>
       <section class="sg-section sg-stack">
           <button v-on:click="addStyle()" class="sg-button">Add New Element</button>
@@ -19,12 +21,9 @@ export default {
   props: {
     title: String,
     id: Number,
+    slug: String,
     styles: Array
   },
-	
-	ready: function() {
-		console.log(this);
-	},
   
   components: {
     Style
@@ -34,12 +33,12 @@ export default {
 		editTitle: function() {
 			this.updateSection({
 				title: this.title
-			})
+			});
 		},
 		
 		updateSection: function( obj ) {
 			this.$http({ 
-					url: styleguide_options.url + '/section/' + this.id,
+					url: styleguide_options.url + '/sections/' + this.id,
 					method: 'POST',
 					data: obj
 				});
@@ -56,13 +55,12 @@ export default {
       
       this.$http({
         method: 'POST',
-        url: styleguide_options.url + '/style',
+        url: styleguide_options.url + '/styles',
         data: {
           section_id : this.id
         }
       }).then(function(response) {
         this.styles[len].id = response.data.id;
-        // this.$set(this.styles[len].id, 15);
       });
     }
   }
