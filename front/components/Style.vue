@@ -1,4 +1,4 @@
-ite<template>
+<template>
   <div id="{{ slug }}" class="sg-container">
 		<input 
 					placeholder="Add a title..." 
@@ -45,6 +45,9 @@ export default {
       this.$http({ 
           url: styleguide_options.url + '/styles/' + this.id,
           method: 'POST',
+					headers: {
+						'X-WP-Nonce' : styleguide_options.nonce
+					},
           data: obj
         });
     }.debounce(300),

@@ -19,7 +19,10 @@ class Styleguide_API_Sections extends Styleguide_API {
 			array(
 				'methods'									=> WP_REST_Server::CREATABLE,
 				'callback'								=> array( $this, 'create_section' ),
-				'permission_callback'			=> array( $this, 'permissions_check' )
+				'permission_callback'			=> array( $this, 'permissions_check' ),
+				'args'										=> array( 'context' => 
+																								array( 'default' => 'edit') 
+																			)
 			)
 		));
 		
@@ -32,12 +35,18 @@ class Styleguide_API_Sections extends Styleguide_API {
 			array(
 				'methods'									=> WP_REST_Server::EDITABLE,
 				'callback'								=> array( $this, 'update_section' ),
-				'permission_callback'			=> array( $this, 'permissions_check' )
+				'permission_callback'			=> array( $this, 'permissions_check' ),
+				'args'										=> array( 'context' => 
+																								array( 'default' => 'edit') 
+																			)
 			),
 			array(
 				'methods'									=> WP_REST_Server::DELETABLE,
 				'callback'								=> array( $this, 'delete_section' ),
-				'permission_callback'			=> array( $this, 'permissions_check' )
+				'permission_callback'			=> array( $this, 'permissions_check' ),
+				'args'										=> array( 'context' => 
+																								array( 'default' => 'edit') 
+																			)
 			)
 		));
 	}

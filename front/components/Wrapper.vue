@@ -56,6 +56,9 @@ export default {
       this.$http({
         method: 'POST',
         url: styleguide_options.url + '/styles',
+				headers: {
+					'X-WP-Nonce' : styleguide_options.nonce
+				},
         data: {
           section_id : this.id
         }

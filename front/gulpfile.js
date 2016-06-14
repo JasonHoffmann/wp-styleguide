@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
     webpack = require('gulp-webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 
 var paths = {
@@ -42,6 +43,15 @@ gulp.task('app', function() {
           { test: /\.vue$/, loader: 'vue'  },
           { test: /\.js$/, exclude: /node_modules|vue\/src|vue-router\//,  loader: 'babel' }
         ] },
+				vue : {
+					loaders: {
+						css: ExtractTextPlugin.extract('css'),
+						sass: ExtractTextPlugin.extract('css!sass')
+					}
+				},
+				plugins: [
+					new ExtractTextPlugin('styles.css')
+				],
         babel: { presets: ['es2015'], plugins: ['transform-runtime'] },
         resolve: { modulesDirectories: ['node_modules'] }
       }))

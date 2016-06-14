@@ -13,7 +13,10 @@ class Styleguide_API_Settings extends Styleguide_API {
       array(
         'methods'             => WP_REST_Server::EDITABLE,
         'callback'            => array( $this, 'update_settings' ),
-        'permission_callback' => array( $this, 'permissions_check' )
+        'permission_callback' => array( $this, 'permissions_check' ),
+				'args'								=> array( 'context' => 
+																								array( 'default' => 'edit') 
+																			)
       )
     ));
   }

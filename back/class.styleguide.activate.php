@@ -33,7 +33,10 @@ class Styleguide_Activate {
 	 * 
 	 */
 	public static function plugin_activation() {
-		add_rewrite_rule('styleguide', 'index.php?styleguide=true', 'top');
+		update_option( 'sg_styleguide_settings', array(
+			'private' => true,
+			'endpoint' => 'styleguide'
+		), false );
 		flush_rewrite_rules();
 	}
 

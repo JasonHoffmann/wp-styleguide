@@ -1,3 +1,6 @@
+<style>
+
+</style>
 <template>
   <div class="modal-mask" v-show="show" transition="modal">
     <div class="modal-wrapper">
@@ -65,6 +68,9 @@ export default {
       this.$http({ 
           url: styleguide_options.url + '/settings/',
           method: 'POST',
+					headers: {
+						'X-WP-Nonce' : styleguide_options.nonce
+					},
           data: obj
         }).then(function(response) {
           if( response.data.redirect ) {
