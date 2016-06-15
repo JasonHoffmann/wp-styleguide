@@ -51,7 +51,7 @@
 	var VueEditable = __webpack_require__(27);
 	Vue.use(VueEditable);
 	var App = __webpack_require__(96);
-	var Editor = __webpack_require__(105);
+	var Editor = __webpack_require__(107);
 
 	var app = new Vue(App);
 
@@ -13170,6 +13170,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/App.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(119)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -13203,15 +13204,218 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	// <style lang="sass">
+	// <template>
+	// <div>
+	// 	<div class="sg-row sg-main-content">
+	// 	<button @click="showSettings = true" id="settings" class="sg-button sg-button__settings">Settings</button>
+	// 	<settings
+	// 	:show.sync="showSettings"
+	// 	:private="settings.private"
+	// 	:endpoint="settings.endpoint"
+	// 	></settings>
+	// 	<navbar :sections="all_sections"></navbar>
+	// 	<div class="sg-col-9">
+	// 		<wrapper
+	// 			v-for="section in all_sections"
+	// 			:id="section.id"
+	// 			:title="section.title"
+	// 			:styles="section.styles"
+	// 			:slug="section.slug"
+	// 			></wrapper>
+	//
+	// 			<form class="sg-section-title__edit" v-on:submit="addWrapper">
+	// 				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
+	// 				<button class="sg-button">Add</button>
+	// 			</form>
+	// 		</div>
+	// </div>
+	// </template>
+	//
+	// <style lang="scss">
+	// #styleguide {
+	// 	background: #f7f7f7;
+	// 	&:before, &:after {
+	// 		width: auto;
+	// 		height: auto;
+	// 	}
+	//
+	// 	// Global
+	// 	.sg-main-content {
+	// 		max-width: 1300px;
+	// 		margin: 2em auto 0 auto;
+	// 	}
+	//
+	// 	.sg-stack {
+	// 		font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+	// 		color: #333;
+	// 		box-sizing: border-box;
+	// 		font-size: 16px;
+	//
+	// 		a {
+	// 			color: #666;
+	// 		}
+	// 	}
+	//
+	// 	/*
+	// 	Grid
+	// 	*/
+	// 	.container {
+	// 		margin: 0 auto;
+	// 		width: 80%;
+	// 	}
+	//
+	// 	.container-fluid {
+	// 		margin: 0 auto;
+	// 		width: 100%;
+	// 	}
+	//
+	// 	.sg-row:before,
+	// 	.sg-row:after {
+	// 	  display: table;
+	// 	  line-height: 0;
+	// 	  content: "";
+	// 	}
+	//
+	// 	.sg-row:after {
+	// 	  clear: both;
+	// 	}
+	//
+	// 	.sg-col-1, .sg-col-2, .sg-col-3, .sg-col-4, .sg-col-5, .sg-col-6,
+	// 	.sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11, .sg-col-12,
+	// 	.sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4, .sg-col-offset-5, .sg-col-offset-6,
+	// 	.sg-col-offset-7, .sg-col-offset-8, .sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
+	// 	    float: left;
+	// 	    min-height: 1px;
+	// 	 }
+	//
+	// 	.box {
+	// 		padding: 20px;
+	// 	}
+	//
+	// 	.box-margin {
+	// 		margin: 0 10px 0 10px;
+	// 	}
+	//
+	// 	.sg-col-1, .sg-col-offset-1 {
+	// 		width: 8.33333333333%;
+	// 	}
+	//
+	// 	.sg-col-2, .sg-col-offset-2 {
+	// 		width: 16.6666666666%;
+	// 	}
+	//
+	// 	.sg-col-3, .sg-col-offset-3 {
+	// 		width: 24.9999999999%;
+	// 	}
+	//
+	// 	.sg-col-4, .sg-col-offset-4 {
+	// 		width: 33.3333333333%;
+	// 	}
+	//
+	// 	.sg-col-5, .sg-col-offset-5 {
+	// 		width: 41.6666666666%;
+	// 	}
+	//
+	// 	.sg-col-6, .sg-col-offset-6 {
+	// 		width: 49.9999999999%;
+	// 	}
+	//
+	// 	.sg-col-7, .sg-col-offset-7 {
+	// 		width: 58.3333333333%;
+	// 	}
+	//
+	// 	.sg-col-8, .sg-col-offset-8 {
+	// 		width: 66.6666666666%;
+	// 	}
+	//
+	// 	.sg-col-9, .sg-col-offset-9 {
+	// 		width: 74.9999999999%;
+	// 	}
+	//
+	// 	.sg-col-10, .sg-col-offset-10 {
+	// 		width: 83.3333333333%;
+	// 	}
+	//
+	// 	.sg-col-11, .sg-col-offset-11 {
+	// 		width: 91.6666666666%;
+	// 	}
+	//
+	// 	.sg-col-12, .sg-col-offset-12 {
+	// 		width: 100%;
+	// 	}
+	//
+	// 	@media only screen and (max-width : 768px) and (min-width : 480px) {
+	// 		/*
+	// 			Grid
+	// 		*/
+	// 		.container {
+	// 			width: 96%;
+	// 		}
+	//
+	// 		.sg-col-1, .sg-col-2, .sg-col-3, .sg-col-5, .sg-col-6,
+	// 		.sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11 {
+	// 	    	width: 50%;
+	// 	 	}
+	//
+	// 	 	.sg-col-4 {
+	// 			width: 33.3333333333%;
+	// 		}
+	//
+	// 	 	.sg-col-12 {
+	// 	 		width:100%;
+	// 	 	}
+	//
+	// 	 	.sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4,
+	// 	 	.sg-col-offset-5, .sg-col-offset-6, .sg-col-offset-7, .sg-col-offset-8,
+	// 	 	.sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
+	// 	 		width: 0% !important;
+	// 	 		display: none;
+	// 	 	}
+	//
+	// 	 	.box-margin {
+	// 			margin: 0 10px 0 10px;
+	// 		}
+	// 	}
+	//
+	// 	@media only screen and (max-width : 479px) {
+	// 		/*
+	// 			Grid
+	// 		*/
+	// 		.container {
+	// 			width: 96%;
+	// 		}
+	//
+	// 		.sg-col-1, .sg-col-2, .sg-col-3, .sg-col-4, .sg-col-5, .sg-col-6,
+	// 		.sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11, .sg-col-12 {
+	// 	    	float: none;
+	// 	    	width: 100%;
+	// 	 	}
+	//
+	// 	 	.sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4,
+	// 	 	.sg-col-offset-5, .sg-col-offset-6, .sg-col-offset-7, .sg-col-offset-8,
+	// 	 	.sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
+	// 	 		width: 0% !important;
+	// 	 		display: none;
+	// 	 	}
+	//
+	// 	 	.box-margin {
+	// 			margin: 0 10px 0 10px;
+	// 		}
+	// 	}
+	//
+	// 	// Settings Button
+	// 	.sg-button__settings {
+	// 		display: none;
+	// 	}
+	// }
 	//
 	// </style>
 	//
 	// <script>
 	var Wrapper = __webpack_require__(100);
-	var Settings = __webpack_require__(109);
-	var Navbar = __webpack_require__(113);
-	var Prism = __webpack_require__(104);
+	var Settings = __webpack_require__(111);
+	var Navbar = __webpack_require__(115);
+	var Prism = __webpack_require__(106);
 	exports.default = {
 
 		el: '#app',
@@ -13287,12 +13491,13 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(101)
+	__webpack_require__(101)
+	__vue_script__ = __webpack_require__(102)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Wrapper.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(108)
+	__vue_template__ = __webpack_require__(110)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -13312,6 +13517,12 @@
 
 /***/ },
 /* 101 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13321,8 +13532,9 @@
 	});
 	// <template>
 	//   <section id="{{slug }}" class="sg-section">
-	//     <div v-bind:id="slug"></div>			
-	//       <input class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
+	//     <div v-bind:id="slug"></div>
+	// 			<h3 class="sg-stack sg-section-title" v-if="!editing">{{ title }}</h3>
+	//       <input v-if="editing" class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
 	//       <style
 	//         v-for="style in styles"
 	//         :title="style.title"
@@ -13336,14 +13548,32 @@
 	//   </section>
 	// </template>
 	//
+	// <style lang="scss">
+	// #styleguide {
+	// 	.sg-section {
+	// 		margin-bottom: 2em;
+	// 		padding-bottom: 1em;
+	// 		border-bottom: 1px dotted #ccc;
+	// 	}
+	// 	.sg-section-title {
+	// 		font-size: 24px;
+	// 		margin-bottom: 10px;
+	// 	}
+	// }
+	// </style>
+	//
 	// <script>
-	var Style = __webpack_require__(102);
+	var Style = __webpack_require__(103);
 	exports.default = {
 	  props: {
 	    title: String,
 	    id: Number,
 	    slug: String,
-	    styles: Array
+	    styles: Array,
+	    editing: {
+	      default: false,
+	      type: Boolean
+	    }
 	  },
 
 	  components: {
@@ -13392,16 +13622,17 @@
 	// </script>
 
 /***/ },
-/* 102 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(103)
+	__webpack_require__(104)
+	__vue_script__ = __webpack_require__(105)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Style.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(107)
+	__vue_template__ = __webpack_require__(109)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -13420,7 +13651,13 @@
 	})()}
 
 /***/ },
-/* 103 */
+/* 104 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13430,30 +13667,115 @@
 	});
 	// <template>
 	//   <div id="{{ slug }}" class="sg-container">
+	// 		<div class="sg-style-actions">
+	// 			<button class="sg-style-edit">Edit</button>
+	// 			<button class="sg-style-delete">Delete</button>
+	// 		</div>
+	// 		<h4 class="sg-style-title sg-stack" v-if="!editing">{{ title }}</h4>
 	// 		<input
 	// 					placeholder="Add a title..."
 	// 					type="text" class="sg-style-title sg-stack sg-font-light"
 	// 					v-model="title"
 	// 					v-on:change="editTitle()"
 	// 					v-bind:class="{'editing' : editing }"
+	// 					v-if="editing"
 	// 			/>
 	//     <div class="sg-output">
 	//         {{{ html }}}
 	//     </div>
-	//     <p>Example Code:</p>
 	//     <div class="sg-markup">
 	//       <pre v-prism-directive="html" contenteditable="" class="language-markup">{{ html }}</pre>
 	//     </div>
 	//   </div>
 	// </template>
 	//
+	// <style lang="scss">
+	// #styleguide {
+	// 	.sg-container {
+	// 		background: white;
+	// 		padding: 24px;
+	// 		box-shadow: -1px 0 2px 0 rgba(0,0,0,0.12) , 1px 0 2px 0 rgba(0,0,0,0.12) , 0 1px 1px 0 rgba(0,0,0,0.24);
+	// 		border-radius: 1px;
+	// 		margin: 2em 0;
+	// 		position: relative;
+	// 	}
+	//
+	// 	.sg-style-actions {
+	// 		position: absolute;
+	// 		right: 5px;
+	// 		top: 10px;
+	// 		button {
+	// 			border: 1px solid #ddd;
+	// 			background: none;
+	// 			color: #ddd;
+	// 			display: inline-block;
+	// 			padding: 21px 10px;
+	// 			right: 9999px;
+	// 			position: relative;
+	// 			margin-right: 5px;
+	// 			font-size: 4px;
+	// 			opacity: 0;
+	//
+	// 			&:after {
+	// 				font-family: 'Dashicons';
+	// 				border: 2px solid #ddd;
+	// 				border-radius: 50%;
+	// 				top: 0;
+	// 				padding-top: 2px;
+	// 				position: absolute;
+	// 				right: -9999px;
+	// 				width: 30px;
+	// 				text-align: center;
+	// 				height: 30px;
+	// 				font-size: 24px;
+	// 				font-weight: 100;
+	// 			}
+	//
+	// 			&:hover:after {
+	// 				background: #ddd;
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	.sg-style-edit:after {
+	// 		content: '\f464';
+	// 	}
+	//
+	// 	.sg-style-delete:after {
+	// 		content: '\f182';
+	// 	}
+	//
+	// 	.sg-container:hover .sg-style-actions button {
+	// 		opacity: 1;
+	// 	}
+	//
+	// 	.sg-style-title {
+	// 		margin: 0 0 10px 0;
+	// 		padding: 0 0 5px 0;
+	// 		width: 100%;
+	// 		font-weight: 100;
+	// 		text-transform: uppercase;
+	// 		font-style: italic;
+	// 	}
+	//
+	// 	.sg-output {
+	// 		padding: 36px 0 0 0;
+	// 		margin: 1em 0;
+	// 		border-bottom: 1px dashed #999;
+	// 	}
+	// }
+	// </style>
+	//
 	// <script>
-	var Prism = __webpack_require__(104);
-	var CodeEditor = __webpack_require__(105);
+	var Prism = __webpack_require__(106);
+	var CodeEditor = __webpack_require__(107);
 	exports.default = {
 	  props: {
 	    html: String,
-	    editing: Boolean,
+	    editing: {
+	      default: false,
+	      type: Boolean
+	    },
 	    title: String,
 	    prevTitle: String,
 	    id: Number,
@@ -13507,7 +13829,7 @@
 	// </script>
 
 /***/ },
-/* 104 */
+/* 106 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -14290,11 +14612,11 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 105 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(106)
+	__vue_script__ = __webpack_require__(108)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
@@ -14317,7 +14639,7 @@
 	})()}
 
 /***/ },
-/* 106 */
+/* 108 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14545,29 +14867,29 @@
 	// </script>
 
 /***/ },
-/* 107 */
-/***/ function(module, exports) {
-
-	module.exports = "\n  <div id=\"{{ slug }}\" class=\"sg-container\">\n\t\t<input \n\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\ttype=\"text\" class=\"sg-style-title sg-stack sg-font-light\" \n\t\t\t\t\tv-model=\"title\" \n\t\t\t\t\tv-on:change=\"editTitle()\"\n\t\t\t\t\tv-bind:class=\"{'editing' : editing }\"\n\t\t\t/>\n    <div class=\"sg-output\">\n        {{{ html }}}\n    </div>\n    <p>Example Code:</p>\n    <div class=\"sg-markup\">\n      <pre v-prism-directive=\"html\" contenteditable=\"\" class=\"language-markup\">{{ html }}</pre>\n    </div>\n  </div>\n";
-
-/***/ },
-/* 108 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<section id=\"{{slug }}\" class=\"sg-section\">\n  <div v-bind:id=\"slug\"></div>\t\t\t\n    <input class=\"sg-stack sg-font-dark sg-section-title sg-style-title\" v-on:change=\"editTitle()\" v-model=\"title\" />\n    <style \n      v-for=\"style in styles\"\n      :title=\"style.title\"\n      :id=\"style.id\"\n      :html=\"style.html\"\n      :slug=\"style.slug\"\n    ></style>\n    <section class=\"sg-section sg-stack\">\n        <button v-on:click=\"addStyle()\" class=\"sg-button\">Add New Element</button>\n    </section>\n</section>\n";
-
-/***/ },
 /* 109 */
+/***/ function(module, exports) {
+
+	module.exports = "\n  <div id=\"{{ slug }}\" class=\"sg-container\">\n\t\t<div class=\"sg-style-actions\">\n\t\t\t<button class=\"sg-style-edit\">Edit</button>\n\t\t\t<button class=\"sg-style-delete\">Delete</button>\n\t\t</div>\n\t\t<h4 class=\"sg-style-title sg-stack\" v-if=\"!editing\">{{ title }}</h4>\n\t\t<input \n\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\ttype=\"text\" class=\"sg-style-title sg-stack sg-font-light\" \n\t\t\t\t\tv-model=\"title\" \n\t\t\t\t\tv-on:change=\"editTitle()\"\n\t\t\t\t\tv-bind:class=\"{'editing' : editing }\"\n\t\t\t\t\tv-if=\"editing\"\n\t\t\t/>\n    <div class=\"sg-output\">\n        {{{ html }}}\n    </div>\n    <div class=\"sg-markup\">\n      <pre v-prism-directive=\"html\" contenteditable=\"\" class=\"language-markup\">{{ html }}</pre>\n    </div>\n  </div>\n";
+
+/***/ },
+/* 110 */
+/***/ function(module, exports) {
+
+	module.exports = "\n  <section id=\"{{slug }}\" class=\"sg-section\">\n    <div v-bind:id=\"slug\"></div>\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!editing\">{{ title }}</h3>\n      <input v-if=\"editing\" class=\"sg-stack sg-font-dark sg-section-title sg-style-title\" v-on:change=\"editTitle()\" v-model=\"title\" />\n      <style \n        v-for=\"style in styles\"\n        :title=\"style.title\"\n        :id=\"style.id\"\n        :html=\"style.html\"\n        :slug=\"style.slug\"\n      ></style>\n      <section class=\"sg-section sg-stack\">\n          <button v-on:click=\"addStyle()\" class=\"sg-button\">Add New Element</button>\n      </section>\n  </section>\n";
+
+/***/ },
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(110)
-	__vue_script__ = __webpack_require__(111)
+	__webpack_require__(112)
+	__vue_script__ = __webpack_require__(113)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Settings.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(112)
+	__vue_template__ = __webpack_require__(114)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -14586,13 +14908,13 @@
 	})()}
 
 /***/ },
-/* 110 */
+/* 112 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 111 */
+/* 113 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14600,11 +14922,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	// <style>
-	//
+	// <style lang="scss">
+	// 	.sg-settings {
+	// 		display: none;
+	// 	}
 	// </style>
 	// <template>
-	//   <div class="modal-mask" v-show="show" transition="modal">
+	//   <div class="sg-settings modal-mask" v-show="show" transition="modal">
 	//     <div class="modal-wrapper">
 	//       <div class="modal-container sg-stack">
 	//         <h1 class="sg-font-dark">Settings</h1>
@@ -14685,22 +15009,23 @@
 	// </script>
 
 /***/ },
-/* 112 */
+/* 114 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n<div class=\"modal-mask\" v-show=\"show\" transition=\"modal\">\n  <div class=\"modal-wrapper\">\n    <div class=\"modal-container sg-stack\">\n      <h1 class=\"sg-font-dark\">Settings</h1>\n      <div class=\"toggleWrapper\">\n        <div class=\"after\">\n          <span class=\"sg-setting-title sg-font-light\">Public</span>\n          <span class=\"small sg-font-dark\">(Anybody can view)</span>\n        </div>\n        <input type=\"checkbox\" class=\"checkbox\" id=\"dn\" v-model=\"private\"/>\n          <label for=\"dn\" class=\"toggle\"> \n            <span class=\"toggle__handler\"></span>\n          </label>\n        <div class=\"after\">\n          <span class=\"sg-setting-title sg-font-light\">Private</span>\n          <span class=\"small\">(Logged in users can view)</span>\n        </div>\n      </div>\n      <div class=\"sg-settings-group\">\n        <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n        <span>{{ home_url }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"endpoint\" />\n      </div>\n      \n      <div class=\"sg-settings-group\">\n        <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n      </div>\n    </div>\n  </div>\n</div>\n";
+	module.exports = "\n\n\n\n\n\n<div class=\"sg-settings modal-mask\" v-show=\"show\" transition=\"modal\">\n  <div class=\"modal-wrapper\">\n    <div class=\"modal-container sg-stack\">\n      <h1 class=\"sg-font-dark\">Settings</h1>\n      <div class=\"toggleWrapper\">\n        <div class=\"after\">\n          <span class=\"sg-setting-title sg-font-light\">Public</span>\n          <span class=\"small sg-font-dark\">(Anybody can view)</span>\n        </div>\n        <input type=\"checkbox\" class=\"checkbox\" id=\"dn\" v-model=\"private\"/>\n          <label for=\"dn\" class=\"toggle\"> \n            <span class=\"toggle__handler\"></span>\n          </label>\n        <div class=\"after\">\n          <span class=\"sg-setting-title sg-font-light\">Private</span>\n          <span class=\"small\">(Logged in users can view)</span>\n        </div>\n      </div>\n      <div class=\"sg-settings-group\">\n        <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n        <span>{{ home_url }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"endpoint\" />\n      </div>\n      \n      <div class=\"sg-settings-group\">\n        <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n      </div>\n    </div>\n  </div>\n</div>\n";
 
 /***/ },
-/* 113 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(114)
+	__webpack_require__(116)
+	__vue_script__ = __webpack_require__(117)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Navbar.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(115)
+	__vue_template__ = __webpack_require__(118)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -14719,7 +15044,13 @@
 	})()}
 
 /***/ },
-/* 114 */
+/* 116 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 117 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -14728,18 +15059,51 @@
 	  value: true
 	});
 	// <template>
-	//   <nav class="sg-nav sg-stack">
+	//   <nav class="sg-nav sg-stack sg-col-3">
 	//     <ul class="sg-nav-links">
-	//       <li v-for="section in sections">
-	//           <a href="#{{ section.slug }}">{{ section.title }}</a>
-	//           <ul class="sg-nav-sublinks">
-	//             <li v-for="style in section.styles">
-	//               <a href="#{{ style.slug }}">{{ style.title }}</a>
+	//       <li class="sg-nav-link sg-nav-link__parent" v-for="section in sections">
+	//           <a class="sg-nav-link--link" href="#{{ section.slug }}">{{ section.title }}</a>
+	//           <ul class="sg-nav-links sg-nav-sublinks">
+	//             <li class="sg-nav-link sg-nav-link__child" v-for="style in section.styles">
+	//               <a class="sg-nav-link--link" href="#{{ style.slug }}">{{ style.title }}</a>
 	//             </li>
 	//           </ul>
 	//       </li>
 	//   </nav>
 	// </template>
+	//
+	// <style lang="scss">
+	// #styleguide {
+	// 	.sg-nav-links {
+	// 		list-style: none;
+	// 		margin: 0;
+	// 		padding: 1em;
+	// 		font-size: 13px;
+	// 		font-weight: normal;
+	// 	}
+	//
+	// 	.sg-nav-link {
+	// 		list-style: none;
+	// 		a {
+	// 			display: block;
+	// 			width: 100%;
+	// 			padding: 10px;
+	// 			box-sizing: border-box;
+	// 			border-radius: 5px;
+	// 		}
+	// 	}
+	//
+	// 	.sg-nav-sublinks {
+	// 		padding: 0;
+	// 		padding-left: 10px;
+	// 		font-size: 13px;
+	// 	}
+	//
+	// 	.sg-nav-link--link:hover {
+	// 		background: #eee;
+	// 	}
+	// }
+	// </style>
 	//
 	// <script>
 	exports.default = {
@@ -14747,12 +15111,19 @@
 	    sections: Array
 	  }
 	};
+	// </script>
 
 /***/ },
-/* 115 */
+/* 118 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<nav class=\"sg-nav sg-stack\">\n  <ul class=\"sg-nav-links\">\n    <li v-for=\"section in sections\">\n        <a href=\"#{{ section.slug }}\">{{ section.title }}</a>\n        <ul class=\"sg-nav-sublinks\">\n          <li v-for=\"style in section.styles\">\n            <a href=\"#{{ style.slug }}\">{{ style.title }}</a>\n          </li>\n        </ul>\n    </li>\n</nav>\n";
+	module.exports = "\n<nav class=\"sg-nav sg-stack sg-col-3\">\n  <ul class=\"sg-nav-links\">\n    <li class=\"sg-nav-link sg-nav-link__parent\" v-for=\"section in sections\">\n        <a class=\"sg-nav-link--link\" href=\"#{{ section.slug }}\">{{ section.title }}</a>\n        <ul class=\"sg-nav-links sg-nav-sublinks\">\n          <li class=\"sg-nav-link sg-nav-link__child\" v-for=\"style in section.styles\">\n            <a class=\"sg-nav-link--link\" href=\"#{{ style.slug }}\">{{ style.title }}</a>\n          </li>\n        </ul>\n    </li>\n</nav>\n";
+
+/***/ },
+/* 119 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div>\n\t<div class=\"sg-row sg-main-content\">\n\t<button @click=\"showSettings = true\" id=\"settings\" class=\"sg-button sg-button__settings\">Settings</button>\n\t<settings \n\t:show.sync=\"showSettings\"\n\t:private=\"settings.private\"\n\t:endpoint=\"settings.endpoint\"\n\t></settings>\n\t<navbar :sections=\"all_sections\"></navbar>\n\t<div class=\"sg-col-9\">\n\t\t<wrapper \n\t\t\tv-for=\"section in all_sections\"\n\t\t\t:id=\"section.id\"\n\t\t\t:title=\"section.title\"\n\t\t\t:styles=\"section.styles\"\n\t\t\t:slug=\"section.slug\"\n\t\t\t></wrapper>\n\t\t\t\n\t\t\t<form class=\"sg-section-title__edit\" v-on:submit=\"addWrapper\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-section-title sg-style-title\" placeholder=\"New Section Title\" />\n\t\t\t\t<button class=\"sg-button\">Add</button>\n\t\t\t</form>\n\t\t</div>\n</div>\n</template>";
 
 /***/ }
 /******/ ]);

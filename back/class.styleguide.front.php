@@ -83,7 +83,7 @@ class Styleguide_Front {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'styleguide_options' );
 			wp_enqueue_style( 'prism', STYLEGUIDE__PLUGIN_URL . 'front/app/vendor/prism.css' );
-			wp_enqueue_style( 'app', STYLEGUIDE__PLUGIN_URL . 'front/style.css', array( 'dashicons' ) );
+			//wp_enqueue_style( 'app', STYLEGUIDE__PLUGIN_URL . 'front/style.css', array( 'dashicons' ) );
 			wp_enqueue_style( 'styles', STYLEGUIDE__PLUGIN_URL . 'front/app/build/styles.css', array( 'dashicons' ) );
 		}
 

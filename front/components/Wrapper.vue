@@ -1,7 +1,8 @@
 <template>
   <section id="{{slug }}" class="sg-section">
-    <div v-bind:id="slug"></div>			
-      <input class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
+    <div v-bind:id="slug"></div>
+			<h3 class="sg-stack sg-section-title" v-if="!editing">{{ title }}</h3>
+      <input v-if="editing" class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
       <style 
         v-for="style in styles"
         :title="style.title"
@@ -15,6 +16,20 @@
   </section>
 </template>
 
+<style lang="scss">
+#styleguide {
+	.sg-section {
+		margin-bottom: 2em;
+		padding-bottom: 1em;
+		border-bottom: 1px dotted #ccc;
+	}
+	.sg-section-title {
+		font-size: 24px;
+		margin-bottom: 10px;
+	}
+}
+</style>
+
 <script>
 var Style = require('./Style.vue');
 export default {
@@ -22,7 +37,11 @@ export default {
     title: String,
     id: Number,
     slug: String,
-    styles: Array
+    styles: Array,
+		editing: {
+			default: false,
+			type: Boolean
+		}
   },
   
   components: {

@@ -1,8 +1,10 @@
-<style>
-
+<style lang="scss">
+	.sg-settings {
+		display: none;
+	}
 </style>
 <template>
-  <div class="modal-mask" v-show="show" transition="modal">
+  <div class="sg-settings modal-mask" v-show="show" transition="modal">
     <div class="modal-wrapper">
       <div class="modal-container sg-stack">
         <h1 class="sg-font-dark">Settings</h1>

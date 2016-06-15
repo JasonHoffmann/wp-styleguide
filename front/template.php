@@ -12,25 +12,6 @@
 
 <body id="styleguide">
 	<div id="app">
-		<button @click="showSettings = true" id="settings" class="sg-button sg-button__settings">Settings</button>
-		<settings 
-		:show.sync="showSettings"
-		:private="settings.private"
-		:endpoint="settings.endpoint"
-		></settings>
-			<navbar :sections="all_sections"></navbar>
-		<wrapper 
-			v-for="section in all_sections"
-			:id="section.id"
-			:title="section.title"
-			:styles="section.styles"
-			:slug="section.slug"
-			></wrapper>
-			
-			<form class="sg-section-title__edit" v-on:submit="addWrapper">
-				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
-				<button class="sg-button">Add</button>
-			</form>
 	</div>
 <script>
 // Adding some utilities globally for now
