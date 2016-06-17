@@ -70,13 +70,14 @@ class Styleguide_Front {
 		$styleguide = get_query_var('styleguide');
 		if( isset( $styleguide ) && $styleguide === 'true' ) {
 			wp_deregister_script('jquery');
-			
+			wp_enqueue_script( 'svg-icons', 'https://cdn.linearicons.com/free/1.0.0/svgembedder.min.js' );
 			wp_enqueue_script('app', STYLEGUIDE__PLUGIN_URL . 'front/app/build/app.js', array(), '1.0.0', true);
 			
 			// Localize the script with new data
 			$site_options = array(
 				'url' => site_url('/wp-json/styleguide'),
 				'home_url' => home_url('/'),
+				'plugin_url' => STYLEGUIDE__PLUGIN_URL,
 				'nonce' => wp_create_nonce( 'wp_rest' )
 			);
 			wp_localize_script( 'app', 'styleguide_options', $site_options );

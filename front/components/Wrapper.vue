@@ -24,8 +24,9 @@
 		border-bottom: 1px dotted #ccc;
 	}
 	.sg-section-title {
-		font-size: 24px;
+		font-size: 32px;
 		margin-bottom: 10px;
+		font-weight: bold;
 	}
 }
 </style>

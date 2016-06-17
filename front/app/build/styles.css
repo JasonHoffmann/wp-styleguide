@@ -110,8 +110,9 @@
   border-bottom: 1px dotted #ccc; }
 
 #styleguide .sg-section-title {
-  font-size: 24px;
-  margin-bottom: 10px; }
+  font-size: 32px;
+  margin-bottom: 10px;
+  font-weight: bold; }
 #styleguide .sg-container {
   background: white;
   padding: 24px;
@@ -120,42 +121,42 @@
   margin: 2em 0;
   position: relative; }
 
-#styleguide .sg-style-actions {
+#styleguide .sg-actions {
   position: absolute;
-  right: 5px;
-  top: 10px; }
-  #styleguide .sg-style-actions button {
-    border: 1px solid #ddd;
-    background: none;
-    color: #ddd;
-    display: inline-block;
-    padding: 21px 10px;
-    right: 9999px;
-    position: relative;
-    margin-right: 5px;
-    font-size: 4px;
-    opacity: 0; }
-    #styleguide .sg-style-actions button:after {
-      font-family: 'Dashicons';
-      border: 2px solid #ddd;
-      border-radius: 50%;
-      top: 0;
-      padding-top: 2px;
-      position: absolute;
-      right: -9999px;
-      width: 30px;
-      text-align: center;
-      height: 30px;
-      font-size: 24px;
-      font-weight: 100; }
-    #styleguide .sg-style-actions button:hover:after {
-      background: #ddd; }
+  top: 16px;
+  right: 10px;
+  opacity: 0; }
 
-#styleguide .sg-style-edit:after {
-  content: '\F464'; }
+#styleguide .sg-button__action {
+  border: none;
+  background: none;
+  padding: 5px 10px;
+  margin: none;
+  color: #9C9C9C; }
+  #styleguide .sg-button__action:active, #styleguide .sg-button__action:focus {
+    color: #333;
+    outline: none; }
+    #styleguide .sg-button__action:active svg, #styleguide .sg-button__action:focus svg {
+      fill: #333; }
+  #styleguide .sg-button__action svg {
+    width: 16px;
+    height: 16px;
+    fill: #9C9C9C; }
+  #styleguide .sg-button__action:hover svg {
+    fill: #333; }
 
-#styleguide .sg-style-delete:after {
-  content: '\F182'; }
+#styleguide .sg-markuptoggle svg {
+  position: relative;
+  top: 3px;
+  margin-right: 5px; }
+
+#styleguide .sg-markuptext {
+  color: #9C9C9C;
+  font-style: italic;
+  font-weight: 100; }
+
+#styleguide .sg-container:hover .sg-actions {
+  opacity: 1; }
 
 #styleguide .sg-container:hover .sg-style-actions button {
   opacity: 1; }
@@ -164,14 +165,12 @@
   margin: 0 0 10px 0;
   padding: 0 0 5px 0;
   width: 100%;
-  font-weight: 100;
-  text-transform: uppercase;
-  font-style: italic; }
+  font-weight: bold;
+  font-size: 24px; }
 
 #styleguide .sg-output {
   padding: 36px 0 0 0;
-  margin: 1em 0;
-  border-bottom: 1px dashed #999; }
+  margin: 1em 0; }
 .sg-settings {
   display: none; }
 #styleguide .sg-nav-links {

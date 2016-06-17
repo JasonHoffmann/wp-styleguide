@@ -39,6 +39,8 @@
     "prismjs": "^1.5.0",
     "reqwest": "^2.0.5",
     "vue": "^1.0.20",
-    "vue-resource": "^0.7.0"
+    "vue-resource": "^0.7.0",
+    "vue-svg": "^1.0.1",
+    "vue-svg-directive": "0.0.6"
   }
 }
