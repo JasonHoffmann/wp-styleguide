@@ -17,7 +17,7 @@
 			:slug="section.slug"
 			></wrapper>
 			
-			<form class="sg-section-title__edit" v-on:submit="addWrapper">
+			<form class="sg-section-title__edit" v-on:submit="addWrapper" v-show="logged_in">
 				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
 				<button class="sg-button">Add</button>
 			</form>
@@ -31,6 +31,11 @@
 	&:before, &:after {
 		width: auto;
 		height: auto;
+	}
+	
+	#app {
+		max-width: 90%;
+		margin: 0 auto;
 	}
 	
 	// Global
@@ -214,11 +219,14 @@ export default {
 	
   el: '#app',
 
-  data: {
-		all_sections: [],
-		showSettings: false,
-		settings : {},
-		adding: false
+  data: function() {
+		return {
+			all_sections: [],
+			showSettings: false,
+			settings : {},
+			adding: false,
+			logged_in: styleguide_options.logged_in
+		}
   },
 	
 	components: {

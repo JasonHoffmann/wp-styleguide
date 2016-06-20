@@ -3,7 +3,7 @@
 		<h4 class="sg-style-title sg-stack" v-show="!editing">
 			{{ title }}
 		</h4>
-			<span v-show="!editing" class="sg-actions">
+			<span v-show="!editing && logged_in" class="sg-actions">
 			<button v-on:click="enterEditing" class="sg-button__action">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 					 viewBox="0 0 50 50">
@@ -36,11 +36,30 @@
 					placeholder="Add a title..." 
 					type="text" class="sg-style-title sg-stack sg-font-light" 
 					v-model="title" 
-					v-on:change="editTitle()"
 					v-bind:class="{'editing' : editing }"
 					v-show="editing"
 					autofocus
 			/>
+      <span v-show="editing" class="sg-actions sg-actions--editing">
+      <button class="sg-button__action sg-button__save" v-on:click="editStyle">
+        <svg viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>Save</title>
+                <g>
+                    <path d="M9.5,19 C6.962,19 4.577,18.012 2.782,16.218 C0.987,14.424 0,12.038 0,9.501 C0,6.963 0.988,4.578 2.782,2.783 C4.576,0.988 6.962,1.33226763e-15 9.5,1.33226763e-15 C12.038,1.33226763e-15 14.423,0.988 16.218,2.783 C18.013,4.578 19,6.963 19,9.501 C19,12.039 18.012,14.424 16.218,16.218 C14.424,18.012 12.038,19 9.5,19 L9.5,19 Z M9.5,1 C4.813,1 1,4.813 1,9.5 C1,14.187 4.813,18 9.5,18 C14.187,18 18,14.187 18,9.5 C18,4.813 14.187,1 9.5,1 L9.5,1 Z" id="Shape"></path>
+                    <path d="M7.5,13.5 C7.372,13.5 7.244,13.451 7.146,13.354 L4.146,10.354 C3.951,10.159 3.951,9.842 4.146,9.647 C4.341,9.452 4.658,9.452 4.853,9.647 L7.499,12.293 L14.145,5.647 C14.34,5.452 14.657,5.452 14.852,5.647 C15.047,5.842 15.047,6.159 14.852,6.354 L7.852,13.354 C7.754,13.452 7.626,13.5 7.498,13.5 L7.5,13.5 Z" id="Shape"></path>
+                </g>
+        </svg>
+      </button>
+      <button class="sg-button__action sg-button__cancel" v-on:click="exitEditing">
+        <svg viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>Cancel</title>
+            <g>
+                <path d="M14.332,13.126 L10.252,9.5 L14.332,5.874 C14.538,5.691 14.557,5.375 14.374,5.168 C14.191,4.961 13.875,4.943 13.668,5.126 L9.5,8.831 L5.332,5.126 C5.126,4.943 4.81,4.961 4.626,5.168 C4.442,5.375 4.461,5.69 4.668,5.874 L8.748,9.5 L4.668,13.126 C4.462,13.309 4.443,13.625 4.626,13.832 C4.725,13.943 4.862,14 5,14 C5.118,14 5.237,13.958 5.332,13.874 L9.5,10.169 L13.668,13.874 C13.763,13.959 13.882,14 14,14 C14.138,14 14.275,13.943 14.374,13.832 C14.557,13.626 14.539,13.31 14.332,13.126 L14.332,13.126 Z" id="Shape"></path>
+                <path d="M9.5,19 C6.962,19 4.577,18.012 2.782,16.218 C0.987,14.424 0,12.038 0,9.501 C0,6.963 0.988,4.578 2.782,2.783 C4.576,0.988 6.962,1.33226763e-15 9.5,1.33226763e-15 C12.038,1.33226763e-15 14.423,0.988 16.218,2.783 C18.013,4.578 19,6.963 19,9.501 C19,12.039 18.012,14.424 16.218,16.218 C14.424,18.012 12.038,19 9.5,19 L9.5,19 Z M9.5,1 C4.813,1 1,4.813 1,9.5 C1,14.187 4.813,18 9.5,18 C14.187,18 18,14.187 18,9.5 C18,4.813 14.187,1 9.5,1 L9.5,1 Z" id="Shape"></path>
+            </g>
+        </svg>	
+    </button>
+  </span>
     <div class="sg-output">
         {{{ html }}}
     </div>
@@ -80,10 +99,35 @@
 	
 	.sg-actions {
 		position: absolute;
-		top: 16px;
+		top: 24px;
 		right: 10px;
 		opacity: 0;
 	}
+  
+  .sg-actions--editing {
+    opacity: 1;
+    top: 30px;
+    .sg-button__action svg {
+      width: 19px;
+      height: 19px;
+    }
+  }
+  
+  .sg-style-title {
+    margin: 0 0 0 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px dotted #ddd;
+    width: 100%;
+    font-weight: bold;
+    font-size: 24px;
+    border-radius: 0;
+  }
+  
+  input.sg-style-title {
+    border: 1px solid #ddd;
+    padding: 5px;
+    width: 90%;
+  }
 	
 	.sg-button__action {
 		border: none;
@@ -107,6 +151,18 @@
 			fill: #333; 
 		}
 	}
+  
+  .sg-button__save:hover {
+    svg {
+      fill: #00E676;
+    }
+  }
+  
+  .sg-button__cancel:hover {
+    svg {
+      fill: #FF3D00;
+    }
+  }
 	
 	.sg-markuptoggle {
 		svg {
@@ -129,14 +185,6 @@
 	
 	.sg-container:hover .sg-style-actions button {
 		opacity: 1;
-	}
-	
-	.sg-style-title {
-		margin: 0 0 10px 0;
-		padding: 0 0 5px 0;
-		width: 100%;
-		font-weight: bold;
-		font-size: 24px;
 	}
 	
 	.sg-output {
@@ -163,7 +211,19 @@ export default {
     title: String,
     prevTitle: String,
     id: Number,
-    slug: String
+    slug: String,
+    prev: {
+      default: function() {
+        return {}
+      },
+      type: Object
+    }
+  },
+  
+  data: function() {
+    return {
+      logged_in: styleguide_options.logged_in
+    }
   },
   
   components: {
@@ -171,9 +231,9 @@ export default {
   },
   
   watch: {
-    html : function(val, oldval) {
-      this.updateStyle({ html: val });
-    }.debounce(500)
+    // html : function(val, oldval) {
+    //   this.updateStyle({ html: val });
+    // }.debounce(500)
   },
   
   methods: {
@@ -195,23 +255,27 @@ export default {
     enterEditing: function(evt) {
       this.editing = true;
 			this.showMarkup = true;
+      console.log(this.prev);
+      this.prev = {
+        title: this.title,
+        html: this.html
+      }
     },
     
     exitEditing: function(evt) {
       this.editing = false;
 			this.showMarkup = false;
+      this.title = this.prev.title;
+      this.html = this.prev.html
     },
     
-    editTitle: function(evt) {
-      this.exitEditing();
+    editStyle: function(evt) {
       this.updateStyle({
-        title: this.title
-      })
-    },
-    
-    cancelTitle: function() {
-      this.title = this.prevTitle;
-      this.exitEditing();
+        title: this.title,
+        html: this.html
+      });
+      this.editing = false;
+      this.showMarkup = false;
     }
   }
 }

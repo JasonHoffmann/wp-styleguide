@@ -1,19 +1,22 @@
 <template>
   <nav class="sg-nav sg-stack sg-col-3">
-    <ul class="sg-nav-links">
-      <li class="sg-nav-link sg-nav-link__parent" v-for="section in sections">
-          <a class="sg-nav-link--link" href="#{{ section.slug }}">{{ section.title }}</a>
-          <ul class="sg-nav-links sg-nav-sublinks">
-            <li class="sg-nav-link sg-nav-link__child" v-for="style in section.styles">
-              <a class="sg-nav-link--link" href="#{{ style.slug }}">{{ style.title }}</a>
-            </li>
-          </ul>
-      </li>
+    <ul class="sg-nav-links sg-nav-container">
+      <navlinks 
+        v-for="section in sections"
+        :title="section.title"
+        :styles="section.styles"
+        :slug="section.slug"
+        ></navlinks>
+    </ul>
   </nav>
 </template>
 
 <style lang="scss">
 #styleguide {
+  .sg-nav-container {
+      position: fixed;
+  }
+  
 	.sg-nav-links {
 		list-style: none;
 		margin: 0;
@@ -46,9 +49,13 @@
 </style>
 
 <script>
+var Navlinks = require('./Navlinks.vue');
 export default {
   props: {
     sections: Array
+  },
+  components: {
+    Navlinks
   }
 }
 </script>

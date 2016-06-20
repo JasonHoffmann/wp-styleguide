@@ -10,7 +10,7 @@
         :html="style.html"
         :slug="style.slug"
       ></style>
-      <section class="sg-section sg-stack">
+      <section class="sg-section sg-stack" v-show="logged_in">
           <button v-on:click="addStyle()" class="sg-button">Add New Element</button>
       </section>
   </section>
@@ -43,6 +43,12 @@ export default {
 			default: false,
 			type: Boolean
 		}
+  },
+  
+  data: function() {
+    return {
+      logged_in: styleguide_options.logged_in
+    }
   },
   
   components: {

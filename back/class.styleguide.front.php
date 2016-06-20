@@ -78,7 +78,8 @@ class Styleguide_Front {
 				'url' => site_url('/wp-json/styleguide'),
 				'home_url' => home_url('/'),
 				'plugin_url' => STYLEGUIDE__PLUGIN_URL,
-				'nonce' => wp_create_nonce( 'wp_rest' )
+				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'logged_in' => is_user_logged_in() ? true : false
 			);
 			wp_localize_script( 'app', 'styleguide_options', $site_options );
 			// Enqueued script with localized data.

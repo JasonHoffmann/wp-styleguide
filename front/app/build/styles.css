@@ -6,6 +6,9 @@
   #styleguide:before, #styleguide:after {
     width: auto;
     height: auto; }
+  #styleguide #app {
+    max-width: 90%;
+    margin: 0 auto; }
   #styleguide .sg-main-content {
     max-width: 1300px;
     margin: 2em auto 0 auto; }
@@ -123,9 +126,30 @@
 
 #styleguide .sg-actions {
   position: absolute;
-  top: 16px;
+  top: 24px;
   right: 10px;
   opacity: 0; }
+
+#styleguide .sg-actions--editing {
+  opacity: 1;
+  top: 30px; }
+  #styleguide .sg-actions--editing .sg-button__action svg {
+    width: 19px;
+    height: 19px; }
+
+#styleguide .sg-style-title {
+  margin: 0 0 0 0;
+  padding: 0 0 10px 0;
+  border-bottom: 1px dotted #ddd;
+  width: 100%;
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 0; }
+
+#styleguide input.sg-style-title {
+  border: 1px solid #ddd;
+  padding: 5px;
+  width: 90%; }
 
 #styleguide .sg-button__action {
   border: none;
@@ -145,6 +169,12 @@
   #styleguide .sg-button__action:hover svg {
     fill: #333; }
 
+#styleguide .sg-button__save:hover svg {
+  fill: #00E676; }
+
+#styleguide .sg-button__cancel:hover svg {
+  fill: #FF3D00; }
+
 #styleguide .sg-markuptoggle svg {
   position: relative;
   top: 3px;
@@ -161,18 +191,14 @@
 #styleguide .sg-container:hover .sg-style-actions button {
   opacity: 1; }
 
-#styleguide .sg-style-title {
-  margin: 0 0 10px 0;
-  padding: 0 0 5px 0;
-  width: 100%;
-  font-weight: bold;
-  font-size: 24px; }
-
 #styleguide .sg-output {
   padding: 36px 0 0 0;
   margin: 1em 0; }
 .sg-settings {
   display: none; }
+#styleguide .sg-nav-container {
+  position: fixed; }
+
 #styleguide .sg-nav-links {
   list-style: none;
   margin: 0;
