@@ -5,13 +5,14 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     webpack = require('gulp-webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var watch = require('gulp-watch');
 
 
 var paths = {
   js: {
     src: ['./app.js'],
     compile:  ['./app.js', './app/**/*.js', '!app/build/*.js', '!app/vendor/*.js'],
-    watch: [ './app.js', './app/**/*.js', './components/**/*.vue' ],
+    watch: [ './app.js', './components/**/*.vue', './components/**/*.js' ],
     dest: './app/build/'
   }
 };
@@ -33,34 +34,40 @@ gulp.task('lint', function() {
 // ========================================
 
 // Compiles js from app.js
+// gulp.task('app', function() {
+//     return gulp.src(paths.js.src)
+//       .pipe(webpack({
+//         output: {
+//           filename: 'app.js',
+//         },
+//         module: { loaders: [ 
+//           { test: /\.vue$/, loader: 'vue'  },
+//           { test: /\.js$/, exclude: /node_modules|vue\/src|vue-router\//,  loader: 'babel' }
+//         ] },
+// 				vue : {
+// 					loaders: {
+// 						css: ExtractTextPlugin.extract('css'),
+// 						sass: ExtractTextPlugin.extract('css!sass'),
+// 						scss: ExtractTextPlugin.extract('css!sass')
+// 					}
+// 				},
+// 				plugins: [
+// 					new ExtractTextPlugin('styles.css')
+// 				],
+//         babel: { presets: ['es2015'], plugins: ['transform-runtime'] },
+//         resolve: { modulesDirectories: ['node_modules'] }
+//       }))
+//       .pipe(gulp.dest(paths.js.dest));
+// });
+// 
 gulp.task('app', function() {
     return gulp.src(paths.js.src)
-      .pipe(webpack({
-        output: {
-          filename: 'app.js',
-        },
-        module: { loaders: [ 
-          { test: /\.vue$/, loader: 'vue'  },
-          { test: /\.js$/, exclude: /node_modules|vue\/src|vue-router\//,  loader: 'babel' }
-        ] },
-				vue : {
-					loaders: {
-						css: ExtractTextPlugin.extract('css'),
-						sass: ExtractTextPlugin.extract('css!sass'),
-						scss: ExtractTextPlugin.extract('css!sass')
-					}
-				},
-				plugins: [
-					new ExtractTextPlugin('styles.css')
-				],
-        babel: { presets: ['es2015'], plugins: ['transform-runtime'] },
-        resolve: { modulesDirectories: ['node_modules'] }
-      }))
+      .pipe(webpack( require('./webpack.config.js') ) )
       .pipe(gulp.dest(paths.js.dest));
 });
 
 gulp.task('watch', function(){
-  gulp.watch(paths.js.watch, ['lint', 'app']);
+  gulp.watch(paths.js.watch, ['app']);
 });
 
-gulp.task('default', ['lint', 'app', 'watch']);
+gulp.task('default', ['app', 'watch']);

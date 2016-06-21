@@ -32,7 +32,8 @@
 </style>
 
 <script>
-var Style = require('./Style.vue');
+import Style from './Style.vue';
+import Events from './events.js';
 export default {
   props: {
     title: String,
@@ -44,6 +45,16 @@ export default {
 			type: Boolean
 		}
   },
+	
+	ready: function() {
+		if( this.$el ) {
+			var pos = this.$el.getBoundingClientRect().top + window.scrollY -
+				parseInt(getComputedStyle(this.$el).marginTop, 10);
+				console.log(pos);
+		}
+		Events.$options.sectionPositions.push(pos);
+		Events.$options.sections.push(this.slug);
+	},
   
   data: function() {
     return {
@@ -56,11 +67,6 @@ export default {
   },
   
   methods: {
-		editTitle: function() {
-			this.updateSection({
-				title: this.title
-			});
-		},
 		
 		updateSection: function( obj ) {
 			this.$http({ 

@@ -42,14 +42,14 @@
 		font-size: 13px;
 	}
 	
-	.sg-nav-link--link:hover {
+	.sg-nav-link--link:hover, .sg-nav-link--link.selected {
 		background: #eee;
 	}
 }
 </style>
 
 <script>
-var Navlinks = require('./Navlinks.vue');
+import Navlinks from './Navlinks.vue';
 export default {
   props: {
     sections: Array

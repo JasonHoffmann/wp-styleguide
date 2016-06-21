@@ -220,5 +220,5 @@
   padding-left: 10px;
   font-size: 13px; }
 
-#styleguide .sg-nav-link--link:hover {
+#styleguide .sg-nav-link--link:hover, #styleguide .sg-nav-link--link.selected {
   background: #eee; }

@@ -211,10 +211,10 @@
 </style>
 
 <script>
-var Wrapper = require('./Wrapper.vue');
-var Settings = require('./Settings.vue');
-var Navbar = require('./Navbar.vue');
-var Prism = require('prismjs');
+import Wrapper from './Wrapper.vue';
+import Events from './events.js'
+import Settings from './Settings.vue';
+import Navbar from './Navbar.vue';
 export default {
 	
   el: '#app',
@@ -237,7 +237,27 @@ export default {
 
   ready: function () {
     this.fetchStyles();
+		
+		window.addEventListener('scroll', function() {
+			var y = window.scrollY;
+			
+			if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+				var last = Events.$options.sections.length - 1;
+				Events.$emit('nav-selected', Events.$options.sections[last]);
+			} else {
+				for (var i = 0; i < Events.$options.sections.length; i++) {
+					if (y >= Events.$options.sectionPositions[i] &&
+							(Events.$options.sectionPositions[i+1] ? y < Events.$options.sectionPositions[i+1] : true)) {
+								Events.$emit('nav-selected', Events.$options.sections[i]);
+					}
+				}
+			}
+		});
   },
+	
+	created: function () {
+
+},
 
   methods: {
 		

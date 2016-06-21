@@ -1,4 +1,5 @@
 <script>
+import Prism from 'prismjs'
 export default {
 	twoWay: true,
 	bind: function() {

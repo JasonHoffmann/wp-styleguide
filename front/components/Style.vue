@@ -195,8 +195,7 @@
 </style>
 
 <script>
-var Prism = require('prismjs');
-var CodeEditor = require('./Editor.vue');
+import CodeEditor from './Editor.vue';
 export default {
   props: {
     html: String,
