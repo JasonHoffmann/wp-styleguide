@@ -1,4 +1,5 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var webpack = require('webpack');
 
 module.exports = {
 		output: {
@@ -16,7 +17,8 @@ module.exports = {
 			}
 		},
 		plugins: [
-			new ExtractTextPlugin('styles.css')
+			new ExtractTextPlugin('styles.css'),
+			new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }})
 		],
 		babel: { presets: ['es2015'], plugins: ['transform-runtime'] },
 		resolve: { modulesDirectories: ['node_modules'] }

@@ -8,10 +8,15 @@
         :title="style.title"
         :id="style.id"
         :html="style.html"
-        :slug="style.slug"
+        :slug="style.slug",
+        :editing.once="style.editing"
+				:show-markup.once="style.showMarkup"
       ></style>
-      <section class="sg-section sg-stack" v-show="logged_in">
-          <button v-on:click="addStyle()" class="sg-button">Add New Element</button>
+      <section class="sg-section sg-stack sg-section__add" v-show="logged_in">
+          <button v-on:click="addStyle()" class="sg-button sg-button__add">
+						<icon name="add"></icon>
+						Add New Element
+					</button>
       </section>
   </section>
 </template>
@@ -23,10 +28,31 @@
 		padding-bottom: 1em;
 		border-bottom: 1px dotted #ccc;
 	}
+	.sg-section__add {
+		text-align: right;
+	}
 	.sg-section-title {
 		font-size: 32px;
 		margin-bottom: 10px;
 		font-weight: bold;
+	}
+	.sg-button__add {
+		color: #333;
+		font-weight: 700;
+		svg {
+			width: 14px;
+			height: auto;
+			fill: #333;
+			position: relative;
+			top: 2px;
+			margin-right: 2px;
+		}
+		&:hover {
+			color: #666;
+			svg {
+				fill: #666;
+			}
+		}
 	}
 }
 </style>
@@ -34,6 +60,7 @@
 <script>
 import Style from './Style.vue';
 import Events from './events.js';
+import Icon from './Icon.vue';
 export default {
   props: {
     title: String,
@@ -63,7 +90,8 @@ export default {
   },
   
   components: {
-    Style
+    Style,
+		Icon
   },
   
   methods: {
@@ -80,11 +108,12 @@ export default {
       var len = this.styles.push({
         title: '',
         html: '',
-        id: 0
+        id: 0,
+				editing: true,
+				showMarkup: true
       });
-      
       var len = len - 1;
-      
+			
       this.$http({
         method: 'POST',
         url: styleguide_options.url + '/styles',
@@ -96,6 +125,7 @@ export default {
         }
       }).then(function(response) {
         this.styles[len].id = response.data.id;
+				this.styles.$set(len, { editing: true });
       });
     }
   }

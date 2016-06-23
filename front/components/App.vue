@@ -55,6 +55,15 @@
 		}
 	} 
 	
+	.sg-button {
+		text-transform: uppercase;
+		border: none;
+		background: none;
+		font-weight: 100;
+		padding: 10px 30px 11px;
+		border-radius: 3px;
+	}
+	
 	/*
 	Grid
 	*/
@@ -202,6 +211,7 @@
 		}
 	}
 	
+	
 	// Settings Button
 	.sg-button__settings {
 		display: none;
@@ -255,10 +265,6 @@ export default {
 		});
   },
 	
-	created: function () {
-
-},
-
   methods: {
 		
     fetchStyles: function() {
