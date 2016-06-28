@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 const state = {
   logged_in: styleguide_options.logged_in,
+	root: styleguide_options.home_url,
   sections: [],
   // TODO: Change this to ID instead of full object
   activeSection: {},
@@ -64,6 +65,10 @@ const mutations = {
   TOGGLE_ACTIVE(state, section) {
     state.activeSection = section;
   },
+	
+	TOGGLE_PRIVACY(state, section) {
+		state.settings.prviate = !state.settings.private;
+	},
   
   ADD_POSITION(state, pos) {
     state.sectionPositions.push(pos);

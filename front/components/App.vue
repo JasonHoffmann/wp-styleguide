@@ -48,9 +48,10 @@
 		text-transform: uppercase;
 		border: none;
 		background: none;
-		font-weight: 100;
-		padding: 10px 30px 11px;
+		font-weight: 700;
+		padding: 10px 0;
 		border-radius: 3px;
+		color: #333 !important;
 	}
 	
 	/*

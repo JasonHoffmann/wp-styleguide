@@ -3,6 +3,7 @@ export const getAll = function(store) {
   var dispatch = store.dispatch;
   api.getAll().then(function(response) {
     dispatch('RECIEVE_SECTIONS', response.data.sections);
+		console.log(response);
     dispatch('RECIEVE_SETTINGS', response.data.settings);
   })
 }
@@ -48,4 +49,9 @@ export const addSectionPositions = function(store, pos) {
 export const toggleSettings = function(store) {
   var dispatch = store.dispatch;
   dispatch('TOGGLE_SETTINGS');
+}
+
+export const togglePrivacy = function(store) {
+	var dispatch = store.dispatch;
+	dispatch('TOGGLE_PRIVACY');
 }

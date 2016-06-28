@@ -62,7 +62,7 @@ class Styleguide_API_Data extends Styleguide_API {
 		
 		$settings_class = new Styleguide_API_Settings;
 		$settings = $settings_class->get_settings();
-		$response['settings'] = $settings;
+		$response['settings'] = $settings->data;
 		return $response;
 	}
 }
