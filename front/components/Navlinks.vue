@@ -10,32 +10,46 @@
 </template>
 
 <script>
-import Events from './events.js';
+import { toggleActive } from '../common/actions.js';
+
 export default {
   props: {
     title: String,
     slug: String,
     styles: Array,
-    selected: {
-      default: false,
-      type: Boolean
+    id: Number
+  },
+  
+  data: function() {
+    return {
+      selected: false
     }
   },
-	
-	created: function() {
-		var self = this;
-		Events.$on('nav-selected', function(slug) {
-			if( self.slug === slug ) {
-				self.selected = true;
-			} else {
-				self.selected = false;
-			}
-		})
-	},
+  
+  vuex: {
+    getters: {
+      active: function(state) {
+        return state.activeSection;
+      }
+    },
+    actions : {
+      toggleActive: toggleActive
+    }
+  },
+  
+  watch: {
+    'active' : function(val) {
+      if(val.id === this.id) {
+        this.selected = true;
+      } else {
+        this.selected = false;
+      }
+    }
+  },
   
   methods: {
     switchSelected: function() {
-			Events.$emit('nav-selected', this.slug);
+      this.toggleActive({ id: this.id });
     }
   }
 }

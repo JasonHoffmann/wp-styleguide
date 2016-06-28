@@ -1,12 +1,8 @@
-<style lang="scss">
-	.sg-settings {
-		display: none;
-	}
-</style>
 <template>
-  <div class="sg-settings modal-mask" v-show="show" transition="modal">
+  <div class="sg-settings modal-mask" v-show="settings.show" transition="modal">
     <div class="modal-wrapper">
       <div class="modal-container sg-stack">
+				<button v-on:click="toggleSettings" class="sg-button sg-button__settings-close">Close</button>
         <h1 class="sg-font-dark">Settings</h1>
         <div class="toggleWrapper">
           <div class="after">
@@ -24,7 +20,7 @@
         </div>
         <div class="sg-settings-group">
           <label class="sg-settings-input-label sg-font-dark">Styleguide URL:</label>
-          <span>{{ home_url }}</span><input class="sg-settings-input sg-settings-endpoint" type="text" v-model="endpoint" />
+          <span>{{ endpoint }}</span><input class="sg-settings-input sg-settings-endpoint" type="text" v-model="setttings.endpoint" />
         </div>
         
         <div class="sg-settings-group">
@@ -36,20 +32,32 @@
 </template>
 
 <script>
+import { toggleSettings } from '../common/actions.js';
 export default {
   props: {
-    show: {
-      type: Boolean,
-      required: true,
-      twoWay: true
-    },
-    private: Boolean,
-    endpoint: String,
-    home_url: {
-      type: String,
-      default: styleguide_options.home_url
-    }
+    // show: {
+    //   type: Boolean,
+    //   required: true,
+    //   twoWay: true
+    // },
+    // private: Boolean,
+    // endpoint: String,
+    // home_url: {
+    //   type: String,
+    //   default: styleguide_options.home_url
+    // }
   },
+	
+	vuex: {
+		getters: {
+			settings: function(state) {
+				return state.settings;
+			}
+		},
+		actions: {
+			toggleSettings: toggleSettings
+		}
+	},
   
   methods: {
     togglePrivate: function() {

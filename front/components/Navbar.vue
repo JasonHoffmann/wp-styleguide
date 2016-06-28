@@ -6,7 +6,10 @@
         :title="section.title"
         :styles="section.styles"
         :slug="section.slug"
+        :id="section.id"
+        :active="active"
         ></navlinks>
+        <li><button v-on:click="toggleSettings" class="sg-button">Settings</button></li>
     </ul>
   </nav>
 </template>
@@ -50,9 +53,20 @@
 
 <script>
 import Navlinks from './Navlinks.vue';
+import { toggleSettings } from '../common/actions.js';
 export default {
-  props: {
-    sections: Array
+  vuex: {
+    getters: {
+      sections: function(state) {
+        return state.sections;
+      },
+      show: function(state) {
+        return state.show;
+      }
+    },
+    actions:{
+      toggleSettings: toggleSettings
+    }
   },
   components: {
     Navlinks

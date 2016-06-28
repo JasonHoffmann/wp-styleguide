@@ -1,5 +1,5 @@
 <template>
-  <div id="{{ slug }}" class="sg-container">
+  <div id="{{ style.slug }}" class="sg-container">
 		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
 			<p>Are you sure you want to delete this style?</p>
 			<div class="sg-confirm-actions">
@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<h4 class="sg-style-title sg-stack" v-show="!editing">
-			{{ title }}
+			{{ style.title }}
 		</h4>
 			<span v-show="!editing && logged_in" class="sg-actions">
 			<button v-on:click="enterEditing" class="sg-button__action">
@@ -21,7 +21,7 @@
 		<input 
 					placeholder="Add a title..." 
 					type="text" class="sg-style-title sg-stack sg-font-light" 
-					v-model="title" 
+					v-model="style.title" 
 					v-bind:class="{'editing' : editing }"
 					v-show="editing"
 					autofocus
@@ -35,7 +35,7 @@
     </button>
   </span>
     <div class="sg-output">
-        {{{ html }}}
+        {{{ style.html }}}
     </div>
 		<div class="sg-markuptoggle">
 			<button class="sg-button__action" v-on:click="toggleMarkup" v-show="!editing">
@@ -43,8 +43,8 @@
 			</button>
 			<span v-show="editing" class="sg-markuptext">Edit the HTML below</span>
 		</div>
-    <div class="sg-markup" v-if="showMarkup">
-      <pre v-prism-directive="html" :contenteditable="editing" class="language-markup">{{ html }}</pre>
+    <div class="sg-markup" v-show="editing || showMarkup">
+      <code-editor :html.sync="style.html" :editing="editing"></code-editor>
     </div>
   </div>
 </template>
@@ -203,37 +203,31 @@
 <script>
 import CodeEditor from './Editor.vue';
 import Icon from './Icon.vue';
+import { updateStyle, removeStyle } from '../common/actions.js';
 export default {
-  props: {
-    html: String,
-		editing: {
-			default: false,
-			type: Boolean
-		},
-		showMarkup: {
-			default: false,
-			type: Boolean
-		},
-		confirm: {
-			default: false,
-			type: Boolean
-		},
-    title: String,
-    prevTitle: String,
-    id: Number,
-    slug: String,
-    prev: {
-      default: function() {
-        return {}
-      },
-      type: Object
+  props: ['style', 'index', 'section'],
+  
+  vuex: {
+    actions: {
+      updateStyle: updateStyle,
+      removeStyle: removeStyle
     }
   },
   
   data: function() {
     return {
-      logged_in: styleguide_options.logged_in
+      logged_in: styleguide_options.logged_in,
+      showMarkup: false,
+      editing: false,
+      confirm: false,
+      prev: {}
     }
+  },
+  
+  created: function() {
+    if( !this.style.title ) {
+      this.editing = true;
+    };
   },
   
   components: {
@@ -242,16 +236,6 @@ export default {
   },
 	
   methods: {
-    updateStyle: function( obj ) {
-      this.$http({ 
-          url: styleguide_options.url + '/styles/' + this.id,
-          method: 'POST',
-					headers: {
-						'X-WP-Nonce' : styleguide_options.nonce
-					},
-          data: obj
-        });
-    }.debounce(300),
 		
 		toggleMarkup: function() {
 			this.showMarkup = !this.showMarkup
@@ -259,40 +243,30 @@ export default {
     
     enterEditing: function(evt) {
       this.editing = true;
-			this.showMarkup = true;
       this.prev = {
-        title: this.title,
-        html: this.html
+        title: this.style.title,
+        html: this.style.html
       }
     },
     
     exitEditing: function(evt) {
       this.editing = false;
-			this.showMarkup = false;
-      this.title = this.prev.title;
-      this.html = this.prev.html
+      this.style.title = this.prev.title;
+      this.style.html = this.prev.html
     },
     
     editStyle: function(evt) {
       this.updateStyle({
-        title: this.title,
-        html: this.html
-      });
+        title: this.style.title,
+        html: this.style.html,
+        id: this.style.id
+      }, this.style);
       this.editing = false;
-      this.showMarkup = false;
     },
 		
 		deleteStyle: function() {
 			this.confirm = false;
-			this.$remove();
-			this.$http({ 
-					url: styleguide_options.url + '/styles/' + this.id,
-					method: 'DELETE',
-					headers: {
-						'X-WP-Nonce' : styleguide_options.nonce
-					},
-					data: { id: this.id }
-			});
+      this.removeStyle( this.index, this.section, this.style.id )
 		},
 		
 		toggleConfirm: function() {

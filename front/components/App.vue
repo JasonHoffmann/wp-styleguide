@@ -2,21 +2,10 @@
 <div>
 	<div class="sg-row sg-main-content">
 	<button @click="showSettings = true" id="settings" class="sg-button sg-button__settings">Settings</button>
-	<settings 
-	:show.sync="showSettings"
-	:private="settings.private"
-	:endpoint="settings.endpoint"
-	></settings>
-	<navbar :sections="all_sections"></navbar>
+	<settings v-if="showSettings"></settings>
+	<navbar></navbar>
 	<div class="sg-col-9">
-		<wrapper 
-			v-for="section in all_sections"
-			:id="section.id"
-			:title="section.title"
-			:styles="section.styles"
-			:slug="section.slug"
-			></wrapper>
-			
+		<wrapper v-for="section in sections" :section="section"></wrapper>
 			<form class="sg-section-title__edit" v-on:submit="addWrapper" v-show="logged_in">
 				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
 				<button class="sg-button">Add</button>
@@ -222,22 +211,38 @@
 
 <script>
 import Wrapper from './Wrapper.vue';
-import Events from './events.js'
 import Settings from './Settings.vue';
 import Navbar from './Navbar.vue';
+import store from '../common/store.js';
+import { getAll, addSection, toggleActive } from '../common/actions.js';
 export default {
 	
   el: '#app',
-
-  data: function() {
-		return {
-			all_sections: [],
-			showSettings: false,
-			settings : {},
-			adding: false,
-			logged_in: styleguide_options.logged_in
+	
+	store: store,
+	
+	vuex: {
+		getters: {
+			logged_in: function(state) {
+				return state.logged_in
+			},
+			sections: function(state) {
+				return state.sections
+			},
+			sectionPositions: function(state) {
+				return state.sectionPositions
+			},
+			showSettings: function(state) {
+				return state.settings.show;
+			}
+		},
+		
+		actions: {
+			getAll: getAll,
+			addSection: addSection,
+			toggleActive: toggleActive
 		}
-  },
+	},
 	
 	components: {
 		Wrapper,
@@ -246,19 +251,20 @@ export default {
 	},
 
   ready: function () {
-    this.fetchStyles();
+		this.getAll();
 		
+		var self = this;
 		window.addEventListener('scroll', function() {
 			var y = window.scrollY;
-			
 			if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-				var last = Events.$options.sections.length - 1;
-				Events.$emit('nav-selected', Events.$options.sections[last]);
+				var last = self.sections.length - 1;
+				var id = self.sections[last].id;
+				self.toggleActive({ id: id });
 			} else {
-				for (var i = 0; i < Events.$options.sections.length; i++) {
-					if (y >= Events.$options.sectionPositions[i] &&
-							(Events.$options.sectionPositions[i+1] ? y < Events.$options.sectionPositions[i+1] : true)) {
-								Events.$emit('nav-selected', Events.$options.sections[i]);
+				for (var i = 0; i < self.sections.length; i++) {
+					if (y >= self.sectionPositions[i] &&
+							(self.sectionPositions[i+1] ? y < self.sectionPositions[i+1] : true)) {
+								self.toggleActive({id: self.sections[i].id});
 					}
 				}
 			}
@@ -267,50 +273,18 @@ export default {
 	
   methods: {
 		
-    fetchStyles: function() {
-			this.$http({
-				method: 'GET',
-				url: styleguide_options.url + '/data',
-			}).then(function(response) {
-				var sections = response.data.sections;
-				this.all_sections = sections;
-			});
-			
-			this.$http({
-				method: 'GET',
-				url: styleguide_options.url + '/settings'
-			}).then(function(response) {
-				this.settings = response.data
-			});
-    },
-		
 		addWrapper: function(evt) {
 			evt.preventDefault();
+			
 			var newTitle = evt.target[0].value;
 			evt.target[0].value = '';
-			var len = this.all_sections.push({
+			var len = this.sections.length + 1;
+			this.addSection({
 				title: newTitle,
+				order: len,
 				id: 0,
-				styles: []
+				styles: [],
 			});
-			var nl = len - 1;
-			
-			
-			this.$http({
-				method: 'POST',
-				url: styleguide_options.url + '/sections',
-				headers: {
-					'X-WP-Nonce' : styleguide_options.nonce
-				},
-				data: {
-					title : newTitle,
-					order: len
-				}
-			}).then(function(response) {
-				this.all_sections[nl].id = response.data.id;
-			});
-			
-			
 		}
 
   }

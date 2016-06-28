@@ -1,19 +1,11 @@
 <template>
-  <section id="{{slug }}" class="sg-section">
+  <section id="{{section.slug }}" class="sg-section">
     <div v-bind:id="slug"></div>
-			<h3 class="sg-stack sg-section-title" v-if="!editing">{{ title }}</h3>
+			<h3 class="sg-stack sg-section-title" v-if="!editing">{{ section.title }}</h3>
       <input v-if="editing" class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
-      <style 
-        v-for="style in styles"
-        :title="style.title"
-        :id="style.id"
-        :html="style.html"
-        :slug="style.slug",
-        :editing.once="style.editing"
-				:show-markup.once="style.showMarkup"
-      ></style>
+      <style v-for="style in section.styles" :style="style" :index="$index" :section="section"></style>
       <section class="sg-section sg-stack sg-section__add" v-show="logged_in">
-          <button v-on:click="addStyle()" class="sg-button sg-button__add">
+          <button v-on:click="pushStyle()" class="sg-button sg-button__add">
 						<icon name="add"></icon>
 						Add New Element
 					</button>
@@ -58,36 +50,37 @@
 </style>
 
 <script>
-import Style from './Style.vue';
-import Events from './events.js';
+import Style from './Style.vue';;
 import Icon from './Icon.vue';
+import { addStyle, addSectionPositions } from '../common/actions.js';
 export default {
-  props: {
-    title: String,
-    id: Number,
-    slug: String,
-    styles: Array,
-		editing: {
-			default: false,
-			type: Boolean
-		}
+  props: ['section'],
+  
+  data: function() {
+    return {
+      editing: false
+    }
+  },
+  
+  vuex: {
+    getters: {
+      logged_in: function(state) {
+        return state.logged_in
+      }
+    },
+    actions: {
+      addStyle: addStyle,
+      addSectionPositions: addSectionPositions
+    }
   },
 	
 	ready: function() {
 		if( this.$el ) {
 			var pos = this.$el.getBoundingClientRect().top + window.scrollY -
 				parseInt(getComputedStyle(this.$el).marginTop, 10);
-				console.log(pos);
+      this.addSectionPositions(pos);
 		}
-		Events.$options.sectionPositions.push(pos);
-		Events.$options.sections.push(this.slug);
 	},
-  
-  data: function() {
-    return {
-      logged_in: styleguide_options.logged_in
-    }
-  },
   
   components: {
     Style,
@@ -95,38 +88,13 @@ export default {
   },
   
   methods: {
-		
-		updateSection: function( obj ) {
-			this.$http({ 
-					url: styleguide_options.url + '/sections/' + this.id,
-					method: 'POST',
-					data: obj
-				});
-		}.debounce(300),
-		
-    addStyle: function() {
-      var len = this.styles.push({
+    pushStyle: function() {
+      var newStyle = {
         title: '',
         html: '',
-        id: 0,
-				editing: true,
-				showMarkup: true
-      });
-      var len = len - 1;
-			
-      this.$http({
-        method: 'POST',
-        url: styleguide_options.url + '/styles',
-				headers: {
-					'X-WP-Nonce' : styleguide_options.nonce
-				},
-        data: {
-          section_id : this.id
-        }
-      }).then(function(response) {
-        this.styles[len].id = response.data.id;
-				this.styles.$set(len, { editing: true });
-      });
+        id: 0
+      };
+      this.addStyle( newStyle, this.section );
     }
   }
 }

@@ -59,6 +59,10 @@ class Styleguide_API_Data extends Styleguide_API {
 
 		}
 		$response['sections'] = $section_array;
+		
+		$settings_class = new Styleguide_API_Settings;
+		$settings = $settings_class->get_settings();
+		$response['settings'] = $settings;
 		return $response;
 	}
 }

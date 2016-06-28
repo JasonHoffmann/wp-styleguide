@@ -80,6 +80,7 @@ class Styleguide_API_Sections extends Styleguide_API {
 		
 		$term = wp_insert_term( $prepared_term->name, $this->taxonomy, $prepared_term );
 		$order = $this->update_term_order( $request, $term['term_id'] );
+		$term = get_term( $term['term_id'], $this->taxonomy );
 		
 		$response = $this->prepare_section( $term, $request );
 		$response = rest_ensure_response( $response );

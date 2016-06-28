@@ -1,15 +1,22 @@
+<template>
+	<pre :contenteditable="editing" class="language-markup">{{ html }}</pre>
+</template>
 <script>
 import Prism from 'prismjs'
 export default {
-	twoWay: true,
-	bind: function() {
+	props: ['html', 'editing'],
+	
+	ready: function() {
+		
 		var self = this;
-		var pre = this.el;
+		var pre = this.$el;
+		
+		Prism.highlightElement(pre);
 		
 		this.handleKeyup = function(evt) {
 			var keyCode = evt.keyCode,
 					code = this.textContent;
-			self.set(code);
+			
 			if([
 					9, 91, 93, 16, 17, 18, // modifiers
 					20, // caps lock
@@ -25,6 +32,7 @@ export default {
 							se = this.selectionEnd;
 							
 				Prism.highlightElement(this);
+				self.html = code;
 				
 				if(!/\n$/.test(code)) {
 					this.innerHTML = this.innerHTML + '\n';
@@ -102,125 +110,120 @@ export default {
 		pre.addEventListener('paste', this.handlePaste);
 	},
 	
-	action: function(action, options) {
-		options = options || {};
-		var pre = this.el,
-		text = pre.textContent,
-		ss = options.start || pre.selectionStart,
-		se = options.end || pre.selectionEnd;
-		var state = {
-				ss: ss,
-				se: se,
-				before: text.slice(0, ss),
-				after: text.slice(se),
-				selection: text.slice(ss,se)
-			};
-		var textAction = this.actions[action](state, options);
-		pre.textContent = state.before + state.selection + state.after;
-		pre.setSelectionRange(state.ss, state.se);
-		
-		Prism.highlightElement(pre);
-		if(!/\n$/.test(state.after)) {
-			pre.innerHTML = pre.innerHTML + '\n';
-		}
-		pre.setSelectionRange(state.ss, state.se);
-		
-	},
+	methods: {
 	
-	actions: {
-		newline: function(state) {
-			var ss = state.ss,
-					lf = state.before.lastIndexOf('\n') + 1,
-					indent = (state.before.slice(lf).match(/^\s+/) || [''])[0];
+		action: function(action, options) {
+			options = options || {};
+			var pre = this.$el,
+			text = pre.textContent,
+			ss = options.start || pre.selectionStart,
+			se = options.end || pre.selectionEnd;
+			var state = {
+					ss: ss,
+					se: se,
+					before: text.slice(0, ss),
+					after: text.slice(se),
+					selection: text.slice(ss,se)
+				};
+			var textAction = this[action](state, options);
+			pre.textContent = state.before + state.selection + state.after;
+			pre.setSelectionRange(state.ss, state.se);
 			
-			state.before += '\n' + indent;
+			Prism.highlightElement(pre);
+			if(!/\n$/.test(state.after)) {
+				pre.innerHTML = pre.innerHTML + '\n';
+			}
+			pre.setSelectionRange(state.ss, state.se);
 			
-			var selection = state.selection;
-			state.selection = '';	
-			
-			state.ss += indent.length + 1;
-			state.se = state.ss;
 		},
 		
-		indent: function(state, options) {
-			var lf = state.before.lastIndexOf('\n') + 1;
-		
-			if (options.inverse) {
-				if(/\s/.test(state.before.charAt(lf))) {
-					state.before = state.before.splice(lf, 1);
-					
-					state.ss--;
-					state.se--;
-				}
+			newline: function(state) {
+				var ss = state.ss,
+						lf = state.before.lastIndexOf('\n') + 1,
+						indent = (state.before.slice(lf).match(/^\s+/) || [''])[0];
 				
-				state.selection = state.selection.replace(/\r?\n\s/g, '\n');
-			}
-			else if (state.selection) {
-				state.before = state.before.splice(lf, 0, '\t');
-				state.selection = state.selection.replace(/\r?\n/g, '\n\t');
+				state.before += '\n' + indent;
 				
-				state.ss++;
-				state.se++;
-			}
-			else {
-				state.before += '\t';
+				var selection = state.selection;
+				state.selection = '';	
 				
-				state.ss++;
-				state.se++;
-			}
-		},
-		
-		comment: function(state, options) {
-			var open = '<!--',
-					close = '-->';
-			var start = state.before.lastIndexOf(open),
-					end = state.after.indexOf(close),
-					closeBefore = state.before.lastIndexOf(close),
-					openAfter = state.after.indexOf(start);
-	
-			if(start > -1 && end > -1 && (start > closeBefore || closeBefore === -1) 
-			&& (end < openAfter || openAfter === -1) ) {
-					// Uncomment
-					state.before = state.before.splice(start, open.length);
-					state.after = state.after.splice(end, close.length);
-	
-					state.ss -= open.length;
-					state.se -= open.length;
-	
-				} else {
-					// Comment
-					if(state.selection) {
-						// Comment selection
-						state.selection = open + state.selection + close;
-					} else {
-						// Comment whole line
-						start = state.before.lastIndexOf('\n') + 1;
-						end = state.after.indexOf('\n');
+				state.ss += indent.length + 1;
+				state.se = state.ss;
+			},
 			
-						if(end === -1) {
-							end = after.length;
-						}
+			indent: function(state, options) {
+				var lf = state.before.lastIndexOf('\n') + 1;
 			
-						while(/\s/.test(state.before.charAt(start))) {
-							start++;
-						}
-			
-						state.before = state.before.splice(start, 0, open);
-			
-						state.after = state.after.splice(end, 0, close);
-			
+				if (options.inverse) {
+					if(/\s/.test(state.before.charAt(lf))) {
+						state.before = state.before.splice(lf, 1);
+						
+						state.ss--;
+						state.se--;
 					}
+					
+					state.selection = state.selection.replace(/\r?\n\s/g, '\n');
+				}
+				else if (state.selection) {
+					state.before = state.before.splice(lf, 0, '\t');
+					state.selection = state.selection.replace(/\r?\n/g, '\n\t');
+					
+					state.ss++;
+					state.se++;
+				}
+				else {
+					state.before += '\t';
+					
+					state.ss++;
+					state.se++;
+				}
+			},
+			
+			comment: function(state, options) {
+				var open = '<!--',
+						close = '-->';
+				var start = state.before.lastIndexOf(open),
+						end = state.after.indexOf(close),
+						closeBefore = state.before.lastIndexOf(close),
+						openAfter = state.after.indexOf(start);
 		
-					state.ss += open.length;
-					state.se += open.length;
+				if(start > -1 && end > -1 && (start > closeBefore || closeBefore === -1) 
+				&& (end < openAfter || openAfter === -1) ) {
+						// Uncomment
+						state.before = state.before.splice(start, open.length);
+						state.after = state.after.splice(end, close.length);
+		
+						state.ss -= open.length;
+						state.se -= open.length;
+		
+					} else {
+						// Comment
+						if(state.selection) {
+							// Comment selection
+							state.selection = open + state.selection + close;
+						} else {
+							// Comment whole line
+							start = state.before.lastIndexOf('\n') + 1;
+							end = state.after.indexOf('\n');
+				
+							if(end === -1) {
+								end = after.length;
+							}
+				
+							while(/\s/.test(state.before.charAt(start))) {
+								start++;
+							}
+				
+							state.before = state.before.splice(start, 0, open);
+				
+							state.after = state.after.splice(end, 0, close);
+				
+						}
+			
+						state.ss += open.length;
+						state.se += open.length;
+				}
 			}
-		}
-	},
-	
-	
-	update: function(value) {
-		var code = Prism.highlight(value, Prism.languages.markup);
-		this.el.innerHTML = code;
 	}
 }
 </script>

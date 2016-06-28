@@ -18,7 +18,7 @@ module.exports = {
 		},
 		plugins: [
 			new ExtractTextPlugin('styles.css'),
-			new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }})
+		//	new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }})
 		],
 		babel: { presets: ['es2015'], plugins: ['transform-runtime'] },
 		resolve: { modulesDirectories: ['node_modules'] }
