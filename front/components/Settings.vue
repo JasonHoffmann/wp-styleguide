@@ -3,6 +3,7 @@
 	.sg-settings-title {
 		font-size: 36px;
 		margin-bottom: 1em;
+		margin-top: 2em;
 	}
 	.modal-mask {
 	  position: fixed;
@@ -27,19 +28,21 @@
 	}
 	
 	.sg-settings-group {
-		margin: 2em auto;
+		margin: 3em auto;
+		max-width: 350px;
 		
 		.radio-group {
 			display: block;
 			position: relative;
 			width: 100%;
-			float: left;
 			height: 100px;
+			text-align: left;
+			cursor: pointer;
 			
-			// input[type="radio"] {
-			// 	position: absolute;
-			// 	visibility: hidden;
-			// }
+			input[type="radio"] {
+				position: absolute;
+				visibility: hidden;
+			}
 			
 			label {
 				display: block;
@@ -48,13 +51,14 @@
 				margin: 10px auto;
 				height: 30px;
 				transition: all 0.25s;
-				color: #eee;
+				color: #666;
+				cursor: pointer;
 			}
 			
 			.check {
 				display: block;
 				position: absolute;
-				border: 5px solid #eee;
+				border: 5px solid #666;
 				border-radius: 100%;
 				height: 25px;
 				width: 25px;
@@ -76,6 +80,18 @@
 					transition: background 0.25s linear;
 				}
 			}
+			
+			input[type=radio]:checked ~ .check {
+				border: 5px solid #333;
+			}
+
+			input[type=radio]:checked ~ .check::before{
+				background: #333;
+			}
+
+			input[type=radio]:checked ~ label{
+				color: #333;
+			}
 		}
 	}
 
@@ -85,16 +101,41 @@
 		font-weight: 700;
 		margin-bottom: 10px;
 		background: transparent;
+		font-size: 14px;
 	}
 
 	.sg-settings-endpoint {
 		border: none;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px dotted #666;
+		background: transparent !important;
 		border-radius: 0;
+		position: relative;
+		top: -1px;
 	}
 
 	.sg-settings-endpoint:focus {
 		border-bottom-color: #333;
+	}
+	
+	.sg-button-settings-save {
+		border: 1px solid #333;
+		padding: 10px;
+		transition: all 0.25s;
+		&:hover {
+			background: #333;
+			color: #f7f7f7 !important;
+		}
+	}
+	
+	.sg-button__settings-close {
+		position: absolute;
+		top: 1em;
+		right: 2em;
+		svg {
+			width: 25px;
+			height: auto;
+			
+		}
 	}
 }
 </style>
@@ -103,31 +144,20 @@
   <div class="sg-settings modal-mask" v-show="settings.show" transition="modal">
     <div class="modal-wrapper">
       <div class="modal-container sg-stack">
-				<button v-on:click="toggleSettings" class="sg-button sg-button__settings-close">Close</button>
+				<button v-on:click="toggleSettings" class="sg-button sg-button__settings-close"><icon name="cancel"></icon></button>
         <h1 class="sg-font-dark sg-settings-title">Settings</h1>
-        <!-- <div class="toggleWrapper">
-          <div class="after">
-            <span class="sg-setting-title sg-font-light">Public</span>
-            <span class="small sg-font-dark">(Anybody can view)</span>
-          </div>
-          <input type="checkbox" class="checkbox" id="dn" v-model="private"/>
-            <label for="dn" class="toggle"> 
-              <span class="toggle__handler"></span>
-            </label>
-          <div class="after">
-            <span class="sg-setting-title sg-font-light">Private</span>
-            <span class="small">(Logged in users can view)</span>
-          </div>
-        </div> -->
 				
 				<div class="sg-settings-group">
+					<h3 class="sg-settings-input-label">Privacy:</h3>
 					<div class="radio-group">
 						<input type="radio" id="private" value="private" v-model="privacy">
 						<label for="private">Private <br />Only logged in users can view and edit.</label>
+						<div class="check"></div>
 					</div>
 					<div class="radio-group">
 						<input type="radio" id="public" value="public" v-model="privacy">
 						<label for="public">Public <br />Anybody can view, logged in users can edit.</label>
+						<div class="check"></div>
 					</div>
 				</div>
         <div class="sg-settings-group">
@@ -144,7 +174,8 @@
 </template>
 
 <script>
-import { toggleSettings, togglePrivacy } from '../common/actions.js';
+import actions from '../common/actions.js';
+import Icon from './Icon.vue';
 export default {
 	vuex: {
 		getters: {
@@ -156,15 +187,19 @@ export default {
 			}
 		},
 		actions: {
-			toggleSettings: toggleSettings,
-			togglePrivacy: togglePrivacy
+			toggleSettings: actions.toggleSettings,
+			togglePrivacy: actions.togglePrivacy,
+			updateSettings: actions.updateSettings
 		}
+	},
+	
+	components: {
+		Icon
 	},
 	
 	computed: {
 		privacy: {
 			get: function() {
-				console.log(this.settings.private);
 				if( this.settings.private === true ) {
 					return 'private';
 				} else {
@@ -182,25 +217,10 @@ export default {
   methods: {
     saveSettings: function() {
 			this.toggleSettings();
-      // this.updateSettings({
-      //   private: this.private,
-      //   endpoint: this.endpoint
-      // })
-    },
-    
-    updateSettings: function(obj) {
-      this.$http({ 
-          url: styleguide_options.url + '/settings/',
-          method: 'POST',
-					headers: {
-						'X-WP-Nonce' : styleguide_options.nonce
-					},
-          data: obj
-        }).then(function(response) {
-          if( response.data.redirect ) {
-            window.location = styleguide_options.home_url + '/' + this.endpoint;
-          }
-        });
+			this.updateSettings({
+				endpoint: this.settings.endpoint,
+				private: this.settings.private
+			});
     }
   }
 }

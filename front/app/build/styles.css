@@ -113,12 +113,21 @@
         display: none; }
       #styleguide .box-margin {
         margin: 0 10px 0 10px; } }
-  #styleguide .sg-button__settings {
-    display: none; }
+  #styleguide .sg-styles-icon {
+    position: relative;
+    top: 8px;
+    margin: 0 2px; }
+    #styleguide .sg-styles-icon svg {
+      height: 32px; }
 #styleguide .sg-section {
   margin-bottom: 2em;
   padding-bottom: 1em;
-  border-bottom: 1px dotted #ccc; }
+  border-bottom: 1px dotted #ccc;
+  position: relative; }
+
+#styleguide .sg-actions__section {
+  opacity: 1 !important;
+  top: 10px !important; }
 
 #styleguide .sg-section__add {
   text-align: right; }
@@ -126,7 +135,13 @@
 #styleguide .sg-section-title {
   font-size: 32px;
   margin-bottom: 10px;
-  font-weight: bold; }
+  font-weight: bold;
+  background: #f7f7f7;
+  border: none !important;
+  display: block;
+  width: 100%; }
+  #styleguide .sg-section-title:focus {
+    background: white; }
 
 #styleguide .sg-button__add {
   color: #333;
@@ -269,7 +284,8 @@
   opacity: 0; }
 #styleguide .sg-settings-title {
   font-size: 36px;
-  margin-bottom: 1em; }
+  margin-bottom: 1em;
+  margin-top: 2em; }
 
 #styleguide .modal-mask {
   position: fixed;
@@ -292,13 +308,18 @@
   opacity: 0; }
 
 #styleguide .sg-settings-group {
-  margin: 2em auto; }
+  margin: 3em auto;
+  max-width: 350px; }
   #styleguide .sg-settings-group .radio-group {
     display: block;
     position: relative;
     width: 100%;
-    float: left;
-    height: 100px; }
+    height: 100px;
+    text-align: left;
+    cursor: pointer; }
+    #styleguide .sg-settings-group .radio-group input[type="radio"] {
+      position: absolute;
+      visibility: hidden; }
     #styleguide .sg-settings-group .radio-group label {
       display: block;
       position: relative;
@@ -307,11 +328,12 @@
       height: 30px;
       -webkit-transition: all 0.25s;
       transition: all 0.25s;
-      color: #eee; }
+      color: #666;
+      cursor: pointer; }
     #styleguide .sg-settings-group .radio-group .check {
       display: block;
       position: absolute;
-      border: 5px solid #eee;
+      border: 5px solid #666;
       border-radius: 100%;
       height: 25px;
       width: 25px;
@@ -332,21 +354,48 @@
         margin: auto;
         -webkit-transition: background 0.25s linear;
         transition: background 0.25s linear; }
+    #styleguide .sg-settings-group .radio-group input[type=radio]:checked ~ .check {
+      border: 5px solid #333; }
+    #styleguide .sg-settings-group .radio-group input[type=radio]:checked ~ .check::before {
+      background: #333; }
+    #styleguide .sg-settings-group .radio-group input[type=radio]:checked ~ label {
+      color: #333; }
 
 #styleguide .sg-settings-input-label {
   text-transform: uppercase;
   display: block;
   font-weight: 700;
   margin-bottom: 10px;
-  background: transparent; }
+  background: transparent;
+  font-size: 14px; }
 
 #styleguide .sg-settings-endpoint {
   border: none;
-  border-bottom: 1px solid #eee;
-  border-radius: 0; }
+  border-bottom: 1px dotted #666;
+  background: transparent !important;
+  border-radius: 0;
+  position: relative;
+  top: -1px; }
 
 #styleguide .sg-settings-endpoint:focus {
   border-bottom-color: #333; }
+
+#styleguide .sg-button-settings-save {
+  border: 1px solid #333;
+  padding: 10px;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s; }
+  #styleguide .sg-button-settings-save:hover {
+    background: #333;
+    color: #f7f7f7 !important; }
+
+#styleguide .sg-button__settings-close {
+  position: absolute;
+  top: 1em;
+  right: 2em; }
+  #styleguide .sg-button__settings-close svg {
+    width: 25px;
+    height: auto; }
 #styleguide .sg-nav-container {
   position: fixed; }
 
@@ -365,6 +414,20 @@
     padding: 10px;
     box-sizing: border-box;
     border-radius: 5px; }
+
+#styleguide .sg-button__settings svg {
+  width: 14px;
+  height: auto;
+  fill: #333;
+  margin-right: 2px;
+  position: relative;
+  top: 3px; }
+
+#styleguide .sg-button__settings:hover {
+  color: #666 !important; }
+
+#styleguide .sg-button__settings:hover svg {
+  fill: #666; }
 
 #styleguide .sg-nav-sublinks {
   padding: 0;

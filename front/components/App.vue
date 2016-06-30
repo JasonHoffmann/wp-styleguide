@@ -1,19 +1,3 @@
-<template>
-<div>
-	<div class="sg-row sg-main-content">
-	<button @click="showSettings = true" id="settings" class="sg-button sg-button__settings">Settings</button>
-	<settings v-if="showSettings"></settings>
-	<navbar></navbar>
-	<div class="sg-col-9">
-		<wrapper v-for="section in sections" :section="section"></wrapper>
-			<form class="sg-section-title__edit" v-on:submit="addWrapper" v-show="logged_in">
-				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
-				<button class="sg-button">Add</button>
-			</form>
-		</div>
-</div>
-</template>
-
 <style lang="scss">
 #styleguide {
 	background: #f7f7f7;
@@ -201,21 +185,45 @@
 		}
 	}
 	
-	
-	// Settings Button
-	.sg-button__settings {
-		display: none;
+	.sg-styles-icon {
+		position: relative;
+		top: 8px;
+		margin: 0 2px;
+		svg {
+			height: 32px;
+		}
 	}
 }
 
 </style>
 
+<template>
+<div class="sg-row sg-main-content" v-if="onboarded">
+	<settings v-if="showSettings"></settings>
+	<navbar></navbar>
+	<div class="sg-col-9">
+		<wrapper v-for="section in sections" :section="section"></wrapper>
+			<form class="sg-section-title__edit" v-on:submit="addWrapper" v-show="logged_in">
+				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
+				<button class="sg-button">Add</button>
+			</form>
+		</div>
+</div>
+
+<div class="sg-row sg-main-content sg-stack sg-onboarding" v-else>
+	<h3 class="sg-style-title">Welcome to <span class="sg-styles-icon"><icon name="styles"></icon></span>, a plugin for quickly building front-end styleguides.</h3>
+	<p>Let's start by setting a few things up.</p>
+	
+</div>
+</template>
+
 <script>
 import Wrapper from './Wrapper.vue';
 import Settings from './Settings.vue';
 import Navbar from './Navbar.vue';
+import Icon from './Icon.vue';
 import store from '../common/store.js';
-import { getAll, addSection, toggleActive } from '../common/actions.js';
+import actions from '../common/actions.js';
 export default {
 	
   el: '#app',
@@ -235,20 +243,24 @@ export default {
 			},
 			showSettings: function(state) {
 				return state.settings.show;
+			},
+			onboarded: function(state) {
+				return state.settings.onboarded
 			}
 		},
 		
 		actions: {
-			getAll: getAll,
-			addSection: addSection,
-			toggleActive: toggleActive
+			getAll: actions.getAll,
+			addSection: actions.addSection,
+			toggleActive: actions.toggleActive
 		}
 	},
 	
 	components: {
 		Wrapper,
 		Settings,
-		Navbar
+		Navbar,
+		Icon
 	},
 
   ready: function () {

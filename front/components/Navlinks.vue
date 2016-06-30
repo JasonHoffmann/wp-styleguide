@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { toggleActive } from '../common/actions.js';
+import actions from '../common/actions.js';
 
 export default {
   props: {
@@ -33,7 +33,7 @@ export default {
       }
     },
     actions : {
-      toggleActive: toggleActive
+      toggleActive: actions.toggleActive
     }
   },
   

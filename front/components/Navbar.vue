@@ -9,7 +9,7 @@
         :id="section.id"
         :active="active"
         ></navlinks>
-        <li><button v-on:click="toggleSettings" class="sg-button">Settings</button></li>
+        <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
     </ul>
   </nav>
 </template>
@@ -39,6 +39,24 @@
 		}
 	}
 	
+	.sg-button__settings {
+		svg {
+			width: 14px;
+			height: auto;
+			fill: #333;
+			margin-right: 2px;
+			position: relative;
+			top: 3px;
+		}
+		&:hover {
+			color: #666 !important;
+		}
+		
+		&:hover svg {
+			fill: #666;
+		}
+	}
+	
 	.sg-nav-sublinks {
 		padding: 0;
 		padding-left: 10px;
@@ -53,7 +71,8 @@
 
 <script>
 import Navlinks from './Navlinks.vue';
-import { toggleSettings } from '../common/actions.js';
+import Icon from './Icon.vue';
+import actions from '../common/actions.js';
 export default {
   vuex: {
     getters: {
@@ -62,14 +81,18 @@ export default {
       },
       show: function(state) {
         return state.show;
-      }
+      },
+			logged_in: function(state) {
+				return state.logged_in;
+			}
     },
     actions:{
-      toggleSettings: toggleSettings
+      toggleSettings: actions.toggleSettings
     }
   },
   components: {
-    Navlinks
+    Navlinks,
+		Icon
   }
 }
 </script>

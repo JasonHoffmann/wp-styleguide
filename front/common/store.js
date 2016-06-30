@@ -20,6 +20,13 @@ const mutations = {
   ADD_SECTION(state, section) {
     state.sections.push(section);
   },
+	
+	UPDATE_SECTION(state, title, section) {
+		section.title = title;
+	},
+	
+	EDIT_SECTION(state, title, section) {
+	},
   
   RECIEVE_ID(state, section, data) {
     section.id = data.id;
@@ -33,10 +40,14 @@ const mutations = {
   RECIEVE_SECTIONS(state, sections) {
     state.sections = sections;
   },
+	
+	DELETE_SECTION(state, section) {
+		state.sections.$remove(section);
+	},
   
   RECIEVE_SETTINGS(state, settings) {
-    settings.show = false;
-    state.settings = settings;
+		settings.show = false;
+		state.settings = settings;
   },
   
   ADD_STYLE(state, style, section) {
@@ -58,7 +69,7 @@ const mutations = {
   
   DELETE_STYLE(state, index, section) {
     setTimeout( function() {
-        section.styles.splice(index, 1)
+        section.styles.splice(index, 1);
     }, 10);
   },
   
@@ -67,7 +78,7 @@ const mutations = {
   },
 	
 	TOGGLE_PRIVACY(state, section) {
-		state.settings.prviate = !state.settings.private;
+		state.settings.private = !state.settings.private;
 	},
   
   ADD_POSITION(state, pos) {
@@ -76,7 +87,11 @@ const mutations = {
   
   TOGGLE_SETTINGS(state) {
     state.settings.show = !state.settings.show;
-  }
+  },
+	
+	UPDATE_SETTINGS(state, newSettings) {
+		state.settings = Object.assign({}, state.settings, newSettings);
+	}
 }
 
 export default new Vuex.Store({

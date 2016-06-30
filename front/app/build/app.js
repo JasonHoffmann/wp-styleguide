@@ -60,15 +60,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_Vue2.default.use(__webpack_require__(39));
+	_Vue2.default.use(__webpack_require__(76));
 
 	_Vue2.default.directive('prism-directive', _Editor2.default);
 
 	var app = new _Vue2.default(_App2.default);
-
-	var Input = _Vue2.default.extend({
-	  template: '<input value="{{ value }}" />'
-	});
 
 /***/ },
 /* 1 */
@@ -11273,7 +11269,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/App.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(38)
+	__vue_template__ = __webpack_require__(75)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11320,104 +11316,20 @@
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
+	var _Icon = __webpack_require__(17);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
 	var _store = __webpack_require__(36);
 
 	var _store2 = _interopRequireDefault(_store);
 
 	var _actions = __webpack_require__(21);
 
+	var _actions2 = _interopRequireDefault(_actions);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = {
-
-		el: '#app',
-
-		store: _store2.default,
-
-		vuex: {
-			getters: {
-				logged_in: function logged_in(state) {
-					return state.logged_in;
-				},
-				sections: function sections(state) {
-					return state.sections;
-				},
-				sectionPositions: function sectionPositions(state) {
-					return state.sectionPositions;
-				},
-				showSettings: function showSettings(state) {
-					return state.settings.show;
-				}
-			},
-
-			actions: {
-				getAll: _actions.getAll,
-				addSection: _actions.addSection,
-				toggleActive: _actions.toggleActive
-			}
-		},
-
-		components: {
-			Wrapper: _Wrapper2.default,
-			Settings: _Settings2.default,
-			Navbar: _Navbar2.default
-		},
-
-		ready: function ready() {
-			this.getAll();
-
-			var self = this;
-			window.addEventListener('scroll', function () {
-				var y = window.scrollY;
-				if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-					var last = self.sections.length - 1;
-					var id = self.sections[last].id;
-					self.toggleActive({ id: id });
-				} else {
-					for (var i = 0; i < self.sections.length; i++) {
-						if (y >= self.sectionPositions[i] && (self.sectionPositions[i + 1] ? y < self.sectionPositions[i + 1] : true)) {
-							self.toggleActive({ id: self.sections[i].id });
-						}
-					}
-				}
-			});
-		},
-
-		methods: {
-
-			addWrapper: function addWrapper(evt) {
-				evt.preventDefault();
-
-				var newTitle = evt.target[0].value;
-				evt.target[0].value = '';
-				var len = this.sections.length + 1;
-				this.addSection({
-					title: newTitle,
-					order: len,
-					id: 0,
-					styles: []
-				});
-			}
-
-		}
-	};
-	// </script>
-	// <template>
-	// <div>
-	// 	<div class="sg-row sg-main-content">
-	// 	<button @click="showSettings = true" id="settings" class="sg-button sg-button__settings">Settings</button>
-	// 	<settings v-if="showSettings"></settings>
-	// 	<navbar></navbar>
-	// 	<div class="sg-col-9">
-	// 		<wrapper v-for="section in sections" :section="section"></wrapper>
-	// 			<form class="sg-section-title__edit" v-on:submit="addWrapper" v-show="logged_in">
-	// 				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
-	// 				<button class="sg-button">Add</button>
-	// 			</form>
-	// 		</div>
-	// </div>
-	// </template>
-	//
 	// <style lang="scss">
 	// #styleguide {
 	// 	background: #f7f7f7;
@@ -11605,16 +11517,117 @@
 	// 		}
 	// 	}
 	//
-	//
-	// 	// Settings Button
-	// 	.sg-button__settings {
-	// 		display: none;
+	// 	.sg-styles-icon {
+	// 		position: relative;
+	// 		top: 8px;
+	// 		margin: 0 2px;
+	// 		svg {
+	// 			height: 32px;
+	// 		}
 	// 	}
 	// }
 	//
 	// </style>
 	//
+	// <template>
+	// <div class="sg-row sg-main-content" v-if="onboarded">
+	// 	<settings v-if="showSettings"></settings>
+	// 	<navbar></navbar>
+	// 	<div class="sg-col-9">
+	// 		<wrapper v-for="section in sections" :section="section"></wrapper>
+	// 			<form class="sg-section-title__edit" v-on:submit="addWrapper" v-show="logged_in">
+	// 				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
+	// 				<button class="sg-button">Add</button>
+	// 			</form>
+	// 		</div>
+	// </div>
+	//
+	// <div class="sg-row sg-main-content sg-stack sg-onboarding" v-else>
+	// 	<h3 class="sg-style-title">Welcome to <span class="sg-styles-icon"><icon name="styles"></icon></span>, a plugin for quickly building front-end styleguides.</h3>
+	// 	<p>Let's start by setting a few things up.</p>
+	//
+	// </div>
+	// </template>
+	//
 	// <script>
+	exports.default = {
+
+		el: '#app',
+
+		store: _store2.default,
+
+		vuex: {
+			getters: {
+				logged_in: function logged_in(state) {
+					return state.logged_in;
+				},
+				sections: function sections(state) {
+					return state.sections;
+				},
+				sectionPositions: function sectionPositions(state) {
+					return state.sectionPositions;
+				},
+				showSettings: function showSettings(state) {
+					return state.settings.show;
+				},
+				onboarded: function onboarded(state) {
+					return state.settings.onboarded;
+				}
+			},
+
+			actions: {
+				getAll: _actions2.default.getAll,
+				addSection: _actions2.default.addSection,
+				toggleActive: _actions2.default.toggleActive
+			}
+		},
+
+		components: {
+			Wrapper: _Wrapper2.default,
+			Settings: _Settings2.default,
+			Navbar: _Navbar2.default,
+			Icon: _Icon2.default
+		},
+
+		ready: function ready() {
+			this.getAll();
+
+			var self = this;
+			window.addEventListener('scroll', function () {
+				var y = window.scrollY;
+				if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+					var last = self.sections.length - 1;
+					var id = self.sections[last].id;
+					self.toggleActive({ id: id });
+				} else {
+					for (var i = 0; i < self.sections.length; i++) {
+						if (y >= self.sectionPositions[i] && (self.sectionPositions[i + 1] ? y < self.sectionPositions[i + 1] : true)) {
+							self.toggleActive({ id: self.sections[i].id });
+						}
+					}
+				}
+			});
+		},
+
+		methods: {
+
+			addWrapper: function addWrapper(evt) {
+				evt.preventDefault();
+
+				var newTitle = evt.target[0].value;
+				evt.target[0].value = '';
+				var len = this.sections.length + 1;
+				this.addSection({
+					title: newTitle,
+					order: len,
+					id: 0,
+					styles: []
+				});
+			}
+
+		}
+	};
+	// </script>
 
 /***/ },
 /* 11 */
@@ -11658,7 +11671,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _Style = __webpack_require__(14);
@@ -11671,20 +11684,33 @@
 
 	var _actions = __webpack_require__(21);
 
+	var _actions2 = _interopRequireDefault(_actions);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	; // <template>
 	//   <section id="{{section.slug }}" class="sg-section">
-	//     <div v-bind:id="slug"></div>
-	// 			<h3 class="sg-stack sg-section-title" v-if="!editing">{{ section.title }}</h3>
-	//       <input v-if="editing" class="sg-stack sg-font-dark sg-section-title sg-style-title" v-on:change="editTitle()" v-model="title" />
-	//       <style v-for="style in section.styles" :style="style" :index="$index" :section="section"></style>
-	//       <section class="sg-section sg-stack sg-section__add" v-show="logged_in">
-	//           <button v-on:click="pushStyle()" class="sg-button sg-button__add">
-	// 						<icon name="add"></icon>
-	// 						Add New Element
-	// 					</button>
-	//       </section>
+	//
+	// 		<div class="sg-section-wrap">
+	// 			<h3 class="sg-stack sg-section-title" v-if="!logged_in">{{ section.title }}</h3>
+	// 	    <input v-if="logged_in" class="sg-stack sg-font-dark sg-section-title" v-model="title" v-on:focus="enterEditing" v-on:blur="pushEdit" v-on:keyup.enter="pushEdit" />
+	//
+	// 			<span v-on:click="removeSection" v-show="logged_in && editing" class="sg-actions sg-actions__section">
+	// 				<button class="sg-button__action">
+	// 					<icon name="delete"></icon>
+	// 				</button>
+	// 			</span>
+	// 		</div>
+	//
+	//     <style v-for="style in section.styles" :style="style" :index="$index" :section="section"></style>
+	//
+	//     <section class="sg-section sg-stack sg-section__add" v-show="logged_in">
+	//         <button v-on:click="pushStyle()" class="sg-button sg-button__add">
+	// 					<icon name="add"></icon>
+	// 					Add New Element
+	// 				</button>
+	//     </section>
+	//
 	//   </section>
 	// </template>
 	//
@@ -11694,6 +11720,12 @@
 	// 		margin-bottom: 2em;
 	// 		padding-bottom: 1em;
 	// 		border-bottom: 1px dotted #ccc;
+	// 		position: relative;
+	// 	}
+	// 	.sg-actions__section {
+	// 		opacity: 1 !important;
+	// 		top: 10px !important;
+	//
 	// 	}
 	// 	.sg-section__add {
 	// 		text-align: right;
@@ -11702,6 +11734,14 @@
 	// 		font-size: 32px;
 	// 		margin-bottom: 10px;
 	// 		font-weight: bold;
+	// 		background: #f7f7f7;
+	// 		border: none !important;
+	// 		display: block;
+	// 		width: 100%;
+	//
+	// 		&:focus {
+	// 			background: white;
+	// 		}
 	// 	}
 	// 	.sg-button__add {
 	// 		color: #333;
@@ -11727,48 +11767,77 @@
 	// <script>
 
 	exports.default = {
-	  props: ['section'],
+		props: ['section'],
 
-	  data: function data() {
-	    return {
-	      editing: false
-	    };
-	  },
+		data: function data() {
+			return {
+				editing: false
+			};
+		},
 
-	  vuex: {
-	    getters: {
-	      logged_in: function logged_in(state) {
-	        return state.logged_in;
-	      }
-	    },
-	    actions: {
-	      addStyle: _actions.addStyle,
-	      addSectionPositions: _actions.addSectionPositions
-	    }
-	  },
+		computed: {
+			title: {
+				get: function get() {
+					return this.section.title;
+				},
+				set: function set(val) {
+					this.pushUpdate(val);
+				}
+			}
+		},
 
-	  ready: function ready() {
-	    if (this.$el) {
-	      var pos = this.$el.getBoundingClientRect().top + window.scrollY - parseInt(getComputedStyle(this.$el).marginTop, 10);
-	      this.addSectionPositions(pos);
-	    }
-	  },
+		vuex: {
+			getters: {
+				logged_in: function logged_in(state) {
+					return state.logged_in;
+				}
+			},
+			actions: {
+				addStyle: _actions2.default.addStyle,
+				addSectionPositions: _actions2.default.addSectionPositions,
+				deleteSection: _actions2.default.deleteSection,
+				updateSection: _actions2.default.updateSection,
+				editSection: _actions2.default.editSection
+			}
+		},
 
-	  components: {
-	    Style: _Style2.default,
-	    Icon: _Icon2.default
-	  },
+		ready: function ready() {
+			if (this.$el) {
+				var pos = this.$el.getBoundingClientRect().top + window.scrollY - parseInt(getComputedStyle(this.$el).marginTop, 10);
+				this.addSectionPositions(pos);
+			}
+		},
 
-	  methods: {
-	    pushStyle: function pushStyle() {
-	      var newStyle = {
-	        title: '',
-	        html: '',
-	        id: 0
-	      };
-	      this.addStyle(newStyle, this.section);
-	    }
-	  }
+		components: {
+			Style: _Style2.default,
+			Icon: _Icon2.default
+		},
+
+		methods: {
+			enterEditing: function enterEditing() {
+				this.editing = true;
+			},
+			pushStyle: function pushStyle() {
+				var newStyle = {
+					title: '',
+					html: '',
+					id: 0
+				};
+				this.addStyle(newStyle, this.section);
+			},
+
+			pushUpdate: function (val) {
+				this.updateSection(val, this.section);
+			}.debounce(300),
+
+			pushEdit: function pushEdit() {
+				this.editing = false;
+				this.editSection(this.title, this.section);
+			},
+			removeSection: function removeSection() {
+				this.deleteSection(this.section);
+			}
+		}
 	};
 	// </script>
 
@@ -11827,6 +11896,8 @@
 
 	var _actions = __webpack_require__(21);
 
+	var _actions2 = _interopRequireDefault(_actions);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
@@ -11834,8 +11905,8 @@
 
 	  vuex: {
 	    actions: {
-	      updateStyle: _actions.updateStyle,
-	      removeStyle: _actions.removeStyle
+	      updateStyle: _actions2.default.updateStyle,
+	      removeStyle: _actions2.default.removeStyle
 	    }
 	  },
 
@@ -12184,6 +12255,12 @@
 		value: true
 	});
 	exports.default = {
+		styles: {
+			title: 'Styles',
+			width: 100,
+			height: 50,
+			g: '	<path class="st0" d="M27,7.1c0.1,0.4,0.1,0.7,0.2,0.9c0,0.2,0.1,0.4,0.1,0.7c0,0.8-0.2,1.6-0.6,2.3s-0.9,1.2-1.5,1.5	c-0.5-0.7-1.1-1.3-1.9-1.8c-0.7-0.5-1.5-0.9-2.4-1.2C20,9.2,19.1,9,18.2,8.8c-0.9-0.2-1.9-0.2-2.7-0.2c-0.9,0-1.7,0.1-2.5,0.2	c-0.8,0.1-1.5,0.3-2.1,0.6c-0.6,0.2-1.1,0.5-1.4,0.9C9.1,10.6,9,11.1,9,11.5c0.1,0.6,0.4,1.1,1,1.7c0.6,0.6,1.4,1.1,2.2,1.7	c0.9,0.5,1.9,1.1,3,1.6c1.1,0.5,2.1,1,3.2,1.5c1.3,0.6,2.4,1.2,3.4,1.7c0.9,0.5,1.7,1.1,2.3,1.7c0.6,0.6,1.1,1.3,1.4,2.1		c0.3,0.8,0.5,1.7,0.5,2.9c0,1.3-0.2,2.5-0.6,3.6c-0.4,1.1-1.1,2.1-1.9,3c-0.8,0.8-1.8,1.5-3,2c-1.2,0.5-2.5,0.7-3.9,0.7		c-1.4,0-3-0.2-4.6-0.6c-1.7-0.4-3.2-1-4.6-1.8c-1.4-0.7-2.6-1.6-3.6-2.6s-1.4-2-1.4-3.1c0-0.5,0.1-1.2,0.4-1.9		c0.3-0.8,0.8-1.6,1.6-2.5c0.1,0.8,0.5,1.7,1.2,2.7c0.7,1,1.9,2,3.4,2.9c1.4,0.8,2.8,1.4,4.3,1.8c1.5,0.4,2.9,0.6,4.2,0.6		c1.4,0,2.6-0.2,3.5-0.5c0.9-0.4,1.6-0.8,2.1-1.3c0.5-0.5,0.9-1,1.1-1.5c0.2-0.5,0.3-0.9,0.3-1.2c0-0.5-0.3-1-0.7-1.5		c-0.4-0.5-1-0.9-1.8-1.4c-0.7-0.4-1.6-0.9-2.6-1.4s-2-0.9-3.1-1.4c-1.6-0.7-3-1.4-4.1-2c-1.2-0.6-2.1-1.3-2.9-1.9		c-0.7-0.6-1.3-1.3-1.6-2c-0.3-0.7-0.5-1.5-0.5-2.4c0-1.4,0.4-2.8,1.3-4c0.9-1.3,2.1-2.2,3.7-2.9c0.8-0.4,1.7-0.6,2.6-0.8	c0.9-0.2,1.8-0.2,2.7-0.2c1.7,0,3.3,0.2,4.9,0.7C23.8,5.8,25.4,6.4,27,7.1z"/><path class="st0" d="M30.1,18.2c-0.1-0.2-0.2-0.5-0.3-1c-0.1-0.5-0.2-0.9-0.2-1.3c0.7,0.1,1.3,0.2,1.9,0.2s1.2,0,1.7,0		c0.4-0.8,0.8-1.5,1.2-2.2c0.4-0.7,0.9-1.4,1.3-2c0.4-0.6,0.8-1.1,1.2-1.6c0.4-0.4,0.7-0.7,0.9-0.8c0.3,0,0.6,0,1,0.1	c0.4,0.1,0.8,0.2,1.2,0.3c0.4,0.1,0.8,0.3,1.1,0.4c0.3,0.2,0.6,0.3,0.7,0.5c-0.8,1-1.4,1.8-2,2.7c-0.5,0.8-1.1,1.8-1.8,2.8	c0.5,0,1,0,1.5,0s1,0,1.6-0.1c0.1,0.1,0.2,0.3,0.3,0.5s0.1,0.4,0.1,0.6c-1.2,0.5-2.8,0.7-4.5,0.7c-0.6,1.2-1.2,2.4-1.7,3.6	c-0.5,1.2-0.9,2.4-1.3,3.5s-0.6,2.2-0.8,3.2s-0.3,1.9-0.3,2.7c0,1.1,0.4,1.7,1.3,1.9c0.8-0.1,1.5-0.3,2.2-0.6		c0.7-0.3,1.3-0.6,1.8-1.1c0.2,0.2,0.2,0.4,0.3,0.6c-0.2,0.2-0.4,0.5-0.8,0.8c-0.4,0.3-0.8,0.6-1.2,0.9c-0.4,0.3-0.9,0.5-1.3,0.7		c-0.4,0.2-0.7,0.3-0.9,0.3c-0.6,0-1.3-0.1-1.9-0.4c-0.6-0.3-1.2-0.6-1.7-1c-0.5-0.4-0.9-0.8-1.3-1.3c-0.3-0.5-0.5-0.9-0.5-1.4		c0-0.6,0.1-1.4,0.2-2.3c0.2-0.9,0.4-1.9,0.7-3s0.7-2.2,1.1-3.4c0.4-1.2,0.9-2.4,1.3-3.5H30.1z"/><path class="st0" d="M55.5,26.9c-0.6,1.9-1.2,3.5-1.8,5.1c-0.6,1.5-1.2,2.9-1.9,4.2c-0.7,1.3-1.4,2.5-2.1,3.5	c-0.8,1.1-1.6,2.1-2.5,3.1c-1.2,1.2-2.4,2.2-3.6,2.8s-2.5,1-3.7,1c-0.6,0-1.3-0.1-1.9-0.2c-0.6-0.1-1.2-0.3-1.8-0.6	c-0.5-0.2-1-0.5-1.4-0.8c-0.4-0.3-0.7-0.7-0.9-1c0-0.3,0.2-0.6,0.5-0.8c0.3,0.3,0.6,0.5,0.8,0.6c0.2,0.2,0.4,0.3,0.6,0.4	c0.2,0.1,0.4,0.2,0.6,0.2c0.2,0,0.5,0,0.7,0c1.4,0,2.9-0.4,4.2-1.3c1.4-0.9,2.7-2.1,3.9-3.6c1.2-1.6,2.4-3.5,3.4-5.7	c1-2.2,1.9-4.7,2.6-7.4c-0.3,0.5-0.7,1.1-1.2,1.9c-0.5,0.7-1,1.5-1.6,2.2s-1.2,1.4-1.8,2c-0.6,0.6-1.2,1-1.8,1.2		c-0.4,0-0.8-0.1-1.3-0.2c-0.4-0.1-0.9-0.3-1.3-0.6c-0.4-0.3-0.7-0.6-1-0.9s-0.5-0.8-0.6-1.2c0-0.7,0-1.3,0.1-1.8	c0.1-0.4,0.1-0.9,0.3-1.5c0.2-1,0.6-2.1,1-3.3c0.4-1.2,1-2.4,1.6-3.6s1.3-2.3,2-3.3c0.7-1,1.5-1.8,2.3-2.4c0.2,0,0.5,0,0.8,0.1	c0.3,0,0.6,0.1,1,0.2c0.3,0.1,0.6,0.2,1,0.4c0.3,0.1,0.6,0.3,0.8,0.6c-0.3,0.3-0.9,1.1-1.8,2.6c-0.9,1.4-2,3.5-3.1,6.2	c-0.1,0.3-0.3,0.7-0.5,1.2c-0.2,0.5-0.3,1.1-0.5,1.7c-0.2,0.6-0.3,1.2-0.4,1.7c-0.1,0.6-0.2,1-0.2,1.3c0,0.2,0,0.4,0.1,0.5		c0.1,0.1,0.1,0.2,0.2,0.2c0.5-0.1,1.1-0.5,1.8-1.1c0.8-0.7,1.6-1.7,2.6-3.1c0.6-0.9,1.2-1.8,1.7-2.7c0.5-0.9,1-1.8,1.5-2.7	c0.5-0.9,1-1.9,1.5-2.8c0.5-1,1.1-2,1.7-3c0.3,0,0.7,0,1.1,0.1s0.7,0.2,1.1,0.3s0.7,0.2,0.9,0.4c0.3,0.1,0.5,0.3,0.6,0.4	c-0.8,1.7-1.5,3.3-2.2,4.9C56.7,23.5,56.1,25.2,55.5,26.9z"/><path class="st0" d="M59.8,30.3c0-1.1,0.3-2.7,0.8-4.7c0.5-2,1.3-4.4,2.2-7.1c1.6-4.3,3.1-7.9,4.4-10.7C68.7,5,70,2.7,71.3,1.1	c0.3,0.1,0.7,0.2,1.1,0.4c0.4,0.2,0.9,0.4,1.3,0.7c0.4,0.2,0.8,0.5,1.2,0.7c0.3,0.3,0.6,0.5,0.7,0.6c-2,2.3-3.7,4.9-5.2,7.5	c-1.5,2.7-2.9,5.8-4.1,9.3c-1.1,3-1.9,5.7-2.4,8.1s-0.8,4.4-0.8,6c0,0.4,0,0.7,0,0.8c0,0.1,0,0.2,0,0.3c-0.4-0.1-0.7-0.1-0.9-0.3	c-0.3-0.1-0.4-0.3-0.5-0.5c-0.1-0.1-0.2-0.3-0.4-0.6c-0.2-0.2-0.4-0.4-0.6-0.6c-0.2-0.2-0.4-0.6-0.6-1.2S59.8,31.1,59.8,30.3z"/>	<path class="st0" d="M82.3,17c-0.1,1.6-0.4,2.9-0.8,4.1c-0.5,1.1-1.1,2.1-2,3c-0.9,0.9-1.9,1.6-3.1,2.3c-1.2,0.7-2.6,1.3-4.3,2	c0,0.2,0,0.3,0,0.5c0,0.2,0,0.3,0,0.5c0,0.3,0,0.7,0.1,1c0.1,0.4,0.1,0.7,0.3,1c0.1,0.3,0.3,0.6,0.5,0.7s0.5,0.3,0.9,0.3		c0.7,0,1.4-0.2,2-0.5s1.3-0.7,1.9-1.1s1.2-0.9,1.7-1.4c0.5-0.5,1-1,1.4-1.4c0.3,0.2,0.5,0.4,0.6,0.6c-1.1,1.5-2.4,2.8-3.8,3.8		s-2.6,1.6-3.9,1.9c-1.8-0.2-3.1-0.8-4.1-1.9s-1.5-2.4-1.5-3.9c0-1,0.1-2.1,0.4-3.2c0.3-1.1,0.7-2.1,1.2-3.1c0.5-1,1.1-1.9,1.8-2.8		c0.7-0.9,1.4-1.7,2.2-2.3c0.8-0.7,1.6-1.2,2.5-1.6c0.9-0.4,1.7-0.6,2.5-0.6C80.2,15,81.3,15.7,82.3,17z M79.7,18.3		c-0.7,0.1-1.4,0.4-2.1,0.8s-1.4,1.1-2.1,1.8s-1.2,1.7-1.8,2.7c-0.5,1-1,2.1-1.3,3.3c2-1,3.7-2.3,5.1-3.8		C78.9,21.6,79.6,20,79.7,18.3z"/>	<path class="st0" d="M97.2,17.5c0,0.5-0.1,1-0.2,1.5c-0.1,0.5-0.3,1-0.5,1.4c-0.2,0.4-0.4,0.8-0.6,1c-0.2,0.3-0.4,0.4-0.6,0.4		c-0.3,0-0.4-0.2-0.5-0.6c0-0.1,0-0.2,0.1-0.4c0.1-0.2,0.1-0.3,0.2-0.6c0.1-0.2,0.1-0.4,0.2-0.6c0.1-0.2,0.1-0.4,0.1-0.5	c0-0.4-0.1-0.7-0.2-0.9c-0.2-0.2-0.4-0.4-0.7-0.4c-1,0-1.8,0.6-2.3,1.9c-0.5,1.3-0.8,3.1-0.8,5.6c0,0.3,0,0.4,0,0.5	c0.5,0,1,0,1.4,0s0.8,0,1.2,0c0,0.1,0,0.2,0,0.3c0,0.2-0.1,0.4-0.2,0.5c-0.6,0.1-1,0.2-1.4,0.3s-0.6,0.2-0.8,0.2	c-0.2,0.1-0.3,0.2-0.3,0.2c0,0.1-0.1,0.2-0.1,0.4c0,0.2,0,0.4,0,0.6c0,0.2,0,0.5,0,0.8c0,2.1-0.6,3.8-1.7,5.1		c-1.2,1.3-2.8,2-4.8,2.2c-0.4,0-0.7-0.1-1.1-0.3c-0.4-0.2-0.7-0.4-1.1-0.7c-0.3-0.3-0.6-0.6-0.9-0.9c-0.3-0.3-0.4-0.7-0.5-1		c0-1,0.2-1.9,0.6-2.8c0.4-0.9,1-1.7,1.7-2.3c0.7-0.7,1.5-1.2,2.5-1.7c1-0.4,2-0.6,3.1-0.6c0-0.6-0.1-1.3-0.2-1.9s-0.3-1.2-0.4-1.8		S88.1,21.5,88,21c-0.1-0.5-0.2-1.1-0.2-1.6c0-0.7,0.1-1.4,0.4-2c0.3-0.7,0.6-1.3,1.1-1.9s1-1.1,1.6-1.5s1.2-0.7,1.9-0.8		c0.3,0.1,0.7,0.3,1.1,0.7s0.9,0.8,1.4,1.2s0.9,0.9,1.2,1.4C96.9,16.9,97.1,17.2,97.2,17.5z M84.6,34.9c0.6-0.3,1.2-0.6,1.7-1.1	s1-1,1.4-1.6c0.4-0.6,0.7-1.3,1-1.9c0.2-0.7,0.4-1.4,0.4-2c-0.5,0.1-1.1,0.3-1.7,0.7c-0.6,0.4-1.2,0.9-1.7,1.4	c-0.5,0.5-1,1.1-1.3,1.7c-0.4,0.6-0.5,1.1-0.5,1.5C83.9,34.1,84.1,34.6,84.6,34.9z"/>'
+		},
 		save: {
 			title: 'Save',
 			width: 19,
@@ -12224,6 +12301,13 @@
 			width: 19,
 			height: 19,
 			g: '<path d="M16.218,2.782 C14.424,0.988 12.038,0 9.5,0 C6.962,0 4.577,0.988 2.782,2.782 C0.987,4.576 0,6.962 0,9.499 C0,12.036 0.988,14.422 2.782,16.217 C4.576,18.012 6.962,18.999 9.5,18.999 C12.038,18.999 14.423,18.011 16.218,16.217 C18.013,14.423 19,12.037 19,9.499 C19,6.961 18.012,4.576 16.218,2.782 L16.218,2.782 Z M9.5,18 C4.813,18 1,14.187 1,9.5 C1,4.813 4.813,1 9.5,1 C14.187,1 18,4.813 18,9.5 C18,14.187 14.187,18 9.5,18 L9.5,18 Z"></path><path d="M15.5,9 L10,9 L10,3.5 C10,3.224 9.776,3 9.5,3 C9.224,3 9,3.224 9,3.5 L9,9 L3.5,9 C3.224,9 3,9.224 3,9.5 C3,9.776 3.224,10 3.5,10 L9,10 L9,15.5 C9,15.776 9.224,16 9.5,16 C9.776,16 10,15.776 10,15.5 L10,10 L15.5,10 C15.776,10 16,9.776 16,9.5 C16,9.224 15.776,9 15.5,9 L15.5,9 Z"></path>'
+		},
+
+		cog: {
+			title: 'Settings',
+			width: 20,
+			height: 20,
+			g: '<path d="M7.631,19.702 C7.59,19.702 7.548,19.697 7.506,19.686 C6.608,19.455 5.745,19.099 4.942,18.627 C4.709,18.49 4.627,18.193 4.756,17.956 C4.915,17.664 4.999,17.334 4.999,16.999 C4.999,15.896 4.102,14.999 2.999,14.999 C2.665,14.999 2.334,15.083 2.042,15.242 C1.805,15.371 1.508,15.289 1.371,15.056 C0.899,14.252 0.543,13.39 0.312,12.492 C0.247,12.238 0.389,11.977 0.637,11.894 C1.451,11.62 1.999,10.858 1.999,9.999 C1.999,9.14 1.452,8.378 0.637,8.104 C0.389,8.02 0.247,7.76 0.312,7.506 C0.543,6.608 0.899,5.745 1.371,4.942 C1.508,4.709 1.805,4.627 2.042,4.756 C2.333,4.915 2.664,4.999 2.999,4.999 C4.102,4.999 4.999,4.102 4.999,2.999 C4.999,2.665 4.915,2.334 4.756,2.042 C4.627,1.805 4.709,1.508 4.942,1.371 C5.746,0.899 6.608,0.543 7.506,0.312 C7.76,0.247 8.021,0.389 8.104,0.637 C8.378,1.451 9.14,1.999 9.999,1.999 C10.858,1.999 11.62,1.452 11.894,0.637 C11.978,0.389 12.239,0.247 12.492,0.312 C13.39,0.543 14.253,0.899 15.056,1.371 C15.289,1.508 15.371,1.805 15.242,2.042 C15.083,2.334 14.999,2.664 14.999,2.999 C14.999,4.102 15.896,4.999 16.999,4.999 C17.333,4.999 17.664,4.915 17.956,4.756 C18.193,4.627 18.49,4.709 18.627,4.942 C19.099,5.746 19.455,6.608 19.686,7.506 C19.751,7.76 19.609,8.021 19.361,8.104 C18.547,8.378 17.999,9.14 17.999,9.999 C17.999,10.858 18.546,11.62 19.361,11.894 C19.609,11.978 19.751,12.238 19.686,12.492 C19.455,13.39 19.099,14.253 18.627,15.056 C18.49,15.289 18.193,15.371 17.956,15.242 C17.664,15.083 17.334,14.999 16.999,14.999 C15.896,14.999 14.999,15.896 14.999,16.999 C14.999,17.333 15.083,17.664 15.242,17.956 C15.371,18.193 15.289,18.49 15.056,18.627 C14.252,19.099 13.39,19.455 12.492,19.686 C12.238,19.751 11.977,19.609 11.894,19.361 C11.62,18.547 10.858,17.999 9.999,17.999 C9.14,17.999 8.378,18.546 8.104,19.361 C8.034,19.568 7.84,19.702 7.63,19.702 L7.631,19.702 Z M10,17 C11.127,17 12.142,17.628 12.655,18.602 C13.175,18.441 13.681,18.233 14.165,17.98 C14.057,17.666 14.001,17.334 14.001,17 C14.001,15.346 15.347,14 17.001,14 C17.335,14 17.667,14.056 17.981,14.164 C18.234,13.68 18.443,13.175 18.603,12.654 C17.629,12.142 17.001,11.127 17.001,9.999 C17.001,8.871 17.629,7.857 18.603,7.344 C18.442,6.824 18.234,6.318 17.981,5.834 C17.667,5.942 17.335,5.998 17.001,5.998 C15.347,5.998 14.001,4.652 14.001,2.998 C14.001,2.664 14.057,2.332 14.165,2.018 C13.681,1.765 13.176,1.556 12.655,1.396 C12.143,2.37 11.128,2.998 10,2.998 C8.872,2.998 7.858,2.37 7.345,1.396 C6.825,1.556 6.319,1.765 5.835,2.018 C5.943,2.332 5.999,2.664 5.999,2.998 C5.999,4.652 4.653,5.998 2.999,5.998 C2.665,5.998 2.333,5.942 2.019,5.834 C1.766,6.318 1.557,6.823 1.397,7.344 C2.371,7.856 2.999,8.871 2.999,9.999 C2.999,11.127 2.371,12.141 1.397,12.654 C1.557,13.174 1.766,13.68 2.019,14.164 C2.333,14.056 2.665,14 2.999,14 C4.653,14 5.999,15.346 5.999,17 C5.999,17.334 5.943,17.666 5.835,17.98 C6.319,18.233 6.824,18.442 7.345,18.602 C7.857,17.628 8.872,17 10,17 L10,17 Z" id="Shape"></path><path d="M10,13 C8.346,13 7,11.654 7,10 C7,8.346 8.346,7 10,7 C11.654,7 13,8.346 13,10 C13,11.654 11.654,13 10,13 L10,13 Z M10,8 C8.897,8 8,8.897 8,10 C8,11.103 8.897,12 10,12 C11.103,12 12,11.103 12,10 C12,8.897 11.103,8 10,8 L10,8 Z"></path>'
 		}
 
 	};
@@ -12241,9 +12325,8 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
-	exports.togglePrivacy = exports.toggleSettings = exports.addSectionPositions = exports.toggleActive = exports.removeStyle = exports.updateStyle = exports.addStyle = exports.addSection = exports.getAll = undefined;
 
 	var _api = __webpack_require__(22);
 
@@ -12251,61 +12334,90 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var getAll = exports.getAll = function getAll(store) {
-	  var dispatch = store.dispatch;
-	  _api2.default.getAll().then(function (response) {
-	    dispatch('RECIEVE_SECTIONS', response.data.sections);
-	    console.log(response);
-	    dispatch('RECIEVE_SETTINGS', response.data.settings);
-	  });
-	};
+	exports.default = {
+		getAll: function getAll(store) {
+			var dispatch = store.dispatch;
+			_api2.default.getAll().then(function (response) {
+				dispatch('RECIEVE_SECTIONS', response.data.sections);
+				console.log(response);
+				dispatch('RECIEVE_SETTINGS', response.data.settings);
+			});
+		},
 
-	var addSection = exports.addSection = function addSection(store, section) {
-	  var dispatch = store.dispatch;
-	  dispatch('ADD_SECTION', section);
-	  _api2.default.addSection(section).then(function (response) {
-	    dispatch('RECIEVE_ID', section, response.data);
-	  });
-	};
+		addSection: function addSection(store, section) {
+			var dispatch = store.dispatch;
+			dispatch('ADD_SECTION', section);
+			_api2.default.addSection(section).then(function (response) {
+				dispatch('RECIEVE_ID', section, response.data);
+			});
+		},
 
-	var addStyle = exports.addStyle = function addStyle(store, style, section) {
-	  var dispatch = store.dispatch;
-	  dispatch('ADD_STYLE', style, section);
-	  _api2.default.addStyle(style, section).then(function (response) {
-	    dispatch('RECIEVE_STYLE_ID', section, response.data.id);
-	  });
-	};
+		updateSection: function updateSection(store, title, section) {
+			var dispatch = store.dispatch;
+			dispatch('UPDATE_SECTION', title, section);
+		},
 
-	var updateStyle = exports.updateStyle = function updateStyle(store, data, style) {
-	  var dispatch = store.dispatch;
-	  dispatch('EDIT_STYLE', data, style);
-	  _api2.default.editStyle(data);
-	};
+		editSection: function editSection(store, title, section) {
+			var dispatch = store.dispatch;
+			dispatch('UPDATE_SECTION', title, section);
+			_api2.default.editSection(section, { title: title });
+		},
 
-	var removeStyle = exports.removeStyle = function removeStyle(store, index, section, id) {
-	  var dispatch = store.dispatch;
-	  dispatch('DELETE_STYLE', index, section);
-	  _api2.default.deleteStyle(id);
-	};
+		deleteSection: function deleteSection(store, section) {
+			var dispatch = store.dispatch;
+			dispatch('DELETE_SECTION', section);
+		},
 
-	var toggleActive = exports.toggleActive = function toggleActive(store, section) {
-	  var dispatch = store.dispatch;
-	  dispatch('TOGGLE_ACTIVE', section);
-	};
+		addStyle: function addStyle(store, style, section) {
+			var dispatch = store.dispatch;
+			dispatch('ADD_STYLE', style, section);
+			_api2.default.addStyle(style, section).then(function (response) {
+				dispatch('RECIEVE_STYLE_ID', section, response.data.id);
+			});
+		},
 
-	var addSectionPositions = exports.addSectionPositions = function addSectionPositions(store, pos) {
-	  var dispatch = store.dispatch;
-	  dispatch('ADD_POSITION', pos);
-	};
+		updateStyle: function updateStyle(store, data, style) {
+			var dispatch = store.dispatch;
+			dispatch('EDIT_STYLE', data, style);
+			_api2.default.editStyle(data);
+		},
 
-	var toggleSettings = exports.toggleSettings = function toggleSettings(store) {
-	  var dispatch = store.dispatch;
-	  dispatch('TOGGLE_SETTINGS');
-	};
+		removeStyle: function removeStyle(store, index, section, id) {
+			var dispatch = store.dispatch;
+			dispatch('DELETE_STYLE', index, section);
+			_api2.default.deleteStyle(id);
+		},
 
-	var togglePrivacy = exports.togglePrivacy = function togglePrivacy(store) {
-	  var dispatch = store.dispatch;
-	  dispatch('TOGGLE_PRIVACY');
+		toggleActive: function toggleActive(store, section) {
+			var dispatch = store.dispatch;
+			dispatch('TOGGLE_ACTIVE', section);
+		},
+
+		addSectionPositions: function addSectionPositions(store, pos) {
+			var dispatch = store.dispatch;
+			dispatch('ADD_POSITION', pos);
+		},
+
+		toggleSettings: function toggleSettings(store) {
+			var dispatch = store.dispatch;
+			dispatch('TOGGLE_SETTINGS');
+		},
+
+		togglePrivacy: function togglePrivacy(store) {
+			var dispatch = store.dispatch;
+			dispatch('TOGGLE_PRIVACY');
+		},
+
+		updateSettings: function updateSettings(store, newSettings) {
+			var dispatch = store.dispatch;
+			dispatch('UPDATE_SETTINGS', newSettings);
+			_api2.default.updateSettings(newSettings).then(function (response) {
+				if (response.data.redirect) {
+					window.location = styleguide_options.home_url + '/' + newSettings.endpoint;
+				}
+			});
+		}
+
 	};
 
 /***/ },
@@ -12346,6 +12458,17 @@
 	    });
 	  },
 
+	  editSection: function editSection(section, data) {
+	    return _Vue2.default.http({
+	      method: 'POST',
+	      url: styleguide_options.url + '/sections/' + section.id,
+	      headers: {
+	        'X-WP-Nonce': styleguide_options.nonce
+	      },
+	      data: data
+	    });
+	  },
+
 	  addStyle: function addStyle(style, section) {
 	    return _Vue2.default.http({
 	      method: 'POST',
@@ -12379,6 +12502,17 @@
 	      },
 	      data: { id: id }
 	    });
+	  },
+
+	  updateSettings: function updateSettings(settings) {
+	    return _Vue2.default.http({
+	      url: styleguide_options.url + '/settings/',
+	      method: 'POST',
+	      headers: {
+	        'X-WP-Nonce': styleguide_options.nonce
+	      },
+	      data: settings
+	    });
 	  }
 	};
 
@@ -12392,7 +12526,7 @@
 /* 24 */
 /***/ function(module, exports) {
 
-	module.exports = "\n  <section id=\"{{section.slug }}\" class=\"sg-section\">\n    <div v-bind:id=\"slug\"></div>\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!editing\">{{ section.title }}</h3>\n      <input v-if=\"editing\" class=\"sg-stack sg-font-dark sg-section-title sg-style-title\" v-on:change=\"editTitle()\" v-model=\"title\" />\n      <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n      <section class=\"sg-section sg-stack sg-section__add\" v-show=\"logged_in\">\n          <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\t\t\tAdd New Element\n\t\t\t\t\t</button>\n      </section>\n  </section>\n";
+	module.exports = "\n  <section id=\"{{section.slug }}\" class=\"sg-section\">\n\t\t\n\t\t<div class=\"sg-section-wrap\">\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!logged_in\">{{ section.title }}</h3>\n\t    <input v-if=\"logged_in\" class=\"sg-stack sg-font-dark sg-section-title\" v-model=\"title\" v-on:focus=\"enterEditing\" v-on:blur=\"pushEdit\" v-on:keyup.enter=\"pushEdit\" />\n\t\t\t\n\t\t\t<span v-on:click=\"removeSection\" v-show=\"logged_in && editing\" class=\"sg-actions sg-actions__section\">\n\t\t\t\t<button class=\"sg-button__action\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t\t\t</button>\n\t\t\t</span>\n\t\t</div>\n\t\t\n    <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n\t\t\n    <section class=\"sg-section sg-stack sg-section__add\" v-show=\"logged_in\">\n        <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\t\tAdd New Element\n\t\t\t\t</button>\n    </section>\n\t\t\t\n  </section>\n";
 
 /***/ },
 /* 25 */
@@ -12441,71 +12575,20 @@
 
 	var _actions = __webpack_require__(21);
 
-	exports.default = {
-		vuex: {
-			getters: {
-				settings: function settings(state) {
-					return state.settings;
-				},
-				root: function root(state) {
-					return state.root;
-				}
-			},
-			actions: {
-				toggleSettings: _actions.toggleSettings,
-				togglePrivacy: _actions.togglePrivacy
-			}
-		},
+	var _actions2 = _interopRequireDefault(_actions);
 
-		computed: {
-			privacy: {
-				get: function get() {
-					console.log(this.settings.private);
-					if (this.settings.private === true) {
-						return 'private';
-					} else {
-						return 'public';
-					}
-				},
+	var _Icon = __webpack_require__(17);
 
-				set: function set(val) {
-					this.togglePrivacy();
-				}
+	var _Icon2 = _interopRequireDefault(_Icon);
 
-			}
-		},
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-		methods: {
-			saveSettings: function saveSettings() {
-				this.toggleSettings();
-				// this.updateSettings({
-				//   private: this.private,
-				//   endpoint: this.endpoint
-				// })
-			},
-
-			updateSettings: function updateSettings(obj) {
-				this.$http({
-					url: styleguide_options.url + '/settings/',
-					method: 'POST',
-					headers: {
-						'X-WP-Nonce': styleguide_options.nonce
-					},
-					data: obj
-				}).then(function (response) {
-					if (response.data.redirect) {
-						window.location = styleguide_options.home_url + '/' + this.endpoint;
-					}
-				});
-			}
-		}
-	};
-	// </script>
 	// <style lang="scss">
 	// #styleguide {
 	// 	.sg-settings-title {
 	// 		font-size: 36px;
 	// 		margin-bottom: 1em;
+	// 		margin-top: 2em;
 	// 	}
 	// 	.modal-mask {
 	// 	  position: fixed;
@@ -12530,19 +12613,21 @@
 	// 	}
 	//
 	// 	.sg-settings-group {
-	// 		margin: 2em auto;
+	// 		margin: 3em auto;
+	// 		max-width: 350px;
 	//
 	// 		.radio-group {
 	// 			display: block;
 	// 			position: relative;
 	// 			width: 100%;
-	// 			float: left;
 	// 			height: 100px;
+	// 			text-align: left;
+	// 			cursor: pointer;
 	//
-	// 			// input[type="radio"] {
-	// 			// 	position: absolute;
-	// 			// 	visibility: hidden;
-	// 			// }
+	// 			input[type="radio"] {
+	// 				position: absolute;
+	// 				visibility: hidden;
+	// 			}
 	//
 	// 			label {
 	// 				display: block;
@@ -12551,13 +12636,14 @@
 	// 				margin: 10px auto;
 	// 				height: 30px;
 	// 				transition: all 0.25s;
-	// 				color: #eee;
+	// 				color: #666;
+	// 				cursor: pointer;
 	// 			}
 	//
 	// 			.check {
 	// 				display: block;
 	// 				position: absolute;
-	// 				border: 5px solid #eee;
+	// 				border: 5px solid #666;
 	// 				border-radius: 100%;
 	// 				height: 25px;
 	// 				width: 25px;
@@ -12579,6 +12665,18 @@
 	// 					transition: background 0.25s linear;
 	// 				}
 	// 			}
+	//
+	// 			input[type=radio]:checked ~ .check {
+	// 				border: 5px solid #333;
+	// 			}
+	//
+	// 			input[type=radio]:checked ~ .check::before{
+	// 				background: #333;
+	// 			}
+	//
+	// 			input[type=radio]:checked ~ label{
+	// 				color: #333;
+	// 			}
 	// 		}
 	// 	}
 	//
@@ -12588,16 +12686,41 @@
 	// 		font-weight: 700;
 	// 		margin-bottom: 10px;
 	// 		background: transparent;
+	// 		font-size: 14px;
 	// 	}
 	//
 	// 	.sg-settings-endpoint {
 	// 		border: none;
-	// 		border-bottom: 1px solid #eee;
+	// 		border-bottom: 1px dotted #666;
+	// 		background: transparent !important;
 	// 		border-radius: 0;
+	// 		position: relative;
+	// 		top: -1px;
 	// 	}
 	//
 	// 	.sg-settings-endpoint:focus {
 	// 		border-bottom-color: #333;
+	// 	}
+	//
+	// 	.sg-button-settings-save {
+	// 		border: 1px solid #333;
+	// 		padding: 10px;
+	// 		transition: all 0.25s;
+	// 		&:hover {
+	// 			background: #333;
+	// 			color: #f7f7f7 !important;
+	// 		}
+	// 	}
+	//
+	// 	.sg-button__settings-close {
+	// 		position: absolute;
+	// 		top: 1em;
+	// 		right: 2em;
+	// 		svg {
+	// 			width: 25px;
+	// 			height: auto;
+	//
+	// 		}
 	// 	}
 	// }
 	// </style>
@@ -12606,31 +12729,20 @@
 	//   <div class="sg-settings modal-mask" v-show="settings.show" transition="modal">
 	//     <div class="modal-wrapper">
 	//       <div class="modal-container sg-stack">
-	// 				<button v-on:click="toggleSettings" class="sg-button sg-button__settings-close">Close</button>
+	// 				<button v-on:click="toggleSettings" class="sg-button sg-button__settings-close"><icon name="cancel"></icon></button>
 	//         <h1 class="sg-font-dark sg-settings-title">Settings</h1>
-	//         <!-- <div class="toggleWrapper">
-	//           <div class="after">
-	//             <span class="sg-setting-title sg-font-light">Public</span>
-	//             <span class="small sg-font-dark">(Anybody can view)</span>
-	//           </div>
-	//           <input type="checkbox" class="checkbox" id="dn" v-model="private"/>
-	//             <label for="dn" class="toggle">
-	//               <span class="toggle__handler"></span>
-	//             </label>
-	//           <div class="after">
-	//             <span class="sg-setting-title sg-font-light">Private</span>
-	//             <span class="small">(Logged in users can view)</span>
-	//           </div>
-	//         </div> -->
 	//
 	// 				<div class="sg-settings-group">
+	// 					<h3 class="sg-settings-input-label">Privacy:</h3>
 	// 					<div class="radio-group">
 	// 						<input type="radio" id="private" value="private" v-model="privacy">
 	// 						<label for="private">Private <br />Only logged in users can view and edit.</label>
+	// 						<div class="check"></div>
 	// 					</div>
 	// 					<div class="radio-group">
 	// 						<input type="radio" id="public" value="public" v-model="privacy">
 	// 						<label for="public">Public <br />Anybody can view, logged in users can edit.</label>
+	// 						<div class="check"></div>
 	// 					</div>
 	// 				</div>
 	//         <div class="sg-settings-group">
@@ -12647,12 +12759,61 @@
 	// </template>
 	//
 	// <script>
+	exports.default = {
+		vuex: {
+			getters: {
+				settings: function settings(state) {
+					return state.settings;
+				},
+				root: function root(state) {
+					return state.root;
+				}
+			},
+			actions: {
+				toggleSettings: _actions2.default.toggleSettings,
+				togglePrivacy: _actions2.default.togglePrivacy,
+				updateSettings: _actions2.default.updateSettings
+			}
+		},
+
+		components: {
+			Icon: _Icon2.default
+		},
+
+		computed: {
+			privacy: {
+				get: function get() {
+					if (this.settings.private === true) {
+						return 'private';
+					} else {
+						return 'public';
+					}
+				},
+
+				set: function set(val) {
+					this.togglePrivacy();
+				}
+
+			}
+		},
+
+		methods: {
+			saveSettings: function saveSettings() {
+				this.toggleSettings();
+				this.updateSettings({
+					endpoint: this.settings.endpoint,
+					private: this.settings.private
+				});
+			}
+		}
+	};
+	// </script>
 
 /***/ },
 /* 28 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings-close\">Close</button>\n        <h1 class=\"sg-font-dark sg-settings-title\">Settings</h1>\n        <!-- <div class=\"toggleWrapper\">\n          <div class=\"after\">\n            <span class=\"sg-setting-title sg-font-light\">Public</span>\n            <span class=\"small sg-font-dark\">(Anybody can view)</span>\n          </div>\n          <input type=\"checkbox\" class=\"checkbox\" id=\"dn\" v-model=\"private\"/>\n            <label for=\"dn\" class=\"toggle\"> \n              <span class=\"toggle__handler\"></span>\n            </label>\n          <div class=\"after\">\n            <span class=\"sg-setting-title sg-font-light\">Private</span>\n            <span class=\"small\">(Logged in users can view)</span>\n          </div>\n        </div> -->\n\t\t\t\t\n\t\t\t\t<div class=\"sg-settings-group\">\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-settings-group\">\n          <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-settings-group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings-close\"><icon name=\"cancel\"></icon></button>\n        <h1 class=\"sg-font-dark sg-settings-title\">Settings</h1>\n\t\t\t\t\n\t\t\t\t<div class=\"sg-settings-group\">\n\t\t\t\t\t<h3 class=\"sg-settings-input-label\">Privacy:</h3>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-settings-group\">\n          <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-settings-group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
 
 /***/ },
 /* 29 */
@@ -12703,10 +12864,39 @@
 
 	var _Navlinks2 = _interopRequireDefault(_Navlinks);
 
+	var _Icon = __webpack_require__(17);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
 	var _actions = __webpack_require__(21);
+
+	var _actions2 = _interopRequireDefault(_actions);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	exports.default = {
+	  vuex: {
+	    getters: {
+	      sections: function sections(state) {
+	        return state.sections;
+	      },
+	      show: function show(state) {
+	        return state.show;
+	      },
+	      logged_in: function logged_in(state) {
+	        return state.logged_in;
+	      }
+	    },
+	    actions: {
+	      toggleSettings: _actions2.default.toggleSettings
+	    }
+	  },
+	  components: {
+	    Navlinks: _Navlinks2.default,
+	    Icon: _Icon2.default
+	  }
+	};
+	// </script>
 	// <template>
 	//   <nav class="sg-nav sg-stack sg-col-3">
 	//     <ul class="sg-nav-links sg-nav-container">
@@ -12718,7 +12908,7 @@
 	//         :id="section.id"
 	//         :active="active"
 	//         ></navlinks>
-	//         <li><button v-on:click="toggleSettings" class="sg-button">Settings</button></li>
+	//         <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
 	//     </ul>
 	//   </nav>
 	// </template>
@@ -12748,6 +12938,24 @@
 	// 		}
 	// 	}
 	//
+	// 	.sg-button__settings {
+	// 		svg {
+	// 			width: 14px;
+	// 			height: auto;
+	// 			fill: #333;
+	// 			margin-right: 2px;
+	// 			position: relative;
+	// 			top: 3px;
+	// 		}
+	// 		&:hover {
+	// 			color: #666 !important;
+	// 		}
+	//
+	// 		&:hover svg {
+	// 			fill: #666;
+	// 		}
+	// 	}
+	//
 	// 	.sg-nav-sublinks {
 	// 		padding: 0;
 	// 		padding-left: 10px;
@@ -12761,25 +12969,6 @@
 	// </style>
 	//
 	// <script>
-	exports.default = {
-	  vuex: {
-	    getters: {
-	      sections: function sections(state) {
-	        return state.sections;
-	      },
-	      show: function show(state) {
-	        return state.show;
-	      }
-	    },
-	    actions: {
-	      toggleSettings: _actions.toggleSettings
-	    }
-	  },
-	  components: {
-	    Navlinks: _Navlinks2.default
-	  }
-	};
-	// </script>
 
 /***/ },
 /* 32 */
@@ -12821,6 +13010,10 @@
 
 	var _actions = __webpack_require__(21);
 
+	var _actions2 = _interopRequireDefault(_actions);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	exports.default = {
 	  props: {
 	    title: String,
@@ -12842,7 +13035,7 @@
 	      }
 	    },
 	    actions: {
-	      toggleActive: _actions.toggleActive
+	      toggleActive: _actions2.default.toggleActive
 	    }
 	  },
 
@@ -12886,7 +13079,7 @@
 /* 35 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<nav class=\"sg-nav sg-stack sg-col-3\">\n  <ul class=\"sg-nav-links sg-nav-container\">\n    <navlinks \n      v-for=\"section in sections\"\n      :title=\"section.title\"\n      :styles=\"section.styles\"\n      :slug=\"section.slug\"\n      :id=\"section.id\"\n      :active=\"active\"\n      ></navlinks>\n      <li><button v-on:click=\"toggleSettings\" class=\"sg-button\">Settings</button></li>\n  </ul>\n</nav>\n";
+	module.exports = "\n<nav class=\"sg-nav sg-stack sg-col-3\">\n  <ul class=\"sg-nav-links sg-nav-container\">\n    <navlinks \n      v-for=\"section in sections\"\n      :title=\"section.title\"\n      :styles=\"section.styles\"\n      :slug=\"section.slug\"\n      :id=\"section.id\"\n      :active=\"active\"\n      ></navlinks>\n      <li v-if=\"logged_in\"><button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings\"><icon name=\"cog\"></icon> Settings</button></li>\n  </ul>\n</nav>\n";
 
 /***/ },
 /* 36 */
@@ -12898,11 +13091,15 @@
 	  value: true
 	});
 
+	var _assign = __webpack_require__(37);
+
+	var _assign2 = _interopRequireDefault(_assign);
+
 	var _Vue = __webpack_require__(1);
 
 	var _Vue2 = _interopRequireDefault(_Vue);
 
-	var _vuex = __webpack_require__(37);
+	var _vuex = __webpack_require__(74);
 
 	var _vuex2 = _interopRequireDefault(_vuex);
 
@@ -12925,6 +13122,10 @@
 	  ADD_SECTION: function ADD_SECTION(state, section) {
 	    state.sections.push(section);
 	  },
+	  UPDATE_SECTION: function UPDATE_SECTION(state, title, section) {
+	    section.title = title;
+	  },
+	  EDIT_SECTION: function EDIT_SECTION(state, title, section) {},
 	  RECIEVE_ID: function RECIEVE_ID(state, section, data) {
 	    section.id = data.id;
 	  },
@@ -12934,6 +13135,9 @@
 	  },
 	  RECIEVE_SECTIONS: function RECIEVE_SECTIONS(state, sections) {
 	    state.sections = sections;
+	  },
+	  DELETE_SECTION: function DELETE_SECTION(state, section) {
+	    state.sections.$remove(section);
 	  },
 	  RECIEVE_SETTINGS: function RECIEVE_SETTINGS(state, settings) {
 	    settings.show = false;
@@ -12963,13 +13167,16 @@
 	    state.activeSection = section;
 	  },
 	  TOGGLE_PRIVACY: function TOGGLE_PRIVACY(state, section) {
-	    state.settings.prviate = !state.settings.private;
+	    state.settings.private = !state.settings.private;
 	  },
 	  ADD_POSITION: function ADD_POSITION(state, pos) {
 	    state.sectionPositions.push(pos);
 	  },
 	  TOGGLE_SETTINGS: function TOGGLE_SETTINGS(state) {
 	    state.settings.show = !state.settings.show;
+	  },
+	  UPDATE_SETTINGS: function UPDATE_SETTINGS(state, newSettings) {
+	    state.settings = (0, _assign2.default)({}, state.settings, newSettings);
 	  }
 	};
 
@@ -12980,6 +13187,511 @@
 
 /***/ },
 /* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(38), __esModule: true };
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(39);
+	module.exports = __webpack_require__(42).Object.assign;
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(40);
+
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(55)});
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(41)
+	  , core      = __webpack_require__(42)
+	  , ctx       = __webpack_require__(43)
+	  , hide      = __webpack_require__(45)
+	  , PROTOTYPE = 'prototype';
+
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , expProto  = exports[PROTOTYPE]
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && target[key] !== undefined;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(a, b, c){
+	        if(this instanceof C){
+	          switch(arguments.length){
+	            case 0: return new C;
+	            case 1: return new C(a);
+	            case 2: return new C(a, b);
+	          } return new C(a, b, c);
+	        } return C.apply(this, arguments);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+	    if(IS_PROTO){
+	      (exports.virtual || (exports.virtual = {}))[key] = out;
+	      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+	      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
+	    }
+	  }
+	};
+	// type bitmap
+	$export.F = 1;   // forced
+	$export.G = 2;   // global
+	$export.S = 4;   // static
+	$export.P = 8;   // proto
+	$export.B = 16;  // bind
+	$export.W = 32;  // wrap
+	$export.U = 64;  // safe
+	$export.R = 128; // real proto method for `library` 
+	module.exports = $export;
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '2.4.0'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(44);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var dP         = __webpack_require__(46)
+	  , createDesc = __webpack_require__(54);
+	module.exports = __webpack_require__(50) ? function(object, key, value){
+	  return dP.f(object, key, createDesc(1, value));
+	} : function(object, key, value){
+	  object[key] = value;
+	  return object;
+	};
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var anObject       = __webpack_require__(47)
+	  , IE8_DOM_DEFINE = __webpack_require__(49)
+	  , toPrimitive    = __webpack_require__(53)
+	  , dP             = Object.defineProperty;
+
+	exports.f = __webpack_require__(50) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	  anObject(O);
+	  P = toPrimitive(P, true);
+	  anObject(Attributes);
+	  if(IE8_DOM_DEFINE)try {
+	    return dP(O, P, Attributes);
+	  } catch(e){ /* empty */ }
+	  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+	  if('value' in Attributes)O[P] = Attributes.value;
+	  return O;
+	};
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObject = __webpack_require__(48);
+	module.exports = function(it){
+	  if(!isObject(it))throw TypeError(it + ' is not an object!');
+	  return it;
+	};
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  return typeof it === 'object' ? it !== null : typeof it === 'function';
+	};
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = !__webpack_require__(50) && !__webpack_require__(51)(function(){
+	  return Object.defineProperty(__webpack_require__(52)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Thank's IE8 for his funny defineProperty
+	module.exports = !__webpack_require__(51)(function(){
+	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 51 */
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObject = __webpack_require__(48)
+	  , document = __webpack_require__(41).document
+	  // in old IE typeof document.createElement is 'object'
+	  , is = isObject(document) && isObject(document.createElement);
+	module.exports = function(it){
+	  return is ? document.createElement(it) : {};
+	};
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.1 ToPrimitive(input [, PreferredType])
+	var isObject = __webpack_require__(48);
+	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+	// and the second argument - flag - preferred type is a string
+	module.exports = function(it, S){
+	  if(!isObject(it))return it;
+	  var fn, val;
+	  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+	  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+	  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+	  throw TypeError("Can't convert object to primitive value");
+	};
+
+/***/ },
+/* 54 */
+/***/ function(module, exports) {
+
+	module.exports = function(bitmap, value){
+	  return {
+	    enumerable  : !(bitmap & 1),
+	    configurable: !(bitmap & 2),
+	    writable    : !(bitmap & 4),
+	    value       : value
+	  };
+	};
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// 19.1.2.1 Object.assign(target, source, ...)
+	var getKeys  = __webpack_require__(56)
+	  , gOPS     = __webpack_require__(71)
+	  , pIE      = __webpack_require__(72)
+	  , toObject = __webpack_require__(73)
+	  , IObject  = __webpack_require__(60)
+	  , $assign  = Object.assign;
+
+	// should work with symbols and should have deterministic property order (V8 bug)
+	module.exports = !$assign || __webpack_require__(51)(function(){
+	  var A = {}
+	    , B = {}
+	    , S = Symbol()
+	    , K = 'abcdefghijklmnopqrst';
+	  A[S] = 7;
+	  K.split('').forEach(function(k){ B[k] = k; });
+	  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+	}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+	  var T     = toObject(target)
+	    , aLen  = arguments.length
+	    , index = 1
+	    , getSymbols = gOPS.f
+	    , isEnum     = pIE.f;
+	  while(aLen > index){
+	    var S      = IObject(arguments[index++])
+	      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+	      , length = keys.length
+	      , j      = 0
+	      , key;
+	    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+	  } return T;
+	} : $assign;
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+	var $keys       = __webpack_require__(57)
+	  , enumBugKeys = __webpack_require__(70);
+
+	module.exports = Object.keys || function keys(O){
+	  return $keys(O, enumBugKeys);
+	};
+
+/***/ },
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var has          = __webpack_require__(58)
+	  , toIObject    = __webpack_require__(59)
+	  , arrayIndexOf = __webpack_require__(63)(false)
+	  , IE_PROTO     = __webpack_require__(67)('IE_PROTO');
+
+	module.exports = function(object, names){
+	  var O      = toIObject(object)
+	    , i      = 0
+	    , result = []
+	    , key;
+	  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
+	  // Don't enum bug & hidden keys
+	  while(names.length > i)if(has(O, key = names[i++])){
+	    ~arrayIndexOf(result, key) || result.push(key);
+	  }
+	  return result;
+	};
+
+/***/ },
+/* 58 */
+/***/ function(module, exports) {
+
+	var hasOwnProperty = {}.hasOwnProperty;
+	module.exports = function(it, key){
+	  return hasOwnProperty.call(it, key);
+	};
+
+/***/ },
+/* 59 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// to indexed object, toObject with fallback for non-array-like ES3 strings
+	var IObject = __webpack_require__(60)
+	  , defined = __webpack_require__(62);
+	module.exports = function(it){
+	  return IObject(defined(it));
+	};
+
+/***/ },
+/* 60 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// fallback for non-array-like ES3 and non-enumerable old V8 strings
+	var cof = __webpack_require__(61);
+	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+	  return cof(it) == 'String' ? it.split('') : Object(it);
+	};
+
+/***/ },
+/* 61 */
+/***/ function(module, exports) {
+
+	var toString = {}.toString;
+
+	module.exports = function(it){
+	  return toString.call(it).slice(8, -1);
+	};
+
+/***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// false -> Array#indexOf
+	// true  -> Array#includes
+	var toIObject = __webpack_require__(59)
+	  , toLength  = __webpack_require__(64)
+	  , toIndex   = __webpack_require__(66);
+	module.exports = function(IS_INCLUDES){
+	  return function($this, el, fromIndex){
+	    var O      = toIObject($this)
+	      , length = toLength(O.length)
+	      , index  = toIndex(fromIndex, length)
+	      , value;
+	    // Array#includes uses SameValueZero equality algorithm
+	    if(IS_INCLUDES && el != el)while(length > index){
+	      value = O[index++];
+	      if(value != value)return true;
+	    // Array#toIndex ignores holes, Array#includes - not
+	    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+	      if(O[index] === el)return IS_INCLUDES || index || 0;
+	    } return !IS_INCLUDES && -1;
+	  };
+	};
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.15 ToLength
+	var toInteger = __webpack_require__(65)
+	  , min       = Math.min;
+	module.exports = function(it){
+	  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+	};
+
+/***/ },
+/* 65 */
+/***/ function(module, exports) {
+
+	// 7.1.4 ToInteger
+	var ceil  = Math.ceil
+	  , floor = Math.floor;
+	module.exports = function(it){
+	  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+	};
+
+/***/ },
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var toInteger = __webpack_require__(65)
+	  , max       = Math.max
+	  , min       = Math.min;
+	module.exports = function(index, length){
+	  index = toInteger(index);
+	  return index < 0 ? max(index + length, 0) : min(index, length);
+	};
+
+/***/ },
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var shared = __webpack_require__(68)('keys')
+	  , uid    = __webpack_require__(69);
+	module.exports = function(key){
+	  return shared[key] || (shared[key] = uid(key));
+	};
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global = __webpack_require__(41)
+	  , SHARED = '__core-js_shared__'
+	  , store  = global[SHARED] || (global[SHARED] = {});
+	module.exports = function(key){
+	  return store[key] || (store[key] = {});
+	};
+
+/***/ },
+/* 69 */
+/***/ function(module, exports) {
+
+	var id = 0
+	  , px = Math.random();
+	module.exports = function(key){
+	  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+	};
+
+/***/ },
+/* 70 */
+/***/ function(module, exports) {
+
+	// IE 8- don't enum bug keys
+	module.exports = (
+	  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+	).split(',');
+
+/***/ },
+/* 71 */
+/***/ function(module, exports) {
+
+	exports.f = Object.getOwnPropertySymbols;
+
+/***/ },
+/* 72 */
+/***/ function(module, exports) {
+
+	exports.f = {}.propertyIsEnumerable;
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.13 ToObject(argument)
+	var defined = __webpack_require__(62);
+	module.exports = function(it){
+	  return Object(defined(it));
+	};
+
+/***/ },
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -13622,13 +14334,13 @@
 	}));
 
 /***/ },
-/* 38 */
+/* 75 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div>\n\t<div class=\"sg-row sg-main-content\">\n\t<button @click=\"showSettings = true\" id=\"settings\" class=\"sg-button sg-button__settings\">Settings</button>\n\t<settings v-if=\"showSettings\"></settings>\n\t<navbar></navbar>\n\t<div class=\"sg-col-9\">\n\t\t<wrapper v-for=\"section in sections\" :section=\"section\"></wrapper>\n\t\t\t<form class=\"sg-section-title__edit\" v-on:submit=\"addWrapper\" v-show=\"logged_in\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-section-title sg-style-title\" placeholder=\"New Section Title\" />\n\t\t\t\t<button class=\"sg-button\">Add</button>\n\t\t\t</form>\n\t\t</div>\n</div>\n</template>";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-row sg-main-content\" v-if=\"onboarded\">\n\t<settings v-if=\"showSettings\"></settings>\n\t<navbar></navbar>\n\t<div class=\"sg-col-9\">\n\t\t<wrapper v-for=\"section in sections\" :section=\"section\"></wrapper>\n\t\t\t<form class=\"sg-section-title__edit\" v-on:submit=\"addWrapper\" v-show=\"logged_in\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-section-title sg-style-title\" placeholder=\"New Section Title\" />\n\t\t\t\t<button class=\"sg-button\">Add</button>\n\t\t\t</form>\n\t\t</div>\n</div>\n\n<div class=\"sg-row sg-main-content sg-stack sg-onboarding\" v-else>\n\t<h3 class=\"sg-style-title\">Welcome to <span class=\"sg-styles-icon\"><icon name=\"styles\"></icon></span>, a plugin for quickly building front-end styleguides.</h3>\n\t<p>Let's start by setting a few things up.</p>\n\t\n</div>\n";
 
 /***/ },
-/* 39 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13637,16 +14349,16 @@
 
 	function install(Vue) {
 
-	    var _ = __webpack_require__(40);
+	    var _ = __webpack_require__(77);
 
 	    _.config = Vue.config;
 	    _.warning = Vue.util.warn;
 	    _.nextTick = Vue.util.nextTick;
 
-	    Vue.url = __webpack_require__(41);
-	    Vue.http = __webpack_require__(47);
-	    Vue.resource = __webpack_require__(62);
-	    Vue.Promise = __webpack_require__(49);
+	    Vue.url = __webpack_require__(78);
+	    Vue.http = __webpack_require__(84);
+	    Vue.resource = __webpack_require__(99);
+	    Vue.Promise = __webpack_require__(86);
 
 	    Object.defineProperties(Vue.prototype, {
 
@@ -13687,7 +14399,7 @@
 
 
 /***/ },
-/* 40 */
+/* 77 */
 /***/ function(module, exports) {
 
 	/**
@@ -13815,14 +14527,14 @@
 
 
 /***/ },
-/* 41 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Service for URL templating.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 	var ie = document.documentMode;
 	var el = document.createElement('a');
 
@@ -13858,10 +14570,10 @@
 	 */
 
 	Url.transforms = [
-	    __webpack_require__(42),
-	    __webpack_require__(44),
-	    __webpack_require__(45),
-	    __webpack_require__(46)
+	    __webpack_require__(79),
+	    __webpack_require__(81),
+	    __webpack_require__(82),
+	    __webpack_require__(83)
 	];
 
 	/**
@@ -13951,14 +14663,14 @@
 
 
 /***/ },
-/* 42 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * URL Template (RFC 6570) Transform.
 	 */
 
-	var UrlTemplate = __webpack_require__(43);
+	var UrlTemplate = __webpack_require__(80);
 
 	module.exports = function (options) {
 
@@ -13973,7 +14685,7 @@
 
 
 /***/ },
-/* 43 */
+/* 80 */
 /***/ function(module, exports) {
 
 	/**
@@ -14129,14 +14841,14 @@
 
 
 /***/ },
-/* 44 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Legacy Transform.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	module.exports = function (options, next) {
 
@@ -14181,14 +14893,14 @@
 
 
 /***/ },
-/* 45 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Query Parameter Transform.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	module.exports = function (options, next) {
 
@@ -14211,14 +14923,14 @@
 
 
 /***/ },
-/* 46 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Root Prefix Transform.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	module.exports = function (options, next) {
 
@@ -14233,17 +14945,17 @@
 
 
 /***/ },
-/* 47 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Service for sending network requests.
 	 */
 
-	var _ = __webpack_require__(40);
-	var Client = __webpack_require__(48);
-	var Promise = __webpack_require__(49);
-	var interceptor = __webpack_require__(52);
+	var _ = __webpack_require__(77);
+	var Client = __webpack_require__(85);
+	var Promise = __webpack_require__(86);
+	var interceptor = __webpack_require__(89);
 	var jsonType = {'Content-Type': 'application/json'};
 
 	function Http(url, options) {
@@ -14296,13 +15008,13 @@
 	};
 
 	Http.interceptors = [
-	    __webpack_require__(53),
-	    __webpack_require__(54),
-	    __webpack_require__(55),
-	    __webpack_require__(57),
-	    __webpack_require__(58),
-	    __webpack_require__(59),
-	    __webpack_require__(60)
+	    __webpack_require__(90),
+	    __webpack_require__(91),
+	    __webpack_require__(92),
+	    __webpack_require__(94),
+	    __webpack_require__(95),
+	    __webpack_require__(96),
+	    __webpack_require__(97)
 	];
 
 	Http.headers = {
@@ -14337,16 +15049,16 @@
 
 
 /***/ },
-/* 48 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Base client.
 	 */
 
-	var _ = __webpack_require__(40);
-	var Promise = __webpack_require__(49);
-	var xhrClient = __webpack_require__(51);
+	var _ = __webpack_require__(77);
+	var Promise = __webpack_require__(86);
+	var xhrClient = __webpack_require__(88);
 
 	module.exports = function (request) {
 
@@ -14408,15 +15120,15 @@
 
 
 /***/ },
-/* 49 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Promise adapter.
 	 */
 
-	var _ = __webpack_require__(40);
-	var PromiseObj = window.Promise || __webpack_require__(50);
+	var _ = __webpack_require__(77);
+	var PromiseObj = window.Promise || __webpack_require__(87);
 
 	function Promise(executor, context) {
 
@@ -14523,14 +15235,14 @@
 
 
 /***/ },
-/* 50 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	var RESOLVED = 0;
 	var REJECTED = 1;
@@ -14708,15 +15420,15 @@
 
 
 /***/ },
-/* 51 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * XMLHttp client.
 	 */
 
-	var _ = __webpack_require__(40);
-	var Promise = __webpack_require__(49);
+	var _ = __webpack_require__(77);
+	var Promise = __webpack_require__(86);
 
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -14764,15 +15476,15 @@
 
 
 /***/ },
-/* 52 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Interceptor factory.
 	 */
 
-	var _ = __webpack_require__(40);
-	var Promise = __webpack_require__(49);
+	var _ = __webpack_require__(77);
+	var Promise = __webpack_require__(86);
 
 	module.exports = function (handler, vm) {
 
@@ -14815,14 +15527,14 @@
 
 
 /***/ },
-/* 53 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Before Interceptor.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	module.exports = {
 
@@ -14839,7 +15551,7 @@
 
 
 /***/ },
-/* 54 */
+/* 91 */
 /***/ function(module, exports) {
 
 	/**
@@ -14875,14 +15587,14 @@
 
 
 /***/ },
-/* 55 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * JSONP Interceptor.
 	 */
 
-	var jsonpClient = __webpack_require__(56);
+	var jsonpClient = __webpack_require__(93);
 
 	module.exports = {
 
@@ -14899,15 +15611,15 @@
 
 
 /***/ },
-/* 56 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * JSONP client.
 	 */
 
-	var _ = __webpack_require__(40);
-	var Promise = __webpack_require__(49);
+	var _ = __webpack_require__(77);
+	var Promise = __webpack_require__(86);
 
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -14953,7 +15665,7 @@
 
 
 /***/ },
-/* 57 */
+/* 94 */
 /***/ function(module, exports) {
 
 	/**
@@ -14976,14 +15688,14 @@
 
 
 /***/ },
-/* 58 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Mime Interceptor.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	module.exports = {
 
@@ -15018,14 +15730,14 @@
 
 
 /***/ },
-/* 59 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Header Interceptor.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	module.exports = {
 
@@ -15050,15 +15762,15 @@
 
 
 /***/ },
-/* 60 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * CORS Interceptor.
 	 */
 
-	var _ = __webpack_require__(40);
-	var xdrClient = __webpack_require__(61);
+	var _ = __webpack_require__(77);
+	var xdrClient = __webpack_require__(98);
 	var xhrCors = 'withCredentials' in new XMLHttpRequest();
 	var originUrl = _.url.parse(location.href);
 
@@ -15093,15 +15805,15 @@
 
 
 /***/ },
-/* 61 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * XDomain client (Internet Explorer).
 	 */
 
-	var _ = __webpack_require__(40);
-	var Promise = __webpack_require__(49);
+	var _ = __webpack_require__(77);
+	var Promise = __webpack_require__(86);
 
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -15136,14 +15848,14 @@
 
 
 /***/ },
-/* 62 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Service for interacting with RESTful services.
 	 */
 
-	var _ = __webpack_require__(40);
+	var _ = __webpack_require__(77);
 
 	function Resource(url, params, actions, options) {
 

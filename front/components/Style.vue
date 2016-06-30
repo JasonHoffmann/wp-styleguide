@@ -203,14 +203,14 @@
 <script>
 import CodeEditor from './Editor.vue';
 import Icon from './Icon.vue';
-import { updateStyle, removeStyle } from '../common/actions.js';
+import actions from '../common/actions.js';
 export default {
   props: ['style', 'index', 'section'],
   
   vuex: {
     actions: {
-      updateStyle: updateStyle,
-      removeStyle: removeStyle
+      updateStyle: actions.updateStyle,
+      removeStyle: actions.removeStyle
     }
   },
   

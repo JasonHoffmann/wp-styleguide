@@ -35,7 +35,8 @@ class Styleguide_Activate {
 	public static function plugin_activation() {
 		update_option( 'sg_styleguide_settings', array(
 			'private' => true,
-			'endpoint' => 'styleguide'
+			'endpoint' => 'styleguide',
+			'onboarded' => false
 		), false );
 		flush_rewrite_rules();
 	}

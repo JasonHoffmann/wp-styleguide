@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import svg from './svg.js';
+import svg from '../common/svg.js';
 export default {
 	props: {
 		name: {

@@ -22,6 +22,17 @@ export default {
     });
   },
   
+	editSection: function(section, data) {
+		return Vue.http({
+			method: 'POST',
+			url: styleguide_options.url + '/sections/' + section.id,
+			headers: {
+				'X-WP-Nonce' : styleguide_options.nonce
+			},
+			data: data
+		})
+	},
+	
   addStyle: function(style, section) {
     return Vue.http({
       method: 'POST',
@@ -55,5 +66,16 @@ export default {
     		},
     		data: { id: id }
     });
-  }
+  },
+	
+	updateSettings: function(settings) {
+		return Vue.http({
+			url: styleguide_options.url + '/settings/',
+			method: 'POST',
+			headers: {
+				'X-WP-Nonce' : styleguide_options.nonce
+			},
+			data: settings
+		})
+	}
 }
