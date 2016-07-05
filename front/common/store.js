@@ -13,7 +13,8 @@ const state = {
   activeSection: {},
   retainedIndex: '',
   sectionPositions: [],
-  settings: {}
+  settings: {},
+  loaded: false
 }
 
 const mutations = {
@@ -39,6 +40,7 @@ const mutations = {
   
   RECIEVE_SECTIONS(state, sections) {
     state.sections = sections;
+    state.loaded = true;
   },
 	
 	DELETE_SECTION(state, section) {

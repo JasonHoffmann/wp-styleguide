@@ -56,6 +56,13 @@ class Styleguide_API_Settings extends Styleguide_API {
       $settings['endpoint'] = $request['endpoint'];
     }
     
+    if( isset( $request['onboarded'] ) 
+        && is_bool( $request['onboarded'] )
+        && $request['onboarded'] !== $settings['onboarded']
+    ) {
+      $settings['onboarded'] = $request['onboarded'];
+    }
+    
     return $settings;
   }
 }

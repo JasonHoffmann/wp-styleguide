@@ -50,19 +50,17 @@
 
 	var _Vue2 = _interopRequireDefault(_Vue);
 
-	var _Editor = __webpack_require__(3);
+	var _Global = __webpack_require__(3);
 
-	var _Editor2 = _interopRequireDefault(_Editor);
+	var _Global2 = _interopRequireDefault(_Global);
 
-	var _App = __webpack_require__(7);
+	var _App = __webpack_require__(6);
 
 	var _App2 = _interopRequireDefault(_App);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_Vue2.default.use(__webpack_require__(76));
-
-	_Vue2.default.directive('prism-directive', _Editor2.default);
+	_Vue2.default.use(__webpack_require__(82));
 
 	var app = new _Vue2.default(_App2.default);
 
@@ -10207,12 +10205,823 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(4)
+	__webpack_require__(4)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 5 */,
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(7)
+	__vue_script__ = __webpack_require__(8)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/App.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(81)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./App.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _Wrapper = __webpack_require__(9);
+
+	var _Wrapper2 = _interopRequireDefault(_Wrapper);
+
+	var _Settings = __webpack_require__(27);
+
+	var _Settings2 = _interopRequireDefault(_Settings);
+
+	var _Navbar = __webpack_require__(31);
+
+	var _Navbar2 = _interopRequireDefault(_Navbar);
+
+	var _Icon = __webpack_require__(19);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _Onboard = __webpack_require__(38);
+
+	var _Onboard2 = _interopRequireDefault(_Onboard);
+
+	var _store = __webpack_require__(42);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	var _actions = __webpack_require__(23);
+
+	var _actions2 = _interopRequireDefault(_actions);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+
+		el: '#app',
+
+		store: _store2.default,
+
+		vuex: {
+			getters: {
+				logged_in: function logged_in(state) {
+					return state.logged_in;
+				},
+				sections: function sections(state) {
+					return state.sections;
+				},
+				sectionPositions: function sectionPositions(state) {
+					return state.sectionPositions;
+				},
+				showSettings: function showSettings(state) {
+					return state.settings.show;
+				},
+				onboarded: function onboarded(state) {
+					return state.settings.onboarded;
+				},
+				loaded: function loaded(state) {
+					return state.loaded;
+				}
+			},
+
+			actions: {
+				getAll: _actions2.default.getAll,
+				addSection: _actions2.default.addSection,
+				toggleActive: _actions2.default.toggleActive,
+				addStyle: _actions2.default.addStyle
+			}
+		},
+
+		computed: {
+			placeholder: function placeholder() {
+				if (this.sections.length < 1) {
+					return 'Click Here to Add a Section';
+				} else {
+					return 'Add Section...';
+				}
+			}
+		},
+
+		components: {
+			Wrapper: _Wrapper2.default,
+			Settings: _Settings2.default,
+			Navbar: _Navbar2.default,
+			Icon: _Icon2.default,
+			Onboard: _Onboard2.default
+		},
+
+		ready: function ready() {
+			this.getAll();
+
+			var self = this;
+			window.addEventListener('scroll', function () {
+				var y = window.scrollY;
+				if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+					var last = self.sections.length - 1;
+					var id = self.sections[last].id;
+					self.toggleActive({ id: id });
+				} else {
+					for (var i = 0; i < self.sections.length; i++) {
+						if (y >= self.sectionPositions[i] && (self.sectionPositions[i + 1] ? y < self.sectionPositions[i + 1] : true)) {
+							self.toggleActive({ id: self.sections[i].id });
+						}
+					}
+				}
+			});
+		},
+
+		methods: {
+
+			addWrapper: function addWrapper(evt) {
+				evt.preventDefault();
+				var newTitle = evt.target[0].value;
+				evt.target[0].value = '';
+
+				var i = this.sections.length;
+				var len = i + 1;
+				var add = this.addSection({
+					title: newTitle,
+					order: len,
+					id: 0,
+					styles: []
+				});
+
+				console.log(this.sections[i]);
+			}
+
+		}
+	};
+	// </script>
+	// <style lang="scss">
+	// #styleguide {
+	// 	.sg-wrap {
+	// 		transition: opacity 0.5s;
+	// 	}
+	// 	.loaded {
+	// 		opacity: 0;
+	// 	}
+	// }
+	// </style>
+	//
+	// <template>
+	// <div class="sg-wrap" v-bind:class="{'loaded' : !loaded}">
+	// <div class="sg-row sg-main-content" v-if="onboarded">
+	// 	<settings v-if="showSettings"></settings>
+	// 	<navbar></navbar>
+	// 	<div class="sg-col-9">
+	// 		<wrapper v-for="section in sections" :section="section"></wrapper>
+	// 			<form class="sg-section-wrap sg-stack" v-on:submit="addWrapper" v-show="logged_in">
+	// 				<input type="text" class="sg-stack sg-font-dark sg-section-title" :placeholder="placeholder" />
+	// 				<button class="sg-button sg-actions sg-actions__section"><icon name="add"></icon> Add</button>
+	// 			</form>
+	// 		</div>
+	// </div>
+	//
+	// <div class="sg-row sg-main-content sg-stack sg-onboarding sg-settings-group" v-else>
+	// 	<onboard></onboard>
+	// </div>
+	// </div>
+	// </template>
+	//
+	// <script>
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(10)
+	__vue_script__ = __webpack_require__(11)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/Wrapper.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(26)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./Wrapper.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Style = __webpack_require__(12);
+
+	var _Style2 = _interopRequireDefault(_Style);
+
+	var _Icon = __webpack_require__(19);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _actions = __webpack_require__(23);
+
+	var _actions2 = _interopRequireDefault(_actions);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	; // <style lang="scss">
+	// #styleguide {
+	// 	.sg-section {
+	// 		margin-bottom: 2em;
+	// 		padding-bottom: 1em;
+	// 		border-bottom: 1px dotted #ccc;
+	// 		position: relative;
+	//
+	//     &.loading {
+	//       opacity: 0.3;
+	//     }
+	// 	}
+	//   .sg-section-wrap {
+	//     position: relative;
+	//   }
+	// 	.sg-section-title {
+	// 		font-size: 24px;
+	// 		margin-bottom: 10px;
+	// 		font-weight: bold;
+	// 		background: #f7f7f7;
+	// 		border: none !important;
+	// 		display: block;
+	// 		width: 90%;
+	//     padding: 10px;
+	//
+	// 		&:focus {
+	// 			background: white;
+	// 		}
+	// 	}
+	//
+	//   .sg-section__actions {
+	//     text-align: right;
+	//   }
+	//   .sg-section__confirm {
+	//     width: 100%;
+	//     position: absolute;
+	//     left: 0;
+	//     background: rgba(239,83,80 ,1);
+	//     color: white;
+	//     padding: 10px;
+	//     z-index: 10;
+	//     text-align: left;
+	//   }
+	//   .sg-confirm__buttons {
+	//     display: inline-block;
+	//     color: white;
+	//     float: right;
+	//
+	//     button {
+	//       color: white !important;
+	//       border: 1px solid white;
+	//       padding: 5px 20px;
+	//       &:hover {
+	//         background: white;
+	//         color: rgba(239,83,80 ,1) !important;
+	//
+	//       }
+	//     }
+	//   }
+	//   .sg-section__divide {
+	//     padding: 7px 5px;
+	//     display: inline-block;
+	//   }
+	// }
+	// </style>
+	//
+	// <template>
+	//   <section id="{{section.slug }}" class="sg-section" v-bind:class="{'loading' : loading}">
+	//
+	// 		<div class="sg-section-wrap">
+	// 			<h3 class="sg-stack sg-section-title" v-if="!logged_in">{{ section.title }}</h3>
+	// 	    <input v-if="logged_in" class="sg-input sg-stack sg-font-dark sg-section-title" v-model="title" v-on:focus="enterEditing" v-on:blur="pushEdit" v-on:keyup.enter="pushEdit" />
+	// 		</div>
+	//     <style v-for="style in section.styles" :style="style" :index="$index" :section="section"></style>
+	//
+	//     <section class="sg-stack sg-section__actions" v-if="logged_in">
+	//       <div v-if="confirm" class="sg-section__confirm">
+	//         Are you sure? This will delete all styles in this section.
+	//         <div class="sg-confirm__buttons">
+	//           <button class="sg-button" v-on:click="removeSection">Yes</button>
+	//           <button class="sg-button" v-on:click="toggleConfirm">No</button>
+	//         </div>
+	//       </div>
+	//         <button v-on:click="pushStyle()" class="sg-button sg-button__add">
+	// 					<icon name="add"></icon>
+	// 					Add To Section
+	// 				</button>
+	//         <span class="sg-section__divide"> | </span>
+	//         <button class="sg-button" v-on:click="toggleConfirm">
+	//           <icon name="delete"></icon>
+	//           Delete
+	//         </button>
+	//     </section>
+	//
+	//   </section>
+	// </template>
+	//
+	// <script>
+
+	exports.default = {
+	  props: ['section'],
+
+	  data: function data() {
+	    return {
+	      editing: false,
+	      confirm: false
+	    };
+	  },
+
+	  computed: {
+	    title: {
+	      get: function get() {
+	        return this.section.title;
+	      },
+	      set: function set(val) {
+	        this.pushUpdate(val);
+	      }
+	    },
+
+	    loading: function loading() {
+	      if (this.section.id === 0) {
+	        return true;
+	      } else {
+	        return false;
+	      }
+	    }
+	  },
+
+	  vuex: {
+	    getters: {
+	      logged_in: function logged_in(state) {
+	        return state.logged_in;
+	      }
+	    },
+	    actions: {
+	      addStyle: _actions2.default.addStyle,
+	      addSectionPositions: _actions2.default.addSectionPositions,
+	      deleteSection: _actions2.default.deleteSection,
+	      updateSection: _actions2.default.updateSection,
+	      editSection: _actions2.default.editSection
+	    }
+	  },
+
+	  ready: function ready() {
+	    if (this.$el) {
+	      var pos = this.$el.getBoundingClientRect().top + window.scrollY - parseInt(getComputedStyle(this.$el).marginTop, 10);
+	      this.addSectionPositions(pos);
+	    }
+	  },
+
+	  components: {
+	    Style: _Style2.default,
+	    Icon: _Icon2.default
+	  },
+
+	  methods: {
+	    enterEditing: function enterEditing() {
+	      this.editing = true;
+	    },
+	    pushStyle: function pushStyle() {
+	      var newStyle = {
+	        title: '',
+	        html: '',
+	        id: 0
+	      };
+	      this.addStyle(newStyle, this.section);
+	    },
+
+	    pushUpdate: function (val) {
+	      this.updateSection(val, this.section);
+	    }.debounce(300),
+
+	    pushEdit: function pushEdit() {
+	      this.editing = false;
+	      this.editSection(this.title, this.section);
+	    },
+	    toggleConfirm: function toggleConfirm() {
+	      this.confirm = !this.confirm;
+	    },
+	    removeSection: function removeSection() {
+	      this.deleteSection(this.section);
+	    }
+	  }
+	};
+	// </script>
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(13)
+	__vue_script__ = __webpack_require__(14)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/Style.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(25)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./Style.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Editor = __webpack_require__(15);
+
+	var _Editor2 = _interopRequireDefault(_Editor);
+
+	var _Icon = __webpack_require__(19);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _actions = __webpack_require__(23);
+
+	var _actions2 = _interopRequireDefault(_actions);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  props: ['style', 'index', 'section'],
+
+	  vuex: {
+	    actions: {
+	      updateStyle: _actions2.default.updateStyle,
+	      removeStyle: _actions2.default.removeStyle
+	    }
+	  },
+
+	  data: function data() {
+	    return {
+	      logged_in: styleguide_options.logged_in,
+	      showMarkup: false,
+	      editing: false,
+	      confirm: false,
+	      prev: {}
+	    };
+	  },
+
+	  created: function created() {
+	    if (!this.style.title && this.logged_in) {
+	      this.editing = true;
+	    }
+	  },
+
+	  ready: function ready() {
+	    var input = this.$el.querySelectorAll('.sg-style-input');
+	    if (input.length > 0) {
+	      input[0].focus();
+	    }
+	  },
+
+	  components: {
+	    CodeEditor: _Editor2.default,
+	    Icon: _Icon2.default
+	  },
+
+	  methods: {
+
+	    toggleMarkup: function toggleMarkup() {
+	      this.showMarkup = !this.showMarkup;
+	    },
+
+	    enterEditing: function enterEditing(evt) {
+	      this.editing = true;
+	      this.prev = {
+	        title: this.style.title,
+	        html: this.style.html
+	      };
+	    },
+
+	    exitEditing: function exitEditing(evt) {
+	      this.editing = false;
+	      this.style.title = this.prev.title;
+	      this.style.html = this.prev.html;
+	    },
+
+	    editStyle: function editStyle(evt) {
+	      this.updateStyle({
+	        title: this.style.title,
+	        html: this.style.html,
+	        id: this.style.id
+	      }, this.style);
+	      this.editing = false;
+	    },
+
+	    deleteStyle: function deleteStyle() {
+	      this.confirm = false;
+	      this.removeStyle(this.index, this.section, this.style.id);
+	    },
+
+	    toggleConfirm: function toggleConfirm() {
+	      this.confirm = !this.confirm;
+	    }
+	  }
+	};
+	// </script>
+	// <style lang="scss">
+	// #styleguide {
+	// 	.sg-container {
+	// 		background: white;
+	// 		padding: 24px;
+	// 		box-shadow: -1px 0 2px 0 rgba(0,0,0,0.12) , 1px 0 2px 0 rgba(0,0,0,0.12) , 0 1px 1px 0 rgba(0,0,0,0.24);
+	// 		border-radius: 1px;
+	// 		margin: 2em 0;
+	// 		position: relative;
+	// 	}
+	//
+	//
+	// 	.sg-actions {
+	// 		position: absolute;
+	// 		top: 24px;
+	// 		right: 10px;
+	// 		opacity: 0;
+	// 		z-index: 1;
+	// 	}
+	//
+	//   .sg-actions--editing {
+	//     opacity: 1;
+	//     top: 30px;
+	//     .sg-button__action svg {
+	//       width: 19px;
+	//       height: 19px;
+	//     }
+	//   }
+	//
+	//   .sg-style-title {
+	//     margin: 0 0 0 0;
+	//     padding: 0 0 10px 0;
+	//     border-bottom: 1px dotted #ddd;
+	//     width: 100%;
+	//     font-weight: bold;
+	//     font-size: 21px;
+	//     border-radius: 0;
+	//   }
+	//
+	//   input.sg-style-title {
+	//     border: 1px solid #ddd;
+	//     padding: 5px;
+	//     width: 90%;
+	//   }
+	//
+	// 	.sg-button__action {
+	// 		border: none;
+	// 		background: none;
+	// 		padding: 5px 10px;
+	// 		margin: none;
+	// 		color: #9C9C9C;
+	// 		&:active, &:focus {
+	// 			color: #333;
+	// 			outline: none;
+	// 			svg {
+	// 				fill: #333;
+	// 			}
+	// 		}
+	// 		svg {
+	// 			width: 16px;
+	// 			height: 16px;
+	// 			fill: #9C9C9C;
+	// 		}
+	// 		&:hover svg {
+	// 			fill: #333;
+	// 		}
+	// 	}
+	//
+	//   .sg-button__save:hover {
+	//     svg {
+	//       fill: #00E676;
+	//     }
+	//   }
+	//
+	//   .sg-button__cancel:hover {
+	//     svg {
+	//       fill: #FF3D00;
+	//     }
+	//   }
+	//
+	// 	.sg-markuptoggle {
+	// 		svg {
+	// 			position: relative;
+	// 			top: 3px;
+	// 			margin-right: 5px;
+	// 		}
+	// 	}
+	//
+	// 	.sg-markuptext {
+	// 		color: #9C9C9C;
+	// 		font-style: italic;
+	// 		font-weight: 100;
+	// 	}
+	//
+	// 	.sg-container:hover .sg-actions {
+	// 		opacity: 1;
+	// 	}
+	//
+	//
+	// 	.sg-container:hover .sg-style-actions button {
+	// 		opacity: 1;
+	// 	}
+	//
+	// 	.sg-output {
+	// 		padding: 36px 0 0 0;
+	// 		margin: 1em 0;
+	// 	}
+	//
+	// 	.sg-confirm-style {
+	// 		position: absolute;
+	// 		background: rgba(239,83,80 ,1);;
+	// 		width: 100%;
+	// 		height: 100%;
+	// 		top: 0;
+	// 		left: 0;
+	// 		color: #fff;
+	// 		text-align: center;
+	// 		font-weight: 700;
+	// 		display: flex;
+	// 		justify-content: center;
+	// 		flex-direction: column;
+	// 		flex-wrap: wrap;
+	// 		align-items: center;
+	// 		font-size: 24px;
+	// 		z-index: 10;
+	//
+	// 		button {
+	//       color: white !important;
+	//       border: 1px solid white;
+	//       padding: 5px 20px;
+	//       &:hover {
+	//         background: white;
+	//         color: rgba(239,83,80 ,1) !important;
+	//
+	//       }
+	//     }
+	// 	}
+	//
+	// 	.expand-transition {
+	//   transition: all .3s ease;
+	// 	height: 100%;
+	//   overflow: hidden;
+	// }
+	//
+	// .expand-enter, .expand-leave {
+	//   height: 0;
+	//   padding: 0 10px;
+	//   opacity: 0;
+	// }
+	// }
+	// </style>
+	//
+	// <template>
+	//   <div id="{{ style.slug }}" class="sg-container">
+	// 		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
+	// 			<p>Are you sure you want to delete this style?</p>
+	// 			<div class="sg-confirm-actions">
+	// 				<button class="sg-button sg-confirm-button" v-on:click="deleteStyle">Yes</button>
+	// 				<button class="sg-button sg-confirm-button" v-on:click="toggleConfirm">No</button>
+	// 			</div>
+	// 		</div>
+	// 		<h4 class="sg-style-title sg-stack" v-if="!editing">
+	// 			{{ style.title }}
+	// 		</h4>
+	// 			<span v-show="!editing && logged_in" class="sg-actions">
+	// 			<button v-on:click="enterEditing" class="sg-button__action">
+	// 				<icon name="edit"></icon>
+	// 			</button>
+	// 			<button v-on:click="toggleConfirm" class="sg-button__action">
+	// 					<icon name="delete"></icon>
+	// 		</button>
+	// 		</span>
+	// 		<input
+	// 					placeholder="Add a title..."
+	// 					type="text" class="sg-style-title sg-stack sg-font-light sg-style-input"
+	// 					v-model="style.title"
+	// 					v-bind:class="{'editing' : editing }"
+	// 					v-if="editing"
+	// 					autofocus
+	// 			/>
+	//       <span v-show="editing" class="sg-actions sg-actions--editing">
+	//       <button class="sg-button__action sg-button__save" v-on:click="editStyle">
+	//         <icon name="save"></icon>
+	//       </button>
+	//       <button class="sg-button__action sg-button__cancel" v-on:click="exitEditing">
+	//         <icon name="cancel"></icon>	
+	//     </button>
+	//   </span>
+	//     <div class="sg-output">
+	//         {{{ style.html }}}
+	//     </div>
+	// 		<div class="sg-markuptoggle">
+	// 			<button class="sg-button__action" v-on:click="toggleMarkup" v-show="!editing">
+	// 				<icon name="markup"></icon>
+	// 			</button>
+	// 			<span v-show="editing" class="sg-markuptext">Edit the HTML below</span>
+	// 		</div>
+	//     <div class="sg-markup" v-show="editing || showMarkup">
+	//       <code-editor :html.sync="style.html" :editing="editing"></code-editor>
+	//     </div>
+	//   </div>
+	// </template>
+	//
+	// <script>
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(16)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Editor.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(6)
+	__vue_template__ = __webpack_require__(18)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10231,7 +11040,7 @@
 	})()}
 
 /***/ },
-/* 4 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10240,7 +11049,7 @@
 		value: true
 	});
 
-	var _prismjs = __webpack_require__(5);
+	var _prismjs = __webpack_require__(17);
 
 	var _prismjs2 = _interopRequireDefault(_prismjs);
 
@@ -10470,7 +11279,7 @@
 	// <script>
 
 /***/ },
-/* 5 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -11253,939 +12062,22 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 6 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<pre :contenteditable=\"editing\" class=\"language-markup\">{{ html }}</pre>\n";
 
 /***/ },
-/* 7 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(8)
-	__vue_script__ = __webpack_require__(10)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] components/App.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(75)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "./App.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 9 */,
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _Wrapper = __webpack_require__(11);
-
-	var _Wrapper2 = _interopRequireDefault(_Wrapper);
-
-	var _Settings = __webpack_require__(25);
-
-	var _Settings2 = _interopRequireDefault(_Settings);
-
-	var _Navbar = __webpack_require__(29);
-
-	var _Navbar2 = _interopRequireDefault(_Navbar);
-
-	var _Icon = __webpack_require__(17);
-
-	var _Icon2 = _interopRequireDefault(_Icon);
-
-	var _store = __webpack_require__(36);
-
-	var _store2 = _interopRequireDefault(_store);
-
-	var _actions = __webpack_require__(21);
-
-	var _actions2 = _interopRequireDefault(_actions);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// <style lang="scss">
-	// #styleguide {
-	// 	background: #f7f7f7;
-	// 	&:before, &:after {
-	// 		width: auto;
-	// 		height: auto;
-	// 	}
-	//
-	// 	#app {
-	// 		max-width: 90%;
-	// 		margin: 0 auto;
-	// 	}
-	//
-	// 	// Global
-	// 	.sg-main-content {
-	// 		max-width: 1300px;
-	// 		margin: 2em auto 0 auto;
-	// 	}
-	//
-	// 	.sg-stack {
-	// 		font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
-	// 		color: #333;
-	// 		box-sizing: border-box;
-	// 		font-size: 16px;
-	//
-	// 		a {
-	// 			color: #666;
-	// 		}
-	// 	}
-	//
-	// 	.sg-button {
-	// 		text-transform: uppercase;
-	// 		border: none;
-	// 		background: none;
-	// 		font-weight: 700;
-	// 		padding: 10px 0;
-	// 		border-radius: 3px;
-	// 		color: #333 !important;
-	// 	}
-	//
-	// 	/*
-	// 	Grid
-	// 	*/
-	// 	.container {
-	// 		margin: 0 auto;
-	// 		width: 80%;
-	// 	}
-	//
-	// 	.container-fluid {
-	// 		margin: 0 auto;
-	// 		width: 100%;
-	// 	}
-	//
-	// 	.sg-row:before,
-	// 	.sg-row:after {
-	// 	  display: table;
-	// 	  line-height: 0;
-	// 	  content: "";
-	// 	}
-	//
-	// 	.sg-row:after {
-	// 	  clear: both;
-	// 	}
-	//
-	// 	.sg-col-1, .sg-col-2, .sg-col-3, .sg-col-4, .sg-col-5, .sg-col-6,
-	// 	.sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11, .sg-col-12,
-	// 	.sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4, .sg-col-offset-5, .sg-col-offset-6,
-	// 	.sg-col-offset-7, .sg-col-offset-8, .sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
-	// 	    float: left;
-	// 	    min-height: 1px;
-	// 	 }
-	//
-	// 	.box {
-	// 		padding: 20px;
-	// 	}
-	//
-	// 	.box-margin {
-	// 		margin: 0 10px 0 10px;
-	// 	}
-	//
-	// 	.sg-col-1, .sg-col-offset-1 {
-	// 		width: 8.33333333333%;
-	// 	}
-	//
-	// 	.sg-col-2, .sg-col-offset-2 {
-	// 		width: 16.6666666666%;
-	// 	}
-	//
-	// 	.sg-col-3, .sg-col-offset-3 {
-	// 		width: 24.9999999999%;
-	// 	}
-	//
-	// 	.sg-col-4, .sg-col-offset-4 {
-	// 		width: 33.3333333333%;
-	// 	}
-	//
-	// 	.sg-col-5, .sg-col-offset-5 {
-	// 		width: 41.6666666666%;
-	// 	}
-	//
-	// 	.sg-col-6, .sg-col-offset-6 {
-	// 		width: 49.9999999999%;
-	// 	}
-	//
-	// 	.sg-col-7, .sg-col-offset-7 {
-	// 		width: 58.3333333333%;
-	// 	}
-	//
-	// 	.sg-col-8, .sg-col-offset-8 {
-	// 		width: 66.6666666666%;
-	// 	}
-	//
-	// 	.sg-col-9, .sg-col-offset-9 {
-	// 		width: 74.9999999999%;
-	// 	}
-	//
-	// 	.sg-col-10, .sg-col-offset-10 {
-	// 		width: 83.3333333333%;
-	// 	}
-	//
-	// 	.sg-col-11, .sg-col-offset-11 {
-	// 		width: 91.6666666666%;
-	// 	}
-	//
-	// 	.sg-col-12, .sg-col-offset-12 {
-	// 		width: 100%;
-	// 	}
-	//
-	// 	@media only screen and (max-width : 768px) and (min-width : 480px) {
-	// 		/*
-	// 			Grid
-	// 		*/
-	// 		.container {
-	// 			width: 96%;
-	// 		}
-	//
-	// 		.sg-col-1, .sg-col-2, .sg-col-3, .sg-col-5, .sg-col-6,
-	// 		.sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11 {
-	// 	    	width: 50%;
-	// 	 	}
-	//
-	// 	 	.sg-col-4 {
-	// 			width: 33.3333333333%;
-	// 		}
-	//
-	// 	 	.sg-col-12 {
-	// 	 		width:100%;
-	// 	 	}
-	//
-	// 	 	.sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4,
-	// 	 	.sg-col-offset-5, .sg-col-offset-6, .sg-col-offset-7, .sg-col-offset-8,
-	// 	 	.sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
-	// 	 		width: 0% !important;
-	// 	 		display: none;
-	// 	 	}
-	//
-	// 	 	.box-margin {
-	// 			margin: 0 10px 0 10px;
-	// 		}
-	// 	}
-	//
-	// 	@media only screen and (max-width : 479px) {
-	// 		/*
-	// 			Grid
-	// 		*/
-	// 		.container {
-	// 			width: 96%;
-	// 		}
-	//
-	// 		.sg-col-1, .sg-col-2, .sg-col-3, .sg-col-4, .sg-col-5, .sg-col-6,
-	// 		.sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11, .sg-col-12 {
-	// 	    	float: none;
-	// 	    	width: 100%;
-	// 	 	}
-	//
-	// 	 	.sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4,
-	// 	 	.sg-col-offset-5, .sg-col-offset-6, .sg-col-offset-7, .sg-col-offset-8,
-	// 	 	.sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
-	// 	 		width: 0% !important;
-	// 	 		display: none;
-	// 	 	}
-	//
-	// 	 	.box-margin {
-	// 			margin: 0 10px 0 10px;
-	// 		}
-	// 	}
-	//
-	// 	.sg-styles-icon {
-	// 		position: relative;
-	// 		top: 8px;
-	// 		margin: 0 2px;
-	// 		svg {
-	// 			height: 32px;
-	// 		}
-	// 	}
-	// }
-	//
-	// </style>
-	//
-	// <template>
-	// <div class="sg-row sg-main-content" v-if="onboarded">
-	// 	<settings v-if="showSettings"></settings>
-	// 	<navbar></navbar>
-	// 	<div class="sg-col-9">
-	// 		<wrapper v-for="section in sections" :section="section"></wrapper>
-	// 			<form class="sg-section-title__edit" v-on:submit="addWrapper" v-show="logged_in">
-	// 				<input type="text" class="sg-stack sg-font-dark sg-section-title sg-style-title" placeholder="New Section Title" />
-	// 				<button class="sg-button">Add</button>
-	// 			</form>
-	// 		</div>
-	// </div>
-	//
-	// <div class="sg-row sg-main-content sg-stack sg-onboarding" v-else>
-	// 	<h3 class="sg-style-title">Welcome to <span class="sg-styles-icon"><icon name="styles"></icon></span>, a plugin for quickly building front-end styleguides.</h3>
-	// 	<p>Let's start by setting a few things up.</p>
-	//
-	// </div>
-	// </template>
-	//
-	// <script>
-	exports.default = {
-
-		el: '#app',
-
-		store: _store2.default,
-
-		vuex: {
-			getters: {
-				logged_in: function logged_in(state) {
-					return state.logged_in;
-				},
-				sections: function sections(state) {
-					return state.sections;
-				},
-				sectionPositions: function sectionPositions(state) {
-					return state.sectionPositions;
-				},
-				showSettings: function showSettings(state) {
-					return state.settings.show;
-				},
-				onboarded: function onboarded(state) {
-					return state.settings.onboarded;
-				}
-			},
-
-			actions: {
-				getAll: _actions2.default.getAll,
-				addSection: _actions2.default.addSection,
-				toggleActive: _actions2.default.toggleActive
-			}
-		},
-
-		components: {
-			Wrapper: _Wrapper2.default,
-			Settings: _Settings2.default,
-			Navbar: _Navbar2.default,
-			Icon: _Icon2.default
-		},
-
-		ready: function ready() {
-			this.getAll();
-
-			var self = this;
-			window.addEventListener('scroll', function () {
-				var y = window.scrollY;
-				if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-					var last = self.sections.length - 1;
-					var id = self.sections[last].id;
-					self.toggleActive({ id: id });
-				} else {
-					for (var i = 0; i < self.sections.length; i++) {
-						if (y >= self.sectionPositions[i] && (self.sectionPositions[i + 1] ? y < self.sectionPositions[i + 1] : true)) {
-							self.toggleActive({ id: self.sections[i].id });
-						}
-					}
-				}
-			});
-		},
-
-		methods: {
-
-			addWrapper: function addWrapper(evt) {
-				evt.preventDefault();
-
-				var newTitle = evt.target[0].value;
-				evt.target[0].value = '';
-				var len = this.sections.length + 1;
-				this.addSection({
-					title: newTitle,
-					order: len,
-					id: 0,
-					styles: []
-				});
-			}
-
-		}
-	};
-	// </script>
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__webpack_require__(12)
-	__vue_script__ = __webpack_require__(13)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] components/Wrapper.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(24)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "./Wrapper.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _Style = __webpack_require__(14);
-
-	var _Style2 = _interopRequireDefault(_Style);
-
-	var _Icon = __webpack_require__(17);
-
-	var _Icon2 = _interopRequireDefault(_Icon);
-
-	var _actions = __webpack_require__(21);
-
-	var _actions2 = _interopRequireDefault(_actions);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	; // <template>
-	//   <section id="{{section.slug }}" class="sg-section">
-	//
-	// 		<div class="sg-section-wrap">
-	// 			<h3 class="sg-stack sg-section-title" v-if="!logged_in">{{ section.title }}</h3>
-	// 	    <input v-if="logged_in" class="sg-stack sg-font-dark sg-section-title" v-model="title" v-on:focus="enterEditing" v-on:blur="pushEdit" v-on:keyup.enter="pushEdit" />
-	//
-	// 			<span v-on:click="removeSection" v-show="logged_in && editing" class="sg-actions sg-actions__section">
-	// 				<button class="sg-button__action">
-	// 					<icon name="delete"></icon>
-	// 				</button>
-	// 			</span>
-	// 		</div>
-	//
-	//     <style v-for="style in section.styles" :style="style" :index="$index" :section="section"></style>
-	//
-	//     <section class="sg-section sg-stack sg-section__add" v-show="logged_in">
-	//         <button v-on:click="pushStyle()" class="sg-button sg-button__add">
-	// 					<icon name="add"></icon>
-	// 					Add New Element
-	// 				</button>
-	//     </section>
-	//
-	//   </section>
-	// </template>
-	//
-	// <style lang="scss">
-	// #styleguide {
-	// 	.sg-section {
-	// 		margin-bottom: 2em;
-	// 		padding-bottom: 1em;
-	// 		border-bottom: 1px dotted #ccc;
-	// 		position: relative;
-	// 	}
-	// 	.sg-actions__section {
-	// 		opacity: 1 !important;
-	// 		top: 10px !important;
-	//
-	// 	}
-	// 	.sg-section__add {
-	// 		text-align: right;
-	// 	}
-	// 	.sg-section-title {
-	// 		font-size: 32px;
-	// 		margin-bottom: 10px;
-	// 		font-weight: bold;
-	// 		background: #f7f7f7;
-	// 		border: none !important;
-	// 		display: block;
-	// 		width: 100%;
-	//
-	// 		&:focus {
-	// 			background: white;
-	// 		}
-	// 	}
-	// 	.sg-button__add {
-	// 		color: #333;
-	// 		font-weight: 700;
-	// 		svg {
-	// 			width: 14px;
-	// 			height: auto;
-	// 			fill: #333;
-	// 			position: relative;
-	// 			top: 2px;
-	// 			margin-right: 2px;
-	// 		}
-	// 		&:hover {
-	// 			color: #666;
-	// 			svg {
-	// 				fill: #666;
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// </style>
-	//
-	// <script>
-
-	exports.default = {
-		props: ['section'],
-
-		data: function data() {
-			return {
-				editing: false
-			};
-		},
-
-		computed: {
-			title: {
-				get: function get() {
-					return this.section.title;
-				},
-				set: function set(val) {
-					this.pushUpdate(val);
-				}
-			}
-		},
-
-		vuex: {
-			getters: {
-				logged_in: function logged_in(state) {
-					return state.logged_in;
-				}
-			},
-			actions: {
-				addStyle: _actions2.default.addStyle,
-				addSectionPositions: _actions2.default.addSectionPositions,
-				deleteSection: _actions2.default.deleteSection,
-				updateSection: _actions2.default.updateSection,
-				editSection: _actions2.default.editSection
-			}
-		},
-
-		ready: function ready() {
-			if (this.$el) {
-				var pos = this.$el.getBoundingClientRect().top + window.scrollY - parseInt(getComputedStyle(this.$el).marginTop, 10);
-				this.addSectionPositions(pos);
-			}
-		},
-
-		components: {
-			Style: _Style2.default,
-			Icon: _Icon2.default
-		},
-
-		methods: {
-			enterEditing: function enterEditing() {
-				this.editing = true;
-			},
-			pushStyle: function pushStyle() {
-				var newStyle = {
-					title: '',
-					html: '',
-					id: 0
-				};
-				this.addStyle(newStyle, this.section);
-			},
-
-			pushUpdate: function (val) {
-				this.updateSection(val, this.section);
-			}.debounce(300),
-
-			pushEdit: function pushEdit() {
-				this.editing = false;
-				this.editSection(this.title, this.section);
-			},
-			removeSection: function removeSection() {
-				this.deleteSection(this.section);
-			}
-		}
-	};
-	// </script>
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__webpack_require__(15)
-	__vue_script__ = __webpack_require__(16)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] components/Style.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(23)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "./Style.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _Editor = __webpack_require__(3);
-
-	var _Editor2 = _interopRequireDefault(_Editor);
-
-	var _Icon = __webpack_require__(17);
-
-	var _Icon2 = _interopRequireDefault(_Icon);
-
-	var _actions = __webpack_require__(21);
-
-	var _actions2 = _interopRequireDefault(_actions);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  props: ['style', 'index', 'section'],
-
-	  vuex: {
-	    actions: {
-	      updateStyle: _actions2.default.updateStyle,
-	      removeStyle: _actions2.default.removeStyle
-	    }
-	  },
-
-	  data: function data() {
-	    return {
-	      logged_in: styleguide_options.logged_in,
-	      showMarkup: false,
-	      editing: false,
-	      confirm: false,
-	      prev: {}
-	    };
-	  },
-
-	  created: function created() {
-	    if (!this.style.title) {
-	      this.editing = true;
-	    };
-	  },
-
-	  components: {
-	    CodeEditor: _Editor2.default,
-	    Icon: _Icon2.default
-	  },
-
-	  methods: {
-
-	    toggleMarkup: function toggleMarkup() {
-	      this.showMarkup = !this.showMarkup;
-	    },
-
-	    enterEditing: function enterEditing(evt) {
-	      this.editing = true;
-	      this.prev = {
-	        title: this.style.title,
-	        html: this.style.html
-	      };
-	    },
-
-	    exitEditing: function exitEditing(evt) {
-	      this.editing = false;
-	      this.style.title = this.prev.title;
-	      this.style.html = this.prev.html;
-	    },
-
-	    editStyle: function editStyle(evt) {
-	      this.updateStyle({
-	        title: this.style.title,
-	        html: this.style.html,
-	        id: this.style.id
-	      }, this.style);
-	      this.editing = false;
-	    },
-
-	    deleteStyle: function deleteStyle() {
-	      this.confirm = false;
-	      this.removeStyle(this.index, this.section, this.style.id);
-	    },
-
-	    toggleConfirm: function toggleConfirm() {
-	      this.confirm = !this.confirm;
-	    }
-	  }
-	};
-	// </script>
-	// <template>
-	//   <div id="{{ style.slug }}" class="sg-container">
-	// 		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
-	// 			<p>Are you sure you want to delete this style?</p>
-	// 			<div class="sg-confirm-actions">
-	// 				<button class="sg-button sg-confirm-button" v-on:click="deleteStyle">Yes</button>
-	// 				<button class="sg-button sg-confirm-button" v-on:click="toggleConfirm">No</button>
-	// 			</div>
-	// 		</div>
-	// 		<h4 class="sg-style-title sg-stack" v-show="!editing">
-	// 			{{ style.title }}
-	// 		</h4>
-	// 			<span v-show="!editing && logged_in" class="sg-actions">
-	// 			<button v-on:click="enterEditing" class="sg-button__action">
-	// 				<icon name="edit"></icon>
-	// 			</button>
-	// 			<button v-on:click="toggleConfirm" class="sg-button__action">
-	// 					<icon name="delete"></icon>
-	// 		</button>
-	// 		</span>
-	// 		<input
-	// 					placeholder="Add a title..."
-	// 					type="text" class="sg-style-title sg-stack sg-font-light"
-	// 					v-model="style.title"
-	// 					v-bind:class="{'editing' : editing }"
-	// 					v-show="editing"
-	// 					autofocus
-	// 			/>
-	//       <span v-show="editing" class="sg-actions sg-actions--editing">
-	//       <button class="sg-button__action sg-button__save" v-on:click="editStyle">
-	//         <icon name="save"></icon>
-	//       </button>
-	//       <button class="sg-button__action sg-button__cancel" v-on:click="exitEditing">
-	//         <icon name="cancel"></icon>	
-	//     </button>
-	//   </span>
-	//     <div class="sg-output">
-	//         {{{ style.html }}}
-	//     </div>
-	// 		<div class="sg-markuptoggle">
-	// 			<button class="sg-button__action" v-on:click="toggleMarkup" v-show="!editing">
-	// 				<icon name="markup"></icon>
-	// 			</button>
-	// 			<span v-show="editing" class="sg-markuptext">Edit the HTML below</span>
-	// 		</div>
-	//     <div class="sg-markup" v-show="editing || showMarkup">
-	//       <code-editor :html.sync="style.html" :editing="editing"></code-editor>
-	//     </div>
-	//   </div>
-	// </template>
-	//
-	// <style lang="scss">
-	// #styleguide {
-	// 	.sg-container {
-	// 		background: white;
-	// 		padding: 24px;
-	// 		box-shadow: -1px 0 2px 0 rgba(0,0,0,0.12) , 1px 0 2px 0 rgba(0,0,0,0.12) , 0 1px 1px 0 rgba(0,0,0,0.24);
-	// 		border-radius: 1px;
-	// 		margin: 2em 0;
-	// 		position: relative;
-	// 	}
-	//
-	//
-	// 	.sg-actions {
-	// 		position: absolute;
-	// 		top: 24px;
-	// 		right: 10px;
-	// 		opacity: 0;
-	// 		z-index: 1;
-	// 	}
-	//
-	//   .sg-actions--editing {
-	//     opacity: 1;
-	//     top: 30px;
-	//     .sg-button__action svg {
-	//       width: 19px;
-	//       height: 19px;
-	//     }
-	//   }
-	//
-	//   .sg-style-title {
-	//     margin: 0 0 0 0;
-	//     padding: 0 0 10px 0;
-	//     border-bottom: 1px dotted #ddd;
-	//     width: 100%;
-	//     font-weight: bold;
-	//     font-size: 24px;
-	//     border-radius: 0;
-	//   }
-	//
-	//   input.sg-style-title {
-	//     border: 1px solid #ddd;
-	//     padding: 5px;
-	//     width: 90%;
-	//   }
-	//
-	// 	.sg-button__action {
-	// 		border: none;
-	// 		background: none;
-	// 		padding: 5px 10px;
-	// 		margin: none;
-	// 		color: #9C9C9C;
-	// 		&:active, &:focus {
-	// 			color: #333;
-	// 			outline: none;
-	// 			svg {
-	// 				fill: #333;
-	// 			}
-	// 		}
-	// 		svg {
-	// 			width: 16px;
-	// 			height: 16px;
-	// 			fill: #9C9C9C;
-	// 		}
-	// 		&:hover svg {
-	// 			fill: #333;
-	// 		}
-	// 	}
-	//
-	//   .sg-button__save:hover {
-	//     svg {
-	//       fill: #00E676;
-	//     }
-	//   }
-	//
-	//   .sg-button__cancel:hover {
-	//     svg {
-	//       fill: #FF3D00;
-	//     }
-	//   }
-	//
-	// 	.sg-markuptoggle {
-	// 		svg {
-	// 			position: relative;
-	// 			top: 3px;
-	// 			margin-right: 5px;
-	// 		}
-	// 	}
-	//
-	// 	.sg-markuptext {
-	// 		color: #9C9C9C;
-	// 		font-style: italic;
-	// 		font-weight: 100;
-	// 	}
-	//
-	// 	.sg-container:hover .sg-actions {
-	// 		opacity: 1;
-	// 	}
-	//
-	//
-	// 	.sg-container:hover .sg-style-actions button {
-	// 		opacity: 1;
-	// 	}
-	//
-	// 	.sg-output {
-	// 		padding: 36px 0 0 0;
-	// 		margin: 1em 0;
-	// 	}
-	//
-	// 	.sg-confirm-style {
-	// 		position: absolute;
-	// 		background: #FF3D00;
-	// 		width: 100%;
-	// 		height: 100%;
-	// 		top: 0;
-	// 		left: 0;
-	// 		color: #fff;
-	// 		text-align: center;
-	// 		font-weight: 700;
-	// 		display: flex;
-	// 		justify-content: center;
-	// 		flex-direction: column;
-	// 		flex-wrap: wrap;
-	// 		align-items: center;
-	// 		font-size: 24px;
-	// 		z-index: 10;
-	//
-	// 		.sg-button {
-	// 			background: white;
-	// 			color: #FF3D00;
-	// 			border: 2px solid white;
-	// 			&:hover {
-	// 				background: #FF3D00;
-	// 				color: white;
-	// 			}
-	// 		}
-	// 	}
-	//
-	// 	.expand-transition {
-	//   transition: all .3s ease;
-	// 	height: 100%;
-	//   overflow: hidden;
-	// }
-	//
-	// .expand-enter, .expand-leave {
-	//   height: 0;
-	//   padding: 0 10px;
-	//   opacity: 0;
-	// }
-	// }
-	// </style>
-	//
-	// <script>
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(18)
+	__vue_script__ = __webpack_require__(20)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Icon.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(20)
+	__vue_template__ = __webpack_require__(22)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12204,7 +12096,7 @@
 	})()}
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12213,7 +12105,7 @@
 		value: true
 	});
 
-	var _svg = __webpack_require__(19);
+	var _svg = __webpack_require__(21);
 
 	var _svg2 = _interopRequireDefault(_svg);
 
@@ -12237,7 +12129,7 @@
 	};
 	// </script>
 	// <template>
-	// 	<svg :view-box.camel="box" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	// 	<svg class="sg-icon" :view-box.camel="box" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 	// 		<title>{{ icon.title }}</title>
 	// 		<g>{{{ icon.g }}}</g>
 	// 	</svg>
@@ -12246,7 +12138,7 @@
 	// <script>
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -12313,13 +12205,13 @@
 	};
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<svg :view-box.camel=\"box\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n\t<title>{{ icon.title }}</title>\n\t<g>{{{ icon.g }}}</g>\n</svg>\n";
+	module.exports = "\n<svg class=\"sg-icon\" :view-box.camel=\"box\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n\t<title>{{ icon.title }}</title>\n\t<g>{{{ icon.g }}}</g>\n</svg>\n";
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12328,7 +12220,7 @@
 		value: true
 	});
 
-	var _api = __webpack_require__(22);
+	var _api = __webpack_require__(24);
 
 	var _api2 = _interopRequireDefault(_api);
 
@@ -12339,7 +12231,6 @@
 			var dispatch = store.dispatch;
 			_api2.default.getAll().then(function (response) {
 				dispatch('RECIEVE_SECTIONS', response.data.sections);
-				console.log(response);
 				dispatch('RECIEVE_SETTINGS', response.data.settings);
 			});
 		},
@@ -12347,8 +12238,16 @@
 		addSection: function addSection(store, section) {
 			var dispatch = store.dispatch;
 			dispatch('ADD_SECTION', section);
+
+			var self = this;
 			_api2.default.addSection(section).then(function (response) {
 				dispatch('RECIEVE_ID', section, response.data);
+				var newStyle = {
+					title: '',
+					html: '',
+					id: 0
+				};
+				self.addStyle(newStyle, section);
 			});
 		},
 
@@ -12366,6 +12265,7 @@
 		deleteSection: function deleteSection(store, section) {
 			var dispatch = store.dispatch;
 			dispatch('DELETE_SECTION', section);
+			_api2.default.deleteSection(section.id);
 		},
 
 		addStyle: function addStyle(store, style, section) {
@@ -12421,7 +12321,7 @@
 	};
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12466,6 +12366,16 @@
 	        'X-WP-Nonce': styleguide_options.nonce
 	      },
 	      data: data
+	    });
+	  },
+
+	  deleteSection: function deleteSection(id, data) {
+	    return _Vue2.default.http({
+	      method: 'DELETE',
+	      url: styleguide_options.url + '/sections/' + id,
+	      headers: {
+	        'X-WP-Nonce': styleguide_options.nonce
+	      }
 	    });
 	  },
 
@@ -12517,29 +12427,29 @@
 	};
 
 /***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	module.exports = "\n  <div id=\"{{ style.slug }}\" class=\"sg-container\">\n\t\t<div v-if=\"confirm\" transition=\"expand\" class=\"sg-confirm-style sg-stack\">\n\t\t\t<p>Are you sure you want to delete this style?</p>\n\t\t\t<div class=\"sg-confirm-actions\">\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"deleteStyle\">Yes</button>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"toggleConfirm\">No</button>\n\t\t\t</div>\n\t\t</div>\n\t\t<h4 class=\"sg-style-title sg-stack\" v-show=\"!editing\">\n\t\t\t{{ style.title }}\n\t\t</h4>\n\t\t\t<span v-show=\"!editing && logged_in\" class=\"sg-actions\">\n\t\t\t<button v-on:click=\"enterEditing\" class=\"sg-button__action\">\n\t\t\t\t<icon name=\"edit\"></icon>\n\t\t\t</button>\n\t\t\t<button v-on:click=\"toggleConfirm\" class=\"sg-button__action\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t</button>\n\t\t</span>\n\t\t<input \n\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\ttype=\"text\" class=\"sg-style-title sg-stack sg-font-light\" \n\t\t\t\t\tv-model=\"style.title\" \n\t\t\t\t\tv-bind:class=\"{'editing' : editing }\"\n\t\t\t\t\tv-show=\"editing\"\n\t\t\t\t\tautofocus\n\t\t\t/>\n      <span v-show=\"editing\" class=\"sg-actions sg-actions--editing\">\n      <button class=\"sg-button__action sg-button__save\" v-on:click=\"editStyle\">\n        <icon name=\"save\"></icon>\n      </button>\n      <button class=\"sg-button__action sg-button__cancel\" v-on:click=\"exitEditing\">\n        <icon name=\"cancel\"></icon>\t\n    </button>\n  </span>\n    <div class=\"sg-output\">\n        {{{ style.html }}}\n    </div>\n\t\t<div class=\"sg-markuptoggle\">\n\t\t\t<button class=\"sg-button__action\" v-on:click=\"toggleMarkup\" v-show=\"!editing\">\n\t\t\t\t<icon name=\"markup\"></icon>\n\t\t\t</button>\n\t\t\t<span v-show=\"editing\" class=\"sg-markuptext\">Edit the HTML below</span>\n\t\t</div>\n    <div class=\"sg-markup\" v-show=\"editing || showMarkup\">\n      <code-editor :html.sync=\"style.html\" :editing=\"editing\"></code-editor>\n    </div>\n  </div>\n";
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	module.exports = "\n  <section id=\"{{section.slug }}\" class=\"sg-section\">\n\t\t\n\t\t<div class=\"sg-section-wrap\">\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!logged_in\">{{ section.title }}</h3>\n\t    <input v-if=\"logged_in\" class=\"sg-stack sg-font-dark sg-section-title\" v-model=\"title\" v-on:focus=\"enterEditing\" v-on:blur=\"pushEdit\" v-on:keyup.enter=\"pushEdit\" />\n\t\t\t\n\t\t\t<span v-on:click=\"removeSection\" v-show=\"logged_in && editing\" class=\"sg-actions sg-actions__section\">\n\t\t\t\t<button class=\"sg-button__action\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t\t\t</button>\n\t\t\t</span>\n\t\t</div>\n\t\t\n    <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n\t\t\n    <section class=\"sg-section sg-stack sg-section__add\" v-show=\"logged_in\">\n        <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\t\tAdd New Element\n\t\t\t\t</button>\n    </section>\n\t\t\t\n  </section>\n";
-
-/***/ },
 /* 25 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div id=\"{{ style.slug }}\" class=\"sg-container\">\n\t\t<div v-if=\"confirm\" transition=\"expand\" class=\"sg-confirm-style sg-stack\">\n\t\t\t<p>Are you sure you want to delete this style?</p>\n\t\t\t<div class=\"sg-confirm-actions\">\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"deleteStyle\">Yes</button>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"toggleConfirm\">No</button>\n\t\t\t</div>\n\t\t</div>\n\t\t<h4 class=\"sg-style-title sg-stack\" v-if=\"!editing\">\n\t\t\t{{ style.title }}\n\t\t</h4>\n\t\t\t<span v-show=\"!editing && logged_in\" class=\"sg-actions\">\n\t\t\t<button v-on:click=\"enterEditing\" class=\"sg-button__action\">\n\t\t\t\t<icon name=\"edit\"></icon>\n\t\t\t</button>\n\t\t\t<button v-on:click=\"toggleConfirm\" class=\"sg-button__action\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t</button>\n\t\t</span>\n\t\t<input \n\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\ttype=\"text\" class=\"sg-style-title sg-stack sg-font-light sg-style-input\" \n\t\t\t\t\tv-model=\"style.title\" \n\t\t\t\t\tv-bind:class=\"{'editing' : editing }\"\n\t\t\t\t\tv-if=\"editing\"\n\t\t\t\t\tautofocus\n\t\t\t/>\n      <span v-show=\"editing\" class=\"sg-actions sg-actions--editing\">\n      <button class=\"sg-button__action sg-button__save\" v-on:click=\"editStyle\">\n        <icon name=\"save\"></icon>\n      </button>\n      <button class=\"sg-button__action sg-button__cancel\" v-on:click=\"exitEditing\">\n        <icon name=\"cancel\"></icon>\t\n    </button>\n  </span>\n    <div class=\"sg-output\">\n        {{{ style.html }}}\n    </div>\n\t\t<div class=\"sg-markuptoggle\">\n\t\t\t<button class=\"sg-button__action\" v-on:click=\"toggleMarkup\" v-show=\"!editing\">\n\t\t\t\t<icon name=\"markup\"></icon>\n\t\t\t</button>\n\t\t\t<span v-show=\"editing\" class=\"sg-markuptext\">Edit the HTML below</span>\n\t\t</div>\n    <div class=\"sg-markup\" v-show=\"editing || showMarkup\">\n      <code-editor :html.sync=\"style.html\" :editing=\"editing\"></code-editor>\n    </div>\n  </div>\n";
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <section id=\"{{section.slug }}\" class=\"sg-section\" v-bind:class=\"{'loading' : loading}\">\n\n\t\t<div class=\"sg-section-wrap\">\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!logged_in\">{{ section.title }}</h3>\n\t    <input v-if=\"logged_in\" class=\"sg-input sg-stack sg-font-dark sg-section-title\" v-model=\"title\" v-on:focus=\"enterEditing\" v-on:blur=\"pushEdit\" v-on:keyup.enter=\"pushEdit\" />\n\t\t</div>\n    <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n\t\t\n    <section class=\"sg-stack sg-section__actions\" v-if=\"logged_in\">\n      <div v-if=\"confirm\" class=\"sg-section__confirm\">\n        Are you sure? This will delete all styles in this section.\n        <div class=\"sg-confirm__buttons\">\n          <button class=\"sg-button\" v-on:click=\"removeSection\">Yes</button>\n          <button class=\"sg-button\" v-on:click=\"toggleConfirm\">No</button>\n        </div>\n      </div>\n        <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\t\tAdd To Section\n\t\t\t\t</button>\n        <span class=\"sg-section__divide\"> | </span>\n        <button class=\"sg-button\" v-on:click=\"toggleConfirm\">\n          <icon name=\"delete\"></icon>\n          Delete\n        </button>\n    </section>\n\t\t\t\n  </section>\n";
+
+/***/ },
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(26)
-	__vue_script__ = __webpack_require__(27)
+	__webpack_require__(28)
+	__vue_script__ = __webpack_require__(29)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Settings.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(28)
+	__vue_template__ = __webpack_require__(30)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12558,13 +12468,13 @@
 	})()}
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12573,11 +12483,11 @@
 		value: true
 	});
 
-	var _actions = __webpack_require__(21);
+	var _actions = __webpack_require__(23);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
-	var _Icon = __webpack_require__(17);
+	var _Icon = __webpack_require__(19);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
@@ -12810,23 +12720,23 @@
 	// </script>
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports) {
 
 	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings-close\"><icon name=\"cancel\"></icon></button>\n        <h1 class=\"sg-font-dark sg-settings-title\">Settings</h1>\n\t\t\t\t\n\t\t\t\t<div class=\"sg-settings-group\">\n\t\t\t\t\t<h3 class=\"sg-settings-input-label\">Privacy:</h3>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-settings-group\">\n          <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-settings-group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(30)
-	__vue_script__ = __webpack_require__(31)
+	__webpack_require__(32)
+	__vue_script__ = __webpack_require__(33)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Navbar.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(35)
+	__vue_template__ = __webpack_require__(37)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12845,13 +12755,13 @@
 	})()}
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12860,15 +12770,15 @@
 	  value: true
 	});
 
-	var _Navlinks = __webpack_require__(32);
+	var _Navlinks = __webpack_require__(34);
 
 	var _Navlinks2 = _interopRequireDefault(_Navlinks);
 
-	var _Icon = __webpack_require__(17);
+	var _Icon = __webpack_require__(19);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(21);
+	var _actions = __webpack_require__(23);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -12897,22 +12807,6 @@
 	  }
 	};
 	// </script>
-	// <template>
-	//   <nav class="sg-nav sg-stack sg-col-3">
-	//     <ul class="sg-nav-links sg-nav-container">
-	//       <navlinks
-	//         v-for="section in sections"
-	//         :title="section.title"
-	//         :styles="section.styles"
-	//         :slug="section.slug"
-	//         :id="section.id"
-	//         :active="active"
-	//         ></navlinks>
-	//         <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
-	//     </ul>
-	//   </nav>
-	// </template>
-	//
 	// <style lang="scss">
 	// #styleguide {
 	//   .sg-nav-container {
@@ -12938,24 +12832,6 @@
 	// 		}
 	// 	}
 	//
-	// 	.sg-button__settings {
-	// 		svg {
-	// 			width: 14px;
-	// 			height: auto;
-	// 			fill: #333;
-	// 			margin-right: 2px;
-	// 			position: relative;
-	// 			top: 3px;
-	// 		}
-	// 		&:hover {
-	// 			color: #666 !important;
-	// 		}
-	//
-	// 		&:hover svg {
-	// 			fill: #666;
-	// 		}
-	// 	}
-	//
 	// 	.sg-nav-sublinks {
 	// 		padding: 0;
 	// 		padding-left: 10px;
@@ -12968,19 +12844,35 @@
 	// }
 	// </style>
 	//
+	// <template>
+	//   <nav class="sg-nav sg-stack sg-col-3">
+	//     <ul class="sg-nav-links sg-nav-container">
+	//       <navlinks
+	//         v-for="section in sections"
+	//         :title="section.title"
+	//         :styles="section.styles"
+	//         :slug="section.slug"
+	//         :id="section.id"
+	//         :active="active"
+	//         ></navlinks>
+	//         <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
+	//     </ul>
+	//   </nav>
+	// </template>
+	//
 	// <script>
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(33)
+	__vue_script__ = __webpack_require__(35)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Navlinks.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(34)
+	__vue_template__ = __webpack_require__(36)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12999,7 +12891,7 @@
 	})()}
 
 /***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13008,7 +12900,7 @@
 	  value: true
 	});
 
-	var _actions = __webpack_require__(21);
+	var _actions = __webpack_require__(23);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -13070,19 +12962,54 @@
 	// <script>
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<li class=\"sg-nav-link sg-nav-link__parent\">\n    <a v-on:click=\"switchSelected\" class=\"sg-nav-link--link\" v-bind:class=\"{ 'selected': selected }\" href=\"#{{ slug }}\">{{ title }}</a>\n    <ul class=\"sg-nav-links sg-nav-sublinks\" v-show=\"selected\">\n      <li class=\"sg-nav-link sg-nav-link__child\" v-for=\"style in styles\">\n        <a class=\"sg-nav-link--link\" href=\"#{{ style.slug }}\">{{ style.title }}</a>\n      </li>\n    </ul>\n</li>\n";
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<nav class=\"sg-nav sg-stack sg-col-3\">\n  <ul class=\"sg-nav-links sg-nav-container\">\n    <navlinks \n      v-for=\"section in sections\"\n      :title=\"section.title\"\n      :styles=\"section.styles\"\n      :slug=\"section.slug\"\n      :id=\"section.id\"\n      :active=\"active\"\n      ></navlinks>\n      <li v-if=\"logged_in\"><button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings\"><icon name=\"cog\"></icon> Settings</button></li>\n  </ul>\n</nav>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<nav class=\"sg-nav sg-stack sg-col-3\">\n  <ul class=\"sg-nav-links sg-nav-container\">\n    <navlinks \n      v-for=\"section in sections\"\n      :title=\"section.title\"\n      :styles=\"section.styles\"\n      :slug=\"section.slug\"\n      :id=\"section.id\"\n      :active=\"active\"\n      ></navlinks>\n      <li v-if=\"logged_in\"><button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings\"><icon name=\"cog\"></icon> Settings</button></li>\n  </ul>\n</nav>\n";
 
 /***/ },
-/* 36 */
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(39)
+	__vue_script__ = __webpack_require__(40)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/Onboard.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(41)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./Onboard.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 39 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13091,7 +13018,151 @@
 	  value: true
 	});
 
-	var _assign = __webpack_require__(37);
+	var _Icon = __webpack_require__(19);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _actions = __webpack_require__(23);
+
+	var _actions2 = _interopRequireDefault(_actions);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// <style lang="scss">
+	// #styleguide {
+	//   .sg-onboarding {
+	//     text-align: center;
+	//
+	//     .sg-style-title {
+	//       line-height: 1.3333;
+	//     }
+	//     button {
+	//       margin-top: 20px;
+	//     }
+	//   }
+	//
+	//   .sg-onboarding-text {
+	//     margin-top: 10px;
+	//   }
+	//
+	//   .sg-styles-icon {
+	//     position: relative;
+	//     top: 8px;
+	//     svg {
+	//       height: 32px;
+	//       width: auto;
+	//     }
+	//   }
+	// }
+	// </style>
+	//
+	// <template>
+	// <div>
+	//   <section v-if="step === 1">
+	//     <h3 class="sg-style-title">Welcome to <span class="sg-styles-icon"><icon name="styles"></icon></span> <br />An easy way to build <br />Front-end Styleguides</h3>
+	//     <p class="sg-onboarding-text">Let's start by setting a few things up.</p>
+	//     <button v-on:click="incrementStep" class="sg-button sg-button-settings-save">Get Started</button>
+	//   </section>
+	//
+	//   <section v-if="step === 2">
+	//       <h3 class="sg-settings-input-label">Would you like your styleguide to be private or public?</h3>
+	//       <div class="radio-group">
+	//         <input type="radio" id="private" value="private" v-model="privacy">
+	//         <label for="private"><strong>Private</strong> <br />Only logged in users can view and edit.</label>
+	//         <div class="check"></div>
+	//       </div>
+	//       <div class="radio-group">
+	//         <input type="radio" id="public" value="public" v-model="privacy">
+	//         <label for="public"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>
+	//         <div class="check"></div>
+	//       </div>
+	//
+	//       <button v-on:click="incrementStep" class="sg-button sg-button-settings-save">Next</button>
+	//   </section>
+	//
+	//   <section v-if="step === 3">
+	//     <label class="sg-settings-input-label sg-font-dark">The URL for your Styleguide:</label>
+	//     <span>{{ root }}</span><input class="sg-settings-input sg-settings-endpoint" type="text" v-model="settings.endpoint" />
+	//     <button v-on:click="saveSettings" class="sg-button sg-button-settings-save">Save Settings and Finish</button>
+	//   </section>
+	// </div>
+	// </template>
+	// <script>
+	exports.default = {
+	  data: function data() {
+	    return {
+	      step: 1
+	    };
+	  },
+
+	  vuex: {
+	    getters: {
+	      settings: function settings(state) {
+	        return state.settings;
+	      },
+	      root: function root(state) {
+	        return state.root;
+	      }
+	    },
+	    actions: {
+	      toggleSettings: _actions2.default.toggleSettings,
+	      togglePrivacy: _actions2.default.togglePrivacy,
+	      updateSettings: _actions2.default.updateSettings
+	    }
+	  },
+
+	  computed: {
+	    privacy: {
+	      get: function get() {
+	        if (this.settings.private === true) {
+	          return 'private';
+	        } else {
+	          return 'public';
+	        }
+	      },
+
+	      set: function set(val) {
+	        this.togglePrivacy();
+	      }
+	    }
+	  },
+
+	  components: {
+	    Icon: _Icon2.default
+	  },
+
+	  methods: {
+	    incrementStep: function incrementStep() {
+	      this.step = this.step + 1;
+	    },
+	    saveSettings: function saveSettings() {
+	      this.updateSettings({
+	        endpoint: this.settings.endpoint,
+	        private: this.settings.private,
+	        onboarded: true
+	      });
+	    }
+	  }
+	};
+	// </script>
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div>\n  <section v-if=\"step === 1\">\n    <h3 class=\"sg-style-title\">Welcome to <span class=\"sg-styles-icon\"><icon name=\"styles\"></icon></span> <br />An easy way to build <br />Front-end Styleguides</h3>\n    <p class=\"sg-onboarding-text\">Let's start by setting a few things up.</p>\n    <button v-on:click=\"incrementStep\" class=\"sg-button sg-button-settings-save\">Get Started</button>\n  </section>\n  \n  <section v-if=\"step === 2\">\n      <h3 class=\"sg-settings-input-label\">Would you like your styleguide to be private or public?</h3>\n      <div class=\"radio-group\">\n        <input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n        <label for=\"private\"><strong>Private</strong> <br />Only logged in users can view and edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"radio-group\">\n        <input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n        <label for=\"public\"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      \n      <button v-on:click=\"incrementStep\" class=\"sg-button sg-button-settings-save\">Next</button>\n  </section>\n  \n  <section v-if=\"step === 3\">\n    <label class=\"sg-settings-input-label sg-font-dark\">The URL for your Styleguide:</label>\n    <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n    <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings and Finish</button>\n  </section>\n</div>\n";
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _assign = __webpack_require__(43);
 
 	var _assign2 = _interopRequireDefault(_assign);
 
@@ -13099,7 +13170,7 @@
 
 	var _Vue2 = _interopRequireDefault(_Vue);
 
-	var _vuex = __webpack_require__(74);
+	var _vuex = __webpack_require__(80);
 
 	var _vuex2 = _interopRequireDefault(_vuex);
 
@@ -13115,7 +13186,8 @@
 	  activeSection: {},
 	  retainedIndex: '',
 	  sectionPositions: [],
-	  settings: {}
+	  settings: {},
+	  loaded: false
 	};
 
 	var mutations = {
@@ -13135,6 +13207,7 @@
 	  },
 	  RECIEVE_SECTIONS: function RECIEVE_SECTIONS(state, sections) {
 	    state.sections = sections;
+	    state.loaded = true;
 	  },
 	  DELETE_SECTION: function DELETE_SECTION(state, section) {
 	    state.sections.$remove(section);
@@ -13186,35 +13259,35 @@
 	});
 
 /***/ },
-/* 37 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(38), __esModule: true };
+	module.exports = { "default": __webpack_require__(44), __esModule: true };
 
 /***/ },
-/* 38 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(39);
-	module.exports = __webpack_require__(42).Object.assign;
+	__webpack_require__(45);
+	module.exports = __webpack_require__(48).Object.assign;
 
 /***/ },
-/* 39 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.3.1 Object.assign(target, source)
-	var $export = __webpack_require__(40);
+	var $export = __webpack_require__(46);
 
-	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(55)});
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(61)});
 
 /***/ },
-/* 40 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global    = __webpack_require__(41)
-	  , core      = __webpack_require__(42)
-	  , ctx       = __webpack_require__(43)
-	  , hide      = __webpack_require__(45)
+	var global    = __webpack_require__(47)
+	  , core      = __webpack_require__(48)
+	  , ctx       = __webpack_require__(49)
+	  , hide      = __webpack_require__(51)
 	  , PROTOTYPE = 'prototype';
 
 	var $export = function(type, name, source){
@@ -13274,7 +13347,7 @@
 	module.exports = $export;
 
 /***/ },
-/* 41 */
+/* 47 */
 /***/ function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -13283,18 +13356,18 @@
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ },
-/* 42 */
+/* 48 */
 /***/ function(module, exports) {
 
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 43 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(44);
+	var aFunction = __webpack_require__(50);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -13315,7 +13388,7 @@
 	};
 
 /***/ },
-/* 44 */
+/* 50 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -13324,12 +13397,12 @@
 	};
 
 /***/ },
-/* 45 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP         = __webpack_require__(46)
-	  , createDesc = __webpack_require__(54);
-	module.exports = __webpack_require__(50) ? function(object, key, value){
+	var dP         = __webpack_require__(52)
+	  , createDesc = __webpack_require__(60);
+	module.exports = __webpack_require__(56) ? function(object, key, value){
 	  return dP.f(object, key, createDesc(1, value));
 	} : function(object, key, value){
 	  object[key] = value;
@@ -13337,15 +13410,15 @@
 	};
 
 /***/ },
-/* 46 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var anObject       = __webpack_require__(47)
-	  , IE8_DOM_DEFINE = __webpack_require__(49)
-	  , toPrimitive    = __webpack_require__(53)
+	var anObject       = __webpack_require__(53)
+	  , IE8_DOM_DEFINE = __webpack_require__(55)
+	  , toPrimitive    = __webpack_require__(59)
 	  , dP             = Object.defineProperty;
 
-	exports.f = __webpack_require__(50) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	exports.f = __webpack_require__(56) ? Object.defineProperty : function defineProperty(O, P, Attributes){
 	  anObject(O);
 	  P = toPrimitive(P, true);
 	  anObject(Attributes);
@@ -13358,17 +13431,17 @@
 	};
 
 /***/ },
-/* 47 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(48);
+	var isObject = __webpack_require__(54);
 	module.exports = function(it){
 	  if(!isObject(it))throw TypeError(it + ' is not an object!');
 	  return it;
 	};
 
 /***/ },
-/* 48 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -13376,24 +13449,24 @@
 	};
 
 /***/ },
-/* 49 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = !__webpack_require__(50) && !__webpack_require__(51)(function(){
-	  return Object.defineProperty(__webpack_require__(52)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+	module.exports = !__webpack_require__(56) && !__webpack_require__(57)(function(){
+	  return Object.defineProperty(__webpack_require__(58)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 50 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(51)(function(){
+	module.exports = !__webpack_require__(57)(function(){
 	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 51 */
+/* 57 */
 /***/ function(module, exports) {
 
 	module.exports = function(exec){
@@ -13405,11 +13478,11 @@
 	};
 
 /***/ },
-/* 52 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(48)
-	  , document = __webpack_require__(41).document
+	var isObject = __webpack_require__(54)
+	  , document = __webpack_require__(47).document
 	  // in old IE typeof document.createElement is 'object'
 	  , is = isObject(document) && isObject(document.createElement);
 	module.exports = function(it){
@@ -13417,11 +13490,11 @@
 	};
 
 /***/ },
-/* 53 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
-	var isObject = __webpack_require__(48);
+	var isObject = __webpack_require__(54);
 	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
 	module.exports = function(it, S){
@@ -13434,7 +13507,7 @@
 	};
 
 /***/ },
-/* 54 */
+/* 60 */
 /***/ function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -13447,20 +13520,20 @@
 	};
 
 /***/ },
-/* 55 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	// 19.1.2.1 Object.assign(target, source, ...)
-	var getKeys  = __webpack_require__(56)
-	  , gOPS     = __webpack_require__(71)
-	  , pIE      = __webpack_require__(72)
-	  , toObject = __webpack_require__(73)
-	  , IObject  = __webpack_require__(60)
+	var getKeys  = __webpack_require__(62)
+	  , gOPS     = __webpack_require__(77)
+	  , pIE      = __webpack_require__(78)
+	  , toObject = __webpack_require__(79)
+	  , IObject  = __webpack_require__(66)
 	  , $assign  = Object.assign;
 
 	// should work with symbols and should have deterministic property order (V8 bug)
-	module.exports = !$assign || __webpack_require__(51)(function(){
+	module.exports = !$assign || __webpack_require__(57)(function(){
 	  var A = {}
 	    , B = {}
 	    , S = Symbol()
@@ -13485,25 +13558,25 @@
 	} : $assign;
 
 /***/ },
-/* 56 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-	var $keys       = __webpack_require__(57)
-	  , enumBugKeys = __webpack_require__(70);
+	var $keys       = __webpack_require__(63)
+	  , enumBugKeys = __webpack_require__(76);
 
 	module.exports = Object.keys || function keys(O){
 	  return $keys(O, enumBugKeys);
 	};
 
 /***/ },
-/* 57 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var has          = __webpack_require__(58)
-	  , toIObject    = __webpack_require__(59)
-	  , arrayIndexOf = __webpack_require__(63)(false)
-	  , IE_PROTO     = __webpack_require__(67)('IE_PROTO');
+	var has          = __webpack_require__(64)
+	  , toIObject    = __webpack_require__(65)
+	  , arrayIndexOf = __webpack_require__(69)(false)
+	  , IE_PROTO     = __webpack_require__(73)('IE_PROTO');
 
 	module.exports = function(object, names){
 	  var O      = toIObject(object)
@@ -13519,7 +13592,7 @@
 	};
 
 /***/ },
-/* 58 */
+/* 64 */
 /***/ function(module, exports) {
 
 	var hasOwnProperty = {}.hasOwnProperty;
@@ -13528,28 +13601,28 @@
 	};
 
 /***/ },
-/* 59 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// to indexed object, toObject with fallback for non-array-like ES3 strings
-	var IObject = __webpack_require__(60)
-	  , defined = __webpack_require__(62);
+	var IObject = __webpack_require__(66)
+	  , defined = __webpack_require__(68);
 	module.exports = function(it){
 	  return IObject(defined(it));
 	};
 
 /***/ },
-/* 60 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(61);
+	var cof = __webpack_require__(67);
 	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 	  return cof(it) == 'String' ? it.split('') : Object(it);
 	};
 
 /***/ },
-/* 61 */
+/* 67 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -13559,7 +13632,7 @@
 	};
 
 /***/ },
-/* 62 */
+/* 68 */
 /***/ function(module, exports) {
 
 	// 7.2.1 RequireObjectCoercible(argument)
@@ -13569,14 +13642,14 @@
 	};
 
 /***/ },
-/* 63 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// false -> Array#indexOf
 	// true  -> Array#includes
-	var toIObject = __webpack_require__(59)
-	  , toLength  = __webpack_require__(64)
-	  , toIndex   = __webpack_require__(66);
+	var toIObject = __webpack_require__(65)
+	  , toLength  = __webpack_require__(70)
+	  , toIndex   = __webpack_require__(72);
 	module.exports = function(IS_INCLUDES){
 	  return function($this, el, fromIndex){
 	    var O      = toIObject($this)
@@ -13595,18 +13668,18 @@
 	};
 
 /***/ },
-/* 64 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.15 ToLength
-	var toInteger = __webpack_require__(65)
+	var toInteger = __webpack_require__(71)
 	  , min       = Math.min;
 	module.exports = function(it){
 	  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 	};
 
 /***/ },
-/* 65 */
+/* 71 */
 /***/ function(module, exports) {
 
 	// 7.1.4 ToInteger
@@ -13617,10 +13690,10 @@
 	};
 
 /***/ },
-/* 66 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(65)
+	var toInteger = __webpack_require__(71)
 	  , max       = Math.max
 	  , min       = Math.min;
 	module.exports = function(index, length){
@@ -13629,20 +13702,20 @@
 	};
 
 /***/ },
-/* 67 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var shared = __webpack_require__(68)('keys')
-	  , uid    = __webpack_require__(69);
+	var shared = __webpack_require__(74)('keys')
+	  , uid    = __webpack_require__(75);
 	module.exports = function(key){
 	  return shared[key] || (shared[key] = uid(key));
 	};
 
 /***/ },
-/* 68 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global = __webpack_require__(41)
+	var global = __webpack_require__(47)
 	  , SHARED = '__core-js_shared__'
 	  , store  = global[SHARED] || (global[SHARED] = {});
 	module.exports = function(key){
@@ -13650,7 +13723,7 @@
 	};
 
 /***/ },
-/* 69 */
+/* 75 */
 /***/ function(module, exports) {
 
 	var id = 0
@@ -13660,7 +13733,7 @@
 	};
 
 /***/ },
-/* 70 */
+/* 76 */
 /***/ function(module, exports) {
 
 	// IE 8- don't enum bug keys
@@ -13669,33 +13742,33 @@
 	).split(',');
 
 /***/ },
-/* 71 */
+/* 77 */
 /***/ function(module, exports) {
 
 	exports.f = Object.getOwnPropertySymbols;
 
 /***/ },
-/* 72 */
+/* 78 */
 /***/ function(module, exports) {
 
 	exports.f = {}.propertyIsEnumerable;
 
 /***/ },
-/* 73 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.13 ToObject(argument)
-	var defined = __webpack_require__(62);
+	var defined = __webpack_require__(68);
 	module.exports = function(it){
 	  return Object(defined(it));
 	};
 
 /***/ },
-/* 74 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
-	 * Vuex v0.8.2
+	 * Vuex v0.8.0
 	 * (c) 2016 Evan You
 	 * Released under the MIT License.
 	 */
@@ -13841,8 +13914,9 @@
 	    var version = Number(Vue.version.split('.')[0]);
 
 	    if (version >= 2) {
-	      var usesInit = Vue.config._lifecycleHooks.indexOf('init') > -1;
-	      Vue.mixin(usesInit ? { init: vuexInit } : { beforeCreate: vuexInit });
+	      Vue.mixin({
+	        init: vuexInit
+	      });
 	    } else {
 	      (function () {
 	        // override init and inject vuex init procedure
@@ -14334,1634 +14408,1672 @@
 	}));
 
 /***/ },
-/* 75 */
-/***/ function(module, exports) {
-
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-row sg-main-content\" v-if=\"onboarded\">\n\t<settings v-if=\"showSettings\"></settings>\n\t<navbar></navbar>\n\t<div class=\"sg-col-9\">\n\t\t<wrapper v-for=\"section in sections\" :section=\"section\"></wrapper>\n\t\t\t<form class=\"sg-section-title__edit\" v-on:submit=\"addWrapper\" v-show=\"logged_in\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-section-title sg-style-title\" placeholder=\"New Section Title\" />\n\t\t\t\t<button class=\"sg-button\">Add</button>\n\t\t\t</form>\n\t\t</div>\n</div>\n\n<div class=\"sg-row sg-main-content sg-stack sg-onboarding\" v-else>\n\t<h3 class=\"sg-style-title\">Welcome to <span class=\"sg-styles-icon\"><icon name=\"styles\"></icon></span>, a plugin for quickly building front-end styleguides.</h3>\n\t<p>Let's start by setting a few things up.</p>\n\t\n</div>\n";
-
-/***/ },
-/* 76 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Install plugin.
-	 */
-
-	function install(Vue) {
-
-	    var _ = __webpack_require__(77);
-
-	    _.config = Vue.config;
-	    _.warning = Vue.util.warn;
-	    _.nextTick = Vue.util.nextTick;
-
-	    Vue.url = __webpack_require__(78);
-	    Vue.http = __webpack_require__(84);
-	    Vue.resource = __webpack_require__(99);
-	    Vue.Promise = __webpack_require__(86);
-
-	    Object.defineProperties(Vue.prototype, {
-
-	        $url: {
-	            get: function () {
-	                return _.options(Vue.url, this, this.$options.url);
-	            }
-	        },
-
-	        $http: {
-	            get: function () {
-	                return _.options(Vue.http, this, this.$options.http);
-	            }
-	        },
-
-	        $resource: {
-	            get: function () {
-	                return Vue.resource.bind(this);
-	            }
-	        },
-
-	        $promise: {
-	            get: function () {
-	                return function (executor) {
-	                    return new Vue.Promise(executor, this);
-	                }.bind(this);
-	            }
-	        }
-
-	    });
-	}
-
-	if (window.Vue) {
-	    Vue.use(install);
-	}
-
-	module.exports = install;
-
-
-/***/ },
-/* 77 */
-/***/ function(module, exports) {
-
-	/**
-	 * Utility functions.
-	 */
-
-	var _ = exports, array = [], console = window.console;
-
-	_.warn = function (msg) {
-	    if (console && _.warning && (!_.config.silent || _.config.debug)) {
-	        console.warn('[VueResource warn]: ' + msg);
-	    }
-	};
-
-	_.error = function (msg) {
-	    if (console) {
-	        console.error(msg);
-	    }
-	};
-
-	_.trim = function (str) {
-	    return str.replace(/^\s*|\s*$/g, '');
-	};
-
-	_.toLower = function (str) {
-	    return str ? str.toLowerCase() : '';
-	};
-
-	_.isArray = Array.isArray;
-
-	_.isString = function (val) {
-	    return typeof val === 'string';
-	};
-
-	_.isFunction = function (val) {
-	    return typeof val === 'function';
-	};
-
-	_.isObject = function (obj) {
-	    return obj !== null && typeof obj === 'object';
-	};
-
-	_.isPlainObject = function (obj) {
-	    return _.isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
-	};
-
-	_.options = function (fn, obj, options) {
-
-	    options = options || {};
-
-	    if (_.isFunction(options)) {
-	        options = options.call(obj);
-	    }
-
-	    return _.merge(fn.bind({$vm: obj, $options: options}), fn, {$options: options});
-	};
-
-	_.each = function (obj, iterator) {
-
-	    var i, key;
-
-	    if (typeof obj.length == 'number') {
-	        for (i = 0; i < obj.length; i++) {
-	            iterator.call(obj[i], obj[i], i);
-	        }
-	    } else if (_.isObject(obj)) {
-	        for (key in obj) {
-	            if (obj.hasOwnProperty(key)) {
-	                iterator.call(obj[key], obj[key], key);
-	            }
-	        }
-	    }
-
-	    return obj;
-	};
-
-	_.defaults = function (target, source) {
-
-	    for (var key in source) {
-	        if (target[key] === undefined) {
-	            target[key] = source[key];
-	        }
-	    }
-
-	    return target;
-	};
-
-	_.extend = function (target) {
-
-	    var args = array.slice.call(arguments, 1);
-
-	    args.forEach(function (arg) {
-	        merge(target, arg);
-	    });
-
-	    return target;
-	};
-
-	_.merge = function (target) {
-
-	    var args = array.slice.call(arguments, 1);
-
-	    args.forEach(function (arg) {
-	        merge(target, arg, true);
-	    });
-
-	    return target;
-	};
-
-	function merge(target, source, deep) {
-	    for (var key in source) {
-	        if (deep && (_.isPlainObject(source[key]) || _.isArray(source[key]))) {
-	            if (_.isPlainObject(source[key]) && !_.isPlainObject(target[key])) {
-	                target[key] = {};
-	            }
-	            if (_.isArray(source[key]) && !_.isArray(target[key])) {
-	                target[key] = [];
-	            }
-	            merge(target[key], source[key], deep);
-	        } else if (source[key] !== undefined) {
-	            target[key] = source[key];
-	        }
-	    }
-	}
-
-
-/***/ },
-/* 78 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Service for URL templating.
-	 */
-
-	var _ = __webpack_require__(77);
-	var ie = document.documentMode;
-	var el = document.createElement('a');
-
-	function Url(url, params) {
-
-	    var options = url, transform;
-
-	    if (_.isString(url)) {
-	        options = {url: url, params: params};
-	    }
-
-	    options = _.merge({}, Url.options, this.$options, options);
-
-	    Url.transforms.forEach(function (handler) {
-	        transform = factory(handler, transform, this.$vm);
-	    }, this);
-
-	    return transform(options);
-	};
-
-	/**
-	 * Url options.
-	 */
-
-	Url.options = {
-	    url: '',
-	    root: null,
-	    params: {}
-	};
-
-	/**
-	 * Url transforms.
-	 */
-
-	Url.transforms = [
-	    __webpack_require__(79),
-	    __webpack_require__(81),
-	    __webpack_require__(82),
-	    __webpack_require__(83)
-	];
-
-	/**
-	 * Encodes a Url parameter string.
-	 *
-	 * @param {Object} obj
-	 */
-
-	Url.params = function (obj) {
-
-	    var params = [], escape = encodeURIComponent;
-
-	    params.add = function (key, value) {
-
-	        if (_.isFunction(value)) {
-	            value = value();
-	        }
-
-	        if (value === null) {
-	            value = '';
-	        }
-
-	        this.push(escape(key) + '=' + escape(value));
-	    };
-
-	    serialize(params, obj);
-
-	    return params.join('&').replace(/%20/g, '+');
-	};
-
-	/**
-	 * Parse a URL and return its components.
-	 *
-	 * @param {String} url
-	 */
-
-	Url.parse = function (url) {
-
-	    if (ie) {
-	        el.href = url;
-	        url = el.href;
-	    }
-
-	    el.href = url;
-
-	    return {
-	        href: el.href,
-	        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
-	        port: el.port,
-	        host: el.host,
-	        hostname: el.hostname,
-	        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
-	        search: el.search ? el.search.replace(/^\?/, '') : '',
-	        hash: el.hash ? el.hash.replace(/^#/, '') : ''
-	    };
-	};
-
-	function factory(handler, next, vm) {
-	    return function (options) {
-	        return handler.call(vm, options, next);
-	    };
-	}
-
-	function serialize(params, obj, scope) {
-
-	    var array = _.isArray(obj), plain = _.isPlainObject(obj), hash;
-
-	    _.each(obj, function (value, key) {
-
-	        hash = _.isObject(value) || _.isArray(value);
-
-	        if (scope) {
-	            key = scope + '[' + (plain || hash ? key : '') + ']';
-	        }
-
-	        if (!scope && array) {
-	            params.add(value.name, value.value);
-	        } else if (hash) {
-	            serialize(params, value, key);
-	        } else {
-	            params.add(key, value);
-	        }
-	    });
-	}
-
-	module.exports = _.url = Url;
-
-
-/***/ },
-/* 79 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * URL Template (RFC 6570) Transform.
-	 */
-
-	var UrlTemplate = __webpack_require__(80);
-
-	module.exports = function (options) {
-
-	    var variables = [], url = UrlTemplate.expand(options.url, options.params, variables);
-
-	    variables.forEach(function (key) {
-	        delete options.params[key];
-	    });
-
-	    return url;
-	};
-
-
-/***/ },
-/* 80 */
-/***/ function(module, exports) {
-
-	/**
-	 * URL Template v2.0.6 (https://github.com/bramstein/url-template)
-	 */
-
-	exports.expand = function (url, params, variables) {
-
-	    var tmpl = this.parse(url), expanded = tmpl.expand(params);
-
-	    if (variables) {
-	        variables.push.apply(variables, tmpl.vars);
-	    }
-
-	    return expanded;
-	};
-
-	exports.parse = function (template) {
-
-	    var operators = ['+', '#', '.', '/', ';', '?', '&'], variables = [];
-
-	    return {
-	        vars: variables,
-	        expand: function (context) {
-	            return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
-	                if (expression) {
-
-	                    var operator = null, values = [];
-
-	                    if (operators.indexOf(expression.charAt(0)) !== -1) {
-	                        operator = expression.charAt(0);
-	                        expression = expression.substr(1);
-	                    }
-
-	                    expression.split(/,/g).forEach(function (variable) {
-	                        var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
-	                        values.push.apply(values, exports.getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
-	                        variables.push(tmp[1]);
-	                    });
-
-	                    if (operator && operator !== '+') {
-
-	                        var separator = ',';
-
-	                        if (operator === '?') {
-	                            separator = '&';
-	                        } else if (operator !== '#') {
-	                            separator = operator;
-	                        }
-
-	                        return (values.length !== 0 ? operator : '') + values.join(separator);
-	                    } else {
-	                        return values.join(',');
-	                    }
-
-	                } else {
-	                    return exports.encodeReserved(literal);
-	                }
-	            });
-	        }
-	    };
-	};
-
-	exports.getValues = function (context, operator, key, modifier) {
-
-	    var value = context[key], result = [];
-
-	    if (this.isDefined(value) && value !== '') {
-	        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-	            value = value.toString();
-
-	            if (modifier && modifier !== '*') {
-	                value = value.substring(0, parseInt(modifier, 10));
-	            }
-
-	            result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
-	        } else {
-	            if (modifier === '*') {
-	                if (Array.isArray(value)) {
-	                    value.filter(this.isDefined).forEach(function (value) {
-	                        result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
-	                    }, this);
-	                } else {
-	                    Object.keys(value).forEach(function (k) {
-	                        if (this.isDefined(value[k])) {
-	                            result.push(this.encodeValue(operator, value[k], k));
-	                        }
-	                    }, this);
-	                }
-	            } else {
-	                var tmp = [];
-
-	                if (Array.isArray(value)) {
-	                    value.filter(this.isDefined).forEach(function (value) {
-	                        tmp.push(this.encodeValue(operator, value));
-	                    }, this);
-	                } else {
-	                    Object.keys(value).forEach(function (k) {
-	                        if (this.isDefined(value[k])) {
-	                            tmp.push(encodeURIComponent(k));
-	                            tmp.push(this.encodeValue(operator, value[k].toString()));
-	                        }
-	                    }, this);
-	                }
-
-	                if (this.isKeyOperator(operator)) {
-	                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
-	                } else if (tmp.length !== 0) {
-	                    result.push(tmp.join(','));
-	                }
-	            }
-	        }
-	    } else {
-	        if (operator === ';') {
-	            result.push(encodeURIComponent(key));
-	        } else if (value === '' && (operator === '&' || operator === '?')) {
-	            result.push(encodeURIComponent(key) + '=');
-	        } else if (value === '') {
-	            result.push('');
-	        }
-	    }
-
-	    return result;
-	};
-
-	exports.isDefined = function (value) {
-	    return value !== undefined && value !== null;
-	};
-
-	exports.isKeyOperator = function (operator) {
-	    return operator === ';' || operator === '&' || operator === '?';
-	};
-
-	exports.encodeValue = function (operator, value, key) {
-
-	    value = (operator === '+' || operator === '#') ? this.encodeReserved(value) : encodeURIComponent(value);
-
-	    if (key) {
-	        return encodeURIComponent(key) + '=' + value;
-	    } else {
-	        return value;
-	    }
-	};
-
-	exports.encodeReserved = function (str) {
-	    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
-	        if (!/%[0-9A-Fa-f]/.test(part)) {
-	            part = encodeURI(part);
-	        }
-	        return part;
-	    }).join('');
-	};
-
-
-/***/ },
 /* 81 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/**
-	 * Legacy Transform.
-	 */
-
-	var _ = __webpack_require__(77);
-
-	module.exports = function (options, next) {
-
-	    var variables = [], url = next(options);
-
-	    url = url.replace(/(\/?):([a-z]\w*)/gi, function (match, slash, name) {
-
-	        _.warn('The `:' + name + '` parameter syntax has been deprecated. Use the `{' + name + '}` syntax instead.');
-
-	        if (options.params[name]) {
-	            variables.push(name);
-	            return slash + encodeUriSegment(options.params[name]);
-	        }
-
-	        return '';
-	    });
-
-	    variables.forEach(function (key) {
-	        delete options.params[key];
-	    });
-
-	    return url;
-	};
-
-	function encodeUriSegment(value) {
-
-	    return encodeUriQuery(value, true).
-	        replace(/%26/gi, '&').
-	        replace(/%3D/gi, '=').
-	        replace(/%2B/gi, '+');
-	}
-
-	function encodeUriQuery(value, spaces) {
-
-	    return encodeURIComponent(value).
-	        replace(/%40/gi, '@').
-	        replace(/%3A/gi, ':').
-	        replace(/%24/g, '$').
-	        replace(/%2C/gi, ',').
-	        replace(/%20/g, (spaces ? '%20' : '+'));
-	}
-
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-wrap\" v-bind:class=\"{'loaded' : !loaded}\">\n<div class=\"sg-row sg-main-content\" v-if=\"onboarded\">\n\t<settings v-if=\"showSettings\"></settings>\n\t<navbar></navbar>\n\t<div class=\"sg-col-9\">\n\t\t<wrapper v-for=\"section in sections\" :section=\"section\"></wrapper>\n\t\t\t<form class=\"sg-section-wrap sg-stack\" v-on:submit=\"addWrapper\" v-show=\"logged_in\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-section-title\" :placeholder=\"placeholder\" />\n\t\t\t\t<button class=\"sg-button sg-actions sg-actions__section\"><icon name=\"add\"></icon> Add</button>\n\t\t\t</form>\n\t\t</div>\n</div>\n\n<div class=\"sg-row sg-main-content sg-stack sg-onboarding sg-settings-group\" v-else>\n\t<onboard></onboard>\n</div>\n</div>\n";
 
 /***/ },
 /* 82 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Query Parameter Transform.
-	 */
-
-	var _ = __webpack_require__(77);
-
-	module.exports = function (options, next) {
-
-	    var urlParams = Object.keys(_.url.options.params), query = {}, url = next(options);
-
-	   _.each(options.params, function (value, key) {
-	        if (urlParams.indexOf(key) === -1) {
-	            query[key] = value;
-	        }
-	    });
-
-	    query = _.url.params(query);
-
-	    if (query) {
-	        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
-	    }
-
-	    return url;
-	};
-
-
-/***/ },
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Root Prefix Transform.
-	 */
-
-	var _ = __webpack_require__(77);
-
-	module.exports = function (options, next) {
-
-	    var url = next(options);
-
-	    if (_.isString(options.root) && !url.match(/^(https?:)?\//)) {
-	        url = options.root + '/' + url;
-	    }
-
-	    return url;
-	};
-
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Service for sending network requests.
-	 */
-
-	var _ = __webpack_require__(77);
-	var Client = __webpack_require__(85);
-	var Promise = __webpack_require__(86);
-	var interceptor = __webpack_require__(89);
-	var jsonType = {'Content-Type': 'application/json'};
-
-	function Http(url, options) {
-
-	    var client = Client, request, promise;
-
-	    Http.interceptors.forEach(function (handler) {
-	        client = interceptor(handler, this.$vm)(client);
-	    }, this);
-
-	    options = _.isObject(url) ? url : _.extend({url: url}, options);
-	    request = _.merge({}, Http.options, this.$options, options);
-	    promise = client(request).bind(this.$vm).then(function (response) {
-
-	        return response.ok ? response : Promise.reject(response);
-
-	    }, function (response) {
-
-	        if (response instanceof Error) {
-	            _.error(response);
-	        }
-
-	        return Promise.reject(response);
-	    });
-
-	    if (request.success) {
-	        promise.success(request.success);
-	    }
-
-	    if (request.error) {
-	        promise.error(request.error);
-	    }
-
-	    return promise;
-	}
-
-	Http.options = {
-	    method: 'get',
-	    data: '',
-	    params: {},
-	    headers: {},
-	    xhr: null,
-	    upload: null,
-	    jsonp: 'callback',
-	    beforeSend: null,
-	    crossOrigin: null,
-	    emulateHTTP: false,
-	    emulateJSON: false,
-	    timeout: 0
-	};
-
-	Http.interceptors = [
-	    __webpack_require__(90),
-	    __webpack_require__(91),
-	    __webpack_require__(92),
-	    __webpack_require__(94),
-	    __webpack_require__(95),
-	    __webpack_require__(96),
-	    __webpack_require__(97)
-	];
-
-	Http.headers = {
-	    put: jsonType,
-	    post: jsonType,
-	    patch: jsonType,
-	    delete: jsonType,
-	    common: {'Accept': 'application/json, text/plain, */*'},
-	    custom: {'X-Requested-With': 'XMLHttpRequest'}
-	};
-
-	['get', 'put', 'post', 'patch', 'delete', 'jsonp'].forEach(function (method) {
-
-	    Http[method] = function (url, data, success, options) {
-
-	        if (_.isFunction(data)) {
-	            options = success;
-	            success = data;
-	            data = undefined;
-	        }
-
-	        if (_.isObject(success)) {
-	            options = success;
-	            success = undefined;
-	        }
-
-	        return this(url, _.extend({method: method, data: data, success: success}, options));
-	    };
-	});
-
-	module.exports = _.http = Http;
-
-
-/***/ },
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Base client.
-	 */
-
-	var _ = __webpack_require__(77);
-	var Promise = __webpack_require__(86);
-	var xhrClient = __webpack_require__(88);
-
-	module.exports = function (request) {
-
-	    var response = (request.client || xhrClient)(request);
-
-	    return Promise.resolve(response).then(function (response) {
-
-	        if (response.headers) {
-
-	            var headers = parseHeaders(response.headers);
-
-	            response.headers = function (name) {
-
-	                if (name) {
-	                    return headers[_.toLower(name)];
-	                }
-
-	                return headers;
-	            };
-
-	        }
-
-	        response.ok = response.status >= 200 && response.status < 300;
-
-	        return response;
-	    });
-
-	};
-
-	function parseHeaders(str) {
-
-	    var headers = {}, value, name, i;
-
-	    if (_.isString(str)) {
-	        _.each(str.split('\n'), function (row) {
-
-	            i = row.indexOf(':');
-	            name = _.trim(_.toLower(row.slice(0, i)));
-	            value = _.trim(row.slice(i + 1));
-
-	            if (headers[name]) {
-
-	                if (_.isArray(headers[name])) {
-	                    headers[name].push(value);
-	                } else {
-	                    headers[name] = [headers[name], value];
-	                }
-
-	            } else {
-
-	                headers[name] = value;
-	            }
-
-	        });
-	    }
-
-	    return headers;
-	}
-
-
-/***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Promise adapter.
-	 */
-
-	var _ = __webpack_require__(77);
-	var PromiseObj = window.Promise || __webpack_require__(87);
-
-	function Promise(executor, context) {
-
-	    if (executor instanceof PromiseObj) {
-	        this.promise = executor;
-	    } else {
-	        this.promise = new PromiseObj(executor.bind(context));
-	    }
-
-	    this.context = context;
-	}
-
-	Promise.all = function (iterable, context) {
-	    return new Promise(PromiseObj.all(iterable), context);
-	};
-
-	Promise.resolve = function (value, context) {
-	    return new Promise(PromiseObj.resolve(value), context);
-	};
-
-	Promise.reject = function (reason, context) {
-	    return new Promise(PromiseObj.reject(reason), context);
-	};
-
-	Promise.race = function (iterable, context) {
-	    return new Promise(PromiseObj.race(iterable), context);
-	};
-
-	var p = Promise.prototype;
-
-	p.bind = function (context) {
-	    this.context = context;
-	    return this;
-	};
-
-	p.then = function (fulfilled, rejected) {
-
-	    if (fulfilled && fulfilled.bind && this.context) {
-	        fulfilled = fulfilled.bind(this.context);
-	    }
-
-	    if (rejected && rejected.bind && this.context) {
-	        rejected = rejected.bind(this.context);
-	    }
-
-	    this.promise = this.promise.then(fulfilled, rejected);
-
-	    return this;
-	};
-
-	p.catch = function (rejected) {
-
-	    if (rejected && rejected.bind && this.context) {
-	        rejected = rejected.bind(this.context);
-	    }
-
-	    this.promise = this.promise.catch(rejected);
-
-	    return this;
-	};
-
-	p.finally = function (callback) {
-
-	    return this.then(function (value) {
-	            callback.call(this);
-	            return value;
-	        }, function (reason) {
-	            callback.call(this);
-	            return PromiseObj.reject(reason);
-	        }
-	    );
-	};
-
-	p.success = function (callback) {
-
-	    _.warn('The `success` method has been deprecated. Use the `then` method instead.');
-
-	    return this.then(function (response) {
-	        return callback.call(this, response.data, response.status, response) || response;
-	    });
-	};
-
-	p.error = function (callback) {
-
-	    _.warn('The `error` method has been deprecated. Use the `catch` method instead.');
-
-	    return this.catch(function (response) {
-	        return callback.call(this, response.data, response.status, response) || response;
-	    });
-	};
-
-	p.always = function (callback) {
-
-	    _.warn('The `always` method has been deprecated. Use the `finally` method instead.');
-
-	    var cb = function (response) {
-	        return callback.call(this, response.data, response.status, response) || response;
-	    };
-
-	    return this.then(cb, cb);
-	};
-
-	module.exports = Promise;
-
-
-/***/ },
-/* 87 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
-	 */
-
-	var _ = __webpack_require__(77);
-
-	var RESOLVED = 0;
-	var REJECTED = 1;
-	var PENDING  = 2;
-
-	function Promise(executor) {
-
-	    this.state = PENDING;
-	    this.value = undefined;
-	    this.deferred = [];
-
-	    var promise = this;
-
-	    try {
-	        executor(function (x) {
-	            promise.resolve(x);
-	        }, function (r) {
-	            promise.reject(r);
-	        });
-	    } catch (e) {
-	        promise.reject(e);
-	    }
-	}
-
-	Promise.reject = function (r) {
-	    return new Promise(function (resolve, reject) {
-	        reject(r);
-	    });
-	};
-
-	Promise.resolve = function (x) {
-	    return new Promise(function (resolve, reject) {
-	        resolve(x);
-	    });
-	};
-
-	Promise.all = function all(iterable) {
-	    return new Promise(function (resolve, reject) {
-	        var count = 0, result = [];
-
-	        if (iterable.length === 0) {
-	            resolve(result);
-	        }
-
-	        function resolver(i) {
-	            return function (x) {
-	                result[i] = x;
-	                count += 1;
-
-	                if (count === iterable.length) {
-	                    resolve(result);
-	                }
-	            };
-	        }
-
-	        for (var i = 0; i < iterable.length; i += 1) {
-	            Promise.resolve(iterable[i]).then(resolver(i), reject);
-	        }
-	    });
-	};
-
-	Promise.race = function race(iterable) {
-	    return new Promise(function (resolve, reject) {
-	        for (var i = 0; i < iterable.length; i += 1) {
-	            Promise.resolve(iterable[i]).then(resolve, reject);
-	        }
-	    });
-	};
-
-	var p = Promise.prototype;
-
-	p.resolve = function resolve(x) {
-	    var promise = this;
-
-	    if (promise.state === PENDING) {
-	        if (x === promise) {
-	            throw new TypeError('Promise settled with itself.');
-	        }
-
-	        var called = false;
-
-	        try {
-	            var then = x && x['then'];
-
-	            if (x !== null && typeof x === 'object' && typeof then === 'function') {
-	                then.call(x, function (x) {
-	                    if (!called) {
-	                        promise.resolve(x);
-	                    }
-	                    called = true;
-
-	                }, function (r) {
-	                    if (!called) {
-	                        promise.reject(r);
-	                    }
-	                    called = true;
-	                });
-	                return;
-	            }
-	        } catch (e) {
-	            if (!called) {
-	                promise.reject(e);
-	            }
-	            return;
-	        }
-
-	        promise.state = RESOLVED;
-	        promise.value = x;
-	        promise.notify();
-	    }
-	};
-
-	p.reject = function reject(reason) {
-	    var promise = this;
-
-	    if (promise.state === PENDING) {
-	        if (reason === promise) {
-	            throw new TypeError('Promise settled with itself.');
-	        }
-
-	        promise.state = REJECTED;
-	        promise.value = reason;
-	        promise.notify();
-	    }
-	};
-
-	p.notify = function notify() {
-	    var promise = this;
-
-	    _.nextTick(function () {
-	        if (promise.state !== PENDING) {
-	            while (promise.deferred.length) {
-	                var deferred = promise.deferred.shift(),
-	                    onResolved = deferred[0],
-	                    onRejected = deferred[1],
-	                    resolve = deferred[2],
-	                    reject = deferred[3];
-
-	                try {
-	                    if (promise.state === RESOLVED) {
-	                        if (typeof onResolved === 'function') {
-	                            resolve(onResolved.call(undefined, promise.value));
-	                        } else {
-	                            resolve(promise.value);
-	                        }
-	                    } else if (promise.state === REJECTED) {
-	                        if (typeof onRejected === 'function') {
-	                            resolve(onRejected.call(undefined, promise.value));
-	                        } else {
-	                            reject(promise.value);
-	                        }
-	                    }
-	                } catch (e) {
-	                    reject(e);
-	                }
-	            }
-	        }
-	    });
-	};
-
-	p.then = function then(onResolved, onRejected) {
-	    var promise = this;
-
-	    return new Promise(function (resolve, reject) {
-	        promise.deferred.push([onResolved, onRejected, resolve, reject]);
-	        promise.notify();
-	    });
-	};
-
-	p.catch = function (onRejected) {
-	    return this.then(undefined, onRejected);
-	};
-
-	module.exports = Promise;
-
-
-/***/ },
-/* 88 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * XMLHttp client.
-	 */
-
-	var _ = __webpack_require__(77);
-	var Promise = __webpack_require__(86);
-
-	module.exports = function (request) {
-	    return new Promise(function (resolve) {
-
-	        var xhr = new XMLHttpRequest(), response = {request: request}, handler;
-
-	        request.cancel = function () {
-	            xhr.abort();
-	        };
-
-	        xhr.open(request.method, _.url(request), true);
-
-	        handler = function (event) {
-
-	            response.data = xhr.responseText;
-	            response.status = xhr.status;
-	            response.statusText = xhr.statusText;
-	            response.headers = xhr.getAllResponseHeaders();
-
-	            resolve(response);
-	        };
-
-	        xhr.timeout = 0;
-	        xhr.onload = handler;
-	        xhr.onabort = handler;
-	        xhr.onerror = handler;
-	        xhr.ontimeout = function () {};
-	        xhr.onprogress = function () {};
-
-	        if (_.isPlainObject(request.xhr)) {
-	            _.extend(xhr, request.xhr);
-	        }
-
-	        if (_.isPlainObject(request.upload)) {
-	            _.extend(xhr.upload, request.upload);
-	        }
-
-	        _.each(request.headers || {}, function (value, header) {
-	            xhr.setRequestHeader(header, value);
-	        });
-
-	        xhr.send(request.data);
-	    });
-	};
-
-
-/***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Interceptor factory.
-	 */
-
-	var _ = __webpack_require__(77);
-	var Promise = __webpack_require__(86);
-
-	module.exports = function (handler, vm) {
-
-	    return function (client) {
-
-	        if (_.isFunction(handler)) {
-	            handler = handler.call(vm, Promise);
-	        }
-
-	        return function (request) {
-
-	            if (_.isFunction(handler.request)) {
-	                request = handler.request.call(vm, request);
-	            }
-
-	            return when(request, function (request) {
-	                return when(client(request), function (response) {
-
-	                    if (_.isFunction(handler.response)) {
-	                        response = handler.response.call(vm, response);
-	                    }
-
-	                    return response;
-	                });
-	            });
-	        };
-	    };
-	};
-
-	function when(value, fulfilled, rejected) {
-
-	    var promise = Promise.resolve(value);
-
-	    if (arguments.length < 2) {
-	        return promise;
-	    }
-
-	    return promise.then(fulfilled, rejected);
-	}
-
-
-/***/ },
-/* 90 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Before Interceptor.
-	 */
-
-	var _ = __webpack_require__(77);
-
-	module.exports = {
-
-	    request: function (request) {
-
-	        if (_.isFunction(request.beforeSend)) {
-	            request.beforeSend.call(this, request);
-	        }
-
-	        return request;
-	    }
-
-	};
-
-
-/***/ },
-/* 91 */
 /***/ function(module, exports) {
 
 	/**
-	 * Timeout Interceptor.
+	 * vue-resource v0.7.2
+	 * https://github.com/vuejs/vue-resource
+	 * Released under the MIT License.
 	 */
 
-	module.exports = function () {
+	module.exports =
+	/******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
+
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
 
-	    var timeout;
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
 
-	    return {
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
 
-	        request: function (request) {
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-	            if (request.timeout) {
-	                timeout = setTimeout(function () {
-	                    request.cancel();
-	                }, request.timeout);
-	            }
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
 
-	            return request;
-	        },
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
 
-	        response: function (response) {
+
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
+
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
+
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
+
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Install plugin.
+		 */
+
+		function plugin(Vue) {
 
-	            clearTimeout(timeout);
+		    if (plugin.installed) {
+		        return;
+		    }
 
-	            return response;
-	        }
+		    var _ = __webpack_require__(1);
+
+		    _.config = Vue.config;
+		    _.warning = Vue.util.warn;
+		    _.nextTick = Vue.util.nextTick;
 
-	    };
-	};
+		    Vue.url = __webpack_require__(2);
+		    Vue.http = __webpack_require__(8);
+		    Vue.resource = __webpack_require__(23);
+		    Vue.Promise = __webpack_require__(10);
 
+		    Object.defineProperties(Vue.prototype, {
 
-/***/ },
-/* 92 */
-/***/ function(module, exports, __webpack_require__) {
+		        $url: {
+		            get: function get() {
+		                return _.options(Vue.url, this, this.$options.url);
+		            }
+		        },
 
-	/**
-	 * JSONP Interceptor.
-	 */
+		        $http: {
+		            get: function get() {
+		                return _.options(Vue.http, this, this.$options.http);
+		            }
+		        },
 
-	var jsonpClient = __webpack_require__(93);
+		        $resource: {
+		            get: function get() {
+		                return Vue.resource.bind(this);
+		            }
+		        },
 
-	module.exports = {
+		        $promise: {
+		            get: function get() {
+		                var _this = this;
 
-	    request: function (request) {
+		                return function (executor) {
+		                    return new Vue.Promise(executor, _this);
+		                };
+		            }
+		        }
 
-	        if (request.method == 'JSONP') {
-	            request.client = jsonpClient;
-	        }
+		    });
+		}
 
-	        return request;
-	    }
+		if (typeof window !== 'undefined' && window.Vue) {
+		    window.Vue.use(plugin);
+		}
 
-	};
+		module.exports = plugin;
 
+	/***/ },
+	/* 1 */
+	/***/ function(module, exports) {
 
-/***/ },
-/* 93 */
-/***/ function(module, exports, __webpack_require__) {
+		var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	/**
-	 * JSONP client.
-	 */
+		/**
+		 * Utility functions.
+		 */
 
-	var _ = __webpack_require__(77);
-	var Promise = __webpack_require__(86);
+		var _ = exports,
+		    array = [],
+		    console = window.console;
 
-	module.exports = function (request) {
-	    return new Promise(function (resolve) {
+		_.warn = function (msg) {
+		    if (console && _.warning && (!_.config.silent || _.config.debug)) {
+		        console.warn('[VueResource warn]: ' + msg);
+		    }
+		};
 
-	        var callback = '_jsonp' + Math.random().toString(36).substr(2), response = {request: request, data: null}, handler, script;
+		_.error = function (msg) {
+		    if (console) {
+		        console.error(msg);
+		    }
+		};
 
-	        request.params[request.jsonp] = callback;
-	        request.cancel = function () {
-	            handler({type: 'cancel'});
-	        };
+		_.trim = function (str) {
+		    return str.replace(/^\s*|\s*$/g, '');
+		};
 
-	        script = document.createElement('script');
-	        script.src = _.url(request);
-	        script.type = 'text/javascript';
-	        script.async = true;
+		_.toLower = function (str) {
+		    return str ? str.toLowerCase() : '';
+		};
 
-	        window[callback] = function (data) {
-	            response.data = data;
-	        };
+		_.isArray = Array.isArray;
 
-	        handler = function (event) {
+		_.isString = function (val) {
+		    return typeof val === 'string';
+		};
 
-	            if (event.type === 'load' && response.data !== null) {
-	                response.status = 200;
-	            } else if (event.type === 'error') {
-	                response.status = 404;
-	            } else {
-	                response.status = 0;
-	            }
+		_.isFunction = function (val) {
+		    return typeof val === 'function';
+		};
 
-	            resolve(response);
+		_.isObject = function (obj) {
+		    return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
+		};
 
-	            delete window[callback];
-	            document.body.removeChild(script);
-	        };
+		_.isPlainObject = function (obj) {
+		    return _.isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
+		};
 
-	        script.onload = handler;
-	        script.onerror = handler;
+		_.options = function (fn, obj, options) {
 
-	        document.body.appendChild(script);
-	    });
-	};
+		    options = options || {};
 
+		    if (_.isFunction(options)) {
+		        options = options.call(obj);
+		    }
 
-/***/ },
-/* 94 */
-/***/ function(module, exports) {
+		    return _.merge(fn.bind({ $vm: obj, $options: options }), fn, { $options: options });
+		};
 
-	/**
-	 * HTTP method override Interceptor.
-	 */
+		_.each = function (obj, iterator) {
 
-	module.exports = {
+		    var i, key;
 
-	    request: function (request) {
+		    if (typeof obj.length == 'number') {
+		        for (i = 0; i < obj.length; i++) {
+		            iterator.call(obj[i], obj[i], i);
+		        }
+		    } else if (_.isObject(obj)) {
+		        for (key in obj) {
+		            if (obj.hasOwnProperty(key)) {
+		                iterator.call(obj[key], obj[key], key);
+		            }
+		        }
+		    }
 
-	        if (request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(request.method)) {
-	            request.headers['X-HTTP-Method-Override'] = request.method;
-	            request.method = 'POST';
-	        }
+		    return obj;
+		};
 
-	        return request;
-	    }
+		_.defaults = function (target, source) {
 
-	};
+		    for (var key in source) {
+		        if (target[key] === undefined) {
+		            target[key] = source[key];
+		        }
+		    }
 
+		    return target;
+		};
 
-/***/ },
-/* 95 */
-/***/ function(module, exports, __webpack_require__) {
+		_.extend = function (target) {
 
-	/**
-	 * Mime Interceptor.
-	 */
+		    var args = array.slice.call(arguments, 1);
 
-	var _ = __webpack_require__(77);
+		    args.forEach(function (arg) {
+		        merge(target, arg);
+		    });
 
-	module.exports = {
+		    return target;
+		};
 
-	    request: function (request) {
+		_.merge = function (target) {
 
-	        if (request.emulateJSON && _.isPlainObject(request.data)) {
-	            request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-	            request.data = _.url.params(request.data);
-	        }
+		    var args = array.slice.call(arguments, 1);
 
-	        if (_.isObject(request.data) && /FormData/i.test(request.data.toString())) {
-	            delete request.headers['Content-Type'];
-	        }
+		    args.forEach(function (arg) {
+		        merge(target, arg, true);
+		    });
 
-	        if (_.isPlainObject(request.data)) {
-	            request.data = JSON.stringify(request.data);
-	        }
+		    return target;
+		};
 
-	        return request;
-	    },
+		function merge(target, source, deep) {
+		    for (var key in source) {
+		        if (deep && (_.isPlainObject(source[key]) || _.isArray(source[key]))) {
+		            if (_.isPlainObject(source[key]) && !_.isPlainObject(target[key])) {
+		                target[key] = {};
+		            }
+		            if (_.isArray(source[key]) && !_.isArray(target[key])) {
+		                target[key] = [];
+		            }
+		            merge(target[key], source[key], deep);
+		        } else if (source[key] !== undefined) {
+		            target[key] = source[key];
+		        }
+		    }
+		}
 
-	    response: function (response) {
+	/***/ },
+	/* 2 */
+	/***/ function(module, exports, __webpack_require__) {
 
-	        try {
-	            response.data = JSON.parse(response.data);
-	        } catch (e) {}
+		/**
+		 * Service for URL templating.
+		 */
 
-	        return response;
-	    }
+		var _ = __webpack_require__(1);
+		var ie = document.documentMode;
+		var el = document.createElement('a');
 
-	};
+		function Url(url, params) {
 
+		    var options = url,
+		        transform;
 
-/***/ },
-/* 96 */
-/***/ function(module, exports, __webpack_require__) {
+		    if (_.isString(url)) {
+		        options = { url: url, params: params };
+		    }
 
-	/**
-	 * Header Interceptor.
-	 */
+		    options = _.merge({}, Url.options, this.$options, options);
 
-	var _ = __webpack_require__(77);
+		    Url.transforms.forEach(function (handler) {
+		        transform = factory(handler, transform, this.$vm);
+		    }, this);
 
-	module.exports = {
+		    return transform(options);
+		};
 
-	    request: function (request) {
+		/**
+		 * Url options.
+		 */
 
-	        request.method = request.method.toUpperCase();
-	        request.headers = _.extend({}, _.http.headers.common,
-	            !request.crossOrigin ? _.http.headers.custom : {},
-	            _.http.headers[request.method.toLowerCase()],
-	            request.headers
-	        );
+		Url.options = {
+		    url: '',
+		    root: null,
+		    params: {}
+		};
 
-	        if (_.isPlainObject(request.data) && /^(GET|JSONP)$/i.test(request.method)) {
-	            _.extend(request.params, request.data);
-	            delete request.data;
-	        }
+		/**
+		 * Url transforms.
+		 */
 
-	        return request;
-	    }
+		Url.transforms = [__webpack_require__(3), __webpack_require__(5), __webpack_require__(6), __webpack_require__(7)];
 
-	};
+		/**
+		 * Encodes a Url parameter string.
+		 *
+		 * @param {Object} obj
+		 */
 
+		Url.params = function (obj) {
 
-/***/ },
-/* 97 */
-/***/ function(module, exports, __webpack_require__) {
+		    var params = [],
+		        escape = encodeURIComponent;
 
-	/**
-	 * CORS Interceptor.
-	 */
+		    params.add = function (key, value) {
 
-	var _ = __webpack_require__(77);
-	var xdrClient = __webpack_require__(98);
-	var xhrCors = 'withCredentials' in new XMLHttpRequest();
-	var originUrl = _.url.parse(location.href);
+		        if (_.isFunction(value)) {
+		            value = value();
+		        }
 
-	module.exports = {
+		        if (value === null) {
+		            value = '';
+		        }
 
-	    request: function (request) {
+		        this.push(escape(key) + '=' + escape(value));
+		    };
 
-	        if (request.crossOrigin === null) {
-	            request.crossOrigin = crossOrigin(request);
-	        }
+		    serialize(params, obj);
 
-	        if (request.crossOrigin) {
+		    return params.join('&').replace(/%20/g, '+');
+		};
 
-	            if (!xhrCors) {
-	                request.client = xdrClient;
-	            }
+		/**
+		 * Parse a URL and return its components.
+		 *
+		 * @param {String} url
+		 */
 
-	            request.emulateHTTP = false;
-	        }
+		Url.parse = function (url) {
 
-	        return request;
-	    }
+		    if (ie) {
+		        el.href = url;
+		        url = el.href;
+		    }
 
-	};
+		    el.href = url;
 
-	function crossOrigin(request) {
+		    return {
+		        href: el.href,
+		        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
+		        port: el.port,
+		        host: el.host,
+		        hostname: el.hostname,
+		        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
+		        search: el.search ? el.search.replace(/^\?/, '') : '',
+		        hash: el.hash ? el.hash.replace(/^#/, '') : ''
+		    };
+		};
 
-	    var requestUrl = _.url.parse(_.url(request));
+		function factory(handler, next, vm) {
+		    return function (options) {
+		        return handler.call(vm, options, next);
+		    };
+		}
 
-	    return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
-	}
+		function serialize(params, obj, scope) {
 
+		    var array = _.isArray(obj),
+		        plain = _.isPlainObject(obj),
+		        hash;
 
-/***/ },
-/* 98 */
-/***/ function(module, exports, __webpack_require__) {
+		    _.each(obj, function (value, key) {
 
-	/**
-	 * XDomain client (Internet Explorer).
-	 */
+		        hash = _.isObject(value) || _.isArray(value);
 
-	var _ = __webpack_require__(77);
-	var Promise = __webpack_require__(86);
+		        if (scope) {
+		            key = scope + '[' + (plain || hash ? key : '') + ']';
+		        }
 
-	module.exports = function (request) {
-	    return new Promise(function (resolve) {
+		        if (!scope && array) {
+		            params.add(value.name, value.value);
+		        } else if (hash) {
+		            serialize(params, value, key);
+		        } else {
+		            params.add(key, value);
+		        }
+		    });
+		}
 
-	        var xdr = new XDomainRequest(), response = {request: request}, handler;
+		module.exports = _.url = Url;
 
-	        request.cancel = function () {
-	            xdr.abort();
-	        };
+	/***/ },
+	/* 3 */
+	/***/ function(module, exports, __webpack_require__) {
 
-	        xdr.open(request.method, _.url(request), true);
+		/**
+		 * URL Template (RFC 6570) Transform.
+		 */
 
-	        handler = function (event) {
+		var UrlTemplate = __webpack_require__(4);
 
-	            response.data = xdr.responseText;
-	            response.status = xdr.status;
-	            response.statusText = xdr.statusText;
+		module.exports = function (options) {
 
-	            resolve(response);
-	        };
+		    var variables = [],
+		        url = UrlTemplate.expand(options.url, options.params, variables);
 
-	        xdr.timeout = 0;
-	        xdr.onload = handler;
-	        xdr.onabort = handler;
-	        xdr.onerror = handler;
-	        xdr.ontimeout = function () {};
-	        xdr.onprogress = function () {};
+		    variables.forEach(function (key) {
+		        delete options.params[key];
+		    });
 
-	        xdr.send(request.data);
-	    });
-	};
+		    return url;
+		};
 
+	/***/ },
+	/* 4 */
+	/***/ function(module, exports) {
+
+		/**
+		 * URL Template v2.0.6 (https://github.com/bramstein/url-template)
+		 */
+
+		exports.expand = function (url, params, variables) {
+
+		    var tmpl = this.parse(url),
+		        expanded = tmpl.expand(params);
+
+		    if (variables) {
+		        variables.push.apply(variables, tmpl.vars);
+		    }
+
+		    return expanded;
+		};
+
+		exports.parse = function (template) {
+
+		    var operators = ['+', '#', '.', '/', ';', '?', '&'],
+		        variables = [];
+
+		    return {
+		        vars: variables,
+		        expand: function expand(context) {
+		            return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
+		                if (expression) {
+
+		                    var operator = null,
+		                        values = [];
+
+		                    if (operators.indexOf(expression.charAt(0)) !== -1) {
+		                        operator = expression.charAt(0);
+		                        expression = expression.substr(1);
+		                    }
+
+		                    expression.split(/,/g).forEach(function (variable) {
+		                        var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
+		                        values.push.apply(values, exports.getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+		                        variables.push(tmp[1]);
+		                    });
+
+		                    if (operator && operator !== '+') {
+
+		                        var separator = ',';
+
+		                        if (operator === '?') {
+		                            separator = '&';
+		                        } else if (operator !== '#') {
+		                            separator = operator;
+		                        }
+
+		                        return (values.length !== 0 ? operator : '') + values.join(separator);
+		                    } else {
+		                        return values.join(',');
+		                    }
+		                } else {
+		                    return exports.encodeReserved(literal);
+		                }
+		            });
+		        }
+		    };
+		};
+
+		exports.getValues = function (context, operator, key, modifier) {
+
+		    var value = context[key],
+		        result = [];
+
+		    if (this.isDefined(value) && value !== '') {
+		        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+		            value = value.toString();
+
+		            if (modifier && modifier !== '*') {
+		                value = value.substring(0, parseInt(modifier, 10));
+		            }
+
+		            result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
+		        } else {
+		            if (modifier === '*') {
+		                if (Array.isArray(value)) {
+		                    value.filter(this.isDefined).forEach(function (value) {
+		                        result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
+		                    }, this);
+		                } else {
+		                    Object.keys(value).forEach(function (k) {
+		                        if (this.isDefined(value[k])) {
+		                            result.push(this.encodeValue(operator, value[k], k));
+		                        }
+		                    }, this);
+		                }
+		            } else {
+		                var tmp = [];
+
+		                if (Array.isArray(value)) {
+		                    value.filter(this.isDefined).forEach(function (value) {
+		                        tmp.push(this.encodeValue(operator, value));
+		                    }, this);
+		                } else {
+		                    Object.keys(value).forEach(function (k) {
+		                        if (this.isDefined(value[k])) {
+		                            tmp.push(encodeURIComponent(k));
+		                            tmp.push(this.encodeValue(operator, value[k].toString()));
+		                        }
+		                    }, this);
+		                }
+
+		                if (this.isKeyOperator(operator)) {
+		                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
+		                } else if (tmp.length !== 0) {
+		                    result.push(tmp.join(','));
+		                }
+		            }
+		        }
+		    } else {
+		        if (operator === ';') {
+		            result.push(encodeURIComponent(key));
+		        } else if (value === '' && (operator === '&' || operator === '?')) {
+		            result.push(encodeURIComponent(key) + '=');
+		        } else if (value === '') {
+		            result.push('');
+		        }
+		    }
 
-/***/ },
-/* 99 */
-/***/ function(module, exports, __webpack_require__) {
+		    return result;
+		};
+
+		exports.isDefined = function (value) {
+		    return value !== undefined && value !== null;
+		};
 
-	/**
-	 * Service for interacting with RESTful services.
-	 */
+		exports.isKeyOperator = function (operator) {
+		    return operator === ';' || operator === '&' || operator === '?';
+		};
 
-	var _ = __webpack_require__(77);
+		exports.encodeValue = function (operator, value, key) {
+
+		    value = operator === '+' || operator === '#' ? this.encodeReserved(value) : encodeURIComponent(value);
 
-	function Resource(url, params, actions, options) {
+		    if (key) {
+		        return encodeURIComponent(key) + '=' + value;
+		    } else {
+		        return value;
+		    }
+		};
 
-	    var self = this, resource = {};
+		exports.encodeReserved = function (str) {
+		    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
+		        if (!/%[0-9A-Fa-f]/.test(part)) {
+		            part = encodeURI(part);
+		        }
+		        return part;
+		    }).join('');
+		};
 
-	    actions = _.extend({},
-	        Resource.actions,
-	        actions
-	    );
+	/***/ },
+	/* 5 */
+	/***/ function(module, exports, __webpack_require__) {
 
-	    _.each(actions, function (action, name) {
+		/**
+		 * Legacy Transform.
+		 */
 
-	        action = _.merge({url: url, params: params || {}}, options, action);
+		var _ = __webpack_require__(1);
 
-	        resource[name] = function () {
-	            return (self.$http || _.http)(opts(action, arguments));
-	        };
-	    });
+		module.exports = function (options, next) {
 
-	    return resource;
-	}
+		    var variables = [],
+		        url = next(options);
 
-	function opts(action, args) {
+		    url = url.replace(/(\/?):([a-z]\w*)/gi, function (match, slash, name) {
 
-	    var options = _.extend({}, action), params = {}, data, success, error;
+		        _.warn('The `:' + name + '` parameter syntax has been deprecated. Use the `{' + name + '}` syntax instead.');
 
-	    switch (args.length) {
+		        if (options.params[name]) {
+		            variables.push(name);
+		            return slash + encodeUriSegment(options.params[name]);
+		        }
 
-	        case 4:
+		        return '';
+		    });
 
-	            error = args[3];
-	            success = args[2];
+		    variables.forEach(function (key) {
+		        delete options.params[key];
+		    });
 
-	        case 3:
-	        case 2:
+		    return url;
+		};
 
-	            if (_.isFunction(args[1])) {
+		function encodeUriSegment(value) {
 
-	                if (_.isFunction(args[0])) {
+		    return encodeUriQuery(value, true).replace(/%26/gi, '&').replace(/%3D/gi, '=').replace(/%2B/gi, '+');
+		}
 
-	                    success = args[0];
-	                    error = args[1];
+		function encodeUriQuery(value, spaces) {
 
-	                    break;
-	                }
+		    return encodeURIComponent(value).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, spaces ? '%20' : '+');
+		}
 
-	                success = args[1];
-	                error = args[2];
+	/***/ },
+	/* 6 */
+	/***/ function(module, exports, __webpack_require__) {
 
-	            } else {
+		/**
+		 * Query Parameter Transform.
+		 */
 
-	                params = args[0];
-	                data = args[1];
-	                success = args[2];
+		var _ = __webpack_require__(1);
 
-	                break;
-	            }
+		module.exports = function (options, next) {
 
-	        case 1:
+		    var urlParams = Object.keys(_.url.options.params),
+		        query = {},
+		        url = next(options);
+
+		    _.each(options.params, function (value, key) {
+		        if (urlParams.indexOf(key) === -1) {
+		            query[key] = value;
+		        }
+		    });
+
+		    query = _.url.params(query);
+
+		    if (query) {
+		        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
+		    }
+
+		    return url;
+		};
+
+	/***/ },
+	/* 7 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Root Prefix Transform.
+		 */
+
+		var _ = __webpack_require__(1);
+
+		module.exports = function (options, next) {
+
+		    var url = next(options);
+
+		    if (_.isString(options.root) && !url.match(/^(https?:)?\//)) {
+		        url = options.root + '/' + url;
+		    }
+
+		    return url;
+		};
+
+	/***/ },
+	/* 8 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Service for sending network requests.
+		 */
+
+		var _ = __webpack_require__(1);
+		var Client = __webpack_require__(9);
+		var Promise = __webpack_require__(10);
+		var interceptor = __webpack_require__(13);
+		var jsonType = { 'Content-Type': 'application/json' };
 
-	            if (_.isFunction(args[0])) {
-	                success = args[0];
-	            } else if (/^(POST|PUT|PATCH)$/i.test(options.method)) {
-	                data = args[0];
-	            } else {
-	                params = args[0];
-	            }
+		function Http(url, options) {
+		    var _this = this;
 
-	            break;
+		    var client = Client,
+		        request,
+		        promise;
 
-	        case 0:
+		    Http.interceptors.forEach(function (handler) {
+		        client = interceptor(handler, _this.$vm)(client);
+		    });
 
-	            break;
+		    options = _.isObject(url) ? url : _.extend({ url: url }, options);
+		    request = _.merge({}, Http.options, this.$options, options);
+		    promise = client(request).bind(this.$vm).then(function (response) {
 
-	        default:
+		        return response.ok ? response : Promise.reject(response);
+		    }, function (response) {
 
-	            throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
-	    }
+		        if (response instanceof Error) {
+		            _.error(response);
+		        }
 
-	    options.data = data;
-	    options.params = _.extend({}, options.params, params);
+		        return Promise.reject(response);
+		    });
 
-	    if (success) {
-	        options.success = success;
-	    }
+		    if (request.success) {
+		        promise.success(request.success);
+		    }
 
-	    if (error) {
-	        options.error = error;
-	    }
+		    if (request.error) {
+		        promise.error(request.error);
+		    }
 
-	    return options;
-	}
+		    return promise;
+		}
 
-	Resource.actions = {
+		Http.options = {
+		    method: 'get',
+		    data: '',
+		    params: {},
+		    headers: {},
+		    xhr: null,
+		    upload: null,
+		    jsonp: 'callback',
+		    beforeSend: null,
+		    crossOrigin: null,
+		    emulateHTTP: false,
+		    emulateJSON: false,
+		    timeout: 0
+		};
 
-	    get: {method: 'GET'},
-	    save: {method: 'POST'},
-	    query: {method: 'GET'},
-	    update: {method: 'PUT'},
-	    remove: {method: 'DELETE'},
-	    delete: {method: 'DELETE'}
+		Http.interceptors = [__webpack_require__(14), __webpack_require__(15), __webpack_require__(16), __webpack_require__(18), __webpack_require__(19), __webpack_require__(20), __webpack_require__(21)];
 
-	};
+		Http.headers = {
+		    put: jsonType,
+		    post: jsonType,
+		    patch: jsonType,
+		    delete: jsonType,
+		    common: { 'Accept': 'application/json, text/plain, */*' },
+		    custom: { 'X-Requested-With': 'XMLHttpRequest' }
+		};
 
-	module.exports = _.resource = Resource;
+		['get', 'put', 'post', 'patch', 'delete', 'jsonp'].forEach(function (method) {
 
+		    Http[method] = function (url, data, success, options) {
+
+		        if (_.isFunction(data)) {
+		            options = success;
+		            success = data;
+		            data = undefined;
+		        }
+
+		        if (_.isObject(success)) {
+		            options = success;
+		            success = undefined;
+		        }
+
+		        return this(url, _.extend({ method: method, data: data, success: success }, options));
+		    };
+		});
+
+		module.exports = _.http = Http;
+
+	/***/ },
+	/* 9 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Base client.
+		 */
+
+		var _ = __webpack_require__(1);
+		var Promise = __webpack_require__(10);
+		var xhrClient = __webpack_require__(12);
+
+		module.exports = function (request) {
+
+		    var response = (request.client || xhrClient)(request);
+
+		    return Promise.resolve(response).then(function (response) {
+
+		        if (response.headers) {
+
+		            var headers = parseHeaders(response.headers);
+
+		            response.headers = function (name) {
+
+		                if (name) {
+		                    return headers[_.toLower(name)];
+		                }
+
+		                return headers;
+		            };
+		        }
+
+		        response.ok = response.status >= 200 && response.status < 300;
+
+		        return response;
+		    });
+		};
+
+		function parseHeaders(str) {
+
+		    var headers = {},
+		        value,
+		        name,
+		        i;
+
+		    if (_.isString(str)) {
+		        _.each(str.split('\n'), function (row) {
+
+		            i = row.indexOf(':');
+		            name = _.trim(_.toLower(row.slice(0, i)));
+		            value = _.trim(row.slice(i + 1));
+
+		            if (headers[name]) {
+
+		                if (_.isArray(headers[name])) {
+		                    headers[name].push(value);
+		                } else {
+		                    headers[name] = [headers[name], value];
+		                }
+		            } else {
+
+		                headers[name] = value;
+		            }
+		        });
+		    }
+
+		    return headers;
+		}
+
+	/***/ },
+	/* 10 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Promise adapter.
+		 */
+
+		var _ = __webpack_require__(1);
+		var PromiseObj = window.Promise || __webpack_require__(11);
+
+		function Promise(executor, context) {
+
+		    if (executor instanceof PromiseObj) {
+		        this.promise = executor;
+		    } else {
+		        this.promise = new PromiseObj(executor.bind(context));
+		    }
+
+		    this.context = context;
+		}
+
+		Promise.all = function (iterable, context) {
+		    return new Promise(PromiseObj.all(iterable), context);
+		};
+
+		Promise.resolve = function (value, context) {
+		    return new Promise(PromiseObj.resolve(value), context);
+		};
+
+		Promise.reject = function (reason, context) {
+		    return new Promise(PromiseObj.reject(reason), context);
+		};
+
+		Promise.race = function (iterable, context) {
+		    return new Promise(PromiseObj.race(iterable), context);
+		};
+
+		var p = Promise.prototype;
+
+		p.bind = function (context) {
+		    this.context = context;
+		    return this;
+		};
+
+		p.then = function (fulfilled, rejected) {
+
+		    if (fulfilled && fulfilled.bind && this.context) {
+		        fulfilled = fulfilled.bind(this.context);
+		    }
+
+		    if (rejected && rejected.bind && this.context) {
+		        rejected = rejected.bind(this.context);
+		    }
+
+		    this.promise = this.promise.then(fulfilled, rejected);
+
+		    return this;
+		};
+
+		p.catch = function (rejected) {
+
+		    if (rejected && rejected.bind && this.context) {
+		        rejected = rejected.bind(this.context);
+		    }
+
+		    this.promise = this.promise.catch(rejected);
+
+		    return this;
+		};
+
+		p.finally = function (callback) {
+
+		    return this.then(function (value) {
+		        callback.call(this);
+		        return value;
+		    }, function (reason) {
+		        callback.call(this);
+		        return PromiseObj.reject(reason);
+		    });
+		};
+
+		p.success = function (callback) {
+
+		    _.warn('The `success` method has been deprecated. Use the `then` method instead.');
+
+		    return this.then(function (response) {
+		        return callback.call(this, response.data, response.status, response) || response;
+		    });
+		};
+
+		p.error = function (callback) {
+
+		    _.warn('The `error` method has been deprecated. Use the `catch` method instead.');
+
+		    return this.catch(function (response) {
+		        return callback.call(this, response.data, response.status, response) || response;
+		    });
+		};
+
+		p.always = function (callback) {
+
+		    _.warn('The `always` method has been deprecated. Use the `finally` method instead.');
+
+		    var cb = function cb(response) {
+		        return callback.call(this, response.data, response.status, response) || response;
+		    };
+
+		    return this.then(cb, cb);
+		};
+
+		module.exports = Promise;
+
+	/***/ },
+	/* 11 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+		/**
+		 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
+		 */
+
+		var _ = __webpack_require__(1);
+
+		var RESOLVED = 0;
+		var REJECTED = 1;
+		var PENDING = 2;
+
+		function Promise(executor) {
+
+		    this.state = PENDING;
+		    this.value = undefined;
+		    this.deferred = [];
+
+		    var promise = this;
+
+		    try {
+		        executor(function (x) {
+		            promise.resolve(x);
+		        }, function (r) {
+		            promise.reject(r);
+		        });
+		    } catch (e) {
+		        promise.reject(e);
+		    }
+		}
+
+		Promise.reject = function (r) {
+		    return new Promise(function (resolve, reject) {
+		        reject(r);
+		    });
+		};
+
+		Promise.resolve = function (x) {
+		    return new Promise(function (resolve, reject) {
+		        resolve(x);
+		    });
+		};
+
+		Promise.all = function all(iterable) {
+		    return new Promise(function (resolve, reject) {
+		        var count = 0,
+		            result = [];
+
+		        if (iterable.length === 0) {
+		            resolve(result);
+		        }
+
+		        function resolver(i) {
+		            return function (x) {
+		                result[i] = x;
+		                count += 1;
+
+		                if (count === iterable.length) {
+		                    resolve(result);
+		                }
+		            };
+		        }
+
+		        for (var i = 0; i < iterable.length; i += 1) {
+		            Promise.resolve(iterable[i]).then(resolver(i), reject);
+		        }
+		    });
+		};
+
+		Promise.race = function race(iterable) {
+		    return new Promise(function (resolve, reject) {
+		        for (var i = 0; i < iterable.length; i += 1) {
+		            Promise.resolve(iterable[i]).then(resolve, reject);
+		        }
+		    });
+		};
+
+		var p = Promise.prototype;
+
+		p.resolve = function resolve(x) {
+		    var promise = this;
+
+		    if (promise.state === PENDING) {
+		        if (x === promise) {
+		            throw new TypeError('Promise settled with itself.');
+		        }
+
+		        var called = false;
+
+		        try {
+		            var then = x && x['then'];
+
+		            if (x !== null && (typeof x === 'undefined' ? 'undefined' : _typeof(x)) === 'object' && typeof then === 'function') {
+		                then.call(x, function (x) {
+		                    if (!called) {
+		                        promise.resolve(x);
+		                    }
+		                    called = true;
+		                }, function (r) {
+		                    if (!called) {
+		                        promise.reject(r);
+		                    }
+		                    called = true;
+		                });
+		                return;
+		            }
+		        } catch (e) {
+		            if (!called) {
+		                promise.reject(e);
+		            }
+		            return;
+		        }
+
+		        promise.state = RESOLVED;
+		        promise.value = x;
+		        promise.notify();
+		    }
+		};
+
+		p.reject = function reject(reason) {
+		    var promise = this;
+
+		    if (promise.state === PENDING) {
+		        if (reason === promise) {
+		            throw new TypeError('Promise settled with itself.');
+		        }
+
+		        promise.state = REJECTED;
+		        promise.value = reason;
+		        promise.notify();
+		    }
+		};
+
+		p.notify = function notify() {
+		    var promise = this;
+
+		    _.nextTick(function () {
+		        if (promise.state !== PENDING) {
+		            while (promise.deferred.length) {
+		                var deferred = promise.deferred.shift(),
+		                    onResolved = deferred[0],
+		                    onRejected = deferred[1],
+		                    resolve = deferred[2],
+		                    reject = deferred[3];
+
+		                try {
+		                    if (promise.state === RESOLVED) {
+		                        if (typeof onResolved === 'function') {
+		                            resolve(onResolved.call(undefined, promise.value));
+		                        } else {
+		                            resolve(promise.value);
+		                        }
+		                    } else if (promise.state === REJECTED) {
+		                        if (typeof onRejected === 'function') {
+		                            resolve(onRejected.call(undefined, promise.value));
+		                        } else {
+		                            reject(promise.value);
+		                        }
+		                    }
+		                } catch (e) {
+		                    reject(e);
+		                }
+		            }
+		        }
+		    });
+		};
+
+		p.then = function then(onResolved, onRejected) {
+		    var promise = this;
+
+		    return new Promise(function (resolve, reject) {
+		        promise.deferred.push([onResolved, onRejected, resolve, reject]);
+		        promise.notify();
+		    });
+		};
+
+		p.catch = function (onRejected) {
+		    return this.then(undefined, onRejected);
+		};
+
+		module.exports = Promise;
+
+	/***/ },
+	/* 12 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * XMLHttp client.
+		 */
+
+		var _ = __webpack_require__(1);
+		var Promise = __webpack_require__(10);
+
+		module.exports = function (request) {
+		    return new Promise(function (resolve) {
+
+		        var xhr = new XMLHttpRequest(),
+		            response = { request: request },
+		            handler;
+
+		        request.cancel = function () {
+		            xhr.abort();
+		        };
+
+		        xhr.open(request.method, _.url(request), true);
+
+		        handler = function handler(event) {
+
+		            response.data = xhr.responseText;
+		            response.status = xhr.status;
+		            response.statusText = xhr.statusText;
+		            response.headers = xhr.getAllResponseHeaders();
+
+		            resolve(response);
+		        };
+
+		        xhr.timeout = 0;
+		        xhr.onload = handler;
+		        xhr.onabort = handler;
+		        xhr.onerror = handler;
+		        xhr.ontimeout = function () {};
+		        xhr.onprogress = function () {};
+
+		        if (_.isPlainObject(request.xhr)) {
+		            _.extend(xhr, request.xhr);
+		        }
+
+		        if (_.isPlainObject(request.upload)) {
+		            _.extend(xhr.upload, request.upload);
+		        }
+
+		        _.each(request.headers || {}, function (value, header) {
+		            xhr.setRequestHeader(header, value);
+		        });
+
+		        xhr.send(request.data);
+		    });
+		};
+
+	/***/ },
+	/* 13 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Interceptor factory.
+		 */
+
+		var _ = __webpack_require__(1);
+		var Promise = __webpack_require__(10);
+
+		module.exports = function (handler, vm) {
+
+		    return function (client) {
+
+		        if (_.isFunction(handler)) {
+		            handler = handler.call(vm, Promise);
+		        }
+
+		        return function (request) {
+
+		            if (_.isFunction(handler.request)) {
+		                request = handler.request.call(vm, request);
+		            }
+
+		            return when(request, function (request) {
+		                return when(client(request), function (response) {
+
+		                    if (_.isFunction(handler.response)) {
+		                        response = handler.response.call(vm, response);
+		                    }
+
+		                    return response;
+		                });
+		            });
+		        };
+		    };
+		};
+
+		function when(value, fulfilled, rejected) {
+
+		    var promise = Promise.resolve(value);
+
+		    if (arguments.length < 2) {
+		        return promise;
+		    }
+
+		    return promise.then(fulfilled, rejected);
+		}
+
+	/***/ },
+	/* 14 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Before Interceptor.
+		 */
+
+		var _ = __webpack_require__(1);
+
+		module.exports = {
+
+		    request: function request(_request) {
+
+		        if (_.isFunction(_request.beforeSend)) {
+		            _request.beforeSend.call(this, _request);
+		        }
+
+		        return _request;
+		    }
+
+		};
+
+	/***/ },
+	/* 15 */
+	/***/ function(module, exports) {
+
+		/**
+		 * Timeout Interceptor.
+		 */
+
+		module.exports = function () {
+
+		    var timeout;
+
+		    return {
+
+		        request: function request(_request) {
+
+		            if (_request.timeout) {
+		                timeout = setTimeout(function () {
+		                    _request.cancel();
+		                }, _request.timeout);
+		            }
+
+		            return _request;
+		        },
+
+		        response: function response(_response) {
+
+		            clearTimeout(timeout);
+
+		            return _response;
+		        }
+
+		    };
+		};
+
+	/***/ },
+	/* 16 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * JSONP Interceptor.
+		 */
+
+		var jsonpClient = __webpack_require__(17);
+
+		module.exports = {
+
+		    request: function request(_request) {
+
+		        if (_request.method == 'JSONP') {
+		            _request.client = jsonpClient;
+		        }
+
+		        return _request;
+		    }
+
+		};
+
+	/***/ },
+	/* 17 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * JSONP client.
+		 */
+
+		var _ = __webpack_require__(1);
+		var Promise = __webpack_require__(10);
+
+		module.exports = function (request) {
+		    return new Promise(function (resolve) {
+
+		        var callback = '_jsonp' + Math.random().toString(36).substr(2),
+		            response = { request: request, data: null },
+		            handler,
+		            script;
+
+		        request.params[request.jsonp] = callback;
+		        request.cancel = function () {
+		            handler({ type: 'cancel' });
+		        };
+
+		        script = document.createElement('script');
+		        script.src = _.url(request);
+		        script.type = 'text/javascript';
+		        script.async = true;
+
+		        window[callback] = function (data) {
+		            response.data = data;
+		        };
+
+		        handler = function handler(event) {
+
+		            if (event.type === 'load' && response.data !== null) {
+		                response.status = 200;
+		            } else if (event.type === 'error') {
+		                response.status = 404;
+		            } else {
+		                response.status = 0;
+		            }
+
+		            resolve(response);
+
+		            delete window[callback];
+		            document.body.removeChild(script);
+		        };
+
+		        script.onload = handler;
+		        script.onerror = handler;
+
+		        document.body.appendChild(script);
+		    });
+		};
+
+	/***/ },
+	/* 18 */
+	/***/ function(module, exports) {
+
+		/**
+		 * HTTP method override Interceptor.
+		 */
+
+		module.exports = {
+
+		    request: function request(_request) {
+
+		        if (_request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(_request.method)) {
+		            _request.headers['X-HTTP-Method-Override'] = _request.method;
+		            _request.method = 'POST';
+		        }
+
+		        return _request;
+		    }
+
+		};
+
+	/***/ },
+	/* 19 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Mime Interceptor.
+		 */
+
+		var _ = __webpack_require__(1);
+
+		module.exports = {
+
+		    request: function request(_request) {
+
+		        if (_request.emulateJSON && _.isPlainObject(_request.data)) {
+		            _request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+		            _request.data = _.url.params(_request.data);
+		        }
+
+		        if (_.isObject(_request.data) && /FormData/i.test(_request.data.toString())) {
+		            delete _request.headers['Content-Type'];
+		        }
+
+		        if (_.isPlainObject(_request.data)) {
+		            _request.data = JSON.stringify(_request.data);
+		        }
+
+		        return _request;
+		    },
+
+		    response: function response(_response) {
+
+		        try {
+		            _response.data = JSON.parse(_response.data);
+		        } catch (e) {}
+
+		        return _response;
+		    }
+
+		};
+
+	/***/ },
+	/* 20 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Header Interceptor.
+		 */
+
+		var _ = __webpack_require__(1);
+
+		module.exports = {
+
+		    request: function request(_request) {
+
+		        _request.method = _request.method.toUpperCase();
+		        _request.headers = _.extend({}, _.http.headers.common, !_request.crossOrigin ? _.http.headers.custom : {}, _.http.headers[_request.method.toLowerCase()], _request.headers);
+
+		        if (_.isPlainObject(_request.data) && /^(GET|JSONP)$/i.test(_request.method)) {
+		            _.extend(_request.params, _request.data);
+		            delete _request.data;
+		        }
+
+		        return _request;
+		    }
+
+		};
+
+	/***/ },
+	/* 21 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * CORS Interceptor.
+		 */
+
+		var _ = __webpack_require__(1);
+		var xdrClient = __webpack_require__(22);
+		var xhrCors = 'withCredentials' in new XMLHttpRequest();
+		var originUrl = _.url.parse(location.href);
+
+		module.exports = {
+
+		    request: function request(_request) {
+
+		        if (_request.crossOrigin === null) {
+		            _request.crossOrigin = crossOrigin(_request);
+		        }
+
+		        if (_request.crossOrigin) {
+
+		            if (!xhrCors) {
+		                _request.client = xdrClient;
+		            }
+
+		            _request.emulateHTTP = false;
+		        }
+
+		        return _request;
+		    }
+
+		};
+
+		function crossOrigin(request) {
+
+		    var requestUrl = _.url.parse(_.url(request));
+
+		    return requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host;
+		}
+
+	/***/ },
+	/* 22 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * XDomain client (Internet Explorer).
+		 */
+
+		var _ = __webpack_require__(1);
+		var Promise = __webpack_require__(10);
+
+		module.exports = function (request) {
+		    return new Promise(function (resolve) {
+
+		        var xdr = new XDomainRequest(),
+		            response = { request: request },
+		            handler;
+
+		        request.cancel = function () {
+		            xdr.abort();
+		        };
+
+		        xdr.open(request.method, _.url(request), true);
+
+		        handler = function handler(event) {
+
+		            response.data = xdr.responseText;
+		            response.status = xdr.status;
+		            response.statusText = xdr.statusText;
+
+		            resolve(response);
+		        };
+
+		        xdr.timeout = 0;
+		        xdr.onload = handler;
+		        xdr.onabort = handler;
+		        xdr.onerror = handler;
+		        xdr.ontimeout = function () {};
+		        xdr.onprogress = function () {};
+
+		        xdr.send(request.data);
+		    });
+		};
+
+	/***/ },
+	/* 23 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		/**
+		 * Service for interacting with RESTful services.
+		 */
+
+		var _ = __webpack_require__(1);
+
+		function Resource(url, params, actions, options) {
+
+		    var self = this,
+		        resource = {};
+
+		    actions = _.extend({}, Resource.actions, actions);
+
+		    _.each(actions, function (action, name) {
+
+		        action = _.merge({ url: url, params: params || {} }, options, action);
+
+		        resource[name] = function () {
+		            return (self.$http || _.http)(opts(action, arguments));
+		        };
+		    });
+
+		    return resource;
+		}
+
+		function opts(action, args) {
+
+		    var options = _.extend({}, action),
+		        params = {},
+		        data,
+		        success,
+		        error;
+
+		    switch (args.length) {
+
+		        case 4:
+
+		            error = args[3];
+		            success = args[2];
+
+		        case 3:
+		        case 2:
+
+		            if (_.isFunction(args[1])) {
+
+		                if (_.isFunction(args[0])) {
+
+		                    success = args[0];
+		                    error = args[1];
+
+		                    break;
+		                }
+
+		                success = args[1];
+		                error = args[2];
+		            } else {
+
+		                params = args[0];
+		                data = args[1];
+		                success = args[2];
+
+		                break;
+		            }
+
+		        case 1:
+
+		            if (_.isFunction(args[0])) {
+		                success = args[0];
+		            } else if (/^(POST|PUT|PATCH)$/i.test(options.method)) {
+		                data = args[0];
+		            } else {
+		                params = args[0];
+		            }
+
+		            break;
+
+		        case 0:
+
+		            break;
+
+		        default:
+
+		            throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
+		    }
+
+		    options.data = data;
+		    options.params = _.extend({}, options.params, params);
+
+		    if (success) {
+		        options.success = success;
+		    }
+
+		    if (error) {
+		        options.error = error;
+		    }
+
+		    return options;
+		}
+
+		Resource.actions = {
+
+		    get: { method: 'GET' },
+		    save: { method: 'POST' },
+		    query: { method: 'GET' },
+		    update: { method: 'PUT' },
+		    remove: { method: 'DELETE' },
+		    delete: { method: 'DELETE' }
+
+		};
+
+		module.exports = _.resource = Resource;
+
+	/***/ }
+	/******/ ]);
 
 /***/ }
 /******/ ]);

@@ -5,7 +5,6 @@ export default {
 	  var dispatch = store.dispatch;
 	  api.getAll().then(function(response) {
 	    dispatch('RECIEVE_SECTIONS', response.data.sections);
-			console.log(response);
 	    dispatch('RECIEVE_SETTINGS', response.data.settings);
 	  })
 	},
@@ -13,8 +12,16 @@ export default {
 	addSection: function(store, section) {
 	  var dispatch = store.dispatch;
 	  dispatch('ADD_SECTION', section);
+		
+		var self = this;
 	  api.addSection(section).then(function(response) {
 	    dispatch('RECIEVE_ID', section, response.data);
+			var newStyle = {
+				title: '',
+				html: '',
+				id: 0
+			};
+			self.addStyle(newStyle, section);
 	  })  
 	},
 	
@@ -32,6 +39,7 @@ export default {
 	deleteSection: function(store, section) {
 		var dispatch = store.dispatch;
 		dispatch('DELETE_SECTION', section);
+		api.deleteSection(section.id);
 	},
 	
 	addStyle: function(store, style, section) {

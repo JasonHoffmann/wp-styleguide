@@ -1,0 +1,226 @@
+<style lang="scss">
+#styleguide {
+background: #f7f7f7;
+&:before, &:after {
+  width: auto;
+  height: auto;
+}
+
+#app {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+// Global
+.sg-main-content {
+  max-width: 1300px;
+  margin: 2em auto 0 auto;
+}
+
+.sg-stack {
+  font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  color: #333;
+  box-sizing: border-box;
+  font-size: 16px;
+  
+  a {
+    color: #666;
+  }
+  
+  &::selection {
+    background: #333;
+    color: white;
+  }
+  
+  input {
+    font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+    &:focus {
+      outline: 1px solid black;
+    }
+  }
+} 
+
+.sg-button {
+  text-transform: uppercase;
+  border: none;
+  background: none;
+  font-weight: 700;
+  padding: 10px 0;
+  border-radius: 3px;
+  color: #333 !important;
+  font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  font-size: 12px;
+  &:hover {
+    color: #666 !important;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.sg-input {
+  &:focus {
+    outline: 1px solid #eee;
+  }
+}
+
+/*
+Grid
+*/
+.container {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.container-fluid {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sg-row:before,
+.sg-row:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.sg-row:after {
+  clear: both;
+}
+
+.sg-col-1, .sg-col-2, .sg-col-3, .sg-col-4, .sg-col-5, .sg-col-6,
+.sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11, .sg-col-12,
+.sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4, .sg-col-offset-5, .sg-col-offset-6,
+.sg-col-offset-7, .sg-col-offset-8, .sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
+    float: left;
+    min-height: 1px;
+ }
+
+.box {
+  padding: 20px;
+}
+
+.box-margin {
+  margin: 0 10px 0 10px;
+}
+
+.sg-col-1, .sg-col-offset-1 {
+  width: 8.33333333333%;
+}
+
+.sg-col-2, .sg-col-offset-2 {
+  width: 16.6666666666%;
+}
+
+.sg-col-3, .sg-col-offset-3 {
+  width: 24.9999999999%;
+}
+
+.sg-col-4, .sg-col-offset-4 {
+  width: 33.3333333333%;
+}
+
+.sg-col-5, .sg-col-offset-5 {
+  width: 41.6666666666%;
+}
+
+.sg-col-6, .sg-col-offset-6 {
+  width: 49.9999999999%;
+}
+
+.sg-col-7, .sg-col-offset-7 {
+  width: 58.3333333333%;
+}
+
+.sg-col-8, .sg-col-offset-8 {
+  width: 66.6666666666%;
+}
+
+.sg-col-9, .sg-col-offset-9 {
+  width: 74.9999999999%;
+}
+
+.sg-col-10, .sg-col-offset-10 {
+  width: 83.3333333333%;
+}
+
+.sg-col-11, .sg-col-offset-11 {
+  width: 91.6666666666%;
+}
+
+.sg-col-12, .sg-col-offset-12 {
+  width: 100%;
+}
+
+@media only screen and (max-width : 768px) and (min-width : 480px) {
+  /*
+    Grid
+  */
+  .container {
+    width: 96%;
+  }
+
+  .sg-col-1, .sg-col-2, .sg-col-3, .sg-col-5, .sg-col-6,
+  .sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11 {
+      width: 50%;
+  }
+
+  .sg-col-4 {
+    width: 33.3333333333%;
+  }
+
+  .sg-col-12 {
+    width:100%;
+  }
+
+  .sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4,
+  .sg-col-offset-5, .sg-col-offset-6, .sg-col-offset-7, .sg-col-offset-8,
+  .sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
+    width: 0% !important;
+    display: none;
+  }
+
+  .box-margin {
+    margin: 0 10px 0 10px;
+  }
+}
+
+@media only screen and (max-width : 479px) {
+  /*
+    Grid
+  */
+  .container {
+    width: 96%;
+  }
+
+  .sg-col-1, .sg-col-2, .sg-col-3, .sg-col-4, .sg-col-5, .sg-col-6,
+  .sg-col-7, .sg-col-8, .sg-col-9, .sg-col-10, .sg-col-11, .sg-col-12 {
+      float: none;
+      width: 100%;
+  }
+
+  .sg-col-offset-1, .sg-col-offset-2, .sg-col-offset-3, .sg-col-offset-4,
+  .sg-col-offset-5, .sg-col-offset-6, .sg-col-offset-7, .sg-col-offset-8,
+  .sg-col-offset-9, .sg-col-offset-10, .sg-col-offset-11, .sg-col-offset-12 {
+    width: 0% !important;
+    display: none;
+  }
+
+  .box-margin {
+    margin: 0 10px 0 10px;
+  }
+}
+
+.sg-icon {
+    width: 14px;
+    height: auto;
+    fill: #333;
+    margin-right: 2px;
+    position: relative;
+    top: 3px;
+  &:hover {
+    fill: #666;
+  }
+}
+}
+</style>

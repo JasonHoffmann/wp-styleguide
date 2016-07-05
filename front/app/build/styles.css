@@ -1,8 +1,8 @@
 #styleguide {
   background: #f7f7f7;
   /*
-	Grid
-	*/ }
+Grid
+*/ }
   #styleguide:before, #styleguide:after {
     width: auto;
     height: auto; }
@@ -19,6 +19,16 @@
     font-size: 16px; }
     #styleguide .sg-stack a {
       color: #666; }
+    #styleguide .sg-stack::-moz-selection {
+      background: #333;
+      color: white; }
+    #styleguide .sg-stack::selection {
+      background: #333;
+      color: white; }
+    #styleguide .sg-stack input {
+      font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif; }
+      #styleguide .sg-stack input:focus {
+        outline: 1px solid black; }
   #styleguide .sg-button {
     text-transform: uppercase;
     border: none;
@@ -26,7 +36,15 @@
     font-weight: 700;
     padding: 10px 0;
     border-radius: 3px;
-    color: #333 !important; }
+    color: #333 !important;
+    font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+    font-size: 12px; }
+    #styleguide .sg-button:hover {
+      color: #666 !important; }
+    #styleguide .sg-button:focus {
+      outline: none; }
+  #styleguide .sg-input:focus {
+    outline: 1px solid #eee; }
   #styleguide .container {
     margin: 0 auto;
     width: 80%; }
@@ -77,8 +95,8 @@
   @media only screen and (max-width: 768px) and (min-width: 480px) {
     #styleguide {
       /*
-			Grid
-		*/ }
+    Grid
+  */ }
       #styleguide .container {
         width: 96%; }
       #styleguide .sg-col-1, #styleguide .sg-col-2, #styleguide .sg-col-3, #styleguide .sg-col-5, #styleguide .sg-col-6,
@@ -98,8 +116,8 @@
   @media only screen and (max-width: 479px) {
     #styleguide {
       /*
-			Grid
-		*/ }
+    Grid
+  */ }
       #styleguide .container {
         width: 96%; }
       #styleguide .sg-col-1, #styleguide .sg-col-2, #styleguide .sg-col-3, #styleguide .sg-col-4, #styleguide .sg-col-5, #styleguide .sg-col-6,
@@ -113,50 +131,72 @@
         display: none; }
       #styleguide .box-margin {
         margin: 0 10px 0 10px; } }
-  #styleguide .sg-styles-icon {
+  #styleguide .sg-icon {
+    width: 14px;
+    height: auto;
+    fill: #333;
+    margin-right: 2px;
     position: relative;
-    top: 8px;
-    margin: 0 2px; }
-    #styleguide .sg-styles-icon svg {
-      height: 32px; }
+    top: 3px; }
+    #styleguide .sg-icon:hover {
+      fill: #666; }
+#styleguide .sg-wrap {
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s; }
+
+#styleguide .loaded {
+  opacity: 0; }
 #styleguide .sg-section {
   margin-bottom: 2em;
   padding-bottom: 1em;
   border-bottom: 1px dotted #ccc;
   position: relative; }
+  #styleguide .sg-section.loading {
+    opacity: 0.3; }
 
-#styleguide .sg-actions__section {
-  opacity: 1 !important;
-  top: 10px !important; }
-
-#styleguide .sg-section__add {
-  text-align: right; }
+#styleguide .sg-section-wrap {
+  position: relative; }
 
 #styleguide .sg-section-title {
-  font-size: 32px;
+  font-size: 24px;
   margin-bottom: 10px;
   font-weight: bold;
   background: #f7f7f7;
   border: none !important;
   display: block;
-  width: 100%; }
+  width: 90%;
+  padding: 10px; }
   #styleguide .sg-section-title:focus {
     background: white; }
 
-#styleguide .sg-button__add {
-  color: #333;
-  font-weight: 700; }
-  #styleguide .sg-button__add svg {
-    width: 14px;
-    height: auto;
-    fill: #333;
-    position: relative;
-    top: 2px;
-    margin-right: 2px; }
-  #styleguide .sg-button__add:hover {
-    color: #666; }
-    #styleguide .sg-button__add:hover svg {
-      fill: #666; }
+#styleguide .sg-section__actions {
+  text-align: right; }
+
+#styleguide .sg-section__confirm {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  background: #ef5350;
+  color: white;
+  padding: 10px;
+  z-index: 10;
+  text-align: left; }
+
+#styleguide .sg-confirm__buttons {
+  display: inline-block;
+  color: white;
+  float: right; }
+  #styleguide .sg-confirm__buttons button {
+    color: white !important;
+    border: 1px solid white;
+    padding: 5px 20px; }
+    #styleguide .sg-confirm__buttons button:hover {
+      background: white;
+      color: #ef5350 !important; }
+
+#styleguide .sg-section__divide {
+  padding: 7px 5px;
+  display: inline-block; }
 #styleguide .sg-container {
   background: white;
   padding: 24px;
@@ -185,7 +225,7 @@
   border-bottom: 1px dotted #ddd;
   width: 100%;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 21px;
   border-radius: 0; }
 
 #styleguide input.sg-style-title {
@@ -239,7 +279,7 @@
 
 #styleguide .sg-confirm-style {
   position: absolute;
-  background: #FF3D00;
+  background: #ef5350;
   width: 100%;
   height: 100%;
   top: 0;
@@ -264,13 +304,13 @@
           align-items: center;
   font-size: 24px;
   z-index: 10; }
-  #styleguide .sg-confirm-style .sg-button {
-    background: white;
-    color: #FF3D00;
-    border: 2px solid white; }
-    #styleguide .sg-confirm-style .sg-button:hover {
-      background: #FF3D00;
-      color: white; }
+  #styleguide .sg-confirm-style button {
+    color: white !important;
+    border: 1px solid white;
+    padding: 5px 20px; }
+    #styleguide .sg-confirm-style button:hover {
+      background: white;
+      color: #ef5350 !important; }
 
 #styleguide .expand-transition {
   -webkit-transition: all .3s ease;
@@ -415,20 +455,6 @@
     box-sizing: border-box;
     border-radius: 5px; }
 
-#styleguide .sg-button__settings svg {
-  width: 14px;
-  height: auto;
-  fill: #333;
-  margin-right: 2px;
-  position: relative;
-  top: 3px; }
-
-#styleguide .sg-button__settings:hover {
-  color: #666 !important; }
-
-#styleguide .sg-button__settings:hover svg {
-  fill: #666; }
-
 #styleguide .sg-nav-sublinks {
   padding: 0;
   padding-left: 10px;
@@ -436,3 +462,19 @@
 
 #styleguide .sg-nav-link--link:hover, #styleguide .sg-nav-link--link.selected {
   background: #eee; }
+#styleguide .sg-onboarding {
+  text-align: center; }
+  #styleguide .sg-onboarding .sg-style-title {
+    line-height: 1.3333; }
+  #styleguide .sg-onboarding button {
+    margin-top: 20px; }
+
+#styleguide .sg-onboarding-text {
+  margin-top: 10px; }
+
+#styleguide .sg-styles-icon {
+  position: relative;
+  top: 8px; }
+  #styleguide .sg-styles-icon svg {
+    height: 32px;
+    width: auto; }

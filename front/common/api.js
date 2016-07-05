@@ -32,6 +32,16 @@ export default {
 			data: data
 		})
 	},
+  
+  deleteSection: function(id, data) {
+    return Vue.http({
+      method: 'DELETE',
+      url: styleguide_options.url + '/sections/' + id,
+      headers: {
+        'X-WP-Nonce' : styleguide_options.nonce
+      }
+    })
+  },
 	
   addStyle: function(style, section) {
     return Vue.http({

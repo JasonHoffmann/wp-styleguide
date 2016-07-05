@@ -1,19 +1,3 @@
-<template>
-  <nav class="sg-nav sg-stack sg-col-3">
-    <ul class="sg-nav-links sg-nav-container">
-      <navlinks 
-        v-for="section in sections"
-        :title="section.title"
-        :styles="section.styles"
-        :slug="section.slug"
-        :id="section.id"
-        :active="active"
-        ></navlinks>
-        <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
-    </ul>
-  </nav>
-</template>
-
 <style lang="scss">
 #styleguide {
   .sg-nav-container {
@@ -39,24 +23,6 @@
 		}
 	}
 	
-	.sg-button__settings {
-		svg {
-			width: 14px;
-			height: auto;
-			fill: #333;
-			margin-right: 2px;
-			position: relative;
-			top: 3px;
-		}
-		&:hover {
-			color: #666 !important;
-		}
-		
-		&:hover svg {
-			fill: #666;
-		}
-	}
-	
 	.sg-nav-sublinks {
 		padding: 0;
 		padding-left: 10px;
@@ -68,6 +34,22 @@
 	}
 }
 </style>
+
+<template>
+  <nav class="sg-nav sg-stack sg-col-3">
+    <ul class="sg-nav-links sg-nav-container">
+      <navlinks 
+        v-for="section in sections"
+        :title="section.title"
+        :styles="section.styles"
+        :slug="section.slug"
+        :id="section.id"
+        :active="active"
+        ></navlinks>
+        <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
+    </ul>
+  </nav>
+</template>
 
 <script>
 import Navlinks from './Navlinks.vue';

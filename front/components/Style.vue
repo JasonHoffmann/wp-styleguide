@@ -1,54 +1,3 @@
-<template>
-  <div id="{{ style.slug }}" class="sg-container">
-		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
-			<p>Are you sure you want to delete this style?</p>
-			<div class="sg-confirm-actions">
-				<button class="sg-button sg-confirm-button" v-on:click="deleteStyle">Yes</button>
-				<button class="sg-button sg-confirm-button" v-on:click="toggleConfirm">No</button>
-			</div>
-		</div>
-		<h4 class="sg-style-title sg-stack" v-show="!editing">
-			{{ style.title }}
-		</h4>
-			<span v-show="!editing && logged_in" class="sg-actions">
-			<button v-on:click="enterEditing" class="sg-button__action">
-				<icon name="edit"></icon>
-			</button>
-			<button v-on:click="toggleConfirm" class="sg-button__action">
-					<icon name="delete"></icon>
-		</button>
-		</span>
-		<input 
-					placeholder="Add a title..." 
-					type="text" class="sg-style-title sg-stack sg-font-light" 
-					v-model="style.title" 
-					v-bind:class="{'editing' : editing }"
-					v-show="editing"
-					autofocus
-			/>
-      <span v-show="editing" class="sg-actions sg-actions--editing">
-      <button class="sg-button__action sg-button__save" v-on:click="editStyle">
-        <icon name="save"></icon>
-      </button>
-      <button class="sg-button__action sg-button__cancel" v-on:click="exitEditing">
-        <icon name="cancel"></icon>	
-    </button>
-  </span>
-    <div class="sg-output">
-        {{{ style.html }}}
-    </div>
-		<div class="sg-markuptoggle">
-			<button class="sg-button__action" v-on:click="toggleMarkup" v-show="!editing">
-				<icon name="markup"></icon>
-			</button>
-			<span v-show="editing" class="sg-markuptext">Edit the HTML below</span>
-		</div>
-    <div class="sg-markup" v-show="editing || showMarkup">
-      <code-editor :html.sync="style.html" :editing="editing"></code-editor>
-    </div>
-  </div>
-</template>
-
 <style lang="scss">
 #styleguide {
 	.sg-container {
@@ -84,7 +33,7 @@
     border-bottom: 1px dotted #ddd;
     width: 100%;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 21px;
     border-radius: 0;
   }
   
@@ -159,7 +108,7 @@
 	
 	.sg-confirm-style {
 		position: absolute;
-		background: #FF3D00;
+		background: rgba(239,83,80 ,1);;
 		width: 100%;
 		height: 100%;
 		top: 0;
@@ -175,15 +124,16 @@
 		font-size: 24px;
 		z-index: 10;
 		
-		.sg-button {
-			background: white;
-			color: #FF3D00;
-			border: 2px solid white;
-			&:hover {
-				background: #FF3D00;
-				color: white;
-			}
-		}
+		button {
+      color: white !important;
+      border: 1px solid white;
+      padding: 5px 20px;
+      &:hover {
+        background: white;
+        color: rgba(239,83,80 ,1) !important;
+        
+      }
+    }
 	}
 	
 	.expand-transition {
@@ -199,6 +149,57 @@
 }
 }
 </style>
+
+<template>
+  <div id="{{ style.slug }}" class="sg-container">
+		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
+			<p>Are you sure you want to delete this style?</p>
+			<div class="sg-confirm-actions">
+				<button class="sg-button sg-confirm-button" v-on:click="deleteStyle">Yes</button>
+				<button class="sg-button sg-confirm-button" v-on:click="toggleConfirm">No</button>
+			</div>
+		</div>
+		<h4 class="sg-style-title sg-stack" v-if="!editing">
+			{{ style.title }}
+		</h4>
+			<span v-show="!editing && logged_in" class="sg-actions">
+			<button v-on:click="enterEditing" class="sg-button__action">
+				<icon name="edit"></icon>
+			</button>
+			<button v-on:click="toggleConfirm" class="sg-button__action">
+					<icon name="delete"></icon>
+		</button>
+		</span>
+		<input 
+					placeholder="Add a title..." 
+					type="text" class="sg-style-title sg-stack sg-font-light sg-style-input" 
+					v-model="style.title" 
+					v-bind:class="{'editing' : editing }"
+					v-if="editing"
+					autofocus
+			/>
+      <span v-show="editing" class="sg-actions sg-actions--editing">
+      <button class="sg-button__action sg-button__save" v-on:click="editStyle">
+        <icon name="save"></icon>
+      </button>
+      <button class="sg-button__action sg-button__cancel" v-on:click="exitEditing">
+        <icon name="cancel"></icon>	
+    </button>
+  </span>
+    <div class="sg-output">
+        {{{ style.html }}}
+    </div>
+		<div class="sg-markuptoggle">
+			<button class="sg-button__action" v-on:click="toggleMarkup" v-show="!editing">
+				<icon name="markup"></icon>
+			</button>
+			<span v-show="editing" class="sg-markuptext">Edit the HTML below</span>
+		</div>
+    <div class="sg-markup" v-show="editing || showMarkup">
+      <code-editor :html.sync="style.html" :editing="editing"></code-editor>
+    </div>
+  </div>
+</template>
 
 <script>
 import CodeEditor from './Editor.vue';
@@ -225,9 +226,16 @@ export default {
   },
   
   created: function() {
-    if( !this.style.title ) {
+    if( !this.style.title && this.logged_in ) {
       this.editing = true;
-    };
+    }
+  },
+  
+  ready: function() {
+    var input = this.$el.querySelectorAll('.sg-style-input');
+    if( input.length > 0 ) {
+      input[0].focus();
+    }
   },
   
   components: {

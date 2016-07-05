@@ -1,5 +1,5 @@
 <template>
-	<svg :view-box.camel="box" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<svg class="sg-icon" :view-box.camel="box" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<title>{{ icon.title }}</title>
 		<g>{{{ icon.g }}}</g>
 	</svg>
