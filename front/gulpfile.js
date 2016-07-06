@@ -13,7 +13,7 @@ var paths = {
     src: ['./app.js'],
     compile:  ['./app.js', './app/**/*.js', '!app/build/*.js', '!app/vendor/*.js'],
     watch: [ './app.js', './components/**/*.vue', './components/**/*.js', './common/**/*.js' ],
-    dest: './app/build/'
+    dest: './build/'
   }
 };
 

@@ -140,6 +140,66 @@ Grid
     top: 3px; }
     #styleguide .sg-icon:hover {
       fill: #666; }
+  #styleguide code,
+  #styleguide code[class*='language-'],
+  #styleguide pre[class*='language-'] {
+    color: #333;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    -moz-tab-size: 4;
+      -o-tab-size: 4;
+         tab-size: 4;
+    -webkit-hyphens: none;
+        -ms-hyphens: none;
+            hyphens: none;
+    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    line-height: 1.4;
+    direction: ltr;
+    cursor: text; }
+  #styleguide pre[class*='language-'] {
+    overflow: auto;
+    margin: 1em 0;
+    padding: 1.2em;
+    border-radius: 3px;
+    font-size: 85%; }
+  #styleguide p code,
+  #styleguide li code,
+  #styleguide table code {
+    margin: 0;
+    border-radius: 3px;
+    padding: 0.2em 0;
+    font-size: 85%; }
+  #styleguide p code:before, #styleguide p code:after,
+  #styleguide li code:before,
+  #styleguide li code:after,
+  #styleguide table code:before,
+  #styleguide table code:after {
+    letter-spacing: -0.2em;
+    content: '\A0'; }
+  #styleguide code,
+  #styleguide :not(pre) > code[class*='language-'],
+  #styleguide pre[class*='language-'] {
+    background: #f7f7f7; }
+  #styleguide :not(pre) > code[class*='language-'] {
+    padding: 0.1em;
+    border-radius: 0.3em; }
+  #styleguide .token.comment, #styleguide .token.prolog, #styleguide .token.doctype, #styleguide .token.cdata {
+    color: #969896; }
+  #styleguide .token.punctuation, #styleguide .token.string, #styleguide .token.atrule, #styleguide .token.attr-value {
+    color: #183691; }
+  #styleguide .token.property, #styleguide .token.tag {
+    color: #63a35c; }
+  #styleguide .token.boolean, #styleguide .token.number {
+    color: #0086b3; }
+  #styleguide .token.selector, #styleguide .token.attr-name, #styleguide .token.attr-value .punctuation:first-child, #styleguide .token.keyword, #styleguide .token.regex, #styleguide .token.important {
+    color: #a71d5d; }
+  #styleguide .token.operator, #styleguide .token.entity, #styleguide .token.url, #styleguide .language-css .token.string {
+    color: #a71d5d; }
+  #styleguide .token.entity {
+    cursor: help; }
+  #styleguide .namespace {
+    opacity: 0.7; }
 #styleguide .sg-wrap {
   -webkit-transition: opacity 0.5s;
   transition: opacity 0.5s; }

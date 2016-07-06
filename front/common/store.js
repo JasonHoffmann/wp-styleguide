@@ -18,6 +18,11 @@ const state = {
 }
 
 const mutations = {
+	RECIEVE_SECTIONS(state, sections) {
+		state.sections = sections;
+		state.loaded = true;
+	},
+	
   ADD_SECTION(state, section) {
     state.sections.push(section);
   },
@@ -32,25 +37,19 @@ const mutations = {
   RECIEVE_ID(state, section, data) {
     section.id = data.id;
   },
-  
-  RECIEVE_STYLE_ID(state, section, id ) {
-    section.styles.$set(state.retainedIndex, {id: id});
-    state.retainedIndex = '';
-  },
-  
-  RECIEVE_SECTIONS(state, sections) {
-    state.sections = sections;
-    state.loaded = true;
-  },
+	
+	TOGGLE_ACTIVE(state, section) {
+		state.activeSection = section;
+	},
 	
 	DELETE_SECTION(state, section) {
 		state.sections.$remove(section);
 	},
-  
-  RECIEVE_SETTINGS(state, settings) {
-		settings.show = false;
-		state.settings = settings;
-  },
+	
+	RECIEVE_STYLE_ID(state, section, id ) {
+		section.styles.$set(state.retainedIndex, {id: id});
+		state.retainedIndex = '';
+	},
   
   ADD_STYLE(state, style, section) {
     var l = section.styles.push(style);
@@ -74,18 +73,19 @@ const mutations = {
         section.styles.splice(index, 1);
     }, 10);
   },
-  
-  TOGGLE_ACTIVE(state, section) {
-    state.activeSection = section;
-  },
+	
+	ADD_POSITION(state, pos) {
+		state.sectionPositions.push(pos);
+	},
+	
+	RECIEVE_SETTINGS(state, settings) {
+		settings.show = false;
+		state.settings = settings;
+	},
 	
 	TOGGLE_PRIVACY(state, section) {
 		state.settings.private = !state.settings.private;
 	},
-  
-  ADD_POSITION(state, pos) {
-    state.sectionPositions.push(pos);
-  },
   
   TOGGLE_SETTINGS(state) {
     state.settings.show = !state.settings.show;
