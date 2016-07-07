@@ -30,68 +30,70 @@
 	.sg-settings-group {
 		margin: 3em auto;
 		max-width: 350px;
+	}
+	
+	.sg-st__radio-group {
+		margin: 0 auto;
+		max-width: 350px;
+		display: block;
+		position: relative;
+		width: 100%;
+		height: 100px;
+		text-align: left;
+		cursor: pointer;
 		
-		.radio-group {
+		input[type="radio"] {
+			position: absolute;
+			visibility: hidden;
+		}
+		
+		label {
 			display: block;
 			position: relative;
-			width: 100%;
-			height: 100px;
-			text-align: left;
+			padding: 25px 25px 25px 80px;
+			margin: 10px auto;
+			height: 30px;
+			transition: all 0.25s;
+			color: #666;
 			cursor: pointer;
+		}
+		
+		.check {
+			display: block;
+			position: absolute;
+			border: 5px solid #666;
+			border-radius: 100%;
+			height: 25px;
+			width: 25px;
+			top: 30px;
+			left: 20px;
+			z-index: 5;
+			transition: boder .25s;
 			
-			input[type="radio"] {
-				position: absolute;
-				visibility: hidden;
-			}
-			
-			label {
-				display: block;
-				position: relative;
-				padding: 25px 25px 25px 80px;
-				margin: 10px auto;
-				height: 30px;
-				transition: all 0.25s;
-				color: #666;
-				cursor: pointer;
-			}
-			
-			.check {
+			&:before {
 				display: block;
 				position: absolute;
-				border: 5px solid #666;
+				content: '';
 				border-radius: 100%;
-				height: 25px;
-				width: 25px;
-				top: 30px;
-				left: 20px;
-				z-index: 5;
-				transition: boder .25s;
-				
-				&:before {
-					display: block;
-					position: absolute;
-					content: '';
-					border-radius: 100%;
-					height: 15px;
-					width: 15px;
-					top: 5px;
-					left: 5px;
-					margin: auto;
-					transition: background 0.25s linear;
-				}
+				height: 15px;
+				width: 15px;
+				top: 5px;
+				left: 5px;
+				margin: auto;
+				transition: background 0.25s linear;
 			}
-			
-			input[type=radio]:checked ~ .check {
-				border: 5px solid #333;
-			}
+		}
+		
+		input[type=radio]:checked ~ .check {
+			border: 5px solid #333;
+		}
 
-			input[type=radio]:checked ~ .check::before{
-				background: #333;
-			}
+		input[type=radio]:checked ~ .check::before{
+			background: #333;
+		}
 
-			input[type=radio]:checked ~ label{
-				color: #333;
-			}
+		input[type=radio]:checked ~ label{
+			color: #333;
 		}
 	}
 
@@ -104,7 +106,7 @@
 		font-size: 14px;
 	}
 
-	.sg-settings-endpoint {
+	.sg-set__endpoint {
 		border: none;
 		border-bottom: 1px dotted #666;
 		background: transparent !important;
@@ -113,7 +115,7 @@
 		top: -1px;
 	}
 
-	.sg-settings-endpoint:focus {
+	.sg-set__endpoint:focus {
 		border-bottom-color: #333;
 	}
 	

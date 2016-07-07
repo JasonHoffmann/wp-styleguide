@@ -10416,9 +10416,7 @@
 	// 		</div>
 	// </div>
 	//
-	// <div class="sg-row sg-main-content sg-stack sg-onboarding sg-settings-group" v-else>
-	// 	<onboard></onboard>
-	// </div>
+	// <onboard v-else></onboard>
 	// </div>
 	// </template>
 	//
@@ -12151,7 +12149,7 @@
 			title: 'Styles',
 			width: 100,
 			height: 50,
-			g: '	<path class="st0" d="M27,7.1c0.1,0.4,0.1,0.7,0.2,0.9c0,0.2,0.1,0.4,0.1,0.7c0,0.8-0.2,1.6-0.6,2.3s-0.9,1.2-1.5,1.5	c-0.5-0.7-1.1-1.3-1.9-1.8c-0.7-0.5-1.5-0.9-2.4-1.2C20,9.2,19.1,9,18.2,8.8c-0.9-0.2-1.9-0.2-2.7-0.2c-0.9,0-1.7,0.1-2.5,0.2	c-0.8,0.1-1.5,0.3-2.1,0.6c-0.6,0.2-1.1,0.5-1.4,0.9C9.1,10.6,9,11.1,9,11.5c0.1,0.6,0.4,1.1,1,1.7c0.6,0.6,1.4,1.1,2.2,1.7	c0.9,0.5,1.9,1.1,3,1.6c1.1,0.5,2.1,1,3.2,1.5c1.3,0.6,2.4,1.2,3.4,1.7c0.9,0.5,1.7,1.1,2.3,1.7c0.6,0.6,1.1,1.3,1.4,2.1		c0.3,0.8,0.5,1.7,0.5,2.9c0,1.3-0.2,2.5-0.6,3.6c-0.4,1.1-1.1,2.1-1.9,3c-0.8,0.8-1.8,1.5-3,2c-1.2,0.5-2.5,0.7-3.9,0.7		c-1.4,0-3-0.2-4.6-0.6c-1.7-0.4-3.2-1-4.6-1.8c-1.4-0.7-2.6-1.6-3.6-2.6s-1.4-2-1.4-3.1c0-0.5,0.1-1.2,0.4-1.9		c0.3-0.8,0.8-1.6,1.6-2.5c0.1,0.8,0.5,1.7,1.2,2.7c0.7,1,1.9,2,3.4,2.9c1.4,0.8,2.8,1.4,4.3,1.8c1.5,0.4,2.9,0.6,4.2,0.6		c1.4,0,2.6-0.2,3.5-0.5c0.9-0.4,1.6-0.8,2.1-1.3c0.5-0.5,0.9-1,1.1-1.5c0.2-0.5,0.3-0.9,0.3-1.2c0-0.5-0.3-1-0.7-1.5		c-0.4-0.5-1-0.9-1.8-1.4c-0.7-0.4-1.6-0.9-2.6-1.4s-2-0.9-3.1-1.4c-1.6-0.7-3-1.4-4.1-2c-1.2-0.6-2.1-1.3-2.9-1.9		c-0.7-0.6-1.3-1.3-1.6-2c-0.3-0.7-0.5-1.5-0.5-2.4c0-1.4,0.4-2.8,1.3-4c0.9-1.3,2.1-2.2,3.7-2.9c0.8-0.4,1.7-0.6,2.6-0.8	c0.9-0.2,1.8-0.2,2.7-0.2c1.7,0,3.3,0.2,4.9,0.7C23.8,5.8,25.4,6.4,27,7.1z"/><path class="st0" d="M30.1,18.2c-0.1-0.2-0.2-0.5-0.3-1c-0.1-0.5-0.2-0.9-0.2-1.3c0.7,0.1,1.3,0.2,1.9,0.2s1.2,0,1.7,0		c0.4-0.8,0.8-1.5,1.2-2.2c0.4-0.7,0.9-1.4,1.3-2c0.4-0.6,0.8-1.1,1.2-1.6c0.4-0.4,0.7-0.7,0.9-0.8c0.3,0,0.6,0,1,0.1	c0.4,0.1,0.8,0.2,1.2,0.3c0.4,0.1,0.8,0.3,1.1,0.4c0.3,0.2,0.6,0.3,0.7,0.5c-0.8,1-1.4,1.8-2,2.7c-0.5,0.8-1.1,1.8-1.8,2.8	c0.5,0,1,0,1.5,0s1,0,1.6-0.1c0.1,0.1,0.2,0.3,0.3,0.5s0.1,0.4,0.1,0.6c-1.2,0.5-2.8,0.7-4.5,0.7c-0.6,1.2-1.2,2.4-1.7,3.6	c-0.5,1.2-0.9,2.4-1.3,3.5s-0.6,2.2-0.8,3.2s-0.3,1.9-0.3,2.7c0,1.1,0.4,1.7,1.3,1.9c0.8-0.1,1.5-0.3,2.2-0.6		c0.7-0.3,1.3-0.6,1.8-1.1c0.2,0.2,0.2,0.4,0.3,0.6c-0.2,0.2-0.4,0.5-0.8,0.8c-0.4,0.3-0.8,0.6-1.2,0.9c-0.4,0.3-0.9,0.5-1.3,0.7		c-0.4,0.2-0.7,0.3-0.9,0.3c-0.6,0-1.3-0.1-1.9-0.4c-0.6-0.3-1.2-0.6-1.7-1c-0.5-0.4-0.9-0.8-1.3-1.3c-0.3-0.5-0.5-0.9-0.5-1.4		c0-0.6,0.1-1.4,0.2-2.3c0.2-0.9,0.4-1.9,0.7-3s0.7-2.2,1.1-3.4c0.4-1.2,0.9-2.4,1.3-3.5H30.1z"/><path class="st0" d="M55.5,26.9c-0.6,1.9-1.2,3.5-1.8,5.1c-0.6,1.5-1.2,2.9-1.9,4.2c-0.7,1.3-1.4,2.5-2.1,3.5	c-0.8,1.1-1.6,2.1-2.5,3.1c-1.2,1.2-2.4,2.2-3.6,2.8s-2.5,1-3.7,1c-0.6,0-1.3-0.1-1.9-0.2c-0.6-0.1-1.2-0.3-1.8-0.6	c-0.5-0.2-1-0.5-1.4-0.8c-0.4-0.3-0.7-0.7-0.9-1c0-0.3,0.2-0.6,0.5-0.8c0.3,0.3,0.6,0.5,0.8,0.6c0.2,0.2,0.4,0.3,0.6,0.4	c0.2,0.1,0.4,0.2,0.6,0.2c0.2,0,0.5,0,0.7,0c1.4,0,2.9-0.4,4.2-1.3c1.4-0.9,2.7-2.1,3.9-3.6c1.2-1.6,2.4-3.5,3.4-5.7	c1-2.2,1.9-4.7,2.6-7.4c-0.3,0.5-0.7,1.1-1.2,1.9c-0.5,0.7-1,1.5-1.6,2.2s-1.2,1.4-1.8,2c-0.6,0.6-1.2,1-1.8,1.2		c-0.4,0-0.8-0.1-1.3-0.2c-0.4-0.1-0.9-0.3-1.3-0.6c-0.4-0.3-0.7-0.6-1-0.9s-0.5-0.8-0.6-1.2c0-0.7,0-1.3,0.1-1.8	c0.1-0.4,0.1-0.9,0.3-1.5c0.2-1,0.6-2.1,1-3.3c0.4-1.2,1-2.4,1.6-3.6s1.3-2.3,2-3.3c0.7-1,1.5-1.8,2.3-2.4c0.2,0,0.5,0,0.8,0.1	c0.3,0,0.6,0.1,1,0.2c0.3,0.1,0.6,0.2,1,0.4c0.3,0.1,0.6,0.3,0.8,0.6c-0.3,0.3-0.9,1.1-1.8,2.6c-0.9,1.4-2,3.5-3.1,6.2	c-0.1,0.3-0.3,0.7-0.5,1.2c-0.2,0.5-0.3,1.1-0.5,1.7c-0.2,0.6-0.3,1.2-0.4,1.7c-0.1,0.6-0.2,1-0.2,1.3c0,0.2,0,0.4,0.1,0.5		c0.1,0.1,0.1,0.2,0.2,0.2c0.5-0.1,1.1-0.5,1.8-1.1c0.8-0.7,1.6-1.7,2.6-3.1c0.6-0.9,1.2-1.8,1.7-2.7c0.5-0.9,1-1.8,1.5-2.7	c0.5-0.9,1-1.9,1.5-2.8c0.5-1,1.1-2,1.7-3c0.3,0,0.7,0,1.1,0.1s0.7,0.2,1.1,0.3s0.7,0.2,0.9,0.4c0.3,0.1,0.5,0.3,0.6,0.4	c-0.8,1.7-1.5,3.3-2.2,4.9C56.7,23.5,56.1,25.2,55.5,26.9z"/><path class="st0" d="M59.8,30.3c0-1.1,0.3-2.7,0.8-4.7c0.5-2,1.3-4.4,2.2-7.1c1.6-4.3,3.1-7.9,4.4-10.7C68.7,5,70,2.7,71.3,1.1	c0.3,0.1,0.7,0.2,1.1,0.4c0.4,0.2,0.9,0.4,1.3,0.7c0.4,0.2,0.8,0.5,1.2,0.7c0.3,0.3,0.6,0.5,0.7,0.6c-2,2.3-3.7,4.9-5.2,7.5	c-1.5,2.7-2.9,5.8-4.1,9.3c-1.1,3-1.9,5.7-2.4,8.1s-0.8,4.4-0.8,6c0,0.4,0,0.7,0,0.8c0,0.1,0,0.2,0,0.3c-0.4-0.1-0.7-0.1-0.9-0.3	c-0.3-0.1-0.4-0.3-0.5-0.5c-0.1-0.1-0.2-0.3-0.4-0.6c-0.2-0.2-0.4-0.4-0.6-0.6c-0.2-0.2-0.4-0.6-0.6-1.2S59.8,31.1,59.8,30.3z"/>	<path class="st0" d="M82.3,17c-0.1,1.6-0.4,2.9-0.8,4.1c-0.5,1.1-1.1,2.1-2,3c-0.9,0.9-1.9,1.6-3.1,2.3c-1.2,0.7-2.6,1.3-4.3,2	c0,0.2,0,0.3,0,0.5c0,0.2,0,0.3,0,0.5c0,0.3,0,0.7,0.1,1c0.1,0.4,0.1,0.7,0.3,1c0.1,0.3,0.3,0.6,0.5,0.7s0.5,0.3,0.9,0.3		c0.7,0,1.4-0.2,2-0.5s1.3-0.7,1.9-1.1s1.2-0.9,1.7-1.4c0.5-0.5,1-1,1.4-1.4c0.3,0.2,0.5,0.4,0.6,0.6c-1.1,1.5-2.4,2.8-3.8,3.8		s-2.6,1.6-3.9,1.9c-1.8-0.2-3.1-0.8-4.1-1.9s-1.5-2.4-1.5-3.9c0-1,0.1-2.1,0.4-3.2c0.3-1.1,0.7-2.1,1.2-3.1c0.5-1,1.1-1.9,1.8-2.8		c0.7-0.9,1.4-1.7,2.2-2.3c0.8-0.7,1.6-1.2,2.5-1.6c0.9-0.4,1.7-0.6,2.5-0.6C80.2,15,81.3,15.7,82.3,17z M79.7,18.3		c-0.7,0.1-1.4,0.4-2.1,0.8s-1.4,1.1-2.1,1.8s-1.2,1.7-1.8,2.7c-0.5,1-1,2.1-1.3,3.3c2-1,3.7-2.3,5.1-3.8		C78.9,21.6,79.6,20,79.7,18.3z"/>	<path class="st0" d="M97.2,17.5c0,0.5-0.1,1-0.2,1.5c-0.1,0.5-0.3,1-0.5,1.4c-0.2,0.4-0.4,0.8-0.6,1c-0.2,0.3-0.4,0.4-0.6,0.4		c-0.3,0-0.4-0.2-0.5-0.6c0-0.1,0-0.2,0.1-0.4c0.1-0.2,0.1-0.3,0.2-0.6c0.1-0.2,0.1-0.4,0.2-0.6c0.1-0.2,0.1-0.4,0.1-0.5	c0-0.4-0.1-0.7-0.2-0.9c-0.2-0.2-0.4-0.4-0.7-0.4c-1,0-1.8,0.6-2.3,1.9c-0.5,1.3-0.8,3.1-0.8,5.6c0,0.3,0,0.4,0,0.5	c0.5,0,1,0,1.4,0s0.8,0,1.2,0c0,0.1,0,0.2,0,0.3c0,0.2-0.1,0.4-0.2,0.5c-0.6,0.1-1,0.2-1.4,0.3s-0.6,0.2-0.8,0.2	c-0.2,0.1-0.3,0.2-0.3,0.2c0,0.1-0.1,0.2-0.1,0.4c0,0.2,0,0.4,0,0.6c0,0.2,0,0.5,0,0.8c0,2.1-0.6,3.8-1.7,5.1		c-1.2,1.3-2.8,2-4.8,2.2c-0.4,0-0.7-0.1-1.1-0.3c-0.4-0.2-0.7-0.4-1.1-0.7c-0.3-0.3-0.6-0.6-0.9-0.9c-0.3-0.3-0.4-0.7-0.5-1		c0-1,0.2-1.9,0.6-2.8c0.4-0.9,1-1.7,1.7-2.3c0.7-0.7,1.5-1.2,2.5-1.7c1-0.4,2-0.6,3.1-0.6c0-0.6-0.1-1.3-0.2-1.9s-0.3-1.2-0.4-1.8		S88.1,21.5,88,21c-0.1-0.5-0.2-1.1-0.2-1.6c0-0.7,0.1-1.4,0.4-2c0.3-0.7,0.6-1.3,1.1-1.9s1-1.1,1.6-1.5s1.2-0.7,1.9-0.8		c0.3,0.1,0.7,0.3,1.1,0.7s0.9,0.8,1.4,1.2s0.9,0.9,1.2,1.4C96.9,16.9,97.1,17.2,97.2,17.5z M84.6,34.9c0.6-0.3,1.2-0.6,1.7-1.1	s1-1,1.4-1.6c0.4-0.6,0.7-1.3,1-1.9c0.2-0.7,0.4-1.4,0.4-2c-0.5,0.1-1.1,0.3-1.7,0.7c-0.6,0.4-1.2,0.9-1.7,1.4	c-0.5,0.5-1,1.1-1.3,1.7c-0.4,0.6-0.5,1.1-0.5,1.5C83.9,34.1,84.1,34.6,84.6,34.9z"/>'
+			g: '<path class="st1" d="m10.4 11.4c0 0.8 0.2 1.4 0.7 2 0.4 0.6 1 1.2 1.8 1.7 0.7 0.5 1.6 1 2.5 1.5s1.9 0.9 2.8 1.4c1 0.5 1.9 1 2.8 1.6s1.8 1.2 2.5 1.9c0.7 0.7 1.3 1.5 1.8 2.4s0.7 1.9 0.7 3c0 1-0.2 2-0.5 2.9s-0.8 1.6-1.4 2.3-1.3 1.3-2.1 1.8-1.6 1-2.6 1.3c-0.9 0.3-1.9 0.6-2.9 0.8s-2 0.3-3.1 0.3c-1.4 0-2.8-0.2-4.2-0.5-1.4-0.4-2.6-0.9-3.6-1.6s-1.9-1.6-2.5-2.7c-0.6-1.1-1-2.3-1-3.7 0-0.7 0.1-1.4 0.4-1.9 0.2-0.6 0.5-1 0.9-1.4s0.7-0.7 1.1-0.8c0.4-0.2 0.8-0.3 1.2-0.3s0.7 0.1 0.9 0.3c0.2 0 0.4 0.3 0.4 0.8 0 0.2 0 0.4-0.1 0.6 0 0.2-0.1 0.5-0.1 0.7-0.1 0.3-0.1 0.5-0.1 0.9 0 0.3-0.1 0.6-0.1 1 0 0.8 0.2 1.5 0.6 2.1s0.9 1.1 1.5 1.4 1.3 0.7 2.1 0.8c0.8 0.2 1.6 0.3 2.5 0.3 1 0 2-0.1 3-0.4 1-0.2 1.9-0.6 2.7-1.1s1.4-1 1.9-1.7 0.7-1.5 0.7-2.4c0-0.8-0.2-1.5-0.7-2.2s-1-1.2-1.8-1.8c-0.7-0.5-1.6-1.1-2.5-1.5-0.9-0.5-1.9-1-2.8-1.5-1-0.5-1.9-1-2.8-1.6-0.9-0.5-1.8-1.1-2.5-1.8s-1.3-1.4-1.8-2.2c-0.5-0.6-0.7-1.6-0.7-2.6s0.2-1.9 0.7-2.9c0.5-0.9 1.2-1.8 2.1-2.5s2.1-1.3 3.5-1.8 3-0.7 4.9-0.7c1.2 0 2.4 0.2 3.5 0.5 1.1 0.4 2.2 0.9 3.1 1.5 0.9 0.7 1.6 1.4 2.2 2.3 0.5 0.9 0.8 1.9 0.8 3 0 0.7-0.1 1.3-0.3 2s-0.6 1.4-1.1 2.2c-0.5 0.7-1 1.3-1.6 1.6-0.6 0.4-1.1 0.5-1.5 0.5-0.3 0-0.6-0.1-0.8-0.3s-0.3-0.5-0.3-0.9c0-0.3 0.1-0.7 0.2-1.1s0.4-0.9 0.7-1.4 0.5-1 0.7-1.4 0.2-0.9 0.2-1.2c0-0.6-0.2-1.1-0.5-1.5s-0.8-0.8-1.3-1.1c-0.6-0.3-1.2-0.5-2-0.7-0.8-0.1-1.6-0.2-2.6-0.2s-1.9 0.1-2.7 0.4c-0.8 0.2-1.4 0.5-1.9 0.9-0.6 0.4-1 0.8-1.2 1.3-0.3 0.5-0.4 0.9-0.4 1.4z"/><path class="st1" d="m43.5 30.1c-1.1 0.6-2.1 1.2-2.9 1.7-0.9 0.5-1.6 0.9-2.3 1.2s-1.3 0.6-1.8 0.7-1 0.2-1.4 0.2c-0.9 0-1.6-0.3-2.3-0.8s-1.2-1.3-1.7-2.3-0.8-2.2-1-3.6c-0.2-1.4-0.3-3-0.3-4.8 0-0.7 0-1.4 0.1-2.2s0.1-1.6 0.2-2.3c-0.3 0-0.6-0.1-0.8-0.1s-0.4-0.1-0.6-0.1-0.5-0.1-0.8-0.1-0.8-0.1-1.4-0.2c-0.3 0-0.5-0.1-0.6-0.2s-0.3-0.2-0.3-0.3c-0.1-0.1-0.1-0.3-0.1-0.4v-0.4c0-0.2 0.1-0.4 0.3-0.5s0.5-0.2 0.9-0.3c0.4-0.1 0.7-0.1 1.2-0.1h1.2 1 0.6c0.3-1.6 0.7-3.1 1.2-4.5s1-2.7 1.6-3.9c0.6-1.1 1.2-2 1.9-2.7s1.4-1 2.2-1c0.5 0 0.9 0.1 1.4 0.4 0.4 0.3 0.8 0.6 1 1.1 0.3 0.5 0.5 1 0.7 1.6s0.2 1.3 0.2 1.9-0.1 1.2-0.2 1.8c-0.2 0.6-0.4 1.3-0.7 1.9s-0.6 1.3-1 2c-0.4 0.7-0.8 1.3-1.2 2h0.5 0.8 1 1.1 1 0.7c0.2 0 0.4 0.1 0.5 0.3s0.2 0.5 0.2 0.8c0 0.4-0.1 0.7-0.3 1s-0.5 0.4-0.8 0.4h-6.6c-0.3 0.5-0.7 0.9-1 1.4-0.3 0.4-0.7 0.8-0.9 1.2 0 0.7-0.1 1.4-0.1 2.1v0.9 0.9 0.9s0 0.6 0 0.8c0 0.6 0.1 1.1 0.2 1.6 0.1 0.4 0.3 0.8 0.5 1s0.5 0.5 0.8 0.6c0.3 0.1 0.7 0.2 1.1 0.2 0.2 0 0.5-0.1 0.9-0.2s0.8-0.3 1.2-0.5 0.9-0.4 1.4-0.7 0.9-0.6 1.4-0.9c0.5-0.3 0.9-0.7 1.3-1s0.8-0.7 1.2-1.1v4.6zm-5.5-21.8v-0.4c0-0.2-0.1-0.3-0.1-0.4-0.1-0.1-0.1-0.3-0.3-0.3-0.1-0.2-0.3-0.2-0.5-0.2-0.3 0-0.6 0.3-0.9 0.8s-0.6 1.2-0.9 2-0.5 1.7-0.8 2.7c-0.2 1-0.5 1.9-0.7 2.9 0.2 0 0.3 0 0.5 0.1 0.2 0 0.4 0 0.5 0.1 0.3-0.6 0.7-1.2 1.1-1.9s0.7-1.4 1-2c0.3-0.7 0.5-1.3 0.7-1.9 0.3-0.7 0.4-1.1 0.4-1.5z"/><path class="st1" d="m51.8 20.8c0.1-0.4 0.3-0.7 0.5-1s0.5-0.6 0.8-0.8 0.6-0.4 1-0.5c0.3-0.1 0.6-0.2 0.9-0.2 0.4 0 0.7 0.1 0.9 0.2 0.2 0.2 0.4 0.4 0.4 0.7 0 0.1 0 0.2-0.1 0.4-0.1 0.3-0.2 0.7-0.3 1.2s-0.2 1.1-0.3 1.8-0.2 1.3-0.4 2.1c-0.1 0.7-0.2 1.5-0.4 2.2-0.3 1.7-0.6 3.5-0.9 5.5 0.3-0.2 0.7-0.4 1.1-0.7s0.8-0.7 1.3-1.2 1-1.1 1.7-1.8c0.6-0.7 1.3-1.6 2.1-2.7l0.8 3.8c-0.2 0.4-0.5 0.7-0.8 1.1s-0.7 0.7-1.1 1.1-0.8 0.7-1.2 1.1-0.9 0.7-1.3 1c-1 0.7-2 1.4-3.2 2.1-0.2 1.2-0.5 2.4-0.8 3.6s-0.7 2.3-1.1 3.3c-0.4 1-0.9 2-1.4 2.8-0.5 0.9-1.1 1.6-1.8 2.2s-1.4 1.1-2.2 1.4c-0.8 0.3-1.7 0.5-2.7 0.5-0.4 0-0.8 0-1.3-0.1s-0.9-0.2-1.3-0.5c-0.4-0.2-0.7-0.6-1-1s-0.4-1-0.4-1.8c0-0.5 0.1-1.1 0.4-1.8 0.3-0.6 0.6-1.3 1.1-2.1 0.5-0.7 1-1.5 1.6-2.2 0.6-0.8 1.3-1.5 2.1-2.3 0.7-0.8 1.5-1.5 2.3-2.3 0.8-0.7 1.6-1.5 2.5-2.1l0.5-1.6c-0.6 0.6-1.3 1-1.9 1.3-0.7 0.3-1.3 0.5-2 0.5-0.6 0-1.1-0.1-1.6-0.3s-1-0.5-1.4-1-0.7-0.9-1-1.5c-0.2-0.6-0.4-1.3-0.4-2 0-1 0-1.9 0.1-2.8 0.1-0.8 0.2-1.6 0.4-2.4s0.4-1.5 0.7-2.2 0.6-1.4 0.9-2.1c0.3-0.5 0.6-0.9 1.1-1.2s1-0.4 1.4-0.4c0.4 0 0.7 0.1 1 0.3s0.4 0.5 0.4 0.9v0.4c0 0.1-0.1 0.3-0.1 0.5-0.2 0.5-0.4 1.2-0.6 1.9s-0.4 1.5-0.5 2.2c-0.2 0.8-0.3 1.5-0.4 2.2s-0.1 1.4-0.1 1.9c0 0.3 0 0.6 0.1 0.8 0 0.3 0.1 0.5 0.2 0.7s0.2 0.4 0.4 0.5c0.2 0.1 0.4 0.2 0.7 0.2 0.4 0 0.8-0.2 1.2-0.6 0.3-0.4 0.6-0.8 0.9-1.3s0.5-1.1 0.6-1.6c0.2-0.6 0.3-1 0.3-1.4l1.6-4.9zm-8 25.9c0.5 0 0.9-0.1 1.4-0.4s0.8-0.7 1.2-1.1c0.4-0.5 0.7-1 1-1.6s0.6-1.2 0.8-1.8 0.4-1.2 0.6-1.8c0.2-0.6 0.3-1.1 0.4-1.6-0.4 0.3-0.9 0.7-1.4 1.1s-0.9 0.9-1.4 1.3c-0.4 0.5-0.9 1-1.3 1.5s-0.7 1-1 1.5c-0.3 0.5-0.5 0.9-0.7 1.3s-0.3 0.7-0.3 1c0 0.4 0.2 0.6 0.7 0.6z"/><path class="st1" d="m62.8 34c-0.6 0-1.2-0.3-1.7-0.8s-1-1.3-1.4-2.2-0.7-2-0.9-3.2-0.3-2.5-0.3-3.8c0-1 0.1-2.1 0.2-3.3s0.4-2.4 0.7-3.7 0.6-2.6 1-3.8c0.4-1.3 0.8-2.5 1.3-3.7s1-2.3 1.6-3.3c0.6-1 1.2-1.9 1.8-2.7s1.3-1.4 2-1.8 1.4-0.7 2.1-0.7c0.5 0 0.9 0.1 1.2 0.3s0.6 0.5 0.8 0.9 0.3 0.8 0.4 1.2c0.1 0.5 0.1 0.9 0.1 1.4 0 1.1-0.1 2.2-0.4 3.3-0.2 1.1-0.6 2.2-1 3.4-0.4 1.1-0.9 2.3-1.5 3.4s-1.1 2.3-1.7 3.4-1.2 2.2-1.8 3.3-1.2 2.1-1.7 3.2c-0.1 0.1-0.1 0.3-0.2 0.4-0.1 0.2-0.1 0.4-0.2 0.6s-0.1 0.4-0.2 0.7c-0.1 0.2-0.1 0.5-0.1 0.7v0.2c0 0.3 0 0.6 0.1 0.9s0.1 0.5 0.2 0.8c0.1 0.2 0.2 0.4 0.3 0.5s0.2 0.2 0.3 0.2c0.2 0 0.5 0 0.8-0.1s0.6-0.2 0.9-0.4 0.6-0.3 1-0.5c0.3-0.2 0.7-0.4 1-0.6 0.7-0.5 1.5-1 2.3-1.7l1.4 3.6c-1 0.7-2 1.4-3 2-0.4 0.2-0.9 0.5-1.4 0.7s-0.9 0.4-1.4 0.6-0.9 0.3-1.4 0.4-0.8 0.2-1.2 0.2zm0.1-13.8c0.5-0.9 1.1-2 1.6-3.1 0.6-1.1 1.1-2.3 1.6-3.6 0.5-1.2 1-2.4 1.3-3.6 0.4-1.2 0.6-2.3 0.7-3.4v-0.9c0-0.2-0.1-0.4-0.2-0.4-0.3 0-0.7 0.2-1.1 0.6s-0.8 1-1.2 1.8-0.8 1.6-1.1 2.6c-0.4 1-0.7 2-0.9 3.1-0.3 1.1-0.5 2.2-0.7 3.4s0 2.4 0 3.5z"/><path class="st1" d="m74.7 34c-1.1 0-2-0.2-2.8-0.6s-1.5-0.9-2-1.6-0.9-1.4-1.2-2.3-0.4-1.8-0.4-2.7c0-0.6 0.1-1.3 0.2-2s0.3-1.4 0.6-2.1 0.6-1.3 1-2 0.8-1.2 1.4-1.7c0.5-0.5 1.1-0.9 1.8-1.1 0.6-0.3 1.4-0.4 2.2-0.4 0.6 0 1.2 0.1 1.8 0.3s1 0.5 1.4 0.9 0.7 0.8 1 1.4c0.2 0.5 0.3 1.1 0.3 1.8s-0.2 1.4-0.5 2.1c-0.4 0.7-0.8 1.4-1.5 2-0.6 0.6-1.4 1.2-2.2 1.7s-1.8 0.9-2.8 1.2c0.2 0.3 0.3 0.6 0.5 0.8s0.3 0.4 0.5 0.5 0.4 0.2 0.5 0.2c0.2 0 0.4 0.1 0.6 0.1 0.7 0 1.4-0.1 2.2-0.4s1.5-0.6 2.2-1 1.4-0.9 2.1-1.4 1.2-1 1.6-1.4l2.2 2.3c-1 1-2.1 2-3.2 2.8-0.5 0.3-1 0.7-1.6 1l-1.8 0.9c-0.6 0.3-1.3 0.5-1.9 0.6-0.8 0-1.5 0.1-2.2 0.1zm-2.3-8.1c0.4 0 0.9-0.1 1.4-0.3s0.9-0.5 1.4-0.8 0.8-0.7 1.1-1.1c0.3-0.4 0.4-0.8 0.4-1.1 0-0.5-0.1-0.9-0.3-1.3s-0.4-0.5-0.7-0.5c-0.5 0-0.9 0.1-1.3 0.3s-0.6 0.4-0.9 0.7c-0.2 0.3-0.4 0.6-0.6 1s-0.3 0.8-0.3 1.1c-0.1 0.4-0.1 0.7-0.1 1.1 0 0.3-0.1 0.6-0.1 0.9z"/><path class="st1" d="m81.9 27.4c0.6-0.6 1.2-1 1.6-1.4l1-1s0.5-0.6 0.8-0.9c0.2-0.3 0.5-0.7 0.8-1.1s0.7-0.9 1.2-1.6 1.1-1.4 1.8-2.3c0.1-0.2 0.3-0.4 0.5-0.6s0.4-0.4 0.6-0.5c0.2-0.2 0.5-0.3 0.7-0.4 0.3-0.1 0.6-0.1 0.9-0.1 0.6 0 1 0.1 1.3 0.2s0.5 0.3 0.7 0.4 0.2 0.4 0.2 0.5v0.5c0 0.3-0.1 0.6-0.3 0.9s-0.5 0.7-0.7 1c-0.3 0.3-0.5 0.6-0.8 0.9-0.2 0.3-0.4 0.5-0.4 0.6 0 0.4 0 0.7 0.1 1s0.1 0.6 0.2 0.9l0.3 0.9c0.1 0.3 0.2 0.7 0.3 1.1s0.2 0.9 0.2 1.4c0.1 0.5 0.1 1.2 0.1 1.9 0.4-0.3 0.9-0.5 1.3-0.8 0.5-0.2 1-0.5 1.5-0.7s1-0.5 1.6-0.8 1.1-0.6 1.6-1.1v3.9c-0.7 0.6-1.5 1.1-2.5 1.6-0.9 0.5-1.9 0.9-2.9 1.3s-2.1 0.7-3.1 0.9c-1.1 0.2-2 0.3-3 0.3-0.7 0-1.3-0.1-1.9-0.2s-1.1-0.3-1.5-0.6-0.8-0.6-1.1-1.1c-0.3-0.4-0.4-1-0.5-1.6-0.2 0-0.3 0.1-0.5 0.1h-0.5-0.5c-0.2 0-0.3-0.1-0.4-0.1-0.1-0.1-0.2-0.2-0.3-0.4s-0.1-0.4-0.1-0.7c0-0.3 0.1-0.5 0.2-0.8 0.1-0.2 0.3-0.4 0.5-0.6s0.4-0.3 0.6-0.5l0.4-0.4zm2.2 2.2c0.1 0 0.3 0.1 0.5 0.3l0.6 0.6c0.2 0.2 0.5 0.4 0.8 0.6s0.6 0.3 1 0.3 0.8-0.1 1.1-0.2 0.5-0.3 0.7-0.6c0.2-0.2 0.3-0.5 0.4-0.9 0.1-0.3 0.1-0.7 0.1-1s0-0.6-0.1-0.9-0.2-0.9-0.2-1.1c-0.1-0.3-0.1-0.6-0.2-0.8-0.1-0.3-0.1-0.5-0.2-0.7l-4.5 4.4z"/>'
 		},
 		save: {
 			title: 'Save',
@@ -12525,68 +12523,70 @@
 	// 	.sg-settings-group {
 	// 		margin: 3em auto;
 	// 		max-width: 350px;
+	// 	}
 	//
-	// 		.radio-group {
+	// 	.sg-st__radio-group {
+	// 		margin: 0 auto;
+	// 		max-width: 350px;
+	// 		display: block;
+	// 		position: relative;
+	// 		width: 100%;
+	// 		height: 100px;
+	// 		text-align: left;
+	// 		cursor: pointer;
+	//
+	// 		input[type="radio"] {
+	// 			position: absolute;
+	// 			visibility: hidden;
+	// 		}
+	//
+	// 		label {
 	// 			display: block;
 	// 			position: relative;
-	// 			width: 100%;
-	// 			height: 100px;
-	// 			text-align: left;
+	// 			padding: 25px 25px 25px 80px;
+	// 			margin: 10px auto;
+	// 			height: 30px;
+	// 			transition: all 0.25s;
+	// 			color: #666;
 	// 			cursor: pointer;
+	// 		}
 	//
-	// 			input[type="radio"] {
-	// 				position: absolute;
-	// 				visibility: hidden;
-	// 			}
+	// 		.check {
+	// 			display: block;
+	// 			position: absolute;
+	// 			border: 5px solid #666;
+	// 			border-radius: 100%;
+	// 			height: 25px;
+	// 			width: 25px;
+	// 			top: 30px;
+	// 			left: 20px;
+	// 			z-index: 5;
+	// 			transition: boder .25s;
 	//
-	// 			label {
-	// 				display: block;
-	// 				position: relative;
-	// 				padding: 25px 25px 25px 80px;
-	// 				margin: 10px auto;
-	// 				height: 30px;
-	// 				transition: all 0.25s;
-	// 				color: #666;
-	// 				cursor: pointer;
-	// 			}
-	//
-	// 			.check {
+	// 			&:before {
 	// 				display: block;
 	// 				position: absolute;
-	// 				border: 5px solid #666;
+	// 				content: '';
 	// 				border-radius: 100%;
-	// 				height: 25px;
-	// 				width: 25px;
-	// 				top: 30px;
-	// 				left: 20px;
-	// 				z-index: 5;
-	// 				transition: boder .25s;
-	//
-	// 				&:before {
-	// 					display: block;
-	// 					position: absolute;
-	// 					content: '';
-	// 					border-radius: 100%;
-	// 					height: 15px;
-	// 					width: 15px;
-	// 					top: 5px;
-	// 					left: 5px;
-	// 					margin: auto;
-	// 					transition: background 0.25s linear;
-	// 				}
+	// 				height: 15px;
+	// 				width: 15px;
+	// 				top: 5px;
+	// 				left: 5px;
+	// 				margin: auto;
+	// 				transition: background 0.25s linear;
 	// 			}
+	// 		}
 	//
-	// 			input[type=radio]:checked ~ .check {
-	// 				border: 5px solid #333;
-	// 			}
+	// 		input[type=radio]:checked ~ .check {
+	// 			border: 5px solid #333;
+	// 		}
 	//
-	// 			input[type=radio]:checked ~ .check::before{
-	// 				background: #333;
-	// 			}
+	// 		input[type=radio]:checked ~ .check::before{
+	// 			background: #333;
+	// 		}
 	//
-	// 			input[type=radio]:checked ~ label{
-	// 				color: #333;
-	// 			}
+	// 		input[type=radio]:checked ~ label{
+	// 			color: #333;
 	// 		}
 	// 	}
 	//
@@ -12599,7 +12599,7 @@
 	// 		font-size: 14px;
 	// 	}
 	//
-	// 	.sg-settings-endpoint {
+	// 	.sg-set__endpoint {
 	// 		border: none;
 	// 		border-bottom: 1px dotted #666;
 	// 		background: transparent !important;
@@ -12608,7 +12608,7 @@
 	// 		top: -1px;
 	// 	}
 	//
-	// 	.sg-settings-endpoint:focus {
+	// 	.sg-set__endpoint:focus {
 	// 		border-bottom-color: #333;
 	// 	}
 	//
@@ -12723,7 +12723,7 @@
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings-close\"><icon name=\"cancel\"></icon></button>\n        <h1 class=\"sg-font-dark sg-settings-title\">Settings</h1>\n\t\t\t\t\n\t\t\t\t<div class=\"sg-settings-group\">\n\t\t\t\t\t<h3 class=\"sg-settings-input-label\">Privacy:</h3>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-settings-group\">\n          <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-settings-group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings-close\"><icon name=\"cancel\"></icon></button>\n        <h1 class=\"sg-font-dark sg-settings-title\">Settings</h1>\n\t\t\t\t\n\t\t\t\t<div class=\"sg-settings-group\">\n\t\t\t\t\t<h3 class=\"sg-settings-input-label\">Privacy:</h3>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-settings-group\">\n          <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-settings-group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
 
 /***/ },
 /* 31 */
@@ -13032,58 +13032,95 @@
 	// #styleguide {
 	//   .sg-onboarding {
 	//     text-align: center;
-	//
-	//     .sg-style-title {
-	//       line-height: 1.3333;
-	//     }
-	//     button {
-	//       margin-top: 20px;
-	//     }
+	// 		max-width: 600px;
+	// 		width: 80%;
+	// 		margin: 0 auto;
 	//   }
 	//
-	//   .sg-onboarding-text {
-	//     margin-top: 10px;
-	//   }
+	// 	.sg-ob__title {
+	// 		font-size: 36px;
+	// 		margin: 0.5em 0;
+	// 	}
 	//
-	//   .sg-styles-icon {
+	// 	.sg-ob__subtitle {
+	// 		font-size: 24px;
+	// 		margin: 0.5em 0 2em 0;
+	// 		font-weight: 200;
+	// 		color: #A2A2A2;
+	// 		letter-spacing: 1px;
+	// 		text-transform: uppercase;
+	// 	}
+	//
+	// 	.sg-ob__subtitle.m-main {
+	// 		margin: 1em 0 1em 0;
+	// 	}
+	//
+	//   .sg-ob__icon {
 	//     position: relative;
-	//     top: 8px;
+	//     top: 10px;
 	//     svg {
-	//       height: 32px;
+	//       height: 45px;
 	//       width: auto;
 	//     }
 	//   }
+	//
+	// 	.sg-ob__button {
+	// 		border: 1px solid #555;
+	// 		padding: 10px;
+	// 		margin: 1em 0;
+	// 		&:hover {
+	// 			background: #555;
+	// 			color: white !important;
+	// 		}
+	// 		&.m-right {
+	// 			float: right;
+	// 		}
+	// 		&.m-left {
+	// 			float: left;
+	// 		}
+	// 	}
+	//
+	// 	.sg-ob__text.m-push {
+	// 		margin-bottom: 2em;
+	// 	}
 	// }
 	// </style>
 	//
 	// <template>
-	// <div>
+	// <div class="sg-onboarding sg-stack">
 	//   <section v-if="step === 1">
-	//     <h3 class="sg-style-title">Welcome to <span class="sg-styles-icon"><icon name="styles"></icon></span> <br />An easy way to build <br />Front-end Styleguides</h3>
-	//     <p class="sg-onboarding-text">Let's start by setting a few things up.</p>
-	//     <button v-on:click="incrementStep" class="sg-button sg-button-settings-save">Get Started</button>
+	//     <h3 class="sg-ob__title">Welcome to <span class="sg-ob__icon"><icon name="styles"></icon></span></h3>
+	// 		<h4 class="sg-ob__subtitle">An easy way to build Front-end Styleguides</h4>
+	//     <p class="sg-ob__text">Let's start by setting a few things up.</p>
+	//     <button v-on:click="incrementStep" class="sg-button sg-ob__button">Get Started</button>
 	//   </section>
 	//
 	//   <section v-if="step === 2">
-	//       <h3 class="sg-settings-input-label">Would you like your styleguide to be private or public?</h3>
-	//       <div class="radio-group">
+	//       <h3 class="sg-ob__subtitle m-main">Would you like your styleguide to be private or public?</h3>
+	//       <div class="sg-st__radio-group">
 	//         <input type="radio" id="private" value="private" v-model="privacy">
 	//         <label for="private"><strong>Private</strong> <br />Only logged in users can view and edit.</label>
 	//         <div class="check"></div>
 	//       </div>
-	//       <div class="radio-group">
+	//       <div class="sg-st__radio-group">
 	//         <input type="radio" id="public" value="public" v-model="privacy">
 	//         <label for="public"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>
 	//         <div class="check"></div>
 	//       </div>
-	//
-	//       <button v-on:click="incrementStep" class="sg-button sg-button-settings-save">Next</button>
+	//       <div class="sg-row">
+	//       	<button v-on:click="incrementStep" class="sg-button sg-ob__button m-right">Next</button>
+	// 			</div>
 	//   </section>
 	//
 	//   <section v-if="step === 3">
-	//     <label class="sg-settings-input-label sg-font-dark">The URL for your Styleguide:</label>
-	//     <span>{{ root }}</span><input class="sg-settings-input sg-settings-endpoint" type="text" v-model="settings.endpoint" />
-	//     <button v-on:click="saveSettings" class="sg-button sg-button-settings-save">Save Settings and Finish</button>
+	//     <h3 class="sg-ob__subtitle m-main">The URL for your Styleguide:</h3>
+	//     <p class="sg-ob__text m-push">
+	// 			<span>{{ root }}</span><input class="sg-set__endpoint" type="text" v-model="settings.endpoint" />
+	// 		</p>
+	// 		<div class="sg-row">
+	// 			<button v-on:click="decrementStep" class="sg-button sg-ob__button m-left">Previous</button>
+	// 	    <button v-on:click="saveSettings" class="sg-button sg-ob__button m-right">Save Settings and Finish</button>
+	// 		</div>
 	//   </section>
 	// </div>
 	// </template>
@@ -13135,6 +13172,9 @@
 	    incrementStep: function incrementStep() {
 	      this.step = this.step + 1;
 	    },
+	    decrementStep: function decrementStep() {
+	      this.step = this.step - 1;
+	    },
 	    saveSettings: function saveSettings() {
 	      this.updateSettings({
 	        endpoint: this.settings.endpoint,
@@ -13150,7 +13190,7 @@
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div>\n  <section v-if=\"step === 1\">\n    <h3 class=\"sg-style-title\">Welcome to <span class=\"sg-styles-icon\"><icon name=\"styles\"></icon></span> <br />An easy way to build <br />Front-end Styleguides</h3>\n    <p class=\"sg-onboarding-text\">Let's start by setting a few things up.</p>\n    <button v-on:click=\"incrementStep\" class=\"sg-button sg-button-settings-save\">Get Started</button>\n  </section>\n  \n  <section v-if=\"step === 2\">\n      <h3 class=\"sg-settings-input-label\">Would you like your styleguide to be private or public?</h3>\n      <div class=\"radio-group\">\n        <input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n        <label for=\"private\"><strong>Private</strong> <br />Only logged in users can view and edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"radio-group\">\n        <input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n        <label for=\"public\"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      \n      <button v-on:click=\"incrementStep\" class=\"sg-button sg-button-settings-save\">Next</button>\n  </section>\n  \n  <section v-if=\"step === 3\">\n    <label class=\"sg-settings-input-label sg-font-dark\">The URL for your Styleguide:</label>\n    <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n    <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings and Finish</button>\n  </section>\n</div>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-onboarding sg-stack\">\n  <section v-if=\"step === 1\">\n    <h3 class=\"sg-ob__title\">Welcome to <span class=\"sg-ob__icon\"><icon name=\"styles\"></icon></span></h3>\n\t\t<h4 class=\"sg-ob__subtitle\">An easy way to build Front-end Styleguides</h4>\n    <p class=\"sg-ob__text\">Let's start by setting a few things up.</p>\n    <button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button\">Get Started</button>\n  </section>\n  \n  <section v-if=\"step === 2\">\n      <h3 class=\"sg-ob__subtitle m-main\">Would you like your styleguide to be private or public?</h3>\n      <div class=\"sg-st__radio-group\">\n        <input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n        <label for=\"private\"><strong>Private</strong> <br />Only logged in users can view and edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-st__radio-group\">\n        <input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n        <label for=\"public\"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-row\">\n      \t<button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button m-right\">Next</button>\n\t\t\t</div>\n  </section>\n  \n  <section v-if=\"step === 3\">\n    <h3 class=\"sg-ob__subtitle m-main\">The URL for your Styleguide:</h3>\n    <p class=\"sg-ob__text m-push\">\n\t\t\t<span>{{ root }}</span><input class=\"sg-set__endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n\t\t</p>\n\t\t<div class=\"sg-row\">\n\t\t\t<button v-on:click=\"decrementStep\" class=\"sg-button sg-ob__button m-left\">Previous</button>\n\t    <button v-on:click=\"saveSettings\" class=\"sg-button sg-ob__button m-right\">Save Settings and Finish</button>\n\t\t</div>\n  </section>\n</div>\n";
 
 /***/ },
 /* 42 */
@@ -14410,7 +14450,7 @@
 /* 81 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-wrap\" v-bind:class=\"{'loaded' : !loaded}\">\n<div class=\"sg-row sg-main-content\" v-if=\"onboarded\">\n\t<settings v-if=\"showSettings\"></settings>\n\t<navbar></navbar>\n\t<div class=\"sg-col-9\">\n\t\t<wrapper v-for=\"section in sections\" :section=\"section\"></wrapper>\n\t\t\t<form class=\"sg-section-wrap sg-stack\" v-on:submit=\"addWrapper\" v-show=\"logged_in\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-section-title\" :placeholder=\"placeholder\" />\n\t\t\t\t<button class=\"sg-button sg-actions sg-actions__section\"><icon name=\"add\"></icon> Add</button>\n\t\t\t</form>\n\t\t</div>\n</div>\n\n<div class=\"sg-row sg-main-content sg-stack sg-onboarding sg-settings-group\" v-else>\n\t<onboard></onboard>\n</div>\n</div>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-wrap\" v-bind:class=\"{'loaded' : !loaded}\">\n<div class=\"sg-row sg-main-content\" v-if=\"onboarded\">\n\t<settings v-if=\"showSettings\"></settings>\n\t<navbar></navbar>\n\t<div class=\"sg-col-9\">\n\t\t<wrapper v-for=\"section in sections\" :section=\"section\"></wrapper>\n\t\t\t<form class=\"sg-section-wrap sg-stack\" v-on:submit=\"addWrapper\" v-show=\"logged_in\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-section-title\" :placeholder=\"placeholder\" />\n\t\t\t\t<button class=\"sg-button sg-actions sg-actions__section\"><icon name=\"add\"></icon> Add</button>\n\t\t\t</form>\n\t\t</div>\n</div>\n\n<onboard v-else></onboard>\n</div>\n";
 
 /***/ },
 /* 82 */

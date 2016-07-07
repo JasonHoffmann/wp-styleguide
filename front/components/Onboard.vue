@@ -2,58 +2,95 @@
 #styleguide {
   .sg-onboarding {
     text-align: center;
-    
-    .sg-style-title {
-      line-height: 1.3333;
-    }
-    button {
-      margin-top: 20px;
-    }
+		max-width: 600px;
+		width: 80%;
+		margin: 0 auto;
   }
+	
+	.sg-ob__title {
+		font-size: 36px;
+		margin: 0.5em 0;
+	}
+	
+	.sg-ob__subtitle {
+		font-size: 24px;
+		margin: 0.5em 0 2em 0;
+		font-weight: 200;
+		color: #A2A2A2;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+	
+	.sg-ob__subtitle.m-main {
+		margin: 1em 0 1em 0;
+	}
   
-  .sg-onboarding-text {
-    margin-top: 10px;
-  }
-  
-  .sg-styles-icon {
+  .sg-ob__icon {
     position: relative;
-    top: 8px;
+    top: 10px;
     svg {
-      height: 32px;
+      height: 45px;
       width: auto;
     }
   }
+	
+	.sg-ob__button {
+		border: 1px solid #555;
+		padding: 10px;
+		margin: 1em 0;
+		&:hover {
+			background: #555;
+			color: white !important;
+		}
+		&.m-right {
+			float: right;
+		}
+		&.m-left {
+			float: left;
+		}
+	}
+	
+	.sg-ob__text.m-push {
+		margin-bottom: 2em;
+	}
 }
 </style>
 
 <template>
-<div>
+<div class="sg-onboarding sg-stack">
   <section v-if="step === 1">
-    <h3 class="sg-style-title">Welcome to <span class="sg-styles-icon"><icon name="styles"></icon></span> <br />An easy way to build <br />Front-end Styleguides</h3>
-    <p class="sg-onboarding-text">Let's start by setting a few things up.</p>
-    <button v-on:click="incrementStep" class="sg-button sg-button-settings-save">Get Started</button>
+    <h3 class="sg-ob__title">Welcome to <span class="sg-ob__icon"><icon name="styles"></icon></span></h3>
+		<h4 class="sg-ob__subtitle">An easy way to build Front-end Styleguides</h4>
+    <p class="sg-ob__text">Let's start by setting a few things up.</p>
+    <button v-on:click="incrementStep" class="sg-button sg-ob__button">Get Started</button>
   </section>
   
   <section v-if="step === 2">
-      <h3 class="sg-settings-input-label">Would you like your styleguide to be private or public?</h3>
-      <div class="radio-group">
+      <h3 class="sg-ob__subtitle m-main">Would you like your styleguide to be private or public?</h3>
+      <div class="sg-st__radio-group">
         <input type="radio" id="private" value="private" v-model="privacy">
         <label for="private"><strong>Private</strong> <br />Only logged in users can view and edit.</label>
         <div class="check"></div>
       </div>
-      <div class="radio-group">
+      <div class="sg-st__radio-group">
         <input type="radio" id="public" value="public" v-model="privacy">
         <label for="public"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>
         <div class="check"></div>
       </div>
-      
-      <button v-on:click="incrementStep" class="sg-button sg-button-settings-save">Next</button>
+      <div class="sg-row">
+      	<button v-on:click="incrementStep" class="sg-button sg-ob__button m-right">Next</button>
+			</div>
   </section>
   
   <section v-if="step === 3">
-    <label class="sg-settings-input-label sg-font-dark">The URL for your Styleguide:</label>
-    <span>{{ root }}</span><input class="sg-settings-input sg-settings-endpoint" type="text" v-model="settings.endpoint" />
-    <button v-on:click="saveSettings" class="sg-button sg-button-settings-save">Save Settings and Finish</button>
+    <h3 class="sg-ob__subtitle m-main">The URL for your Styleguide:</h3>
+    <p class="sg-ob__text m-push">
+			<span>{{ root }}</span><input class="sg-set__endpoint" type="text" v-model="settings.endpoint" />
+		</p>
+		<div class="sg-row">
+			<button v-on:click="decrementStep" class="sg-button sg-ob__button m-left">Previous</button>
+	    <button v-on:click="saveSettings" class="sg-button sg-ob__button m-right">Save Settings and Finish</button>
+		</div>
   </section>
 </div>
 </template>
@@ -107,6 +144,9 @@ export default {
     incrementStep: function() {
       this.step = this.step + 1;
     },
+		decrementStep: function() {
+			this.step = this.step - 1;
+		},
     saveSettings: function() {
       this.updateSettings({
         endpoint: this.settings.endpoint,

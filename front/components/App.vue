@@ -23,9 +23,7 @@
 		</div>
 </div>
 
-<div class="sg-row sg-main-content sg-stack sg-onboarding sg-settings-group" v-else>
-	<onboard></onboard>
-</div>
+<onboard v-else></onboard>
 </div>
 </template>
 

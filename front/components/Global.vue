@@ -18,8 +18,8 @@ background: #f7f7f7;
 }
 
 .sg-stack {
-  font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
-  color: #333;
+  font-family: "Helvetica Neue", ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Lucida Grande", sans-serif;
+  color: #555;
   box-sizing: border-box;
   font-size: 16px;
   
@@ -28,7 +28,7 @@ background: #f7f7f7;
   }
   
   &::selection {
-    background: #333;
+    background: #333 !important;
     color: white;
   }
   
@@ -47,11 +47,11 @@ background: #f7f7f7;
   font-weight: 700;
   padding: 10px 0;
   border-radius: 3px;
-  color: #333 !important;
+  color: #555 !important;
   font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
   font-size: 12px;
   &:hover {
-    color: #666 !important;
+    color: #999 !important;
   }
   &:focus {
     outline: none;
@@ -214,7 +214,7 @@ Grid
 .sg-icon {
     width: 14px;
     height: auto;
-    fill: #333;
+    fill: #555;
     margin-right: 2px;
     position: relative;
     top: 3px;
