@@ -1,6 +1,6 @@
 <style lang="scss">
 #styleguide {
-background: #f7f7f7;
+background: $body-bg;
 &:before, &:after {
   width: auto;
   height: auto;
@@ -18,40 +18,48 @@ background: #f7f7f7;
 }
 
 .sg-stack {
-  font-family: "Helvetica Neue", ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Lucida Grande", sans-serif;
-  color: #555;
+  font-family: $font-family-base;
+  color: $body-color;
   box-sizing: border-box;
   font-size: 16px;
   
   a {
-    color: #666;
+    color: $body-color;
   }
   
   &::selection {
-    background: #333 !important;
-    color: white;
+    background: $gray !important;
+    color: $white;
   }
   
   input {
-    font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+    font-family: "Helvetica Neue", ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Lucida Grande", sans-serif;
     &:focus {
-      outline: 1px solid black;
+      outline: 1px solid $gray-lighter;
     }
   }
 } 
 
 .sg-button {
-  text-transform: uppercase;
+  text-transform: capitalize;
   border: none;
   background: none;
   font-weight: 700;
-  padding: 10px 0;
+  padding: 7px 16px;
   border-radius: 3px;
-  color: #555 !important;
-  font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  color: #373a3c !important;
+  font-family: $font-family-base;
   font-size: 12px;
+  box-shadow: inset 0 0 1px rgba(0,0,0,.3);
+  &.m-small {
+    padding: 2px 8px;
+  }
   &:hover {
     color: #999 !important;
+    box-shadow: inset 0 -10rem 0 rgba(158,158,158,.1);
+    svg {
+      fill: #999;
+    }
   }
   &:focus {
     outline: none;
@@ -212,12 +220,12 @@ Grid
 }
 
 .sg-icon {
-    width: 14px;
+    width: 12px;
     height: auto;
-    fill: #555;
+    fill: #373a3c;
     margin-right: 2px;
     position: relative;
-    top: 3px;
+    top: 2px;
   &:hover {
     fill: #666;
   }
@@ -226,16 +234,22 @@ Grid
 code,
 code[class*='language-'],
 pre[class*='language-'] {
-  color: #333;
+  color: $body-color;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   tab-size: 4;
   hyphens: none;
-  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-family: $font-family-mono;
   line-height: 1.4;
   direction: ltr;
   cursor: text;
+  border: none;
+  
+  &::selection {
+    background: $gray !important;
+    color: $white;
+  }
 }
 
 pre[class*='language-'] {
@@ -244,6 +258,10 @@ pre[class*='language-'] {
   padding: 1.2em;
   border-radius: 3px;
   font-size: 85%;
+}
+
+pre[class*='language-']:focus {
+  outline: none;
 }
 
 p code,
@@ -272,6 +290,11 @@ pre[class*='language-'] {
 :not(pre) > code[class*='language-'] {
   padding: 0.1em;
   border-radius: 0.3em;
+}
+
+.token::selection {
+  background: $gray;
+  color: $white !important;
 }
 
 .token.comment, .token.prolog, .token.doctype, .token.cdata {

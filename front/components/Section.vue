@@ -1,95 +1,129 @@
 <style lang="scss">
 #styleguide {
-	.sg-section {
+	.sg-sct {
 		margin-bottom: 2em;
 		padding-bottom: 1em;
-		border-bottom: 1px dotted #ccc;
+		border-bottom: 1px dotted $gray-lighter;
 		position: relative;
     
     &.loading {
       opacity: 0.3;
     }
 	}
-  .sg-section-wrap {
+	
+  .sg-sct__wrap {
     position: relative;
   }
-	.sg-section-title {
+	
+	.sg-sct__title {
 		font-size: 24px;
 		margin-bottom: 10px;
 		font-weight: bold;
-		background: #f7f7f7;
+		background: $body-bg;
 		border: none !important;
 		display: block;
-		width: 90%;
+		width: 100%;
     padding: 10px;
 		
 		&:focus {
 			background: white;
+			border: none;
+			
+			& + .sg-sct__add {
+				opacity: 1;
+			}
 		}
 	}
-  
-  .sg-section__actions {
-    text-align: right;
-  }
-  .sg-section__confirm {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    background: rgba(239,83,80 ,1);
-    color: white;
-    padding: 10px;
-    z-index: 10;
-    text-align: left;
-  }
-  .sg-confirm__buttons {
-    display: inline-block;
-    color: white;
-    float: right;
-    
-    button {
-      color: white !important;
-      border: 1px solid white;
-      padding: 5px 20px;
-      &:hover {
-        background: white;
-        color: rgba(239,83,80 ,1) !important;
-        
-      }
-    }
-  }
-  .sg-section__divide {
-    padding: 7px 5px;
-    display: inline-block;
-  }
+	
+	.sg-sct__loader {
+		position: absolute;
+		top: 24px;
+		left: -20px;
+	}
+	
+	.sg-sct__add {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		opacity: 0;
+	}
+	
+	.sg-sct__delete {
+		min-height: 14px;
+		padding: 8px 16px;
+	}
+	
+	.sg-sct__actions {
+		text-align: right;
+		opacity: 0.4;
+		position: relative;
+		transition: opacity 0.25s;
+
+		&:hover {
+			opacity: 1;
+		}
+		& .sg-sct__delete:hover {
+			svg {
+				fill: $red;
+			}
+		}
+	}
+	
+	.sg-sct__divide {
+		padding: 7px 5px;
+		display: inline-block;
+	}
+	
+	.sg-sct__confirm {
+		position: absolute;
+		right: 0;
+		top: 0;
+		background: $body-bg;
+		padding-bottom: 5px;
+	}
+	
+	.sg-sct__yes {
+		&:hover {
+			background: $green;
+			svg {
+				fill: $white;
+			}
+		}
+	}
+
 }
 </style>
 
 <template>
-  <section id="{{section.slug }}" class="sg-section" v-bind:class="{'loading' : loading}">
-
-		<div class="sg-section-wrap">
-			<h3 class="sg-stack sg-section-title" v-if="!logged_in">{{ section.title }}</h3>
-	    <input v-if="logged_in" class="sg-input sg-stack sg-font-dark sg-section-title" v-model="title" v-on:focus="enterEditing" v-on:blur="pushEdit" v-on:keyup.enter="pushEdit" />
+  <section id="{{section.slug }}" class="sg-sct" v-bind:class="{'loading' : loading}">
+		<form class="sg-stack sg-sct__wrap" v-on:submit.prevent="pushEdit" v-if="logged_in">
+			<input type="text" class="sg-stack sg-font-dark sg-sct__title" placeholder="Add a Section..." v-model="title" />
+			<span class="sg-sct__loader"><icon name="load" v-if="loading"></icon></span>
+			<button class="sg-button sg-sct__add">Edit</button>
+		</form>
+		<div class="sg-stack sg-sct__wrap" v-else>
+			<h3 class="sg-stack sg-section-title" v-if="!logged_in">
+				{{ section.title }}
+			</h3>
 		</div>
+		
     <style v-for="style in section.styles" :style="style" :index="$index" :section="section"></style>
 		
-    <section class="sg-stack sg-section__actions" v-if="logged_in">
-      <div v-if="confirm" class="sg-section__confirm">
-        Are you sure? This will delete all styles in this section.
-        <div class="sg-confirm__buttons">
-          <button class="sg-button" v-on:click="removeSection">Yes</button>
-          <button class="sg-button" v-on:click="toggleConfirm">No</button>
-        </div>
-      </div>
-        <button v-on:click="pushStyle()" class="sg-button sg-button__add">
-					<icon name="add"></icon>
-					Add To Section
-				</button>
-        <span class="sg-section__divide"> | </span>
-        <button class="sg-button" v-on:click="toggleConfirm">
-          <icon name="delete"></icon>
-          Delete
-        </button>
+    <section class="sg-stack sg-sct__actions" v-if="logged_in">
+			
+      <button v-on:click="pushStyle()" class="sg-button sg-button__add">
+				<icon name="add"></icon>
+				Add Style
+			</button>
+      <button class="sg-button sg-sct__delete" v-on:click="toggleConfirm">
+        <icon name="delete"></icon>
+      </button>
+			
+			<div v-if="confirm" class="sg-sct__confirm">
+				Are you sure?
+				<button class="sg-button sg-sct__yes" v-on:click="removeSection"><icon name="save"></icon></button>
+				<button class="sg-button sg-sct__no" v-on:click="toggleConfirm"><icon name="cancel"</button>
+			</div>
     </section>
 			
   </section>
@@ -157,13 +191,10 @@ export default {
   },
   
   methods: {
-		enterEditing: function() {
-			this.editing = true;
-		},
     pushStyle: function() {
       var newStyle = {
         title: '',
-        html: '',
+        html: '<!-- insert your code here -->',
         id: 0
       };
       this.addStyle( newStyle, this.section );
@@ -174,7 +205,6 @@ export default {
 		}.debounce(300),
 		
 		pushEdit: function() {
-			this.editing = false;
 			this.editSection(this.title, this.section);
 		},
     toggleConfirm: function() {

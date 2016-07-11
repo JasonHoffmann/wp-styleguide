@@ -14,33 +14,39 @@ Grid
     margin: 2em auto 0 auto; }
   #styleguide .sg-stack {
     font-family: "Helvetica Neue", ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Lucida Grande", sans-serif;
-    color: #555;
+    color: #373a3c;
     box-sizing: border-box;
     font-size: 16px; }
     #styleguide .sg-stack a {
-      color: #666; }
+      color: #373a3c; }
     #styleguide .sg-stack::-moz-selection {
-      background: #333 !important;
-      color: white; }
+      background: #373a3c !important;
+      color: #fff; }
     #styleguide .sg-stack::selection {
-      background: #333 !important;
-      color: white; }
+      background: #373a3c !important;
+      color: #fff; }
     #styleguide .sg-stack input {
-      font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif; }
+      font-family: "Helvetica Neue", ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Lucida Grande", sans-serif; }
       #styleguide .sg-stack input:focus {
-        outline: 1px solid black; }
+        outline: 1px solid #e4e4e4; }
   #styleguide .sg-button {
-    text-transform: uppercase;
+    text-transform: capitalize;
     border: none;
     background: none;
     font-weight: 700;
-    padding: 10px 0;
+    padding: 7px 16px;
     border-radius: 3px;
-    color: #555 !important;
-    font-family: ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
-    font-size: 12px; }
+    color: #373a3c !important;
+    font-family: "Helvetica Neue", ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Lucida Grande", sans-serif;
+    font-size: 12px;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3); }
+    #styleguide .sg-button.m-small {
+      padding: 2px 8px; }
     #styleguide .sg-button:hover {
-      color: #999 !important; }
+      color: #999 !important;
+      box-shadow: inset 0 -10rem 0 rgba(158, 158, 158, 0.1); }
+      #styleguide .sg-button:hover svg {
+        fill: #999; }
     #styleguide .sg-button:focus {
       outline: none; }
   #styleguide .sg-input:focus {
@@ -132,18 +138,18 @@ Grid
       #styleguide .box-margin {
         margin: 0 10px 0 10px; } }
   #styleguide .sg-icon {
-    width: 14px;
+    width: 12px;
     height: auto;
-    fill: #555;
+    fill: #373a3c;
     margin-right: 2px;
     position: relative;
-    top: 3px; }
+    top: 2px; }
     #styleguide .sg-icon:hover {
       fill: #666; }
   #styleguide code,
   #styleguide code[class*='language-'],
   #styleguide pre[class*='language-'] {
-    color: #333;
+    color: #373a3c;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -151,18 +157,32 @@ Grid
       -o-tab-size: 4;
          tab-size: 4;
     -webkit-hyphens: none;
+       -moz-hyphens: none;
         -ms-hyphens: none;
             hyphens: none;
-    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     line-height: 1.4;
     direction: ltr;
-    cursor: text; }
+    cursor: text;
+    border: none; }
+    #styleguide code::-moz-selection,
+    #styleguide code[class*='language-']::-moz-selection,
+    #styleguide pre[class*='language-']::-moz-selection {
+      background: #373a3c !important;
+      color: #fff; }
+    #styleguide code::selection,
+    #styleguide code[class*='language-']::selection,
+    #styleguide pre[class*='language-']::selection {
+      background: #373a3c !important;
+      color: #fff; }
   #styleguide pre[class*='language-'] {
     overflow: auto;
     margin: 1em 0;
     padding: 1.2em;
     border-radius: 3px;
     font-size: 85%; }
+  #styleguide pre[class*='language-']:focus {
+    outline: none; }
   #styleguide p code,
   #styleguide li code,
   #styleguide table code {
@@ -184,6 +204,12 @@ Grid
   #styleguide :not(pre) > code[class*='language-'] {
     padding: 0.1em;
     border-radius: 0.3em; }
+  #styleguide .token::-moz-selection {
+    background: #373a3c;
+    color: #fff !important; }
+  #styleguide .token::selection {
+    background: #373a3c;
+    color: #fff !important; }
   #styleguide .token.comment, #styleguide .token.prolog, #styleguide .token.doctype, #styleguide .token.cdata {
     color: #969896; }
   #styleguide .token.punctuation, #styleguide .token.string, #styleguide .token.atrule, #styleguide .token.attr-value {
@@ -206,136 +232,136 @@ Grid
 
 #styleguide .loaded {
   opacity: 0; }
-#styleguide .sg-section {
+#styleguide .sg-sct {
   margin-bottom: 2em;
   padding-bottom: 1em;
-  border-bottom: 1px dotted #ccc;
+  border-bottom: 1px dotted #e4e4e4;
   position: relative; }
-  #styleguide .sg-section.loading {
+  #styleguide .sg-sct.loading {
     opacity: 0.3; }
 
-#styleguide .sg-section-wrap {
+#styleguide .sg-sct__wrap {
   position: relative; }
 
-#styleguide .sg-section-title {
+#styleguide .sg-sct__title {
   font-size: 24px;
   margin-bottom: 10px;
   font-weight: bold;
   background: #f7f7f7;
   border: none !important;
   display: block;
-  width: 90%;
-  padding: 10px; }
-  #styleguide .sg-section-title:focus {
-    background: white; }
-
-#styleguide .sg-section__actions {
-  text-align: right; }
-
-#styleguide .sg-section__confirm {
   width: 100%;
+  padding: 10px; }
+  #styleguide .sg-sct__title:focus {
+    background: white;
+    border: none; }
+    #styleguide .sg-sct__title:focus + .sg-sct__add {
+      opacity: 1; }
+
+#styleguide .sg-sct__loader {
   position: absolute;
-  left: 0;
-  background: #ef5350;
-  color: white;
-  padding: 10px;
-  z-index: 10;
-  text-align: left; }
+  top: 24px;
+  left: -20px; }
 
-#styleguide .sg-confirm__buttons {
-  display: inline-block;
-  color: white;
-  float: right; }
-  #styleguide .sg-confirm__buttons button {
-    color: white !important;
-    border: 1px solid white;
-    padding: 5px 20px; }
-    #styleguide .sg-confirm__buttons button:hover {
-      background: white;
-      color: #ef5350 !important; }
+#styleguide .sg-sct__add {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: 0; }
 
-#styleguide .sg-section__divide {
+#styleguide .sg-sct__delete {
+  min-height: 14px;
+  padding: 8px 16px; }
+
+#styleguide .sg-sct__actions {
+  text-align: right;
+  opacity: 0.4;
+  position: relative;
+  -webkit-transition: opacity 0.25s;
+  transition: opacity 0.25s; }
+  #styleguide .sg-sct__actions:hover {
+    opacity: 1; }
+  #styleguide .sg-sct__actions .sg-sct__delete:hover svg {
+    fill: #F44336; }
+
+#styleguide .sg-sct__divide {
   padding: 7px 5px;
   display: inline-block; }
-#styleguide .sg-container {
-  background: white;
-  padding: 24px;
-  box-shadow: -1px 0 2px 0 rgba(0, 0, 0, 0.12), 1px 0 2px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
-  border-radius: 1px;
-  margin: 2em 0;
-  position: relative; }
 
-#styleguide .sg-actions {
+#styleguide .sg-sct__confirm {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #f7f7f7;
+  padding-bottom: 5px; }
+
+#styleguide .sg-sct__yes:hover {
+  background: #4CAF50; }
+  #styleguide .sg-sct__yes:hover svg {
+    fill: #fff; }
+#styleguide .sg-st {
+  background: white;
+  padding: 16px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+  margin: 2em 0;
+  position: relative;
+  overflow: hidden; }
+
+#styleguide .sg-st__actions {
+  text-align: right; }
+  #styleguide .sg-st__actions .sg-button:first-child:hover {
+    background: #4CAF50;
+    color: #fff !important; }
+
+#styleguide .sg-st__toggle {
   position: absolute;
   top: 24px;
   right: 10px;
   opacity: 0;
-  z-index: 1; }
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s; }
 
-#styleguide .sg-actions--editing {
-  opacity: 1;
-  top: 30px; }
-  #styleguide .sg-actions--editing .sg-button__action svg {
-    width: 19px;
-    height: 19px; }
+#styleguide .sg-st:hover .sg-st__toggle {
+  opacity: 1; }
 
-#styleguide .sg-style-title {
+#styleguide .sg-st__trash:hover svg {
+  fill: #F44336; }
+
+#styleguide .sg-st__title {
   margin: 0 0 0 0;
-  padding: 0 0 10px 0;
-  border-bottom: 1px dotted #ddd;
+  padding: 5px;
+  border-bottom: 1px dotted #e4e4e4;
   width: 100%;
   font-weight: bold;
   font-size: 21px;
   border-radius: 0; }
 
-#styleguide input.sg-style-title {
-  border: 1px solid #ddd;
-  padding: 5px;
-  width: 90%; }
-
-#styleguide .sg-button__action {
+#styleguide input.sg-st__title {
   border: none;
-  background: none;
-  padding: 5px 10px;
-  margin: none;
-  color: #9C9C9C; }
-  #styleguide .sg-button__action:active, #styleguide .sg-button__action:focus {
-    color: #333;
-    outline: none; }
-    #styleguide .sg-button__action:active svg, #styleguide .sg-button__action:focus svg {
-      fill: #333; }
-  #styleguide .sg-button__action svg {
-    width: 16px;
-    height: 16px;
-    fill: #9C9C9C; }
-  #styleguide .sg-button__action:hover svg {
-    fill: #333; }
+  padding: 10px 5px; }
 
-#styleguide .sg-button__save:hover svg {
-  fill: #00E676; }
+#styleguide .sg-st__markupbutton {
+  border: none;
+  box-shadow: none; }
+  #styleguide .sg-st__markupbutton svg {
+    margin: 0 0 3px 0; }
+  #styleguide .sg-st__markupbutton:hover {
+    box-shadow: none; }
+    #styleguide .sg-st__markupbutton:hover svg {
+      fill: #222; }
 
-#styleguide .sg-button__cancel:hover svg {
-  fill: #FF3D00; }
+#styleguide .sg-st__markupbutton.m-active {
+  box-shadow: inset 0 -10rem 0 rgba(158, 158, 158, 0.1); }
 
-#styleguide .sg-markuptoggle svg {
-  position: relative;
-  top: 3px;
-  margin-right: 5px; }
-
-#styleguide .sg-markuptext {
-  color: #9C9C9C;
+#styleguide .sg-st__markuptext {
+  color: #666;
   font-style: italic;
-  font-weight: 100; }
+  font-weight: 100;
+  font-size: 12px;
+  margin-left: 10px; }
 
-#styleguide .sg-container:hover .sg-actions {
-  opacity: 1; }
-
-#styleguide .sg-container:hover .sg-style-actions button {
-  opacity: 1; }
-
-#styleguide .sg-output {
-  padding: 36px 0 0 0;
-  margin: 1em 0; }
+#styleguide .sg-st__output {
+  margin: 24px 0; }
 
 #styleguide .sg-confirm-style {
   position: absolute;
@@ -373,15 +399,17 @@ Grid
       color: #ef5350 !important; }
 
 #styleguide .expand-transition {
-  -webkit-transition: all .3s ease;
-  transition: all .3s ease;
-  height: 100%;
+  -webkit-transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
   overflow: hidden; }
 
 #styleguide .expand-enter, #styleguide .expand-leave {
-  height: 0;
-  padding: 0 10px;
-  opacity: 0; }
+  -webkit-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-transform: translateY(100%);
+          transform: translateY(100%); }
 #styleguide .sg-settings-title {
   font-size: 36px;
   margin-bottom: 1em;
@@ -539,7 +567,7 @@ Grid
   font-size: 24px;
   margin: 0.5em 0 2em 0;
   font-weight: 200;
-  color: #A2A2A2;
+  color: #e4e4e4;
   letter-spacing: 1px;
   text-transform: uppercase; }
 
@@ -554,12 +582,12 @@ Grid
     width: auto; }
 
 #styleguide .sg-ob__button {
-  border: 1px solid #555;
+  border: 1px solid #666;
   padding: 10px;
   margin: 1em 0; }
   #styleguide .sg-ob__button:hover {
-    background: #555;
-    color: white !important; }
+    background: #666;
+    color: #fff !important; }
   #styleguide .sg-ob__button.m-right {
     float: right; }
   #styleguide .sg-ob__button.m-left {

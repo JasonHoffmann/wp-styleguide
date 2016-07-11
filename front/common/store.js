@@ -46,16 +46,12 @@ const mutations = {
 		state.sections.$remove(section);
 	},
 	
-	RECIEVE_STYLE_ID(state, section, id ) {
-		section.styles.$set(state.retainedIndex, {id: id});
-		state.retainedIndex = '';
+	RECIEVE_STYLE_ID(state, style, id ) {
+    style.id = id;
 	},
   
   ADD_STYLE(state, style, section) {
-    var l = section.styles.push(style);
-    l = l - 1;
-    state.retainedIndex = l;
-    section.styles.$set(l, { editing: true });
+    section.styles.push(style);
   },
   
   EDIT_STYLE(state, data, style) {
@@ -98,5 +94,7 @@ const mutations = {
 
 export default new Vuex.Store({
   state,
-  mutations
+  mutations,
+  // TODO: Get this working in strict mode - v-model
+  // strict: true
 })

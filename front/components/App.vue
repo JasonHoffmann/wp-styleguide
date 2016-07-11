@@ -11,24 +11,30 @@
 
 <template>
 <div class="sg-wrap" v-bind:class="{'loaded' : !loaded}">
+	
 <div class="sg-row sg-main-content" v-if="onboarded">
+	
 	<settings v-if="showSettings"></settings>
+	
 	<navbar></navbar>
+	
 	<div class="sg-col-9">
 		<wrapper v-for="section in sections" :section="section"></wrapper>
-			<form class="sg-section-wrap sg-stack" v-on:submit="addWrapper" v-show="logged_in">
-				<input type="text" class="sg-stack sg-font-dark sg-section-title" :placeholder="placeholder" />
-				<button class="sg-button sg-actions sg-actions__section"><icon name="add"></icon> Add</button>
+			<form class="sg-stack sg-sct__wrap" v-on:submit.prevent="addWrapper" v-show="logged_in">
+				<input type="text" class="sg-stack sg-font-dark sg-sct__title" placeholder="Add a Section..." />
+				<button class="sg-button sg-sct__add"><icon name="add"></icon> Add</button>
 			</form>
 		</div>
+		
 </div>
 
 <onboard v-else></onboard>
+
 </div>
 </template>
 
 <script>
-import Wrapper from './Wrapper.vue';
+import Wrapper from './Section.vue';
 import Settings from './Settings.vue';
 import Navbar from './Navbar.vue';
 import Icon from './Icon.vue';
@@ -71,16 +77,6 @@ export default {
 		}
 	},
 	
-	computed: {
-		placeholder: function() {
-			if( this.sections.length < 1 ) {
-				return 'Click Here to Add a Section';
-			} else {
-				return 'Add Section...';
-			}
-		}
-	},
-	
 	components: {
 		Wrapper,
 		Settings,
@@ -91,29 +87,34 @@ export default {
 
   ready: function () {
 		this.getAll();
-		
-		var self = this;
-		window.addEventListener('scroll', function() {
-			var y = window.scrollY;
-			if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-				var last = self.sections.length - 1;
-				var id = self.sections[last].id;
-				self.toggleActive({ id: id });
-			} else {
-				for (var i = 0; i < self.sections.length; i++) {
-					if (y >= self.sectionPositions[i] &&
-							(self.sectionPositions[i+1] ? y < self.sectionPositions[i+1] : true)) {
-								self.toggleActive({id: self.sections[i].id});
-					}
-				}
-			}
-		});
   },
+	
+	watch: {
+		loaded: function(val) {
+			if(val) {
+				var self = this;
+				window.addEventListener('scroll', function() {
+					var y = window.scrollY;
+					if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+						var last = self.sections.length - 1;
+						var id = self.sections[last].id;
+						self.toggleActive({ id: id });
+					} else {
+						for (var i = 0; i < self.sections.length; i++) {
+							if (y >= self.sectionPositions[i] &&
+									(self.sectionPositions[i+1] ? y < self.sectionPositions[i+1] : true)) {
+										self.toggleActive({id: self.sections[i].id});
+							}
+						}
+					}
+				});
+			}
+		}
+	},
 	
   methods: {
 		
 		addWrapper: function(evt) {
-			evt.preventDefault();
 			var newTitle = evt.target[0].value;
 			evt.target[0].value = '';
 			
@@ -125,8 +126,6 @@ export default {
 				id: 0,
 				styles: []
 			});
-			
-			console.log(this.sections[i]);
 
 		}
 

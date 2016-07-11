@@ -105,9 +105,26 @@ export default {
 			}
 		};
 		
+		this.handleFocus = function(evt) {
+			var cell = this;
+			var range, selection;
+			if (document.body.createTextRange) {
+				range = document.body.createTextRange();
+				range.moveToElementText(cell);
+				range.select();
+			} else if (window.getSelection) {
+				selection = window.getSelection();
+				range = document.createRange();
+				range.selectNodeContents(cell);
+				selection.removeAllRanges();
+				selection.addRange(range);
+			}
+		};
+		
 		pre.addEventListener('keydown', this.handleKeydown);
 		pre.addEventListener('keyup', this.handleKeyup);
 		pre.addEventListener('paste', this.handlePaste);
+		pre.addEventListener('focus', this.handleFocus);
 	},
 	
 	methods: {

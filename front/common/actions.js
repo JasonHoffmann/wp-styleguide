@@ -15,13 +15,13 @@ export default {
 		
 		var self = this;
 	  api.addSection(section).then(function(response) {
-	    dispatch('RECIEVE_ID', section, response.data);
-			var newStyle = {
-				title: '',
-				html: '',
-				id: 0
-			};
-			self.addStyle(newStyle, section);
+				dispatch('RECIEVE_ID', section, response.data);
+				var newStyle = {
+					title: '',
+					html: '<!-- insert your code here -->',
+					id: 0
+				};
+				dispatch('ADD_STYLE', newStyle, section);
 	  })  
 	},
 	
@@ -45,9 +45,13 @@ export default {
 	addStyle: function(store, style, section) {
 	  var dispatch = store.dispatch;
 	  dispatch('ADD_STYLE', style, section);
-	  api.addStyle(style, section).then(function(response) {
-	    dispatch('RECIEVE_STYLE_ID', section, response.data.id);
-	  });
+	},
+	
+	saveNewStyle: function(store, style, section) {
+		var dispatch = store.dispatch;
+		api.addStyle(style, section).then(function(response) {
+			dispatch('RECIEVE_STYLE_ID', style, response.data.id);
+		})
 	},
 	
 	updateStyle: function( store, data, style ) {

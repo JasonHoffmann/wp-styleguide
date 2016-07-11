@@ -16,7 +16,7 @@
 		font-size: 24px;
 		margin: 0.5em 0 2em 0;
 		font-weight: 200;
-		color: #A2A2A2;
+		color: $gray-lighter;
 		letter-spacing: 1px;
 		text-transform: uppercase;
 	}
@@ -35,12 +35,12 @@
   }
 	
 	.sg-ob__button {
-		border: 1px solid #555;
+		border: 1px solid $gray-light;
 		padding: 10px;
 		margin: 1em 0;
 		&:hover {
-			background: #555;
-			color: white !important;
+			background: $gray-light;
+			color: $white !important;
 		}
 		&.m-right {
 			float: right;

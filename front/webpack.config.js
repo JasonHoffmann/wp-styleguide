@@ -7,15 +7,17 @@ module.exports = {
 		},
 		module: { loaders: [ 
 			{ test: /\.vue$/, loader: 'vue'  },
-			{ test: /\.js$/, exclude: /node_modules|vue\/src|vue-router\//,  loader: 'babel' }
+			{ test: /\.js$/, exclude: /node_modules|vue\/src|vue-router\//,  loader: 'babel' },
+			{ test: /\.gif$/, loader: 'file-loader' },
 		] },
 		vue : {
 			loaders: {
 				css: ExtractTextPlugin.extract('css'),
-				sass: ExtractTextPlugin.extract('css!sass'),
-				scss: ExtractTextPlugin.extract('css!sass')
+				sass: ExtractTextPlugin.extract('css!sass!sass-resources'),
+				scss: ExtractTextPlugin.extract('css!sass!sass-resources')
 			}
 		},
+		sassResources: './common/resources.scss',
 		plugins: [
 			new ExtractTextPlugin('styles.css'),
 		//	new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }})

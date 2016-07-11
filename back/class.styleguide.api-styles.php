@@ -88,9 +88,11 @@ class Styleguide_API_Styles extends Styleguide_API {
 			return new WP_Error( 'rest_post_exists', __( 'Cannot create style without attached section.' ), array( 'status' => 400 ) );
 		}
 		
+		
+		
 		$section_id = absint( $request['section_id'] );
 		$post = $this->extract_style( $request );
-		$post_id = wp_insert_post( $post, true );
+		$post_id = wp_insert_post( (array) $post, true );
 		wp_set_object_terms( $post_id, $section_id, $this->taxonomy);
 
 		if ( is_wp_error( $post_id ) ) {

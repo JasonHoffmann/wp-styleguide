@@ -51,7 +51,9 @@ export default {
     		'X-WP-Nonce' : styleguide_options.nonce
     	},
       data: {
-        section_id : section.id
+        section_id : section.id,
+        title: style.title,
+        html: style.html
       }
     });
   },

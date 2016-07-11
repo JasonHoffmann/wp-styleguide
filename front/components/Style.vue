@@ -1,109 +1,86 @@
 <style lang="scss">
 #styleguide {
-	.sg-container {
+	.sg-st {
 		background: white;
-		padding: 24px;
-		box-shadow: -1px 0 2px 0 rgba(0,0,0,0.12) , 1px 0 2px 0 rgba(0,0,0,0.12) , 0 1px 1px 0 rgba(0,0,0,0.24);
-		border-radius: 1px;
+		padding: 16px;
+		box-shadow: 0 0 1px rgba(0,0,0,.15);
 		margin: 2em 0;
 		position: relative;
+		overflow: hidden;
 	}
 	
+	.sg-st__actions {
+		text-align: right;
+		
+		.sg-button:first-child:hover {
+			background: $green;
+			color: $white !important;
+		}
+	}
 	
-	.sg-actions {
+
+	
+	.sg-st__toggle {
 		position: absolute;
 		top: 24px;
 		right: 10px;
 		opacity: 0;
-		z-index: 1;
+		transition: opacity 0.2s;
 	}
-  
-  .sg-actions--editing {
-    opacity: 1;
-    top: 30px;
-    .sg-button__action svg {
-      width: 19px;
-      height: 19px;
-    }
-  }
-  
-  .sg-style-title {
-    margin: 0 0 0 0;
-    padding: 0 0 10px 0;
-    border-bottom: 1px dotted #ddd;
-    width: 100%;
-    font-weight: bold;
-    font-size: 21px;
-    border-radius: 0;
-  }
-  
-  input.sg-style-title {
-    border: 1px solid #ddd;
-    padding: 5px;
-    width: 90%;
-  }
 	
-	.sg-button__action {
+	.sg-st:hover .sg-st__toggle {
+		opacity: 1;
+	}
+	
+	.sg-st__trash:hover svg {
+		fill: $red;
+	}
+	
+	.sg-st__title {
+		margin: 0 0 0 0;
+		padding: 5px;
+		border-bottom: 1px dotted $gray-lighter;
+		width: 100%;
+		font-weight: bold;
+		font-size: 21px;
+		border-radius: 0;
+	}
+	
+	input.sg-st__title {
 		border: none;
-		background: none;
-		padding: 5px 10px;
-		margin: none;
-		color: #9C9C9C;
-		&:active, &:focus {
-			color: #333;
-			outline: none;
+		padding: 10px 5px;
+		
+	}
+	
+	.sg-st__markupbutton {
+		border: none;
+		box-shadow: none;
+		svg {
+			margin: 0 0 3px 0;
+		}
+		
+		&:hover {
+			box-shadow: none;
 			svg {
-				fill: #333;
+				fill: $gray-dark;
 			}
 		}
-		svg {
-			width: 16px;
-			height: 16px;
-			fill: #9C9C9C;
-		}
-		&:hover svg {
-			fill: #333; 
-		}
-	}
-  
-  .sg-button__save:hover {
-    svg {
-      fill: #00E676;
-    }
-  }
-  
-  .sg-button__cancel:hover {
-    svg {
-      fill: #FF3D00;
-    }
-  }
-	
-	.sg-markuptoggle {
-		svg {
-			position: relative;
-			top: 3px;
-			margin-right: 5px;
-		}
 	}
 	
-	.sg-markuptext {
-		color: #9C9C9C;
-		font-style: italic;
-		font-weight: 100;
-	}
-	
-	.sg-container:hover .sg-actions {
-		opacity: 1;
+	.sg-st__markupbutton.m-active {
+		box-shadow: inset 0 -10rem 0 rgba(158,158,158,.1);
 	}
 
-	
-	.sg-container:hover .sg-style-actions button {
-		opacity: 1;
+	.sg-st__markuptext {
+		color: $gray-light;
+		font-style: italic;
+		font-weight: 100;
+		font-size: 12px;
+		margin-left: 10px;
 	}
 	
-	.sg-output {
-		padding: 36px 0 0 0;
-		margin: 1em 0;
+	.sg-st__output {
+		margin: 24px 0;
 	}
 	
 	.sg-confirm-style {
@@ -137,21 +114,21 @@
 	}
 	
 	.expand-transition {
-  transition: all .3s ease;
-	height: 100%;
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+	transform: translateY(0);
   overflow: hidden;
 }
 
 .expand-enter, .expand-leave {
-  height: 0;
-  padding: 0 10px;
-  opacity: 0;
+	transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+	transform: translateY(100%);
 }
 }
 </style>
 
 <template>
-  <div id="{{ style.slug }}" class="sg-container">
+<section id="{{ style.slug }}" class="sg-st">
+		
 		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
 			<p>Are you sure you want to delete this style?</p>
 			<div class="sg-confirm-actions">
@@ -159,46 +136,56 @@
 				<button class="sg-button sg-confirm-button" v-on:click="toggleConfirm">No</button>
 			</div>
 		</div>
-		<h4 class="sg-style-title sg-stack" v-if="!editing">
-			{{ style.title }}
-		</h4>
-			<span v-show="!editing && logged_in" class="sg-actions">
-			<button v-on:click="enterEditing" class="sg-button__action">
-				<icon name="edit"></icon>
-			</button>
-			<button v-on:click="toggleConfirm" class="sg-button__action">
+		
+		<form class="sg-stack" v-if="editing" v-on:submit.prevent="editStyle">
+			<input 
+						placeholder="Add a title..." 
+						type="text" class="sg-st__title sg-st__input" 
+						v-model="style.title" 
+						v-if="editing"
+						lazy
+				/>
+		</form>
+		
+		<div v-else>
+			<h4 class="sg-stack sg-st__title">{{ style.title }}</h4>
+			<span class="sg-st__toggle">
+				<button v-on:click="enterEditing" class="sg-button">
+					<icon name="edit"></icon>
+				</button>
+				<button v-on:click="toggleConfirm" class="sg-button sg-st__trash">
 					<icon name="delete"></icon>
-		</button>
-		</span>
-		<input 
-					placeholder="Add a title..." 
-					type="text" class="sg-style-title sg-stack sg-font-light sg-style-input" 
-					v-model="style.title" 
-					v-bind:class="{'editing' : editing }"
-					v-if="editing"
-					autofocus
-			/>
-      <span v-show="editing" class="sg-actions sg-actions--editing">
-      <button class="sg-button__action sg-button__save" v-on:click="editStyle">
-        <icon name="save"></icon>
-      </button>
-      <button class="sg-button__action sg-button__cancel" v-on:click="exitEditing">
-        <icon name="cancel"></icon>	
-    </button>
-  </span>
-    <div class="sg-output">
-        {{{ style.html }}}
+				</button>
+			</span>
+		</div>
+
+    <div class="sg-st__output">
+        {{{ style.html | comments }}}
     </div>
+		
 		<div class="sg-markuptoggle">
-			<button class="sg-button__action" v-on:click="toggleMarkup" v-show="!editing">
+			<button class="sg-button sg-st__markupbutton" v-bind:class="{ 'm-active' : showMarkup || editing }" v-on:click="toggleMarkup">
 				<icon name="markup"></icon>
 			</button>
-			<span v-show="editing" class="sg-markuptext">Edit the HTML below</span>
+			<span class="sg-stack sg-st__markuptext" v-show="editing">Edit Markup Below</span>
 		</div>
+		
     <div class="sg-markup" v-show="editing || showMarkup">
       <code-editor :html.sync="style.html" :editing="editing"></code-editor>
     </div>
-  </div>
+		
+		<div v-if="editing" class="sg-st__actions">
+			<button v-on:click.prevent="editStyle" class="sg-button">
+				{{ save_text }}
+			</button>
+			
+			<button class="sg-button" v-on:click="exitEditing">
+				Cancel
+			</button>
+		</div>
+		
+		
+</section>
 </template>
 
 <script>
@@ -209,21 +196,36 @@ export default {
   props: ['style', 'index', 'section'],
   
   vuex: {
+		getters: {
+			logged_in: function(store) {
+				return store.logged_in
+			}
+		},
     actions: {
       updateStyle: actions.updateStyle,
-      removeStyle: actions.removeStyle
+      removeStyle: actions.removeStyle,
+			saveNewStyle: actions.saveNewStyle
     }
   },
   
   data: function() {
     return {
-      logged_in: styleguide_options.logged_in,
       showMarkup: false,
       editing: false,
       confirm: false,
       prev: {}
     }
   },
+	
+	computed: {
+		save_text: function() {
+			if(this.style.id > 0 ) {
+				return 'Save';
+			} else {
+				return 'Save New';
+			}
+		}
+	},
   
   created: function() {
     if( !this.style.title && this.logged_in ) {
@@ -232,10 +234,7 @@ export default {
   },
   
   ready: function() {
-    var input = this.$el.querySelectorAll('.sg-style-input');
-    if( input.length > 0 ) {
-      input[0].focus();
-    }
+		this.focusInput();
   },
   
   components: {
@@ -244,6 +243,13 @@ export default {
   },
 	
   methods: {
+		
+		focusInput: function() {
+			var input = this.$el.querySelectorAll('.sg-st__input');
+			if( input.length > 0 ) {
+				input[0].focus();
+			}
+		},
 		
 		toggleMarkup: function() {
 			this.showMarkup = !this.showMarkup
@@ -263,12 +269,17 @@ export default {
       this.style.html = this.prev.html
     },
     
-    editStyle: function(evt) {
-      this.updateStyle({
-        title: this.style.title,
-        html: this.style.html,
-        id: this.style.id
-      }, this.style);
+    editStyle: function() {
+			if( this.style.id > 0 ) {
+				this.updateStyle({
+					title: this.style.title,
+					html: this.style.html,
+					id: this.style.id
+				}, this.style);
+			} else {
+				this.saveNewStyle(this.style, this.$parent.section);
+			}
+			
       this.editing = false;
     },
 		
@@ -280,6 +291,14 @@ export default {
 		toggleConfirm: function() {
 			this.confirm = !this.confirm;
 		}
-  }
+  },
+	
+	watch: {
+		editing: function(val) {
+			if(val === true) {
+				this.focusInput();
+			}
+		}
+	}
 }
 </script>

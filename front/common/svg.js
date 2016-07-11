@@ -12,6 +12,13 @@ export default {
 		g: '<path d="M9.5,19 C6.962,19 4.577,18.012 2.782,16.218 C0.987,14.424 0,12.038 0,9.501 C0,6.963 0.988,4.578 2.782,2.783 C4.576,0.988 6.962,1.33226763e-15 9.5,1.33226763e-15 C12.038,1.33226763e-15 14.423,0.988 16.218,2.783 C18.013,4.578 19,6.963 19,9.501 C19,12.039 18.012,14.424 16.218,16.218 C14.424,18.012 12.038,19 9.5,19 L9.5,19 Z M9.5,1 C4.813,1 1,4.813 1,9.5 C1,14.187 4.813,18 9.5,18 C14.187,18 18,14.187 18,9.5 C18,4.813 14.187,1 9.5,1 L9.5,1 Z" id="Shape"></path><path d="M7.5,13.5 C7.372,13.5 7.244,13.451 7.146,13.354 L4.146,10.354 C3.951,10.159 3.951,9.842 4.146,9.647 C4.341,9.452 4.658,9.452 4.853,9.647 L7.499,12.293 L14.145,5.647 C14.34,5.452 14.657,5.452 14.852,5.647 C15.047,5.842 15.047,6.159 14.852,6.354 L7.852,13.354 C7.754,13.452 7.626,13.5 7.498,13.5 L7.5,13.5 Z" id="Shape"></path>'
 	},
 	
+	load: {
+		title: 'Load',
+		width: 70,
+		height: 20,
+		g: '<rect width="20" height="20" x="0" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/></rect><rect width="20" height="20" x="25" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="35;25;25;25;35" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" begin="200ms" dur="1000ms" repeatCount="indefinite"/></rect><rect width="20" height="20" x="50" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="60;50;50;50;60" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" begin="400ms" dur="1000ms" repeatCount="indefinite"/></rect>'
+	},
+	
 	cancel: {
 		title: 'Cancel',
 		width: 19,
@@ -44,7 +51,7 @@ export default {
 		title: 'Add',
 		width: 19,
 		height: 19,
-		g: '<path d="M16.218,2.782 C14.424,0.988 12.038,0 9.5,0 C6.962,0 4.577,0.988 2.782,2.782 C0.987,4.576 0,6.962 0,9.499 C0,12.036 0.988,14.422 2.782,16.217 C4.576,18.012 6.962,18.999 9.5,18.999 C12.038,18.999 14.423,18.011 16.218,16.217 C18.013,14.423 19,12.037 19,9.499 C19,6.961 18.012,4.576 16.218,2.782 L16.218,2.782 Z M9.5,18 C4.813,18 1,14.187 1,9.5 C1,4.813 4.813,1 9.5,1 C14.187,1 18,4.813 18,9.5 C18,14.187 14.187,18 9.5,18 L9.5,18 Z"></path><path d="M15.5,9 L10,9 L10,3.5 C10,3.224 9.776,3 9.5,3 C9.224,3 9,3.224 9,3.5 L9,9 L3.5,9 C3.224,9 3,9.224 3,9.5 C3,9.776 3.224,10 3.5,10 L9,10 L9,15.5 C9,15.776 9.224,16 9.5,16 C9.776,16 10,15.776 10,15.5 L10,10 L15.5,10 C15.776,10 16,9.776 16,9.5 C16,9.224 15.776,9 15.5,9 L15.5,9 Z"></path>'
+		g: '<path d="M15.5,9 L10,9 L10,3.5 C10,3.224 9.776,3 9.5,3 C9.224,3 9,3.224 9,3.5 L9,9 L3.5,9 C3.224,9 3,9.224 3,9.5 C3,9.776 3.224,10 3.5,10 L9,10 L9,15.5 C9,15.776 9.224,16 9.5,16 C9.776,16 10,15.776 10,15.5 L10,10 L15.5,10 C15.776,10 16,9.776 16,9.5 C16,9.224 15.776,9 15.5,9 L15.5,9 Z"></path>'
 	},
 	
 	cog: {
