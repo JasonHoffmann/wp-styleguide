@@ -1,5 +1,14 @@
 <template>
-	<pre tabindex="2" :contenteditable="editing" class="language-markup">{{ html }}</pre>
+	<pre 
+		tabindex="2" 
+		:contenteditable="editing" 
+		class="language-markup"
+		v-on:keyup="handleKeyup"
+		v-on:keydown="handleKeydown"
+		v-on:focus="handleFocus"
+		v-on:paste="handlePaste"
+		>
+		{{ html }}</pre>
 </template>
 <script>
 import Prism from 'prismjs'
@@ -7,116 +16,34 @@ export default {
 	props: ['html', 'editing'],
 	
 	ready: function() {
-		
-		var self = this;
 		var pre = this.$el;
-		
 		Prism.highlightElement(pre);
-		
-		this.handleKeyup = function(evt) {
-			var keyCode = evt.keyCode,
-					code = this.textContent;
-			
-			if([
-					9, 91, 93, 16, 17, 18, // modifiers
-					20, // caps lock
-					13, // Enter (handled by keydown)
-					112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, // F[0-12]
-					27 // Esc
-			].indexOf(keyCode) > -1) {
-					return;
+	},
+	
+	data: function() {
+		return {
+			state: {
+				ss: '',
+				se: '',
+				before: '',
+				after: '',
+				selection: ''
 			}
-			
-			if (keyCode !== 37 && keyCode !== 39) {
-					var ss = this.selectionStart,
-							se = this.selectionEnd;
-							
-				Prism.highlightElement(this);
-				self.html = code;
-				
-				if(!/\n$/.test(code)) {
-					this.innerHTML = this.innerHTML + '\n';
-				}
-					
-				if(ss !== null || se !== null) {
-					this.setSelectionRange(ss, se);
-				}
-			}
-		};
+		}
+	}
+	
+	methods: {
 		
-		this.handleKeydown = function(evt) {
-			var cmdOrCtrl = evt.metaKey || evt.ctrlKey;
-			switch(evt.keyCode) {
-				case 9: // Tab
-					if(!cmdOrCtrl) {
-						self.action('indent', {
-							inverse: evt.shiftKey
-						});
-						evt.preventDefault();
-						return false;
-					}
-					break;
-				case 13:
-					self.action('newline');
-					evt.preventDefault();
-					return false;
-				case 191:
-					if(cmdOrCtrl && !evt.altKey ) {
-						self.action('comment');
-						evt.preventDefault();
-						return false;
-					}
-					break;
-			}
-		};
+		handlePaste: function(evt) {
+			var self = this;
+			setTimeout(function() {
+				self.handleKeyup(evt);
+			}, 10);
+		},
 		
-		this.handlePaste = function(evt) {
-			setTimeout(function(){
-				var pre = this;
-			console.log(self.$el);
-			Prism.highlightElement(this);
-			var code = pre.textContent;
-			console.log(code);
-			self.html = code;
-		}, 10);
-			// console.log('pasting');
-			// var pre = this,
-			// 	ss = pre.selectionStart,
-			// 	se = pre.selectionEnd,
-			// 	selection = ss === se? '': pre.textContent.slice(ss, se);
-			// 
-			// if (evt.clipboardData) {
-			// 	evt.preventDefault();
-			// 	
-			// 	var pasted = evt.clipboardData.getData("text/plain");
-			// 	
-			// 	document.execCommand("insertText", false, pasted);
-			// 	
-			// 	ss += pasted.length;
-			// 	
-			// 	Prism.highlightElement(this);
-			// 	pre.setSelectionRange(ss, ss);
-			// } else {
-			// 
-			// 	setTimeout(function(){
-			// 		var newse = pre.selectionEnd,
-			// 			innerHTML = pre.innerHTML;
-			// 							
-			// 		pre.innerHTML = innerHTML;
-			// 							
-			// 		var pasted = pre.textContent.slice(ss, newse);
-			// 		
-			// 		ss += pasted.length;
-			// 		
-			// 		Prism.highlightElement(this);
-			// 		pre.setSelectionRange(ss, ss);
-			// 	}, 10);
-			// }
-		};
-		
-		this.handleFocus = function(evt) {
-			if( !self.editing ) {
-				var cell = this;
+		handleFocus: function(evt) {
+			if( !this.editing ) {
+				var cell = this.$el;
 				var range, selection;
 				if (document.body.createTextRange) {
 					range = document.body.createTextRange();
@@ -130,15 +57,66 @@ export default {
 					selection.addRange(range);
 				}
 			}
-		};
+		},
 		
-		pre.addEventListener('keydown', this.handleKeydown);
-		pre.addEventListener('keyup', this.handleKeyup);
-		pre.addEventListener('paste', this.handlePaste);
-		pre.addEventListener('focus', this.handleFocus);
-	},
-	
-	methods: {
+		handleKeyup: function(evt) {
+			var keyCode = evt.keyCode;
+			var code = this.$el.textContent;
+			
+			if([
+					9, 91, 93, 16, 17, 18, // modifiers
+					20, // caps lock
+					13, // Enter (handled by keydown)
+					112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, // F[0-12]
+					27 // Esc
+			].indexOf(keyCode) > -1) {
+					return;
+			}
+			
+
+			
+			if (keyCode !== 37 && keyCode !== 39) {
+					var ss = this.$el.selectionStart;
+					var se = this.$el.selectionEnd;
+				console.log(code);
+				Prism.highlightElement(this.$el);
+				this.html = code;
+				
+				if(!/\n$/.test(code)) {
+					this.$el.innerHTML = this.$el.innerHTML + '\n';
+				}
+					
+				if(ss !== null || se !== null) {
+					this.$el.setSelectionRange(ss, se);
+				}
+			}
+		},
+		
+		handleKeydown: function(evt) {
+			var cmdOrCtrl = evt.metaKey || evt.ctrlKey;
+			switch(evt.keyCode) {
+				case 9: // Tab
+					if(!cmdOrCtrl) {
+						this.action('indent', {
+							inverse: evt.shiftKey
+						});
+						evt.preventDefault();
+						return false;
+					}
+					break;
+				case 13:
+					this.action('newline');
+					evt.preventDefault();
+					return false;
+				case 191:
+					if(cmdOrCtrl && !evt.altKey ) {
+						this.action('comment');
+						evt.preventDefault();
+						return false;
+					}
+					break;
+			}
+		},
 	
 		action: function(action, options) {
 			options = options || {};
