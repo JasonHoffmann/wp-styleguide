@@ -61,13 +61,34 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_Vue2.default.use(__webpack_require__(82));
+	// import html from './components/Html.vue';
+	// Vue.directive('html-directive', html);
 
 	var app = new _Vue2.default(_App2.default);
 
+	var tagRE = new RegExp("{{" + '(.+?)' + "}}" + '|' + "{{" + '(.+?)' + "}}", 'g');
+	var w = 300;
+	var h = 500;
+
+	var processText = function processText(text) {
+		var hasFilter = _Vue2.default.parsers.directive.parseDirective(text);
+		if (hasFilter.filters) {
+			var wh = hasFilter.filters[0].name.split(',');
+			w = wh[0] || w;
+			h = wh[1] || h;
+		}
+
+		var img = '<img src="https://unsplash.it/' + w + '/' + h + '">';
+		var newval = text.replace(tagRE, img);
+		return newval;
+	};
+
 	_Vue2.default.filter('comments', function (value, input) {
-	  if (value) {
-	    return value.replace(/<!--[\s\S]*?-->/g, '');
-	  }
+
+		if (value) {
+			// TODO: Figure out the right way to do this
+			return value.replace(/<!--[\s\S]*?-->/g, '');
+		}
 	});
 
 /***/ },
@@ -10275,15 +10296,15 @@
 
 	var _Section2 = _interopRequireDefault(_Section);
 
-	var _Settings = __webpack_require__(27);
+	var _Settings = __webpack_require__(30);
 
 	var _Settings2 = _interopRequireDefault(_Settings);
 
-	var _Navbar = __webpack_require__(31);
+	var _Navbar = __webpack_require__(34);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _Icon = __webpack_require__(19);
+	var _Icon = __webpack_require__(22);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
@@ -10295,7 +10316,7 @@
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _actions = __webpack_require__(23);
+	var _actions = __webpack_require__(26);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -10362,7 +10383,7 @@
 						} else {
 							for (var i = 0; i < self.sections.length; i++) {
 								if (y >= self.sectionPositions[i] && (self.sectionPositions[i + 1] ? y < self.sectionPositions[i + 1] : true)) {
-									self.toggleActive({ id: self.sections[i].id });
+									self.toggleActive(self.sections[i]);
 								}
 							}
 						}
@@ -10438,7 +10459,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Section.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(26)
+	__vue_template__ = __webpack_require__(29)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10476,11 +10497,11 @@
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _Icon = __webpack_require__(19);
+	var _Icon = __webpack_require__(22);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(23);
+	var _actions = __webpack_require__(26);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -10586,8 +10607,8 @@
 	//   <section id="{{section.slug }}" class="sg-sct" v-bind:class="{'loading' : loading}">
 	// 		<form class="sg-stack sg-sct__wrap" v-on:submit.prevent="pushEdit" v-if="logged_in">
 	// 			<input type="text" class="sg-stack sg-font-dark sg-sct__title" placeholder="Add a Section..." v-model="title" />
-	// 			<span class="sg-sct__loader"><icon name="load" v-if="loading"></icon></span>
 	// 			<button class="sg-button sg-sct__add">Edit</button>
+	// 			<span class="sg-sct__loader"><icon name="load" v-if="loading"></icon></span>
 	// 		</form>
 	// 		<div class="sg-stack sg-sct__wrap" v-else>
 	// 			<h3 class="sg-stack sg-section-title" v-if="!logged_in">
@@ -10713,7 +10734,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Style.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(25)
+	__vue_template__ = __webpack_require__(28)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10751,126 +10772,20 @@
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _Icon = __webpack_require__(19);
+	var _Html = __webpack_require__(19);
+
+	var _Html2 = _interopRequireDefault(_Html);
+
+	var _Icon = __webpack_require__(22);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(23);
+	var _actions = __webpack_require__(26);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = {
-		props: ['style', 'index', 'section'],
-
-		vuex: {
-			getters: {
-				logged_in: function logged_in(store) {
-					return store.logged_in;
-				}
-			},
-			actions: {
-				updateStyle: _actions2.default.updateStyle,
-				removeStyle: _actions2.default.removeStyle,
-				saveNewStyle: _actions2.default.saveNewStyle
-			}
-		},
-
-		data: function data() {
-			return {
-				showMarkup: false,
-				editing: false,
-				confirm: false,
-				prev: {}
-			};
-		},
-
-		computed: {
-			save_text: function save_text() {
-				if (this.style.id > 0) {
-					return 'Save';
-				} else {
-					return 'Save New';
-				}
-			}
-		},
-
-		created: function created() {
-			if (!this.style.title && this.logged_in) {
-				this.editing = true;
-			}
-		},
-
-		ready: function ready() {
-			this.focusInput();
-		},
-
-		components: {
-			CodeEditor: _Editor2.default,
-			Icon: _Icon2.default
-		},
-
-		methods: {
-
-			focusInput: function focusInput() {
-				var input = this.$el.querySelectorAll('.sg-st__input');
-				if (input.length > 0) {
-					input[0].focus();
-				}
-			},
-
-			toggleMarkup: function toggleMarkup() {
-				this.showMarkup = !this.showMarkup;
-			},
-
-			enterEditing: function enterEditing(evt) {
-				this.editing = true;
-				this.prev = {
-					title: this.style.title,
-					html: this.style.html
-				};
-			},
-
-			exitEditing: function exitEditing(evt) {
-				this.editing = false;
-				this.style.title = this.prev.title;
-				this.style.html = this.prev.html;
-			},
-
-			editStyle: function editStyle() {
-				if (this.style.id > 0) {
-					this.updateStyle({
-						title: this.style.title,
-						html: this.style.html,
-						id: this.style.id
-					}, this.style);
-				} else {
-					this.saveNewStyle(this.style, this.$parent.section);
-				}
-
-				this.editing = false;
-			},
-
-			deleteStyle: function deleteStyle() {
-				this.confirm = false;
-				this.removeStyle(this.index, this.section, this.style.id);
-			},
-
-			toggleConfirm: function toggleConfirm() {
-				this.confirm = !this.confirm;
-			}
-		},
-
-		watch: {
-			editing: function editing(val) {
-				if (val === true) {
-					this.focusInput();
-				}
-			}
-		}
-	};
-	// </script>
 	// <style lang="scss">
 	// #styleguide {
 	// 	.sg-st {
@@ -10956,7 +10871,7 @@
 	// 		margin: 24px 0;
 	// 	}
 	//
-	// 	.sg-confirm-style {
+	// 	.sg-st__confirm {
 	// 		position: absolute;
 	// 		background: rgba(239,83,80 ,1);;
 	// 		width: 100%;
@@ -11002,9 +10917,9 @@
 	// <template>
 	// <section id="{{ style.slug }}" class="sg-st">
 	//
-	// 		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
+	// 		<div v-if="confirm" transition="expand" class="sg-st__confirm sg-stack">
 	// 			<p>Are you sure you want to delete this style?</p>
-	// 			<div class="sg-confirm-actions">
+	// 			<div>
 	// 				<button class="sg-button sg-confirm-button" v-on:click="deleteStyle">Yes</button>
 	// 				<button class="sg-button sg-confirm-button" v-on:click="toggleConfirm">No</button>
 	// 			</div>
@@ -11016,6 +10931,7 @@
 	// 						type="text" class="sg-st__title sg-st__input"
 	// 						v-model="style.title"
 	// 						v-if="editing"
+	// 						tabindex="1"
 	// 						lazy
 	// 				/>
 	// 		</form>
@@ -11032,9 +10948,8 @@
 	// 			</span>
 	// 		</div>
 	//
-	//     <div class="sg-st__output">
-	//         {{{ style.html | comments }}}
-	//     </div>
+	// 		<output :html="style.html"></output>
+	//
 	//
 	// 		<div class="sg-markuptoggle">
 	// 			<button class="sg-button sg-st__markupbutton" v-bind:class="{ 'm-active' : showMarkup || editing }" v-on:click="toggleMarkup">
@@ -11062,6 +10977,117 @@
 	// </template>
 	//
 	// <script>
+	exports.default = {
+		props: ['style', 'index', 'section'],
+
+		vuex: {
+			getters: {
+				logged_in: function logged_in(store) {
+					return store.logged_in;
+				}
+			},
+			actions: {
+				updateStyle: _actions2.default.updateStyle,
+				removeStyle: _actions2.default.removeStyle,
+				saveNewStyle: _actions2.default.saveNewStyle
+			}
+		},
+
+		data: function data() {
+			return {
+				showMarkup: false,
+				editing: false,
+				confirm: false,
+				prev: {}
+			};
+		},
+
+		computed: {
+			save_text: function save_text() {
+				if (this.style.id > 0) {
+					return 'Save';
+				} else {
+					return 'Save New';
+				}
+			}
+		},
+
+		created: function created() {
+			if (!this.style.title && this.logged_in) {
+				this.editing = true;
+			}
+		},
+
+		ready: function ready() {
+			this.focusInput();
+		},
+
+		components: {
+			CodeEditor: _Editor2.default,
+			Icon: _Icon2.default,
+			Output: _Html2.default
+		},
+
+		methods: {
+
+			focusInput: function focusInput() {
+				var input = this.$el.querySelectorAll('.sg-st__input');
+				if (input.length > 0) {
+					input[0].focus();
+				}
+			},
+
+			toggleMarkup: function toggleMarkup() {
+				this.showMarkup = !this.showMarkup;
+			},
+
+			enterEditing: function enterEditing(evt) {
+				this.editing = true;
+				this.prev = {
+					title: this.style.title,
+					html: this.style.html
+				};
+			},
+
+			exitEditing: function exitEditing(evt) {
+				this.editing = false;
+				this.style.title = this.prev.title;
+				this.style.html = this.prev.html;
+			},
+
+			editStyle: function editStyle() {
+				if (this.style.id > 0) {
+					this.updateStyle({
+						title: this.style.title,
+						html: this.style.html,
+						id: this.style.id
+					}, this.style);
+				} else {
+					this.saveNewStyle(this.style, this.$parent.section);
+				}
+
+				this.editing = false;
+			},
+
+			deleteStyle: function deleteStyle() {
+				this.confirm = false;
+				this.removeStyle(this.index, this.section, this.style.id);
+			},
+
+			toggleConfirm: function toggleConfirm() {
+				this.confirm = !this.confirm;
+			}
+		},
+
+		watch: {
+			editing: function editing(val) {
+				if (val === true) {
+					this.focusInput();
+				}
+			}
+		}
+	};
+	// </script>
 
 /***/ },
 /* 15 */
@@ -11175,53 +11201,64 @@
 			};
 
 			this.handlePaste = function (evt) {
-				var pre = this,
-				    ss = pre.selectionStart,
-				    se = pre.selectionEnd,
-				    selection = ss === se ? '' : pre.textContent.slice(ss, se);
-
-				if (evt.clipboardData) {
-					evt.preventDefault();
-
-					var pasted = evt.clipboardData.getData("text/plain");
-
-					document.execCommand("insertText", false, pasted);
-
-					ss += pasted.length;
-
+				setTimeout(function () {
+					var pre = this;
+					console.log(self.$el);
 					_prismjs2.default.highlightElement(this);
-					pre.setSelectionRange(ss, ss);
-				} else {
-
-					setTimeout(function () {
-						var newse = pre.selectionEnd,
-						    innerHTML = pre.innerHTML;
-
-						pre.innerHTML = innerHTML;
-
-						var pasted = pre.textContent.slice(ss, newse);
-
-						ss += pasted.length;
-
-						_prismjs2.default.highlightElement(this);
-						pre.setSelectionRange(ss, ss);
-					}, 10);
-				}
+					var code = pre.textContent;
+					console.log(code);
+					self.html = code;
+				}, 10);
+				// console.log('pasting');
+				// var pre = this,
+				// 	ss = pre.selectionStart,
+				// 	se = pre.selectionEnd,
+				// 	selection = ss === se? '': pre.textContent.slice(ss, se);
+				//
+				// if (evt.clipboardData) {
+				// 	evt.preventDefault();
+				// 	
+				// 	var pasted = evt.clipboardData.getData("text/plain");
+				// 	
+				// 	document.execCommand("insertText", false, pasted);
+				// 	
+				// 	ss += pasted.length;
+				// 	
+				// 	Prism.highlightElement(this);
+				// 	pre.setSelectionRange(ss, ss);
+				// } else {
+				//
+				// 	setTimeout(function(){
+				// 		var newse = pre.selectionEnd,
+				// 			innerHTML = pre.innerHTML;
+				// 							
+				// 		pre.innerHTML = innerHTML;
+				// 							
+				// 		var pasted = pre.textContent.slice(ss, newse);
+				// 		
+				// 		ss += pasted.length;
+				// 		
+				// 		Prism.highlightElement(this);
+				// 		pre.setSelectionRange(ss, ss);
+				// 	}, 10);
+				// }
 			};
 
 			this.handleFocus = function (evt) {
-				var cell = this;
-				var range, selection;
-				if (document.body.createTextRange) {
-					range = document.body.createTextRange();
-					range.moveToElementText(cell);
-					range.select();
-				} else if (window.getSelection) {
-					selection = window.getSelection();
-					range = document.createRange();
-					range.selectNodeContents(cell);
-					selection.removeAllRanges();
-					selection.addRange(range);
+				if (!self.editing) {
+					var cell = this;
+					var range, selection;
+					if (document.body.createTextRange) {
+						range = document.body.createTextRange();
+						range.moveToElementText(cell);
+						range.select();
+					} else if (window.getSelection) {
+						selection = window.getSelection();
+						range = document.createRange();
+						range.selectNodeContents(cell);
+						selection.removeAllRanges();
+						selection.addRange(range);
+					}
 				}
 			};
 
@@ -11343,7 +11380,7 @@
 	};
 	// </script>
 	// <template>
-	// 	<pre :contenteditable="editing" class="language-markup">{{ html }}</pre>
+	// 	<pre tabindex="2" :contenteditable="editing" class="language-markup">{{ html }}</pre>
 	// </template>
 	// <script>
 
@@ -12134,7 +12171,7 @@
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<pre :contenteditable=\"editing\" class=\"language-markup\">{{ html }}</pre>\n";
+	module.exports = "\n<pre tabindex=\"2\" :contenteditable=\"editing\" class=\"language-markup\">{{ html }}</pre>\n";
 
 /***/ },
 /* 19 */
@@ -12145,8 +12182,110 @@
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/Html.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(21)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./Html.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="sg-st__output">
+	// 		{{{ html }}}
+	// 	</div>
+	// </template>
+	// <script>
+	exports.default = {
+		props: ['html'],
+
+		vuex: {
+			getters: {
+				root: function root(store) {
+					return store.root;
+				},
+				endpoint: function endpoint(store) {
+					return store.settings.endpoint;
+				}
+			}
+		},
+
+		computed: {
+			full_url: function full_url() {
+				return this.root + this.endpoint + '#';
+			}
+		},
+
+		ready: function ready() {
+			this.processImages();
+		},
+
+		methods: {
+			processImages: function () {
+				var images = this.$el.querySelectorAll('img');
+				if (images.length > 0) {
+					var w;
+					var h;
+					for (var i = 0; i < images.length; i++) {
+						var src = images[i].src;
+						if (src === this.full_url) {
+							w = images[i].getAttribute('width') || 300;
+							h = images[i].getAttribute('height') || 300;
+							var newimg = 'https://unsplash.it/' + w + '/' + h;
+							images[i].src = newimg;
+						}
+					}
+				}
+			}.debounce(500)
+		},
+
+		watch: {
+			'html': function html(val, oldval) {
+				if (val !== oldval) {
+					this.processImages();
+				}
+			}
+		}
+	};
+	// </script>
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"sg-st__output\">\n\t{{{ html }}}\n</div>\n";
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(23)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Icon.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(22)
+	__vue_template__ = __webpack_require__(25)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12165,7 +12304,7 @@
 	})()}
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12174,7 +12313,7 @@
 		value: true
 	});
 
-	var _svg = __webpack_require__(21);
+	var _svg = __webpack_require__(24);
 
 	var _svg2 = _interopRequireDefault(_svg);
 
@@ -12207,7 +12346,7 @@
 	// <script>
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -12281,13 +12420,13 @@
 	};
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<svg class=\"sg-icon\" :view-box.camel=\"box\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n\t<title>{{ icon.title }}</title>\n\t<g>{{{ icon.g }}}</g>\n</svg>\n";
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12296,7 +12435,7 @@
 		value: true
 	});
 
-	var _api = __webpack_require__(24);
+	var _api = __webpack_require__(27);
 
 	var _api2 = _interopRequireDefault(_api);
 
@@ -12401,7 +12540,7 @@
 	};
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12509,29 +12648,29 @@
 	};
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<section id=\"{{ style.slug }}\" class=\"sg-st\">\n\t\t\n\t\t<div v-if=\"confirm\" transition=\"expand\" class=\"sg-confirm-style sg-stack\">\n\t\t\t<p>Are you sure you want to delete this style?</p>\n\t\t\t<div class=\"sg-confirm-actions\">\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"deleteStyle\">Yes</button>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"toggleConfirm\">No</button>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<form class=\"sg-stack\" v-if=\"editing\" v-on:submit.prevent=\"editStyle\">\n\t\t\t<input \n\t\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\t\ttype=\"text\" class=\"sg-st__title sg-st__input\" \n\t\t\t\t\t\tv-model=\"style.title\" \n\t\t\t\t\t\tv-if=\"editing\"\n\t\t\t\t\t\tlazy\n\t\t\t\t/>\n\t\t</form>\n\t\t\n\t\t<div v-else>\n\t\t\t<h4 class=\"sg-stack sg-st__title\">{{ style.title }}</h4>\n\t\t\t<span class=\"sg-st__toggle\">\n\t\t\t\t<button v-on:click=\"enterEditing\" class=\"sg-button\">\n\t\t\t\t\t<icon name=\"edit\"></icon>\n\t\t\t\t</button>\n\t\t\t\t<button v-on:click=\"toggleConfirm\" class=\"sg-button sg-st__trash\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t\t\t</button>\n\t\t\t</span>\n\t\t</div>\n\n    <div class=\"sg-st__output\">\n        {{{ style.html | comments }}}\n    </div>\n\t\t\n\t\t<div class=\"sg-markuptoggle\">\n\t\t\t<button class=\"sg-button sg-st__markupbutton\" v-bind:class=\"{ 'm-active' : showMarkup || editing }\" v-on:click=\"toggleMarkup\">\n\t\t\t\t<icon name=\"markup\"></icon>\n\t\t\t</button>\n\t\t\t<span class=\"sg-stack sg-st__markuptext\" v-show=\"editing\">Edit Markup Below</span>\n\t\t</div>\n\t\t\n    <div class=\"sg-markup\" v-show=\"editing || showMarkup\">\n      <code-editor :html.sync=\"style.html\" :editing=\"editing\"></code-editor>\n    </div>\n\t\t\n\t\t<div v-if=\"editing\" class=\"sg-st__actions\">\n\t\t\t<button v-on:click.prevent=\"editStyle\" class=\"sg-button\">\n\t\t\t\t{{ save_text }}\n\t\t\t</button>\n\t\t\t\n\t\t\t<button class=\"sg-button\" v-on:click=\"exitEditing\">\n\t\t\t\tCancel\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t\n</section>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<section id=\"{{ style.slug }}\" class=\"sg-st\">\n\t\t\n\t\t<div v-if=\"confirm\" transition=\"expand\" class=\"sg-st__confirm sg-stack\">\n\t\t\t<p>Are you sure you want to delete this style?</p>\n\t\t\t<div>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"deleteStyle\">Yes</button>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"toggleConfirm\">No</button>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<form class=\"sg-stack\" v-if=\"editing\" v-on:submit.prevent=\"editStyle\">\n\t\t\t<input \n\t\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\t\ttype=\"text\" class=\"sg-st__title sg-st__input\" \n\t\t\t\t\t\tv-model=\"style.title\" \n\t\t\t\t\t\tv-if=\"editing\"\n\t\t\t\t\t\ttabindex=\"1\"\n\t\t\t\t\t\tlazy\n\t\t\t\t/>\n\t\t</form>\n\t\t\n\t\t<div v-else>\n\t\t\t<h4 class=\"sg-stack sg-st__title\">{{ style.title }}</h4>\n\t\t\t<span class=\"sg-st__toggle\">\n\t\t\t\t<button v-on:click=\"enterEditing\" class=\"sg-button\">\n\t\t\t\t\t<icon name=\"edit\"></icon>\n\t\t\t\t</button>\n\t\t\t\t<button v-on:click=\"toggleConfirm\" class=\"sg-button sg-st__trash\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t\t\t</button>\n\t\t\t</span>\n\t\t</div>\n\t\t\n\t\t<output :html=\"style.html\"></output>\n\t\t\n\t\t\n\t\t<div class=\"sg-markuptoggle\">\n\t\t\t<button class=\"sg-button sg-st__markupbutton\" v-bind:class=\"{ 'm-active' : showMarkup || editing }\" v-on:click=\"toggleMarkup\">\n\t\t\t\t<icon name=\"markup\"></icon>\n\t\t\t</button>\n\t\t\t<span class=\"sg-stack sg-st__markuptext\" v-show=\"editing\">Edit Markup Below</span>\n\t\t</div>\n\t\t\n    <div class=\"sg-markup\" v-show=\"editing || showMarkup\">\n      <code-editor :html.sync=\"style.html\" :editing=\"editing\"></code-editor>\n    </div>\n\t\t\n\t\t<div v-if=\"editing\" class=\"sg-st__actions\">\n\t\t\t<button v-on:click.prevent=\"editStyle\" class=\"sg-button\">\n\t\t\t\t{{ save_text }}\n\t\t\t</button>\n\t\t\t\n\t\t\t<button class=\"sg-button\" v-on:click=\"exitEditing\">\n\t\t\t\tCancel\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t\n</section>\n";
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <section id=\"{{section.slug }}\" class=\"sg-sct\" v-bind:class=\"{'loading' : loading}\">\n\t\t<form class=\"sg-stack sg-sct__wrap\" v-on:submit.prevent=\"pushEdit\" v-if=\"logged_in\">\n\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-sct__title\" placeholder=\"Add a Section...\" v-model=\"title\" />\n\t\t\t<span class=\"sg-sct__loader\"><icon name=\"load\" v-if=\"loading\"></icon></span>\n\t\t\t<button class=\"sg-button sg-sct__add\">Edit</button>\n\t\t</form>\n\t\t<div class=\"sg-stack sg-sct__wrap\" v-else>\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!logged_in\">\n\t\t\t\t{{ section.title }}\n\t\t\t</h3>\n\t\t</div>\n\t\t\n    <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n\t\t\n    <section class=\"sg-stack sg-sct__actions\" v-if=\"logged_in\">\n\t\t\t\n      <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\tAdd Style\n\t\t\t</button>\n      <button class=\"sg-button sg-sct__delete\" v-on:click=\"toggleConfirm\">\n        <icon name=\"delete\"></icon>\n      </button>\n\t\t\t\n\t\t\t<div v-if=\"confirm\" class=\"sg-sct__confirm\">\n\t\t\t\tAre you sure?\n\t\t\t\t<button class=\"sg-button sg-sct__yes\" v-on:click=\"removeSection\"><icon name=\"save\"></icon></button>\n\t\t\t\t<button class=\"sg-button sg-sct__no\" v-on:click=\"toggleConfirm\"><icon name=\"cancel\"</button>\n\t\t\t</div>\n    </section>\n\t\t\t\n  </section>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <section id=\"{{section.slug }}\" class=\"sg-sct\" v-bind:class=\"{'loading' : loading}\">\n\t\t<form class=\"sg-stack sg-sct__wrap\" v-on:submit.prevent=\"pushEdit\" v-if=\"logged_in\">\n\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-sct__title\" placeholder=\"Add a Section...\" v-model=\"title\" />\n\t\t\t<button class=\"sg-button sg-sct__add\">Edit</button>\n\t\t\t<span class=\"sg-sct__loader\"><icon name=\"load\" v-if=\"loading\"></icon></span>\n\t\t</form>\n\t\t<div class=\"sg-stack sg-sct__wrap\" v-else>\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!logged_in\">\n\t\t\t\t{{ section.title }}\n\t\t\t</h3>\n\t\t</div>\n\t\t\n    <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n\t\t\n    <section class=\"sg-stack sg-sct__actions\" v-if=\"logged_in\">\n\t\t\t\n      <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\tAdd Style\n\t\t\t</button>\n      <button class=\"sg-button sg-sct__delete\" v-on:click=\"toggleConfirm\">\n        <icon name=\"delete\"></icon>\n      </button>\n\t\t\t\n\t\t\t<div v-if=\"confirm\" class=\"sg-sct__confirm\">\n\t\t\t\tAre you sure?\n\t\t\t\t<button class=\"sg-button sg-sct__yes\" v-on:click=\"removeSection\"><icon name=\"save\"></icon></button>\n\t\t\t\t<button class=\"sg-button sg-sct__no\" v-on:click=\"toggleConfirm\"><icon name=\"cancel\"</button>\n\t\t\t</div>\n    </section>\n\t\t\t\n  </section>\n";
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(28)
-	__vue_script__ = __webpack_require__(29)
+	__webpack_require__(31)
+	__vue_script__ = __webpack_require__(32)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Settings.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(30)
+	__vue_template__ = __webpack_require__(33)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12550,13 +12689,13 @@
 	})()}
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12565,11 +12704,11 @@
 		value: true
 	});
 
-	var _actions = __webpack_require__(23);
+	var _actions = __webpack_require__(26);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
-	var _Icon = __webpack_require__(19);
+	var _Icon = __webpack_require__(22);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
@@ -12577,11 +12716,12 @@
 
 	// <style lang="scss">
 	// #styleguide {
-	// 	.sg-settings-title {
+	// 	.sg-set__title {
 	// 		font-size: 36px;
-	// 		margin-bottom: 1em;
-	// 		margin-top: 2em;
+	// 		margin-bottom: 10px;
+	// 		margin-top: 40px;
 	// 	}
+	//
 	// 	.modal-mask {
 	// 	  position: fixed;
 	// 	  z-index: 9998;
@@ -12604,12 +12744,32 @@
 	// 	  opacity: 0;
 	// 	}
 	//
-	// 	.sg-settings-group {
-	// 		margin: 3em auto;
-	// 		max-width: 350px;
+	// 	.sg-set__close {
+	// 		position: absolute;
+	// 		top: 1em;
+	// 		right: 2em;
+	// 		box-shadow: none;
+	// 		svg {
+	// 			width: 25px;
+	// 			height: auto;
+	//
+	// 		}
 	// 	}
 	//
-	// 	.sg-st__radio-group {
+	// 	.sg-set__group {
+	// 		margin: 40px 0;
+	// 	}
+	//
+	// 	.sg-set__label {
+	// 		display: block;
+	// 		text-align: center;
+	// 		width: 100%;
+	// 		font-weight: bold;
+	// 		font-size: 20px;
+	// 		margin-bottom: 10px;
+	// 	}
+	//
+	// 	.sg-set__radio-group {
 	// 		margin: 0 auto;
 	// 		max-width: 350px;
 	// 		display: block;
@@ -12674,15 +12834,6 @@
 	// 		}
 	// 	}
 	//
-	// 	.sg-settings-input-label {
-	// 		text-transform: uppercase;
-	// 		display: block;
-	// 		font-weight: 700;
-	// 		margin-bottom: 10px;
-	// 		background: transparent;
-	// 		font-size: 14px;
-	// 	}
-	//
 	// 	.sg-set__endpoint {
 	// 		border: none;
 	// 		border-bottom: 1px dotted #666;
@@ -12696,26 +12847,7 @@
 	// 		border-bottom-color: #333;
 	// 	}
 	//
-	// 	.sg-button-settings-save {
-	// 		border: 1px solid #333;
-	// 		padding: 10px;
-	// 		transition: all 0.25s;
-	// 		&:hover {
-	// 			background: #333;
-	// 			color: #f7f7f7 !important;
-	// 		}
-	// 	}
 	//
-	// 	.sg-button__settings-close {
-	// 		position: absolute;
-	// 		top: 1em;
-	// 		right: 2em;
-	// 		svg {
-	// 			width: 25px;
-	// 			height: auto;
-	//
-	// 		}
-	// 	}
 	// }
 	// </style>
 	//
@@ -12723,29 +12855,29 @@
 	//   <div class="sg-settings modal-mask" v-show="settings.show" transition="modal">
 	//     <div class="modal-wrapper">
 	//       <div class="modal-container sg-stack">
-	// 				<button v-on:click="toggleSettings" class="sg-button sg-button__settings-close"><icon name="cancel"></icon></button>
-	//         <h1 class="sg-font-dark sg-settings-title">Settings</h1>
+	// 				<button v-on:click="toggleSettings" class="sg-button sg-set__close"><icon name="cancel"></icon></button>
+	//         <h1 class="sg-font-dark sg-set__title">{{ styleguide_options.str_settings }}</h1>
 	//
-	// 				<div class="sg-settings-group">
-	// 					<h3 class="sg-settings-input-label">Privacy:</h3>
-	// 					<div class="radio-group">
+	// 				<div class="sg-set__group">
+	// 					<h3 class="sg-set__label">Privacy:</h3>
+	// 					<div class="sg-set__radio-group">
 	// 						<input type="radio" id="private" value="private" v-model="privacy">
 	// 						<label for="private">Private <br />Only logged in users can view and edit.</label>
 	// 						<div class="check"></div>
 	// 					</div>
-	// 					<div class="radio-group">
+	// 					<div class="sg-set__radio-group">
 	// 						<input type="radio" id="public" value="public" v-model="privacy">
 	// 						<label for="public">Public <br />Anybody can view, logged in users can edit.</label>
 	// 						<div class="check"></div>
 	// 					</div>
 	// 				</div>
-	//         <div class="sg-settings-group">
-	//           <label class="sg-settings-input-label sg-font-dark">Styleguide URL:</label>
-	//           <span>{{ root }}</span><input class="sg-settings-input sg-settings-endpoint" type="text" v-model="settings.endpoint" />
+	//         <div class="sg-set__group">
+	//           <label class="sg-set__label">Styleguide URL:</label>
+	//           <span>{{ root }}</span><input class="sg-set__endpoint" type="text" v-model="settings.endpoint" />
 	//         </div>
 	//
-	//         <div class="sg-settings-group">
-	//           <button v-on:click="saveSettings" class="sg-button sg-button-settings-save">Save Settings</button>
+	//         <div class="sg-st__group">
+	//           <button v-on:click="saveSettings" class="sg-button sg-set__save">Save Settings</button>
 	//         </div>
 	//       </div>
 	//     </div>
@@ -12804,18 +12936,18 @@
 	// </script>
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings-close\"><icon name=\"cancel\"></icon></button>\n        <h1 class=\"sg-font-dark sg-settings-title\">Settings</h1>\n\t\t\t\t\n\t\t\t\t<div class=\"sg-settings-group\">\n\t\t\t\t\t<h3 class=\"sg-settings-input-label\">Privacy:</h3>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-settings-group\">\n          <label class=\"sg-settings-input-label sg-font-dark\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-settings-input sg-settings-endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-settings-group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-button-settings-save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-set__close\"><icon name=\"cancel\"></icon></button>\n        <h1 class=\"sg-font-dark sg-set__title\">{{ styleguide_options.str_settings }}</h1>\n\t\t\t\t\n\t\t\t\t<div class=\"sg-set__group\">\n\t\t\t\t\t<h3 class=\"sg-set__label\">Privacy:</h3>\n\t\t\t\t\t<div class=\"sg-set__radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"sg-set__radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-set__group\">\n          <label class=\"sg-set__label\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-set__endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-st__group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-set__save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(32)
-	__vue_script__ = __webpack_require__(33)
+	__webpack_require__(35)
+	__vue_script__ = __webpack_require__(36)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
@@ -12839,13 +12971,13 @@
 	})()}
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12854,208 +12986,112 @@
 	  value: true
 	});
 
-	var _Navlinks = __webpack_require__(34);
-
-	var _Navlinks2 = _interopRequireDefault(_Navlinks);
-
-	var _Icon = __webpack_require__(19);
+	var _Icon = __webpack_require__(22);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(23);
+	var _actions = __webpack_require__(26);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = {
-	  vuex: {
-	    getters: {
-	      sections: function sections(state) {
-	        return state.sections;
-	      },
-	      show: function show(state) {
-	        return state.show;
-	      },
-	      logged_in: function logged_in(state) {
-	        return state.logged_in;
-	      }
-	    },
-	    actions: {
-	      toggleSettings: _actions2.default.toggleSettings
-	    }
-	  },
-	  components: {
-	    Navlinks: _Navlinks2.default,
-	    Icon: _Icon2.default
-	  }
-	};
-	// </script>
 	// <style lang="scss">
 	// #styleguide {
-	//   .sg-nav-container {
+	//   .sg-nav__container {
 	//       position: fixed;
+	// 			width: 300px;
 	//   }
 	//
-	// 	.sg-nav-links {
+	// 	.sg-nav__links {
 	// 		list-style: none;
 	// 		margin: 0;
-	// 		padding: 1em;
+	// 		padding: 0;
 	// 		font-size: 13px;
 	// 		font-weight: normal;
-	// 	}
 	//
-	// 	.sg-nav-link {
-	// 		list-style: none;
-	// 		a {
-	// 			display: block;
-	// 			width: 100%;
-	// 			padding: 10px;
-	// 			box-sizing: border-box;
-	// 			border-radius: 5px;
+	// 		.sg-nav__link {
+	// 			font-weight: bold;
+	// 		}
+	//
+	// 		&.m-children {
+	// 			.sg-nav-link {
+	// 				font-weight: normal;
+	// 			}
+	// 			a {
+	// 				padding-left: 20px;
+	// 			}
 	// 		}
 	// 	}
 	//
-	// 	.sg-nav-sublinks {
-	// 		padding: 0;
-	// 		padding-left: 10px;
-	// 		font-size: 13px;
+	// 	.sg-nav__link {
+	// 		list-style: none;
+	// 		margin-bottom: 5px;
+	// 		a {
+	// 			display: block;
+	// 			width: 100%;
+	// 			padding: 4px 8px;
+	// 			border-left: 3px solid transparent;
+	// 			box-sizing: border-box;
+	// 			border-radius: 0;
+	// 			margin-bottom: 5px;
+	//
+	// 			&:hover, &.selected {
+	// 				border-color: #eee;
+	// 			}
+	// 		}
 	// 	}
 	//
-	// 	.sg-nav-link--link:hover, .sg-nav-link--link.selected {
-	// 		background: #eee;
+	// 	.sg-button__settings {
+	// 		margin-top: 20px;
 	// 	}
+	//
 	// }
 	// </style>
 	//
 	// <template>
 	//   <nav class="sg-nav sg-stack sg-col-3">
-	//     <ul class="sg-nav-links sg-nav-container">
-	//       <navlinks
-	//         v-for="section in sections"
-	//         :title="section.title"
-	//         :styles="section.styles"
-	//         :slug="section.slug"
-	//         :id="section.id"
-	//         :active="active"
-	//         ></navlinks>
+	//     <ul class="sg-nav__links sg-nav__container">
+	// 			<li v-for="section in sections" class="sg-nav__link">
+	// 					<a v-on:click="toggleActive(section)" v-bind:class="{ 'selected': section.selected }" href="#{{ section.slug }}">{{ section.title }}</a>
+	// 					<ul class="sg-nav__links m-children" v-show="section.selected">
+	// 						<li class="sg-nav__linkd" v-for="style in section.styles">
+	// 							<a href="#{{ style.slug }}">{{ style.title }}</a>
+	// 						</li>
+	// 					</ul>
+	// 			</li>
 	//         <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
 	//     </ul>
 	//   </nav>
 	// </template>
 	//
 	// <script>
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(35)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] components/Navlinks.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(36)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "./Navlinks.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _actions = __webpack_require__(23);
-
-	var _actions2 = _interopRequireDefault(_actions);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	exports.default = {
-	  props: {
-	    title: String,
-	    slug: String,
-	    styles: Array,
-	    id: Number
-	  },
-
-	  data: function data() {
-	    return {
-	      selected: false
-	    };
-	  },
-
 	  vuex: {
 	    getters: {
-	      active: function active(state) {
-	        return state.activeSection;
+	      sections: function sections(state) {
+	        return state.sections;
+	      },
+	      logged_in: function logged_in(state) {
+	        return state.logged_in;
 	      }
 	    },
 	    actions: {
+	      toggleSettings: _actions2.default.toggleSettings,
 	      toggleActive: _actions2.default.toggleActive
 	    }
 	  },
-
-	  watch: {
-	    'active': function active(val) {
-	      if (val.id === this.id) {
-	        this.selected = true;
-	      } else {
-	        this.selected = false;
-	      }
-	    }
-	  },
-
-	  methods: {
-	    switchSelected: function switchSelected() {
-	      this.toggleActive({ id: this.id });
-	    }
+	  components: {
+	    Icon: _Icon2.default
 	  }
 	};
 	// </script>
-	// <template>
-	//   <li class="sg-nav-link sg-nav-link__parent">
-	//       <a v-on:click="switchSelected" class="sg-nav-link--link" v-bind:class="{ 'selected': selected }" href="#{{ slug }}">{{ title }}</a>
-	//       <ul class="sg-nav-links sg-nav-sublinks" v-show="selected">
-	//         <li class="sg-nav-link sg-nav-link__child" v-for="style in styles">
-	//           <a class="sg-nav-link--link" href="#{{ style.slug }}">{{ style.title }}</a>
-	//         </li>
-	//       </ul>
-	//   </li>
-	// </template>
-	//
-	// <script>
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<li class=\"sg-nav-link sg-nav-link__parent\">\n    <a v-on:click=\"switchSelected\" class=\"sg-nav-link--link\" v-bind:class=\"{ 'selected': selected }\" href=\"#{{ slug }}\">{{ title }}</a>\n    <ul class=\"sg-nav-links sg-nav-sublinks\" v-show=\"selected\">\n      <li class=\"sg-nav-link sg-nav-link__child\" v-for=\"style in styles\">\n        <a class=\"sg-nav-link--link\" href=\"#{{ style.slug }}\">{{ style.title }}</a>\n      </li>\n    </ul>\n</li>\n";
 
 /***/ },
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<nav class=\"sg-nav sg-stack sg-col-3\">\n  <ul class=\"sg-nav-links sg-nav-container\">\n    <navlinks \n      v-for=\"section in sections\"\n      :title=\"section.title\"\n      :styles=\"section.styles\"\n      :slug=\"section.slug\"\n      :id=\"section.id\"\n      :active=\"active\"\n      ></navlinks>\n      <li v-if=\"logged_in\"><button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings\"><icon name=\"cog\"></icon> Settings</button></li>\n  </ul>\n</nav>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <nav class=\"sg-nav sg-stack sg-col-3\">\n    <ul class=\"sg-nav__links sg-nav__container\">\n\t\t\t<li v-for=\"section in sections\" class=\"sg-nav__link\">\n\t\t\t\t\t<a v-on:click=\"toggleActive(section)\" v-bind:class=\"{ 'selected': section.selected }\" href=\"#{{ section.slug }}\">{{ section.title }}</a>\n\t\t\t\t\t<ul class=\"sg-nav__links m-children\" v-show=\"section.selected\">\n\t\t\t\t\t\t<li class=\"sg-nav__linkd\" v-for=\"style in section.styles\">\n\t\t\t\t\t\t\t<a href=\"#{{ style.slug }}\">{{ style.title }}</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t</li>\n        <li v-if=\"logged_in\"><button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings\"><icon name=\"cog\"></icon> Settings</button></li>\n    </ul>\n  </nav>\n";
 
 /***/ },
 /* 38 */
@@ -13102,11 +13138,11 @@
 	  value: true
 	});
 
-	var _Icon = __webpack_require__(19);
+	var _Icon = __webpack_require__(22);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(23);
+	var _actions = __webpack_require__(26);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -13181,12 +13217,12 @@
 	//
 	//   <section v-if="step === 2">
 	//       <h3 class="sg-ob__subtitle m-main">Would you like your styleguide to be private or public?</h3>
-	//       <div class="sg-st__radio-group">
+	//       <div class="sg-set__radio-group">
 	//         <input type="radio" id="private" value="private" v-model="privacy">
 	//         <label for="private"><strong>Private</strong> <br />Only logged in users can view and edit.</label>
 	//         <div class="check"></div>
 	//       </div>
-	//       <div class="sg-st__radio-group">
+	//       <div class="sg-set__radio-group">
 	//         <input type="radio" id="public" value="public" v-model="privacy">
 	//         <label for="public"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>
 	//         <div class="check"></div>
@@ -13274,7 +13310,7 @@
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-onboarding sg-stack\">\n  <section v-if=\"step === 1\">\n    <h3 class=\"sg-ob__title\">Welcome to <span class=\"sg-ob__icon\"><icon name=\"styles\"></icon></span></h3>\n\t\t<h4 class=\"sg-ob__subtitle\">An easy way to build Front-end Styleguides</h4>\n    <p class=\"sg-ob__text\">Let's start by setting a few things up.</p>\n    <button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button\">Get Started</button>\n  </section>\n  \n  <section v-if=\"step === 2\">\n      <h3 class=\"sg-ob__subtitle m-main\">Would you like your styleguide to be private or public?</h3>\n      <div class=\"sg-st__radio-group\">\n        <input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n        <label for=\"private\"><strong>Private</strong> <br />Only logged in users can view and edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-st__radio-group\">\n        <input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n        <label for=\"public\"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-row\">\n      \t<button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button m-right\">Next</button>\n\t\t\t</div>\n  </section>\n  \n  <section v-if=\"step === 3\">\n    <h3 class=\"sg-ob__subtitle m-main\">The URL for your Styleguide:</h3>\n    <p class=\"sg-ob__text m-push\">\n\t\t\t<span>{{ root }}</span><input class=\"sg-set__endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n\t\t</p>\n\t\t<div class=\"sg-row\">\n\t\t\t<button v-on:click=\"decrementStep\" class=\"sg-button sg-ob__button m-left\">Previous</button>\n\t    <button v-on:click=\"saveSettings\" class=\"sg-button sg-ob__button m-right\">Save Settings and Finish</button>\n\t\t</div>\n  </section>\n</div>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-onboarding sg-stack\">\n  <section v-if=\"step === 1\">\n    <h3 class=\"sg-ob__title\">Welcome to <span class=\"sg-ob__icon\"><icon name=\"styles\"></icon></span></h3>\n\t\t<h4 class=\"sg-ob__subtitle\">An easy way to build Front-end Styleguides</h4>\n    <p class=\"sg-ob__text\">Let's start by setting a few things up.</p>\n    <button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button\">Get Started</button>\n  </section>\n  \n  <section v-if=\"step === 2\">\n      <h3 class=\"sg-ob__subtitle m-main\">Would you like your styleguide to be private or public?</h3>\n      <div class=\"sg-set__radio-group\">\n        <input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n        <label for=\"private\"><strong>Private</strong> <br />Only logged in users can view and edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-set__radio-group\">\n        <input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n        <label for=\"public\"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-row\">\n      \t<button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button m-right\">Next</button>\n\t\t\t</div>\n  </section>\n  \n  <section v-if=\"step === 3\">\n    <h3 class=\"sg-ob__subtitle m-main\">The URL for your Styleguide:</h3>\n    <p class=\"sg-ob__text m-push\">\n\t\t\t<span>{{ root }}</span><input class=\"sg-set__endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n\t\t</p>\n\t\t<div class=\"sg-row\">\n\t\t\t<button v-on:click=\"decrementStep\" class=\"sg-button sg-ob__button m-left\">Previous</button>\n\t    <button v-on:click=\"saveSettings\" class=\"sg-button sg-ob__button m-right\">Save Settings and Finish</button>\n\t\t</div>\n  </section>\n</div>\n";
 
 /***/ },
 /* 42 */
@@ -13283,7 +13319,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _assign = __webpack_require__(43);
@@ -13303,79 +13339,89 @@
 	_Vue2.default.use(_vuex2.default);
 
 	var state = {
-	  logged_in: styleguide_options.logged_in,
-	  root: styleguide_options.home_url,
-	  sections: [],
-	  // TODO: Change this to ID instead of full object
-	  activeSection: {},
-	  retainedIndex: '',
-	  sectionPositions: [],
-	  settings: {},
-	  loaded: false
+		logged_in: styleguide_options.logged_in,
+		root: styleguide_options.home_url,
+		sections: [],
+		// TODO: Change this to ID instead of full object
+		activeSection: '',
+		retainedIndex: '',
+		sectionPositions: [],
+		settings: {},
+		loaded: false
 	};
 
 	var mutations = {
-	  RECIEVE_SECTIONS: function RECIEVE_SECTIONS(state, sections) {
-	    state.sections = sections;
-	    state.loaded = true;
-	  },
-	  ADD_SECTION: function ADD_SECTION(state, section) {
-	    state.sections.push(section);
-	  },
-	  UPDATE_SECTION: function UPDATE_SECTION(state, title, section) {
-	    section.title = title;
-	  },
-	  EDIT_SECTION: function EDIT_SECTION(state, title, section) {},
-	  RECIEVE_ID: function RECIEVE_ID(state, section, data) {
-	    section.id = data.id;
-	  },
-	  TOGGLE_ACTIVE: function TOGGLE_ACTIVE(state, section) {
-	    state.activeSection = section;
-	  },
-	  DELETE_SECTION: function DELETE_SECTION(state, section) {
-	    state.sections.$remove(section);
-	  },
-	  RECIEVE_STYLE_ID: function RECIEVE_STYLE_ID(state, style, id) {
-	    style.id = id;
-	  },
-	  ADD_STYLE: function ADD_STYLE(state, style, section) {
-	    section.styles.push(style);
-	  },
-	  EDIT_STYLE: function EDIT_STYLE(state, data, style) {
-	    if (data.title) {
-	      style.title = data.title;
-	    }
+		RECIEVE_SECTIONS: function RECIEVE_SECTIONS(state, sections) {
+			for (var i = 0, len = sections.length; i < len; i++) {
+				sections[i].selected = false;
+			}
+			state.sections = sections;
+			state.loaded = true;
+		},
+		ADD_SECTION: function ADD_SECTION(state, section) {
+			state.sections.push(section);
+		},
+		UPDATE_SECTION: function UPDATE_SECTION(state, title, section) {
+			section.title = title;
+		},
+		EDIT_SECTION: function EDIT_SECTION(state, title, section) {},
+		RECIEVE_ID: function RECIEVE_ID(state, section, data) {
+			section.id = data.id;
+		},
+		TOGGLE_ACTIVE: function TOGGLE_ACTIVE(state, section) {
 
-	    if (data.html) {
-	      style.html = data.html;
-	    }
-	  },
-	  DELETE_STYLE: function DELETE_STYLE(state, index, section) {
-	    setTimeout(function () {
-	      section.styles.splice(index, 1);
-	    }, 10);
-	  },
-	  ADD_POSITION: function ADD_POSITION(state, pos) {
-	    state.sectionPositions.push(pos);
-	  },
-	  RECIEVE_SETTINGS: function RECIEVE_SETTINGS(state, settings) {
-	    settings.show = false;
-	    state.settings = settings;
-	  },
-	  TOGGLE_PRIVACY: function TOGGLE_PRIVACY(state, section) {
-	    state.settings.private = !state.settings.private;
-	  },
-	  TOGGLE_SETTINGS: function TOGGLE_SETTINGS(state) {
-	    state.settings.show = !state.settings.show;
-	  },
-	  UPDATE_SETTINGS: function UPDATE_SETTINGS(state, newSettings) {
-	    state.settings = (0, _assign2.default)({}, state.settings, newSettings);
-	  }
+			for (var i = 0, len = state.sections.length; i < len; i++) {
+				if (state.sections[i].id !== section.id) {
+					state.sections[i].selected = false;
+				}
+			}
+			state.activeSection = section.id;
+			section.selected = true;
+		},
+		DELETE_SECTION: function DELETE_SECTION(state, section) {
+			state.sections.$remove(section);
+		},
+		RECIEVE_STYLE_ID: function RECIEVE_STYLE_ID(state, style, id) {
+			style.id = id;
+		},
+		ADD_STYLE: function ADD_STYLE(state, style, section) {
+			section.styles.push(style);
+		},
+		EDIT_STYLE: function EDIT_STYLE(state, data, style) {
+			if (data.title) {
+				style.title = data.title;
+			}
+
+			if (data.html) {
+				style.html = data.html;
+			}
+		},
+		DELETE_STYLE: function DELETE_STYLE(state, index, section) {
+			setTimeout(function () {
+				section.styles.splice(index, 1);
+			}, 10);
+		},
+		ADD_POSITION: function ADD_POSITION(state, pos) {
+			state.sectionPositions.push(pos);
+		},
+		RECIEVE_SETTINGS: function RECIEVE_SETTINGS(state, settings) {
+			settings.show = false;
+			state.settings = settings;
+		},
+		TOGGLE_PRIVACY: function TOGGLE_PRIVACY(state, section) {
+			state.settings.private = !state.settings.private;
+		},
+		TOGGLE_SETTINGS: function TOGGLE_SETTINGS(state) {
+			state.settings.show = !state.settings.show;
+		},
+		UPDATE_SETTINGS: function UPDATE_SETTINGS(state, newSettings) {
+			state.settings = (0, _assign2.default)({}, state.settings, newSettings);
+		}
 	};
 
 	exports.default = new _vuex2.default.Store({
-	  state: state,
-	  mutations: mutations
+		state: state,
+		mutations: mutations
 	});
 
 /***/ },
@@ -13888,7 +13934,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
-	 * Vuex v0.8.0
+	 * Vuex v0.8.2
 	 * (c) 2016 Evan You
 	 * Released under the MIT License.
 	 */
@@ -14034,9 +14080,8 @@
 	    var version = Number(Vue.version.split('.')[0]);
 
 	    if (version >= 2) {
-	      Vue.mixin({
-	        init: vuexInit
-	      });
+	      var usesInit = Vue.config._lifecycleHooks.indexOf('init') > -1;
+	      Vue.mixin(usesInit ? { init: vuexInit } : { beforeCreate: vuexInit });
 	    } else {
 	      (function () {
 	        // override init and inject vuex init procedure
@@ -14535,1665 +14580,1627 @@
 
 /***/ },
 /* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Install plugin.
+	 */
+
+	function install(Vue) {
+
+	    var _ = __webpack_require__(83);
+
+	    _.config = Vue.config;
+	    _.warning = Vue.util.warn;
+	    _.nextTick = Vue.util.nextTick;
+
+	    Vue.url = __webpack_require__(84);
+	    Vue.http = __webpack_require__(90);
+	    Vue.resource = __webpack_require__(105);
+	    Vue.Promise = __webpack_require__(92);
+
+	    Object.defineProperties(Vue.prototype, {
+
+	        $url: {
+	            get: function () {
+	                return _.options(Vue.url, this, this.$options.url);
+	            }
+	        },
+
+	        $http: {
+	            get: function () {
+	                return _.options(Vue.http, this, this.$options.http);
+	            }
+	        },
+
+	        $resource: {
+	            get: function () {
+	                return Vue.resource.bind(this);
+	            }
+	        },
+
+	        $promise: {
+	            get: function () {
+	                return function (executor) {
+	                    return new Vue.Promise(executor, this);
+	                }.bind(this);
+	            }
+	        }
+
+	    });
+	}
+
+	if (window.Vue) {
+	    Vue.use(install);
+	}
+
+	module.exports = install;
+
+
+/***/ },
+/* 83 */
 /***/ function(module, exports) {
 
 	/**
-	 * vue-resource v0.7.2
-	 * https://github.com/vuejs/vue-resource
-	 * Released under the MIT License.
+	 * Utility functions.
 	 */
 
-	module.exports =
-	/******/ (function(modules) { // webpackBootstrap
-	/******/ 	// The module cache
-	/******/ 	var installedModules = {};
-
-	/******/ 	// The require function
-	/******/ 	function __webpack_require__(moduleId) {
+	var _ = exports, array = [], console = window.console;
 
-	/******/ 		// Check if module is in cache
-	/******/ 		if(installedModules[moduleId])
-	/******/ 			return installedModules[moduleId].exports;
+	_.warn = function (msg) {
+	    if (console && _.warning && (!_.config.silent || _.config.debug)) {
+	        console.warn('[VueResource warn]: ' + msg);
+	    }
+	};
 
-	/******/ 		// Create a new module (and put it into the cache)
-	/******/ 		var module = installedModules[moduleId] = {
-	/******/ 			exports: {},
-	/******/ 			id: moduleId,
-	/******/ 			loaded: false
-	/******/ 		};
+	_.error = function (msg) {
+	    if (console) {
+	        console.error(msg);
+	    }
+	};
 
-	/******/ 		// Execute the module function
-	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+	_.trim = function (str) {
+	    return str.replace(/^\s*|\s*$/g, '');
+	};
+
+	_.toLower = function (str) {
+	    return str ? str.toLowerCase() : '';
+	};
 
-	/******/ 		// Flag the module as loaded
-	/******/ 		module.loaded = true;
+	_.isArray = Array.isArray;
 
-	/******/ 		// Return the exports of the module
-	/******/ 		return module.exports;
-	/******/ 	}
+	_.isString = function (val) {
+	    return typeof val === 'string';
+	};
 
-
-	/******/ 	// expose the modules object (__webpack_modules__)
-	/******/ 	__webpack_require__.m = modules;
-
-	/******/ 	// expose the module cache
-	/******/ 	__webpack_require__.c = installedModules;
-
-	/******/ 	// __webpack_public_path__
-	/******/ 	__webpack_require__.p = "";
-
-	/******/ 	// Load entry module and return exports
-	/******/ 	return __webpack_require__(0);
-	/******/ })
-	/************************************************************************/
-	/******/ ([
-	/* 0 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		/**
-		 * Install plugin.
-		 */
-
-		function plugin(Vue) {
+	_.isFunction = function (val) {
+	    return typeof val === 'function';
+	};
 
-		    if (plugin.installed) {
-		        return;
-		    }
+	_.isObject = function (obj) {
+	    return obj !== null && typeof obj === 'object';
+	};
 
-		    var _ = __webpack_require__(1);
-
-		    _.config = Vue.config;
-		    _.warning = Vue.util.warn;
-		    _.nextTick = Vue.util.nextTick;
+	_.isPlainObject = function (obj) {
+	    return _.isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
+	};
 
-		    Vue.url = __webpack_require__(2);
-		    Vue.http = __webpack_require__(8);
-		    Vue.resource = __webpack_require__(23);
-		    Vue.Promise = __webpack_require__(10);
+	_.options = function (fn, obj, options) {
 
-		    Object.defineProperties(Vue.prototype, {
+	    options = options || {};
 
-		        $url: {
-		            get: function get() {
-		                return _.options(Vue.url, this, this.$options.url);
-		            }
-		        },
+	    if (_.isFunction(options)) {
+	        options = options.call(obj);
+	    }
 
-		        $http: {
-		            get: function get() {
-		                return _.options(Vue.http, this, this.$options.http);
-		            }
-		        },
+	    return _.merge(fn.bind({$vm: obj, $options: options}), fn, {$options: options});
+	};
 
-		        $resource: {
-		            get: function get() {
-		                return Vue.resource.bind(this);
-		            }
-		        },
+	_.each = function (obj, iterator) {
 
-		        $promise: {
-		            get: function get() {
-		                var _this = this;
+	    var i, key;
 
-		                return function (executor) {
-		                    return new Vue.Promise(executor, _this);
-		                };
-		            }
-		        }
+	    if (typeof obj.length == 'number') {
+	        for (i = 0; i < obj.length; i++) {
+	            iterator.call(obj[i], obj[i], i);
+	        }
+	    } else if (_.isObject(obj)) {
+	        for (key in obj) {
+	            if (obj.hasOwnProperty(key)) {
+	                iterator.call(obj[key], obj[key], key);
+	            }
+	        }
+	    }
 
-		    });
-		}
+	    return obj;
+	};
 
-		if (typeof window !== 'undefined' && window.Vue) {
-		    window.Vue.use(plugin);
-		}
+	_.defaults = function (target, source) {
 
-		module.exports = plugin;
+	    for (var key in source) {
+	        if (target[key] === undefined) {
+	            target[key] = source[key];
+	        }
+	    }
 
-	/***/ },
-	/* 1 */
-	/***/ function(module, exports) {
+	    return target;
+	};
 
-		var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	_.extend = function (target) {
 
-		/**
-		 * Utility functions.
-		 */
+	    var args = array.slice.call(arguments, 1);
 
-		var _ = exports,
-		    array = [],
-		    console = window.console;
+	    args.forEach(function (arg) {
+	        merge(target, arg);
+	    });
 
-		_.warn = function (msg) {
-		    if (console && _.warning && (!_.config.silent || _.config.debug)) {
-		        console.warn('[VueResource warn]: ' + msg);
-		    }
-		};
+	    return target;
+	};
 
-		_.error = function (msg) {
-		    if (console) {
-		        console.error(msg);
-		    }
-		};
+	_.merge = function (target) {
 
-		_.trim = function (str) {
-		    return str.replace(/^\s*|\s*$/g, '');
-		};
+	    var args = array.slice.call(arguments, 1);
 
-		_.toLower = function (str) {
-		    return str ? str.toLowerCase() : '';
-		};
+	    args.forEach(function (arg) {
+	        merge(target, arg, true);
+	    });
 
-		_.isArray = Array.isArray;
+	    return target;
+	};
+
+	function merge(target, source, deep) {
+	    for (var key in source) {
+	        if (deep && (_.isPlainObject(source[key]) || _.isArray(source[key]))) {
+	            if (_.isPlainObject(source[key]) && !_.isPlainObject(target[key])) {
+	                target[key] = {};
+	            }
+	            if (_.isArray(source[key]) && !_.isArray(target[key])) {
+	                target[key] = [];
+	            }
+	            merge(target[key], source[key], deep);
+	        } else if (source[key] !== undefined) {
+	            target[key] = source[key];
+	        }
+	    }
+	}
+
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Service for URL templating.
+	 */
+
+	var _ = __webpack_require__(83);
+	var ie = document.documentMode;
+	var el = document.createElement('a');
+
+	function Url(url, params) {
+
+	    var options = url, transform;
+
+	    if (_.isString(url)) {
+	        options = {url: url, params: params};
+	    }
 
-		_.isString = function (val) {
-		    return typeof val === 'string';
-		};
+	    options = _.merge({}, Url.options, this.$options, options);
+
+	    Url.transforms.forEach(function (handler) {
+	        transform = factory(handler, transform, this.$vm);
+	    }, this);
+
+	    return transform(options);
+	};
+
+	/**
+	 * Url options.
+	 */
+
+	Url.options = {
+	    url: '',
+	    root: null,
+	    params: {}
+	};
+
+	/**
+	 * Url transforms.
+	 */
+
+	Url.transforms = [
+	    __webpack_require__(85),
+	    __webpack_require__(87),
+	    __webpack_require__(88),
+	    __webpack_require__(89)
+	];
 
-		_.isFunction = function (val) {
-		    return typeof val === 'function';
-		};
+	/**
+	 * Encodes a Url parameter string.
+	 *
+	 * @param {Object} obj
+	 */
 
-		_.isObject = function (obj) {
-		    return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
-		};
+	Url.params = function (obj) {
 
-		_.isPlainObject = function (obj) {
-		    return _.isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
-		};
+	    var params = [], escape = encodeURIComponent;
 
-		_.options = function (fn, obj, options) {
+	    params.add = function (key, value) {
 
-		    options = options || {};
+	        if (_.isFunction(value)) {
+	            value = value();
+	        }
 
-		    if (_.isFunction(options)) {
-		        options = options.call(obj);
-		    }
+	        if (value === null) {
+	            value = '';
+	        }
 
-		    return _.merge(fn.bind({ $vm: obj, $options: options }), fn, { $options: options });
-		};
+	        this.push(escape(key) + '=' + escape(value));
+	    };
 
-		_.each = function (obj, iterator) {
+	    serialize(params, obj);
 
-		    var i, key;
+	    return params.join('&').replace(/%20/g, '+');
+	};
 
-		    if (typeof obj.length == 'number') {
-		        for (i = 0; i < obj.length; i++) {
-		            iterator.call(obj[i], obj[i], i);
-		        }
-		    } else if (_.isObject(obj)) {
-		        for (key in obj) {
-		            if (obj.hasOwnProperty(key)) {
-		                iterator.call(obj[key], obj[key], key);
-		            }
-		        }
-		    }
+	/**
+	 * Parse a URL and return its components.
+	 *
+	 * @param {String} url
+	 */
 
-		    return obj;
-		};
+	Url.parse = function (url) {
 
-		_.defaults = function (target, source) {
+	    if (ie) {
+	        el.href = url;
+	        url = el.href;
+	    }
 
-		    for (var key in source) {
-		        if (target[key] === undefined) {
-		            target[key] = source[key];
-		        }
-		    }
+	    el.href = url;
 
-		    return target;
-		};
+	    return {
+	        href: el.href,
+	        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
+	        port: el.port,
+	        host: el.host,
+	        hostname: el.hostname,
+	        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
+	        search: el.search ? el.search.replace(/^\?/, '') : '',
+	        hash: el.hash ? el.hash.replace(/^#/, '') : ''
+	    };
+	};
 
-		_.extend = function (target) {
+	function factory(handler, next, vm) {
+	    return function (options) {
+	        return handler.call(vm, options, next);
+	    };
+	}
 
-		    var args = array.slice.call(arguments, 1);
+	function serialize(params, obj, scope) {
 
-		    args.forEach(function (arg) {
-		        merge(target, arg);
-		    });
+	    var array = _.isArray(obj), plain = _.isPlainObject(obj), hash;
 
-		    return target;
-		};
+	    _.each(obj, function (value, key) {
 
-		_.merge = function (target) {
+	        hash = _.isObject(value) || _.isArray(value);
 
-		    var args = array.slice.call(arguments, 1);
+	        if (scope) {
+	            key = scope + '[' + (plain || hash ? key : '') + ']';
+	        }
 
-		    args.forEach(function (arg) {
-		        merge(target, arg, true);
-		    });
+	        if (!scope && array) {
+	            params.add(value.name, value.value);
+	        } else if (hash) {
+	            serialize(params, value, key);
+	        } else {
+	            params.add(key, value);
+	        }
+	    });
+	}
 
-		    return target;
-		};
+	module.exports = _.url = Url;
 
-		function merge(target, source, deep) {
-		    for (var key in source) {
-		        if (deep && (_.isPlainObject(source[key]) || _.isArray(source[key]))) {
-		            if (_.isPlainObject(source[key]) && !_.isPlainObject(target[key])) {
-		                target[key] = {};
-		            }
-		            if (_.isArray(source[key]) && !_.isArray(target[key])) {
-		                target[key] = [];
-		            }
-		            merge(target[key], source[key], deep);
-		        } else if (source[key] !== undefined) {
-		            target[key] = source[key];
-		        }
-		    }
-		}
 
-	/***/ },
-	/* 2 */
-	/***/ function(module, exports, __webpack_require__) {
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
 
-		/**
-		 * Service for URL templating.
-		 */
+	/**
+	 * URL Template (RFC 6570) Transform.
+	 */
 
-		var _ = __webpack_require__(1);
-		var ie = document.documentMode;
-		var el = document.createElement('a');
+	var UrlTemplate = __webpack_require__(86);
 
-		function Url(url, params) {
+	module.exports = function (options) {
 
-		    var options = url,
-		        transform;
+	    var variables = [], url = UrlTemplate.expand(options.url, options.params, variables);
 
-		    if (_.isString(url)) {
-		        options = { url: url, params: params };
-		    }
+	    variables.forEach(function (key) {
+	        delete options.params[key];
+	    });
 
-		    options = _.merge({}, Url.options, this.$options, options);
+	    return url;
+	};
 
-		    Url.transforms.forEach(function (handler) {
-		        transform = factory(handler, transform, this.$vm);
-		    }, this);
+
+/***/ },
+/* 86 */
+/***/ function(module, exports) {
+
+	/**
+	 * URL Template v2.0.6 (https://github.com/bramstein/url-template)
+	 */
+
+	exports.expand = function (url, params, variables) {
+
+	    var tmpl = this.parse(url), expanded = tmpl.expand(params);
+
+	    if (variables) {
+	        variables.push.apply(variables, tmpl.vars);
+	    }
+
+	    return expanded;
+	};
+
+	exports.parse = function (template) {
+
+	    var operators = ['+', '#', '.', '/', ';', '?', '&'], variables = [];
+
+	    return {
+	        vars: variables,
+	        expand: function (context) {
+	            return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
+	                if (expression) {
+
+	                    var operator = null, values = [];
+
+	                    if (operators.indexOf(expression.charAt(0)) !== -1) {
+	                        operator = expression.charAt(0);
+	                        expression = expression.substr(1);
+	                    }
+
+	                    expression.split(/,/g).forEach(function (variable) {
+	                        var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
+	                        values.push.apply(values, exports.getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+	                        variables.push(tmp[1]);
+	                    });
+
+	                    if (operator && operator !== '+') {
+
+	                        var separator = ',';
+
+	                        if (operator === '?') {
+	                            separator = '&';
+	                        } else if (operator !== '#') {
+	                            separator = operator;
+	                        }
+
+	                        return (values.length !== 0 ? operator : '') + values.join(separator);
+	                    } else {
+	                        return values.join(',');
+	                    }
+
+	                } else {
+	                    return exports.encodeReserved(literal);
+	                }
+	            });
+	        }
+	    };
+	};
+
+	exports.getValues = function (context, operator, key, modifier) {
+
+	    var value = context[key], result = [];
+
+	    if (this.isDefined(value) && value !== '') {
+	        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+	            value = value.toString();
+
+	            if (modifier && modifier !== '*') {
+	                value = value.substring(0, parseInt(modifier, 10));
+	            }
+
+	            result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
+	        } else {
+	            if (modifier === '*') {
+	                if (Array.isArray(value)) {
+	                    value.filter(this.isDefined).forEach(function (value) {
+	                        result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
+	                    }, this);
+	                } else {
+	                    Object.keys(value).forEach(function (k) {
+	                        if (this.isDefined(value[k])) {
+	                            result.push(this.encodeValue(operator, value[k], k));
+	                        }
+	                    }, this);
+	                }
+	            } else {
+	                var tmp = [];
+
+	                if (Array.isArray(value)) {
+	                    value.filter(this.isDefined).forEach(function (value) {
+	                        tmp.push(this.encodeValue(operator, value));
+	                    }, this);
+	                } else {
+	                    Object.keys(value).forEach(function (k) {
+	                        if (this.isDefined(value[k])) {
+	                            tmp.push(encodeURIComponent(k));
+	                            tmp.push(this.encodeValue(operator, value[k].toString()));
+	                        }
+	                    }, this);
+	                }
+
+	                if (this.isKeyOperator(operator)) {
+	                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
+	                } else if (tmp.length !== 0) {
+	                    result.push(tmp.join(','));
+	                }
+	            }
+	        }
+	    } else {
+	        if (operator === ';') {
+	            result.push(encodeURIComponent(key));
+	        } else if (value === '' && (operator === '&' || operator === '?')) {
+	            result.push(encodeURIComponent(key) + '=');
+	        } else if (value === '') {
+	            result.push('');
+	        }
+	    }
+
+	    return result;
+	};
+
+	exports.isDefined = function (value) {
+	    return value !== undefined && value !== null;
+	};
 
-		    return transform(options);
-		};
+	exports.isKeyOperator = function (operator) {
+	    return operator === ';' || operator === '&' || operator === '?';
+	};
 
-		/**
-		 * Url options.
-		 */
+	exports.encodeValue = function (operator, value, key) {
+
+	    value = (operator === '+' || operator === '#') ? this.encodeReserved(value) : encodeURIComponent(value);
 
-		Url.options = {
-		    url: '',
-		    root: null,
-		    params: {}
-		};
+	    if (key) {
+	        return encodeURIComponent(key) + '=' + value;
+	    } else {
+	        return value;
+	    }
+	};
 
-		/**
-		 * Url transforms.
-		 */
+	exports.encodeReserved = function (str) {
+	    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
+	        if (!/%[0-9A-Fa-f]/.test(part)) {
+	            part = encodeURI(part);
+	        }
+	        return part;
+	    }).join('');
+	};
 
-		Url.transforms = [__webpack_require__(3), __webpack_require__(5), __webpack_require__(6), __webpack_require__(7)];
 
-		/**
-		 * Encodes a Url parameter string.
-		 *
-		 * @param {Object} obj
-		 */
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
 
-		Url.params = function (obj) {
+	/**
+	 * Legacy Transform.
+	 */
 
-		    var params = [],
-		        escape = encodeURIComponent;
+	var _ = __webpack_require__(83);
 
-		    params.add = function (key, value) {
+	module.exports = function (options, next) {
 
-		        if (_.isFunction(value)) {
-		            value = value();
-		        }
+	    var variables = [], url = next(options);
 
-		        if (value === null) {
-		            value = '';
-		        }
+	    url = url.replace(/(\/?):([a-z]\w*)/gi, function (match, slash, name) {
 
-		        this.push(escape(key) + '=' + escape(value));
-		    };
+	        _.warn('The `:' + name + '` parameter syntax has been deprecated. Use the `{' + name + '}` syntax instead.');
 
-		    serialize(params, obj);
+	        if (options.params[name]) {
+	            variables.push(name);
+	            return slash + encodeUriSegment(options.params[name]);
+	        }
 
-		    return params.join('&').replace(/%20/g, '+');
-		};
+	        return '';
+	    });
 
-		/**
-		 * Parse a URL and return its components.
-		 *
-		 * @param {String} url
-		 */
+	    variables.forEach(function (key) {
+	        delete options.params[key];
+	    });
 
-		Url.parse = function (url) {
+	    return url;
+	};
 
-		    if (ie) {
-		        el.href = url;
-		        url = el.href;
-		    }
+	function encodeUriSegment(value) {
 
-		    el.href = url;
+	    return encodeUriQuery(value, true).
+	        replace(/%26/gi, '&').
+	        replace(/%3D/gi, '=').
+	        replace(/%2B/gi, '+');
+	}
 
-		    return {
-		        href: el.href,
-		        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
-		        port: el.port,
-		        host: el.host,
-		        hostname: el.hostname,
-		        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
-		        search: el.search ? el.search.replace(/^\?/, '') : '',
-		        hash: el.hash ? el.hash.replace(/^#/, '') : ''
-		    };
-		};
+	function encodeUriQuery(value, spaces) {
 
-		function factory(handler, next, vm) {
-		    return function (options) {
-		        return handler.call(vm, options, next);
-		    };
-		}
+	    return encodeURIComponent(value).
+	        replace(/%40/gi, '@').
+	        replace(/%3A/gi, ':').
+	        replace(/%24/g, '$').
+	        replace(/%2C/gi, ',').
+	        replace(/%20/g, (spaces ? '%20' : '+'));
+	}
 
-		function serialize(params, obj, scope) {
 
-		    var array = _.isArray(obj),
-		        plain = _.isPlainObject(obj),
-		        hash;
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
 
-		    _.each(obj, function (value, key) {
+	/**
+	 * Query Parameter Transform.
+	 */
 
-		        hash = _.isObject(value) || _.isArray(value);
+	var _ = __webpack_require__(83);
 
-		        if (scope) {
-		            key = scope + '[' + (plain || hash ? key : '') + ']';
-		        }
+	module.exports = function (options, next) {
 
-		        if (!scope && array) {
-		            params.add(value.name, value.value);
-		        } else if (hash) {
-		            serialize(params, value, key);
-		        } else {
-		            params.add(key, value);
-		        }
-		    });
-		}
+	    var urlParams = Object.keys(_.url.options.params), query = {}, url = next(options);
 
-		module.exports = _.url = Url;
+	   _.each(options.params, function (value, key) {
+	        if (urlParams.indexOf(key) === -1) {
+	            query[key] = value;
+	        }
+	    });
 
-	/***/ },
-	/* 3 */
-	/***/ function(module, exports, __webpack_require__) {
+	    query = _.url.params(query);
 
-		/**
-		 * URL Template (RFC 6570) Transform.
-		 */
+	    if (query) {
+	        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
+	    }
 
-		var UrlTemplate = __webpack_require__(4);
+	    return url;
+	};
 
-		module.exports = function (options) {
 
-		    var variables = [],
-		        url = UrlTemplate.expand(options.url, options.params, variables);
+/***/ },
+/* 89 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Root Prefix Transform.
+	 */
 
-		    variables.forEach(function (key) {
-		        delete options.params[key];
-		    });
+	var _ = __webpack_require__(83);
 
-		    return url;
-		};
+	module.exports = function (options, next) {
 
-	/***/ },
-	/* 4 */
-	/***/ function(module, exports) {
-
-		/**
-		 * URL Template v2.0.6 (https://github.com/bramstein/url-template)
-		 */
-
-		exports.expand = function (url, params, variables) {
-
-		    var tmpl = this.parse(url),
-		        expanded = tmpl.expand(params);
-
-		    if (variables) {
-		        variables.push.apply(variables, tmpl.vars);
-		    }
-
-		    return expanded;
-		};
-
-		exports.parse = function (template) {
-
-		    var operators = ['+', '#', '.', '/', ';', '?', '&'],
-		        variables = [];
-
-		    return {
-		        vars: variables,
-		        expand: function expand(context) {
-		            return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
-		                if (expression) {
-
-		                    var operator = null,
-		                        values = [];
-
-		                    if (operators.indexOf(expression.charAt(0)) !== -1) {
-		                        operator = expression.charAt(0);
-		                        expression = expression.substr(1);
-		                    }
-
-		                    expression.split(/,/g).forEach(function (variable) {
-		                        var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
-		                        values.push.apply(values, exports.getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
-		                        variables.push(tmp[1]);
-		                    });
-
-		                    if (operator && operator !== '+') {
-
-		                        var separator = ',';
-
-		                        if (operator === '?') {
-		                            separator = '&';
-		                        } else if (operator !== '#') {
-		                            separator = operator;
-		                        }
-
-		                        return (values.length !== 0 ? operator : '') + values.join(separator);
-		                    } else {
-		                        return values.join(',');
-		                    }
-		                } else {
-		                    return exports.encodeReserved(literal);
-		                }
-		            });
-		        }
-		    };
-		};
-
-		exports.getValues = function (context, operator, key, modifier) {
-
-		    var value = context[key],
-		        result = [];
-
-		    if (this.isDefined(value) && value !== '') {
-		        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-		            value = value.toString();
-
-		            if (modifier && modifier !== '*') {
-		                value = value.substring(0, parseInt(modifier, 10));
-		            }
-
-		            result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
-		        } else {
-		            if (modifier === '*') {
-		                if (Array.isArray(value)) {
-		                    value.filter(this.isDefined).forEach(function (value) {
-		                        result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
-		                    }, this);
-		                } else {
-		                    Object.keys(value).forEach(function (k) {
-		                        if (this.isDefined(value[k])) {
-		                            result.push(this.encodeValue(operator, value[k], k));
-		                        }
-		                    }, this);
-		                }
-		            } else {
-		                var tmp = [];
-
-		                if (Array.isArray(value)) {
-		                    value.filter(this.isDefined).forEach(function (value) {
-		                        tmp.push(this.encodeValue(operator, value));
-		                    }, this);
-		                } else {
-		                    Object.keys(value).forEach(function (k) {
-		                        if (this.isDefined(value[k])) {
-		                            tmp.push(encodeURIComponent(k));
-		                            tmp.push(this.encodeValue(operator, value[k].toString()));
-		                        }
-		                    }, this);
-		                }
-
-		                if (this.isKeyOperator(operator)) {
-		                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
-		                } else if (tmp.length !== 0) {
-		                    result.push(tmp.join(','));
-		                }
-		            }
-		        }
-		    } else {
-		        if (operator === ';') {
-		            result.push(encodeURIComponent(key));
-		        } else if (value === '' && (operator === '&' || operator === '?')) {
-		            result.push(encodeURIComponent(key) + '=');
-		        } else if (value === '') {
-		            result.push('');
-		        }
-		    }
+	    var url = next(options);
+
+	    if (_.isString(options.root) && !url.match(/^(https?:)?\//)) {
+	        url = options.root + '/' + url;
+	    }
+
+	    return url;
+	};
 
-		    return result;
-		};
-
-		exports.isDefined = function (value) {
-		    return value !== undefined && value !== null;
-		};
+
+/***/ },
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
 
-		exports.isKeyOperator = function (operator) {
-		    return operator === ';' || operator === '&' || operator === '?';
-		};
+	/**
+	 * Service for sending network requests.
+	 */
 
-		exports.encodeValue = function (operator, value, key) {
-
-		    value = operator === '+' || operator === '#' ? this.encodeReserved(value) : encodeURIComponent(value);
+	var _ = __webpack_require__(83);
+	var Client = __webpack_require__(91);
+	var Promise = __webpack_require__(92);
+	var interceptor = __webpack_require__(95);
+	var jsonType = {'Content-Type': 'application/json'};
 
-		    if (key) {
-		        return encodeURIComponent(key) + '=' + value;
-		    } else {
-		        return value;
-		    }
-		};
+	function Http(url, options) {
 
-		exports.encodeReserved = function (str) {
-		    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
-		        if (!/%[0-9A-Fa-f]/.test(part)) {
-		            part = encodeURI(part);
-		        }
-		        return part;
-		    }).join('');
-		};
+	    var client = Client, request, promise;
 
-	/***/ },
-	/* 5 */
-	/***/ function(module, exports, __webpack_require__) {
+	    Http.interceptors.forEach(function (handler) {
+	        client = interceptor(handler, this.$vm)(client);
+	    }, this);
 
-		/**
-		 * Legacy Transform.
-		 */
+	    options = _.isObject(url) ? url : _.extend({url: url}, options);
+	    request = _.merge({}, Http.options, this.$options, options);
+	    promise = client(request).bind(this.$vm).then(function (response) {
 
-		var _ = __webpack_require__(1);
+	        return response.ok ? response : Promise.reject(response);
 
-		module.exports = function (options, next) {
+	    }, function (response) {
 
-		    var variables = [],
-		        url = next(options);
+	        if (response instanceof Error) {
+	            _.error(response);
+	        }
 
-		    url = url.replace(/(\/?):([a-z]\w*)/gi, function (match, slash, name) {
+	        return Promise.reject(response);
+	    });
 
-		        _.warn('The `:' + name + '` parameter syntax has been deprecated. Use the `{' + name + '}` syntax instead.');
+	    if (request.success) {
+	        promise.success(request.success);
+	    }
 
-		        if (options.params[name]) {
-		            variables.push(name);
-		            return slash + encodeUriSegment(options.params[name]);
-		        }
+	    if (request.error) {
+	        promise.error(request.error);
+	    }
 
-		        return '';
-		    });
+	    return promise;
+	}
 
-		    variables.forEach(function (key) {
-		        delete options.params[key];
-		    });
+	Http.options = {
+	    method: 'get',
+	    data: '',
+	    params: {},
+	    headers: {},
+	    xhr: null,
+	    upload: null,
+	    jsonp: 'callback',
+	    beforeSend: null,
+	    crossOrigin: null,
+	    emulateHTTP: false,
+	    emulateJSON: false,
+	    timeout: 0
+	};
 
-		    return url;
-		};
+	Http.interceptors = [
+	    __webpack_require__(96),
+	    __webpack_require__(97),
+	    __webpack_require__(98),
+	    __webpack_require__(100),
+	    __webpack_require__(101),
+	    __webpack_require__(102),
+	    __webpack_require__(103)
+	];
 
-		function encodeUriSegment(value) {
+	Http.headers = {
+	    put: jsonType,
+	    post: jsonType,
+	    patch: jsonType,
+	    delete: jsonType,
+	    common: {'Accept': 'application/json, text/plain, */*'},
+	    custom: {'X-Requested-With': 'XMLHttpRequest'}
+	};
 
-		    return encodeUriQuery(value, true).replace(/%26/gi, '&').replace(/%3D/gi, '=').replace(/%2B/gi, '+');
-		}
+	['get', 'put', 'post', 'patch', 'delete', 'jsonp'].forEach(function (method) {
 
-		function encodeUriQuery(value, spaces) {
+	    Http[method] = function (url, data, success, options) {
 
-		    return encodeURIComponent(value).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, spaces ? '%20' : '+');
-		}
+	        if (_.isFunction(data)) {
+	            options = success;
+	            success = data;
+	            data = undefined;
+	        }
 
-	/***/ },
-	/* 6 */
-	/***/ function(module, exports, __webpack_require__) {
+	        if (_.isObject(success)) {
+	            options = success;
+	            success = undefined;
+	        }
 
-		/**
-		 * Query Parameter Transform.
-		 */
+	        return this(url, _.extend({method: method, data: data, success: success}, options));
+	    };
+	});
 
-		var _ = __webpack_require__(1);
+	module.exports = _.http = Http;
 
-		module.exports = function (options, next) {
 
-		    var urlParams = Object.keys(_.url.options.params),
-		        query = {},
-		        url = next(options);
-
-		    _.each(options.params, function (value, key) {
-		        if (urlParams.indexOf(key) === -1) {
-		            query[key] = value;
-		        }
-		    });
-
-		    query = _.url.params(query);
-
-		    if (query) {
-		        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
-		    }
-
-		    return url;
-		};
-
-	/***/ },
-	/* 7 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		/**
-		 * Root Prefix Transform.
-		 */
-
-		var _ = __webpack_require__(1);
-
-		module.exports = function (options, next) {
-
-		    var url = next(options);
-
-		    if (_.isString(options.root) && !url.match(/^(https?:)?\//)) {
-		        url = options.root + '/' + url;
-		    }
-
-		    return url;
-		};
-
-	/***/ },
-	/* 8 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		/**
-		 * Service for sending network requests.
-		 */
-
-		var _ = __webpack_require__(1);
-		var Client = __webpack_require__(9);
-		var Promise = __webpack_require__(10);
-		var interceptor = __webpack_require__(13);
-		var jsonType = { 'Content-Type': 'application/json' };
+/***/ },
+/* 91 */
+/***/ function(module, exports, __webpack_require__) {
 
-		function Http(url, options) {
-		    var _this = this;
+	/**
+	 * Base client.
+	 */
 
-		    var client = Client,
-		        request,
-		        promise;
+	var _ = __webpack_require__(83);
+	var Promise = __webpack_require__(92);
+	var xhrClient = __webpack_require__(94);
 
-		    Http.interceptors.forEach(function (handler) {
-		        client = interceptor(handler, _this.$vm)(client);
-		    });
+	module.exports = function (request) {
 
-		    options = _.isObject(url) ? url : _.extend({ url: url }, options);
-		    request = _.merge({}, Http.options, this.$options, options);
-		    promise = client(request).bind(this.$vm).then(function (response) {
+	    var response = (request.client || xhrClient)(request);
 
-		        return response.ok ? response : Promise.reject(response);
-		    }, function (response) {
+	    return Promise.resolve(response).then(function (response) {
 
-		        if (response instanceof Error) {
-		            _.error(response);
-		        }
+	        if (response.headers) {
 
-		        return Promise.reject(response);
-		    });
+	            var headers = parseHeaders(response.headers);
 
-		    if (request.success) {
-		        promise.success(request.success);
-		    }
+	            response.headers = function (name) {
 
-		    if (request.error) {
-		        promise.error(request.error);
-		    }
+	                if (name) {
+	                    return headers[_.toLower(name)];
+	                }
 
-		    return promise;
-		}
+	                return headers;
+	            };
 
-		Http.options = {
-		    method: 'get',
-		    data: '',
-		    params: {},
-		    headers: {},
-		    xhr: null,
-		    upload: null,
-		    jsonp: 'callback',
-		    beforeSend: null,
-		    crossOrigin: null,
-		    emulateHTTP: false,
-		    emulateJSON: false,
-		    timeout: 0
-		};
+	        }
 
-		Http.interceptors = [__webpack_require__(14), __webpack_require__(15), __webpack_require__(16), __webpack_require__(18), __webpack_require__(19), __webpack_require__(20), __webpack_require__(21)];
+	        response.ok = response.status >= 200 && response.status < 300;
 
-		Http.headers = {
-		    put: jsonType,
-		    post: jsonType,
-		    patch: jsonType,
-		    delete: jsonType,
-		    common: { 'Accept': 'application/json, text/plain, */*' },
-		    custom: { 'X-Requested-With': 'XMLHttpRequest' }
-		};
+	        return response;
+	    });
 
-		['get', 'put', 'post', 'patch', 'delete', 'jsonp'].forEach(function (method) {
+	};
 
-		    Http[method] = function (url, data, success, options) {
+	function parseHeaders(str) {
 
-		        if (_.isFunction(data)) {
-		            options = success;
-		            success = data;
-		            data = undefined;
-		        }
+	    var headers = {}, value, name, i;
 
-		        if (_.isObject(success)) {
-		            options = success;
-		            success = undefined;
-		        }
+	    if (_.isString(str)) {
+	        _.each(str.split('\n'), function (row) {
 
-		        return this(url, _.extend({ method: method, data: data, success: success }, options));
-		    };
-		});
+	            i = row.indexOf(':');
+	            name = _.trim(_.toLower(row.slice(0, i)));
+	            value = _.trim(row.slice(i + 1));
 
-		module.exports = _.http = Http;
+	            if (headers[name]) {
 
-	/***/ },
-	/* 9 */
-	/***/ function(module, exports, __webpack_require__) {
+	                if (_.isArray(headers[name])) {
+	                    headers[name].push(value);
+	                } else {
+	                    headers[name] = [headers[name], value];
+	                }
 
-		/**
-		 * Base client.
-		 */
+	            } else {
 
-		var _ = __webpack_require__(1);
-		var Promise = __webpack_require__(10);
-		var xhrClient = __webpack_require__(12);
+	                headers[name] = value;
+	            }
 
-		module.exports = function (request) {
+	        });
+	    }
 
-		    var response = (request.client || xhrClient)(request);
+	    return headers;
+	}
 
-		    return Promise.resolve(response).then(function (response) {
 
-		        if (response.headers) {
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
 
-		            var headers = parseHeaders(response.headers);
+	/**
+	 * Promise adapter.
+	 */
 
-		            response.headers = function (name) {
+	var _ = __webpack_require__(83);
+	var PromiseObj = window.Promise || __webpack_require__(93);
 
-		                if (name) {
-		                    return headers[_.toLower(name)];
-		                }
+	function Promise(executor, context) {
 
-		                return headers;
-		            };
-		        }
+	    if (executor instanceof PromiseObj) {
+	        this.promise = executor;
+	    } else {
+	        this.promise = new PromiseObj(executor.bind(context));
+	    }
 
-		        response.ok = response.status >= 200 && response.status < 300;
+	    this.context = context;
+	}
 
-		        return response;
-		    });
-		};
+	Promise.all = function (iterable, context) {
+	    return new Promise(PromiseObj.all(iterable), context);
+	};
 
-		function parseHeaders(str) {
+	Promise.resolve = function (value, context) {
+	    return new Promise(PromiseObj.resolve(value), context);
+	};
 
-		    var headers = {},
-		        value,
-		        name,
-		        i;
+	Promise.reject = function (reason, context) {
+	    return new Promise(PromiseObj.reject(reason), context);
+	};
 
-		    if (_.isString(str)) {
-		        _.each(str.split('\n'), function (row) {
+	Promise.race = function (iterable, context) {
+	    return new Promise(PromiseObj.race(iterable), context);
+	};
 
-		            i = row.indexOf(':');
-		            name = _.trim(_.toLower(row.slice(0, i)));
-		            value = _.trim(row.slice(i + 1));
+	var p = Promise.prototype;
 
-		            if (headers[name]) {
+	p.bind = function (context) {
+	    this.context = context;
+	    return this;
+	};
 
-		                if (_.isArray(headers[name])) {
-		                    headers[name].push(value);
-		                } else {
-		                    headers[name] = [headers[name], value];
-		                }
-		            } else {
+	p.then = function (fulfilled, rejected) {
 
-		                headers[name] = value;
-		            }
-		        });
-		    }
+	    if (fulfilled && fulfilled.bind && this.context) {
+	        fulfilled = fulfilled.bind(this.context);
+	    }
 
-		    return headers;
-		}
+	    if (rejected && rejected.bind && this.context) {
+	        rejected = rejected.bind(this.context);
+	    }
 
-	/***/ },
-	/* 10 */
-	/***/ function(module, exports, __webpack_require__) {
+	    this.promise = this.promise.then(fulfilled, rejected);
 
-		/**
-		 * Promise adapter.
-		 */
+	    return this;
+	};
 
-		var _ = __webpack_require__(1);
-		var PromiseObj = window.Promise || __webpack_require__(11);
+	p.catch = function (rejected) {
 
-		function Promise(executor, context) {
+	    if (rejected && rejected.bind && this.context) {
+	        rejected = rejected.bind(this.context);
+	    }
 
-		    if (executor instanceof PromiseObj) {
-		        this.promise = executor;
-		    } else {
-		        this.promise = new PromiseObj(executor.bind(context));
-		    }
+	    this.promise = this.promise.catch(rejected);
 
-		    this.context = context;
-		}
+	    return this;
+	};
 
-		Promise.all = function (iterable, context) {
-		    return new Promise(PromiseObj.all(iterable), context);
-		};
+	p.finally = function (callback) {
 
-		Promise.resolve = function (value, context) {
-		    return new Promise(PromiseObj.resolve(value), context);
-		};
+	    return this.then(function (value) {
+	            callback.call(this);
+	            return value;
+	        }, function (reason) {
+	            callback.call(this);
+	            return PromiseObj.reject(reason);
+	        }
+	    );
+	};
 
-		Promise.reject = function (reason, context) {
-		    return new Promise(PromiseObj.reject(reason), context);
-		};
+	p.success = function (callback) {
 
-		Promise.race = function (iterable, context) {
-		    return new Promise(PromiseObj.race(iterable), context);
-		};
+	    _.warn('The `success` method has been deprecated. Use the `then` method instead.');
 
-		var p = Promise.prototype;
+	    return this.then(function (response) {
+	        return callback.call(this, response.data, response.status, response) || response;
+	    });
+	};
 
-		p.bind = function (context) {
-		    this.context = context;
-		    return this;
-		};
+	p.error = function (callback) {
 
-		p.then = function (fulfilled, rejected) {
+	    _.warn('The `error` method has been deprecated. Use the `catch` method instead.');
 
-		    if (fulfilled && fulfilled.bind && this.context) {
-		        fulfilled = fulfilled.bind(this.context);
-		    }
+	    return this.catch(function (response) {
+	        return callback.call(this, response.data, response.status, response) || response;
+	    });
+	};
 
-		    if (rejected && rejected.bind && this.context) {
-		        rejected = rejected.bind(this.context);
-		    }
+	p.always = function (callback) {
 
-		    this.promise = this.promise.then(fulfilled, rejected);
+	    _.warn('The `always` method has been deprecated. Use the `finally` method instead.');
 
-		    return this;
-		};
+	    var cb = function (response) {
+	        return callback.call(this, response.data, response.status, response) || response;
+	    };
 
-		p.catch = function (rejected) {
+	    return this.then(cb, cb);
+	};
 
-		    if (rejected && rejected.bind && this.context) {
-		        rejected = rejected.bind(this.context);
-		    }
+	module.exports = Promise;
 
-		    this.promise = this.promise.catch(rejected);
 
-		    return this;
-		};
+/***/ },
+/* 93 */
+/***/ function(module, exports, __webpack_require__) {
 
-		p.finally = function (callback) {
+	/**
+	 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
+	 */
 
-		    return this.then(function (value) {
-		        callback.call(this);
-		        return value;
-		    }, function (reason) {
-		        callback.call(this);
-		        return PromiseObj.reject(reason);
-		    });
-		};
+	var _ = __webpack_require__(83);
 
-		p.success = function (callback) {
+	var RESOLVED = 0;
+	var REJECTED = 1;
+	var PENDING  = 2;
 
-		    _.warn('The `success` method has been deprecated. Use the `then` method instead.');
+	function Promise(executor) {
 
-		    return this.then(function (response) {
-		        return callback.call(this, response.data, response.status, response) || response;
-		    });
-		};
+	    this.state = PENDING;
+	    this.value = undefined;
+	    this.deferred = [];
 
-		p.error = function (callback) {
+	    var promise = this;
 
-		    _.warn('The `error` method has been deprecated. Use the `catch` method instead.');
+	    try {
+	        executor(function (x) {
+	            promise.resolve(x);
+	        }, function (r) {
+	            promise.reject(r);
+	        });
+	    } catch (e) {
+	        promise.reject(e);
+	    }
+	}
 
-		    return this.catch(function (response) {
-		        return callback.call(this, response.data, response.status, response) || response;
-		    });
-		};
+	Promise.reject = function (r) {
+	    return new Promise(function (resolve, reject) {
+	        reject(r);
+	    });
+	};
 
-		p.always = function (callback) {
+	Promise.resolve = function (x) {
+	    return new Promise(function (resolve, reject) {
+	        resolve(x);
+	    });
+	};
 
-		    _.warn('The `always` method has been deprecated. Use the `finally` method instead.');
+	Promise.all = function all(iterable) {
+	    return new Promise(function (resolve, reject) {
+	        var count = 0, result = [];
 
-		    var cb = function cb(response) {
-		        return callback.call(this, response.data, response.status, response) || response;
-		    };
+	        if (iterable.length === 0) {
+	            resolve(result);
+	        }
 
-		    return this.then(cb, cb);
-		};
+	        function resolver(i) {
+	            return function (x) {
+	                result[i] = x;
+	                count += 1;
 
-		module.exports = Promise;
+	                if (count === iterable.length) {
+	                    resolve(result);
+	                }
+	            };
+	        }
 
-	/***/ },
-	/* 11 */
-	/***/ function(module, exports, __webpack_require__) {
+	        for (var i = 0; i < iterable.length; i += 1) {
+	            Promise.resolve(iterable[i]).then(resolver(i), reject);
+	        }
+	    });
+	};
 
-		var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	Promise.race = function race(iterable) {
+	    return new Promise(function (resolve, reject) {
+	        for (var i = 0; i < iterable.length; i += 1) {
+	            Promise.resolve(iterable[i]).then(resolve, reject);
+	        }
+	    });
+	};
 
-		/**
-		 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
-		 */
+	var p = Promise.prototype;
 
-		var _ = __webpack_require__(1);
+	p.resolve = function resolve(x) {
+	    var promise = this;
 
-		var RESOLVED = 0;
-		var REJECTED = 1;
-		var PENDING = 2;
+	    if (promise.state === PENDING) {
+	        if (x === promise) {
+	            throw new TypeError('Promise settled with itself.');
+	        }
 
-		function Promise(executor) {
+	        var called = false;
 
-		    this.state = PENDING;
-		    this.value = undefined;
-		    this.deferred = [];
+	        try {
+	            var then = x && x['then'];
 
-		    var promise = this;
+	            if (x !== null && typeof x === 'object' && typeof then === 'function') {
+	                then.call(x, function (x) {
+	                    if (!called) {
+	                        promise.resolve(x);
+	                    }
+	                    called = true;
 
-		    try {
-		        executor(function (x) {
-		            promise.resolve(x);
-		        }, function (r) {
-		            promise.reject(r);
-		        });
-		    } catch (e) {
-		        promise.reject(e);
-		    }
-		}
+	                }, function (r) {
+	                    if (!called) {
+	                        promise.reject(r);
+	                    }
+	                    called = true;
+	                });
+	                return;
+	            }
+	        } catch (e) {
+	            if (!called) {
+	                promise.reject(e);
+	            }
+	            return;
+	        }
 
-		Promise.reject = function (r) {
-		    return new Promise(function (resolve, reject) {
-		        reject(r);
-		    });
-		};
+	        promise.state = RESOLVED;
+	        promise.value = x;
+	        promise.notify();
+	    }
+	};
 
-		Promise.resolve = function (x) {
-		    return new Promise(function (resolve, reject) {
-		        resolve(x);
-		    });
-		};
+	p.reject = function reject(reason) {
+	    var promise = this;
 
-		Promise.all = function all(iterable) {
-		    return new Promise(function (resolve, reject) {
-		        var count = 0,
-		            result = [];
+	    if (promise.state === PENDING) {
+	        if (reason === promise) {
+	            throw new TypeError('Promise settled with itself.');
+	        }
 
-		        if (iterable.length === 0) {
-		            resolve(result);
-		        }
-
-		        function resolver(i) {
-		            return function (x) {
-		                result[i] = x;
-		                count += 1;
-
-		                if (count === iterable.length) {
-		                    resolve(result);
-		                }
-		            };
-		        }
-
-		        for (var i = 0; i < iterable.length; i += 1) {
-		            Promise.resolve(iterable[i]).then(resolver(i), reject);
-		        }
-		    });
-		};
-
-		Promise.race = function race(iterable) {
-		    return new Promise(function (resolve, reject) {
-		        for (var i = 0; i < iterable.length; i += 1) {
-		            Promise.resolve(iterable[i]).then(resolve, reject);
-		        }
-		    });
-		};
-
-		var p = Promise.prototype;
-
-		p.resolve = function resolve(x) {
-		    var promise = this;
-
-		    if (promise.state === PENDING) {
-		        if (x === promise) {
-		            throw new TypeError('Promise settled with itself.');
-		        }
-
-		        var called = false;
-
-		        try {
-		            var then = x && x['then'];
-
-		            if (x !== null && (typeof x === 'undefined' ? 'undefined' : _typeof(x)) === 'object' && typeof then === 'function') {
-		                then.call(x, function (x) {
-		                    if (!called) {
-		                        promise.resolve(x);
-		                    }
-		                    called = true;
-		                }, function (r) {
-		                    if (!called) {
-		                        promise.reject(r);
-		                    }
-		                    called = true;
-		                });
-		                return;
-		            }
-		        } catch (e) {
-		            if (!called) {
-		                promise.reject(e);
-		            }
-		            return;
-		        }
-
-		        promise.state = RESOLVED;
-		        promise.value = x;
-		        promise.notify();
-		    }
-		};
-
-		p.reject = function reject(reason) {
-		    var promise = this;
-
-		    if (promise.state === PENDING) {
-		        if (reason === promise) {
-		            throw new TypeError('Promise settled with itself.');
-		        }
-
-		        promise.state = REJECTED;
-		        promise.value = reason;
-		        promise.notify();
-		    }
-		};
-
-		p.notify = function notify() {
-		    var promise = this;
-
-		    _.nextTick(function () {
-		        if (promise.state !== PENDING) {
-		            while (promise.deferred.length) {
-		                var deferred = promise.deferred.shift(),
-		                    onResolved = deferred[0],
-		                    onRejected = deferred[1],
-		                    resolve = deferred[2],
-		                    reject = deferred[3];
-
-		                try {
-		                    if (promise.state === RESOLVED) {
-		                        if (typeof onResolved === 'function') {
-		                            resolve(onResolved.call(undefined, promise.value));
-		                        } else {
-		                            resolve(promise.value);
-		                        }
-		                    } else if (promise.state === REJECTED) {
-		                        if (typeof onRejected === 'function') {
-		                            resolve(onRejected.call(undefined, promise.value));
-		                        } else {
-		                            reject(promise.value);
-		                        }
-		                    }
-		                } catch (e) {
-		                    reject(e);
-		                }
-		            }
-		        }
-		    });
-		};
-
-		p.then = function then(onResolved, onRejected) {
-		    var promise = this;
-
-		    return new Promise(function (resolve, reject) {
-		        promise.deferred.push([onResolved, onRejected, resolve, reject]);
-		        promise.notify();
-		    });
-		};
-
-		p.catch = function (onRejected) {
-		    return this.then(undefined, onRejected);
-		};
-
-		module.exports = Promise;
-
-	/***/ },
-	/* 12 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		/**
-		 * XMLHttp client.
-		 */
+	        promise.state = REJECTED;
+	        promise.value = reason;
+	        promise.notify();
+	    }
+	};
 
-		var _ = __webpack_require__(1);
-		var Promise = __webpack_require__(10);
-
-		module.exports = function (request) {
-		    return new Promise(function (resolve) {
-
-		        var xhr = new XMLHttpRequest(),
-		            response = { request: request },
-		            handler;
+	p.notify = function notify() {
+	    var promise = this;
 
-		        request.cancel = function () {
-		            xhr.abort();
-		        };
+	    _.nextTick(function () {
+	        if (promise.state !== PENDING) {
+	            while (promise.deferred.length) {
+	                var deferred = promise.deferred.shift(),
+	                    onResolved = deferred[0],
+	                    onRejected = deferred[1],
+	                    resolve = deferred[2],
+	                    reject = deferred[3];
 
-		        xhr.open(request.method, _.url(request), true);
+	                try {
+	                    if (promise.state === RESOLVED) {
+	                        if (typeof onResolved === 'function') {
+	                            resolve(onResolved.call(undefined, promise.value));
+	                        } else {
+	                            resolve(promise.value);
+	                        }
+	                    } else if (promise.state === REJECTED) {
+	                        if (typeof onRejected === 'function') {
+	                            resolve(onRejected.call(undefined, promise.value));
+	                        } else {
+	                            reject(promise.value);
+	                        }
+	                    }
+	                } catch (e) {
+	                    reject(e);
+	                }
+	            }
+	        }
+	    });
+	};
 
-		        handler = function handler(event) {
+	p.then = function then(onResolved, onRejected) {
+	    var promise = this;
 
-		            response.data = xhr.responseText;
-		            response.status = xhr.status;
-		            response.statusText = xhr.statusText;
-		            response.headers = xhr.getAllResponseHeaders();
+	    return new Promise(function (resolve, reject) {
+	        promise.deferred.push([onResolved, onRejected, resolve, reject]);
+	        promise.notify();
+	    });
+	};
 
-		            resolve(response);
-		        };
+	p.catch = function (onRejected) {
+	    return this.then(undefined, onRejected);
+	};
 
-		        xhr.timeout = 0;
-		        xhr.onload = handler;
-		        xhr.onabort = handler;
-		        xhr.onerror = handler;
-		        xhr.ontimeout = function () {};
-		        xhr.onprogress = function () {};
+	module.exports = Promise;
 
-		        if (_.isPlainObject(request.xhr)) {
-		            _.extend(xhr, request.xhr);
-		        }
 
-		        if (_.isPlainObject(request.upload)) {
-		            _.extend(xhr.upload, request.upload);
-		        }
+/***/ },
+/* 94 */
+/***/ function(module, exports, __webpack_require__) {
 
-		        _.each(request.headers || {}, function (value, header) {
-		            xhr.setRequestHeader(header, value);
-		        });
+	/**
+	 * XMLHttp client.
+	 */
 
-		        xhr.send(request.data);
-		    });
-		};
+	var _ = __webpack_require__(83);
+	var Promise = __webpack_require__(92);
 
-	/***/ },
-	/* 13 */
-	/***/ function(module, exports, __webpack_require__) {
+	module.exports = function (request) {
+	    return new Promise(function (resolve) {
 
-		/**
-		 * Interceptor factory.
-		 */
+	        var xhr = new XMLHttpRequest(), response = {request: request}, handler;
 
-		var _ = __webpack_require__(1);
-		var Promise = __webpack_require__(10);
+	        request.cancel = function () {
+	            xhr.abort();
+	        };
 
-		module.exports = function (handler, vm) {
+	        xhr.open(request.method, _.url(request), true);
 
-		    return function (client) {
+	        handler = function (event) {
 
-		        if (_.isFunction(handler)) {
-		            handler = handler.call(vm, Promise);
-		        }
+	            response.data = xhr.responseText;
+	            response.status = xhr.status;
+	            response.statusText = xhr.statusText;
+	            response.headers = xhr.getAllResponseHeaders();
 
-		        return function (request) {
+	            resolve(response);
+	        };
 
-		            if (_.isFunction(handler.request)) {
-		                request = handler.request.call(vm, request);
-		            }
+	        xhr.timeout = 0;
+	        xhr.onload = handler;
+	        xhr.onabort = handler;
+	        xhr.onerror = handler;
+	        xhr.ontimeout = function () {};
+	        xhr.onprogress = function () {};
 
-		            return when(request, function (request) {
-		                return when(client(request), function (response) {
+	        if (_.isPlainObject(request.xhr)) {
+	            _.extend(xhr, request.xhr);
+	        }
 
-		                    if (_.isFunction(handler.response)) {
-		                        response = handler.response.call(vm, response);
-		                    }
+	        if (_.isPlainObject(request.upload)) {
+	            _.extend(xhr.upload, request.upload);
+	        }
 
-		                    return response;
-		                });
-		            });
-		        };
-		    };
-		};
+	        _.each(request.headers || {}, function (value, header) {
+	            xhr.setRequestHeader(header, value);
+	        });
 
-		function when(value, fulfilled, rejected) {
+	        xhr.send(request.data);
+	    });
+	};
 
-		    var promise = Promise.resolve(value);
 
-		    if (arguments.length < 2) {
-		        return promise;
-		    }
+/***/ },
+/* 95 */
+/***/ function(module, exports, __webpack_require__) {
 
-		    return promise.then(fulfilled, rejected);
-		}
+	/**
+	 * Interceptor factory.
+	 */
 
-	/***/ },
-	/* 14 */
-	/***/ function(module, exports, __webpack_require__) {
+	var _ = __webpack_require__(83);
+	var Promise = __webpack_require__(92);
 
-		/**
-		 * Before Interceptor.
-		 */
+	module.exports = function (handler, vm) {
 
-		var _ = __webpack_require__(1);
+	    return function (client) {
 
-		module.exports = {
+	        if (_.isFunction(handler)) {
+	            handler = handler.call(vm, Promise);
+	        }
 
-		    request: function request(_request) {
+	        return function (request) {
 
-		        if (_.isFunction(_request.beforeSend)) {
-		            _request.beforeSend.call(this, _request);
-		        }
+	            if (_.isFunction(handler.request)) {
+	                request = handler.request.call(vm, request);
+	            }
 
-		        return _request;
-		    }
+	            return when(request, function (request) {
+	                return when(client(request), function (response) {
 
-		};
+	                    if (_.isFunction(handler.response)) {
+	                        response = handler.response.call(vm, response);
+	                    }
 
-	/***/ },
-	/* 15 */
-	/***/ function(module, exports) {
+	                    return response;
+	                });
+	            });
+	        };
+	    };
+	};
 
-		/**
-		 * Timeout Interceptor.
-		 */
+	function when(value, fulfilled, rejected) {
 
-		module.exports = function () {
+	    var promise = Promise.resolve(value);
 
-		    var timeout;
+	    if (arguments.length < 2) {
+	        return promise;
+	    }
 
-		    return {
+	    return promise.then(fulfilled, rejected);
+	}
 
-		        request: function request(_request) {
 
-		            if (_request.timeout) {
-		                timeout = setTimeout(function () {
-		                    _request.cancel();
-		                }, _request.timeout);
-		            }
+/***/ },
+/* 96 */
+/***/ function(module, exports, __webpack_require__) {
 
-		            return _request;
-		        },
+	/**
+	 * Before Interceptor.
+	 */
 
-		        response: function response(_response) {
+	var _ = __webpack_require__(83);
 
-		            clearTimeout(timeout);
+	module.exports = {
 
-		            return _response;
-		        }
+	    request: function (request) {
 
-		    };
-		};
+	        if (_.isFunction(request.beforeSend)) {
+	            request.beforeSend.call(this, request);
+	        }
 
-	/***/ },
-	/* 16 */
-	/***/ function(module, exports, __webpack_require__) {
+	        return request;
+	    }
 
-		/**
-		 * JSONP Interceptor.
-		 */
+	};
 
-		var jsonpClient = __webpack_require__(17);
 
-		module.exports = {
+/***/ },
+/* 97 */
+/***/ function(module, exports) {
 
-		    request: function request(_request) {
+	/**
+	 * Timeout Interceptor.
+	 */
 
-		        if (_request.method == 'JSONP') {
-		            _request.client = jsonpClient;
-		        }
+	module.exports = function () {
 
-		        return _request;
-		    }
+	    var timeout;
 
-		};
+	    return {
 
-	/***/ },
-	/* 17 */
-	/***/ function(module, exports, __webpack_require__) {
+	        request: function (request) {
 
-		/**
-		 * JSONP client.
-		 */
+	            if (request.timeout) {
+	                timeout = setTimeout(function () {
+	                    request.cancel();
+	                }, request.timeout);
+	            }
 
-		var _ = __webpack_require__(1);
-		var Promise = __webpack_require__(10);
+	            return request;
+	        },
 
-		module.exports = function (request) {
-		    return new Promise(function (resolve) {
+	        response: function (response) {
 
-		        var callback = '_jsonp' + Math.random().toString(36).substr(2),
-		            response = { request: request, data: null },
-		            handler,
-		            script;
+	            clearTimeout(timeout);
 
-		        request.params[request.jsonp] = callback;
-		        request.cancel = function () {
-		            handler({ type: 'cancel' });
-		        };
+	            return response;
+	        }
 
-		        script = document.createElement('script');
-		        script.src = _.url(request);
-		        script.type = 'text/javascript';
-		        script.async = true;
+	    };
+	};
 
-		        window[callback] = function (data) {
-		            response.data = data;
-		        };
 
-		        handler = function handler(event) {
+/***/ },
+/* 98 */
+/***/ function(module, exports, __webpack_require__) {
 
-		            if (event.type === 'load' && response.data !== null) {
-		                response.status = 200;
-		            } else if (event.type === 'error') {
-		                response.status = 404;
-		            } else {
-		                response.status = 0;
-		            }
+	/**
+	 * JSONP Interceptor.
+	 */
 
-		            resolve(response);
+	var jsonpClient = __webpack_require__(99);
 
-		            delete window[callback];
-		            document.body.removeChild(script);
-		        };
+	module.exports = {
 
-		        script.onload = handler;
-		        script.onerror = handler;
+	    request: function (request) {
 
-		        document.body.appendChild(script);
-		    });
-		};
+	        if (request.method == 'JSONP') {
+	            request.client = jsonpClient;
+	        }
 
-	/***/ },
-	/* 18 */
-	/***/ function(module, exports) {
+	        return request;
+	    }
 
-		/**
-		 * HTTP method override Interceptor.
-		 */
+	};
 
-		module.exports = {
 
-		    request: function request(_request) {
+/***/ },
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
 
-		        if (_request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(_request.method)) {
-		            _request.headers['X-HTTP-Method-Override'] = _request.method;
-		            _request.method = 'POST';
-		        }
+	/**
+	 * JSONP client.
+	 */
 
-		        return _request;
-		    }
+	var _ = __webpack_require__(83);
+	var Promise = __webpack_require__(92);
 
-		};
+	module.exports = function (request) {
+	    return new Promise(function (resolve) {
 
-	/***/ },
-	/* 19 */
-	/***/ function(module, exports, __webpack_require__) {
+	        var callback = '_jsonp' + Math.random().toString(36).substr(2), response = {request: request, data: null}, handler, script;
 
-		/**
-		 * Mime Interceptor.
-		 */
+	        request.params[request.jsonp] = callback;
+	        request.cancel = function () {
+	            handler({type: 'cancel'});
+	        };
 
-		var _ = __webpack_require__(1);
+	        script = document.createElement('script');
+	        script.src = _.url(request);
+	        script.type = 'text/javascript';
+	        script.async = true;
 
-		module.exports = {
+	        window[callback] = function (data) {
+	            response.data = data;
+	        };
 
-		    request: function request(_request) {
+	        handler = function (event) {
 
-		        if (_request.emulateJSON && _.isPlainObject(_request.data)) {
-		            _request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-		            _request.data = _.url.params(_request.data);
-		        }
+	            if (event.type === 'load' && response.data !== null) {
+	                response.status = 200;
+	            } else if (event.type === 'error') {
+	                response.status = 404;
+	            } else {
+	                response.status = 0;
+	            }
 
-		        if (_.isObject(_request.data) && /FormData/i.test(_request.data.toString())) {
-		            delete _request.headers['Content-Type'];
-		        }
+	            resolve(response);
 
-		        if (_.isPlainObject(_request.data)) {
-		            _request.data = JSON.stringify(_request.data);
-		        }
+	            delete window[callback];
+	            document.body.removeChild(script);
+	        };
 
-		        return _request;
-		    },
+	        script.onload = handler;
+	        script.onerror = handler;
 
-		    response: function response(_response) {
+	        document.body.appendChild(script);
+	    });
+	};
 
-		        try {
-		            _response.data = JSON.parse(_response.data);
-		        } catch (e) {}
 
-		        return _response;
-		    }
+/***/ },
+/* 100 */
+/***/ function(module, exports) {
 
-		};
+	/**
+	 * HTTP method override Interceptor.
+	 */
 
-	/***/ },
-	/* 20 */
-	/***/ function(module, exports, __webpack_require__) {
+	module.exports = {
 
-		/**
-		 * Header Interceptor.
-		 */
+	    request: function (request) {
 
-		var _ = __webpack_require__(1);
+	        if (request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(request.method)) {
+	            request.headers['X-HTTP-Method-Override'] = request.method;
+	            request.method = 'POST';
+	        }
 
-		module.exports = {
+	        return request;
+	    }
 
-		    request: function request(_request) {
+	};
 
-		        _request.method = _request.method.toUpperCase();
-		        _request.headers = _.extend({}, _.http.headers.common, !_request.crossOrigin ? _.http.headers.custom : {}, _.http.headers[_request.method.toLowerCase()], _request.headers);
 
-		        if (_.isPlainObject(_request.data) && /^(GET|JSONP)$/i.test(_request.method)) {
-		            _.extend(_request.params, _request.data);
-		            delete _request.data;
-		        }
+/***/ },
+/* 101 */
+/***/ function(module, exports, __webpack_require__) {
 
-		        return _request;
-		    }
+	/**
+	 * Mime Interceptor.
+	 */
 
-		};
+	var _ = __webpack_require__(83);
 
-	/***/ },
-	/* 21 */
-	/***/ function(module, exports, __webpack_require__) {
+	module.exports = {
 
-		/**
-		 * CORS Interceptor.
-		 */
+	    request: function (request) {
 
-		var _ = __webpack_require__(1);
-		var xdrClient = __webpack_require__(22);
-		var xhrCors = 'withCredentials' in new XMLHttpRequest();
-		var originUrl = _.url.parse(location.href);
+	        if (request.emulateJSON && _.isPlainObject(request.data)) {
+	            request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+	            request.data = _.url.params(request.data);
+	        }
 
-		module.exports = {
+	        if (_.isObject(request.data) && /FormData/i.test(request.data.toString())) {
+	            delete request.headers['Content-Type'];
+	        }
 
-		    request: function request(_request) {
+	        if (_.isPlainObject(request.data)) {
+	            request.data = JSON.stringify(request.data);
+	        }
 
-		        if (_request.crossOrigin === null) {
-		            _request.crossOrigin = crossOrigin(_request);
-		        }
+	        return request;
+	    },
 
-		        if (_request.crossOrigin) {
+	    response: function (response) {
 
-		            if (!xhrCors) {
-		                _request.client = xdrClient;
-		            }
+	        try {
+	            response.data = JSON.parse(response.data);
+	        } catch (e) {}
 
-		            _request.emulateHTTP = false;
-		        }
+	        return response;
+	    }
 
-		        return _request;
-		    }
+	};
 
-		};
 
-		function crossOrigin(request) {
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
 
-		    var requestUrl = _.url.parse(_.url(request));
+	/**
+	 * Header Interceptor.
+	 */
 
-		    return requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host;
-		}
+	var _ = __webpack_require__(83);
 
-	/***/ },
-	/* 22 */
-	/***/ function(module, exports, __webpack_require__) {
+	module.exports = {
 
-		/**
-		 * XDomain client (Internet Explorer).
-		 */
+	    request: function (request) {
 
-		var _ = __webpack_require__(1);
-		var Promise = __webpack_require__(10);
+	        request.method = request.method.toUpperCase();
+	        request.headers = _.extend({}, _.http.headers.common,
+	            !request.crossOrigin ? _.http.headers.custom : {},
+	            _.http.headers[request.method.toLowerCase()],
+	            request.headers
+	        );
 
-		module.exports = function (request) {
-		    return new Promise(function (resolve) {
+	        if (_.isPlainObject(request.data) && /^(GET|JSONP)$/i.test(request.method)) {
+	            _.extend(request.params, request.data);
+	            delete request.data;
+	        }
 
-		        var xdr = new XDomainRequest(),
-		            response = { request: request },
-		            handler;
+	        return request;
+	    }
 
-		        request.cancel = function () {
-		            xdr.abort();
-		        };
+	};
 
-		        xdr.open(request.method, _.url(request), true);
 
-		        handler = function handler(event) {
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
 
-		            response.data = xdr.responseText;
-		            response.status = xdr.status;
-		            response.statusText = xdr.statusText;
+	/**
+	 * CORS Interceptor.
+	 */
 
-		            resolve(response);
-		        };
+	var _ = __webpack_require__(83);
+	var xdrClient = __webpack_require__(104);
+	var xhrCors = 'withCredentials' in new XMLHttpRequest();
+	var originUrl = _.url.parse(location.href);
 
-		        xdr.timeout = 0;
-		        xdr.onload = handler;
-		        xdr.onabort = handler;
-		        xdr.onerror = handler;
-		        xdr.ontimeout = function () {};
-		        xdr.onprogress = function () {};
+	module.exports = {
 
-		        xdr.send(request.data);
-		    });
-		};
+	    request: function (request) {
 
-	/***/ },
-	/* 23 */
-	/***/ function(module, exports, __webpack_require__) {
+	        if (request.crossOrigin === null) {
+	            request.crossOrigin = crossOrigin(request);
+	        }
 
-		/**
-		 * Service for interacting with RESTful services.
-		 */
+	        if (request.crossOrigin) {
 
-		var _ = __webpack_require__(1);
+	            if (!xhrCors) {
+	                request.client = xdrClient;
+	            }
 
-		function Resource(url, params, actions, options) {
+	            request.emulateHTTP = false;
+	        }
 
-		    var self = this,
-		        resource = {};
+	        return request;
+	    }
 
-		    actions = _.extend({}, Resource.actions, actions);
+	};
 
-		    _.each(actions, function (action, name) {
+	function crossOrigin(request) {
 
-		        action = _.merge({ url: url, params: params || {} }, options, action);
+	    var requestUrl = _.url.parse(_.url(request));
 
-		        resource[name] = function () {
-		            return (self.$http || _.http)(opts(action, arguments));
-		        };
-		    });
+	    return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
+	}
 
-		    return resource;
-		}
 
-		function opts(action, args) {
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
 
-		    var options = _.extend({}, action),
-		        params = {},
-		        data,
-		        success,
-		        error;
+	/**
+	 * XDomain client (Internet Explorer).
+	 */
 
-		    switch (args.length) {
+	var _ = __webpack_require__(83);
+	var Promise = __webpack_require__(92);
 
-		        case 4:
+	module.exports = function (request) {
+	    return new Promise(function (resolve) {
 
-		            error = args[3];
-		            success = args[2];
+	        var xdr = new XDomainRequest(), response = {request: request}, handler;
 
-		        case 3:
-		        case 2:
+	        request.cancel = function () {
+	            xdr.abort();
+	        };
 
-		            if (_.isFunction(args[1])) {
+	        xdr.open(request.method, _.url(request), true);
 
-		                if (_.isFunction(args[0])) {
+	        handler = function (event) {
 
-		                    success = args[0];
-		                    error = args[1];
+	            response.data = xdr.responseText;
+	            response.status = xdr.status;
+	            response.statusText = xdr.statusText;
 
-		                    break;
-		                }
+	            resolve(response);
+	        };
 
-		                success = args[1];
-		                error = args[2];
-		            } else {
+	        xdr.timeout = 0;
+	        xdr.onload = handler;
+	        xdr.onabort = handler;
+	        xdr.onerror = handler;
+	        xdr.ontimeout = function () {};
+	        xdr.onprogress = function () {};
 
-		                params = args[0];
-		                data = args[1];
-		                success = args[2];
+	        xdr.send(request.data);
+	    });
+	};
 
-		                break;
-		            }
 
-		        case 1:
+/***/ },
+/* 105 */
+/***/ function(module, exports, __webpack_require__) {
 
-		            if (_.isFunction(args[0])) {
-		                success = args[0];
-		            } else if (/^(POST|PUT|PATCH)$/i.test(options.method)) {
-		                data = args[0];
-		            } else {
-		                params = args[0];
-		            }
+	/**
+	 * Service for interacting with RESTful services.
+	 */
 
-		            break;
+	var _ = __webpack_require__(83);
 
-		        case 0:
+	function Resource(url, params, actions, options) {
 
-		            break;
+	    var self = this, resource = {};
 
-		        default:
+	    actions = _.extend({},
+	        Resource.actions,
+	        actions
+	    );
 
-		            throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
-		    }
+	    _.each(actions, function (action, name) {
 
-		    options.data = data;
-		    options.params = _.extend({}, options.params, params);
+	        action = _.merge({url: url, params: params || {}}, options, action);
 
-		    if (success) {
-		        options.success = success;
-		    }
+	        resource[name] = function () {
+	            return (self.$http || _.http)(opts(action, arguments));
+	        };
+	    });
 
-		    if (error) {
-		        options.error = error;
-		    }
+	    return resource;
+	}
 
-		    return options;
-		}
+	function opts(action, args) {
 
-		Resource.actions = {
+	    var options = _.extend({}, action), params = {}, data, success, error;
 
-		    get: { method: 'GET' },
-		    save: { method: 'POST' },
-		    query: { method: 'GET' },
-		    update: { method: 'PUT' },
-		    remove: { method: 'DELETE' },
-		    delete: { method: 'DELETE' }
+	    switch (args.length) {
 
-		};
+	        case 4:
 
-		module.exports = _.resource = Resource;
+	            error = args[3];
+	            success = args[2];
 
-	/***/ }
-	/******/ ]);
+	        case 3:
+	        case 2:
+
+	            if (_.isFunction(args[1])) {
+
+	                if (_.isFunction(args[0])) {
+
+	                    success = args[0];
+	                    error = args[1];
+
+	                    break;
+	                }
+
+	                success = args[1];
+	                error = args[2];
+
+	            } else {
+
+	                params = args[0];
+	                data = args[1];
+	                success = args[2];
+
+	                break;
+	            }
+
+	        case 1:
+
+	            if (_.isFunction(args[0])) {
+	                success = args[0];
+	            } else if (/^(POST|PUT|PATCH)$/i.test(options.method)) {
+	                data = args[0];
+	            } else {
+	                params = args[0];
+	            }
+
+	            break;
+
+	        case 0:
+
+	            break;
+
+	        default:
+
+	            throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
+	    }
+
+	    options.data = data;
+	    options.params = _.extend({}, options.params, params);
+
+	    if (success) {
+	        options.success = success;
+	    }
+
+	    if (error) {
+	        options.error = error;
+	    }
+
+	    return options;
+	}
+
+	Resource.actions = {
+
+	    get: {method: 'GET'},
+	    save: {method: 'POST'},
+	    query: {method: 'GET'},
+	    update: {method: 'PUT'},
+	    remove: {method: 'DELETE'},
+	    delete: {method: 'DELETE'}
+
+	};
+
+	module.exports = _.resource = Resource;
+
 
 /***/ }
 /******/ ]);

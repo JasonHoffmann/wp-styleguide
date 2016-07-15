@@ -83,7 +83,7 @@
 		margin: 24px 0;
 	}
 	
-	.sg-confirm-style {
+	.sg-st__confirm {
 		position: absolute;
 		background: rgba(239,83,80 ,1);;
 		width: 100%;
@@ -129,9 +129,9 @@
 <template>
 <section id="{{ style.slug }}" class="sg-st">
 		
-		<div v-if="confirm" transition="expand" class="sg-confirm-style sg-stack">
+		<div v-if="confirm" transition="expand" class="sg-st__confirm sg-stack">
 			<p>Are you sure you want to delete this style?</p>
-			<div class="sg-confirm-actions">
+			<div>
 				<button class="sg-button sg-confirm-button" v-on:click="deleteStyle">Yes</button>
 				<button class="sg-button sg-confirm-button" v-on:click="toggleConfirm">No</button>
 			</div>
@@ -143,6 +143,7 @@
 						type="text" class="sg-st__title sg-st__input" 
 						v-model="style.title" 
 						v-if="editing"
+						tabindex="1"
 						lazy
 				/>
 		</form>
@@ -158,10 +159,9 @@
 				</button>
 			</span>
 		</div>
-
-    <div class="sg-st__output">
-        {{{ style.html | comments }}}
-    </div>
+		
+		<output :html="style.html"></output>
+		
 		
 		<div class="sg-markuptoggle">
 			<button class="sg-button sg-st__markupbutton" v-bind:class="{ 'm-active' : showMarkup || editing }" v-on:click="toggleMarkup">
@@ -190,6 +190,7 @@
 
 <script>
 import CodeEditor from './Editor.vue';
+import Output from './Html.vue';
 import Icon from './Icon.vue';
 import actions from '../common/actions.js';
 export default {
@@ -239,7 +240,8 @@ export default {
   
   components: {
     CodeEditor,
-		Icon
+		Icon,
+		Output
   },
 	
   methods: {

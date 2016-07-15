@@ -103,7 +103,7 @@ export default {
 						for (var i = 0; i < self.sections.length; i++) {
 							if (y >= self.sectionPositions[i] &&
 									(self.sectionPositions[i+1] ? y < self.sectionPositions[i+1] : true)) {
-										self.toggleActive({id: self.sections[i].id});
+										self.toggleActive(self.sections[i]);
 							}
 						}
 					}

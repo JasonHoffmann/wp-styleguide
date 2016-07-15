@@ -1,10 +1,11 @@
 <style lang="scss">
 #styleguide {
-	.sg-settings-title {
+	.sg-set__title {
 		font-size: 36px;
-		margin-bottom: 1em;
-		margin-top: 2em;
+		margin-bottom: 10px;
+		margin-top: 40px;
 	}
+	
 	.modal-mask {
 	  position: fixed;
 	  z-index: 9998;
@@ -16,23 +17,43 @@
 	  display: table;
 	  transition: opacity .3s ease;
 	}
-
+	
 	.modal-wrapper {
 	  display: table-cell;
 	  vertical-align: top;
 		text-align: center;
 	}
-
+	
 	.modal-enter, .modal-leave {
 	  opacity: 0;
 	}
 	
-	.sg-settings-group {
-		margin: 3em auto;
-		max-width: 350px;
+	.sg-set__close {
+		position: absolute;
+		top: 1em;
+		right: 2em;
+		box-shadow: none;
+		svg {
+			width: 25px;
+			height: auto;
+			
+		}
 	}
 	
-	.sg-st__radio-group {
+	.sg-set__group {
+		margin: 40px 0;
+	}
+	
+	.sg-set__label {
+		display: block;
+		text-align: center;
+		width: 100%;
+		font-weight: bold;
+		font-size: 20px;
+		margin-bottom: 10px;
+	}
+	
+	.sg-set__radio-group {
 		margin: 0 auto;
 		max-width: 350px;
 		display: block;
@@ -97,15 +118,6 @@
 		}
 	}
 
-	.sg-settings-input-label {
-		text-transform: uppercase;
-		display: block;
-		font-weight: 700;
-		margin-bottom: 10px;
-		background: transparent;
-		font-size: 14px;
-	}
-
 	.sg-set__endpoint {
 		border: none;
 		border-bottom: 1px dotted #666;
@@ -119,26 +131,7 @@
 		border-bottom-color: #333;
 	}
 	
-	.sg-button-settings-save {
-		border: 1px solid #333;
-		padding: 10px;
-		transition: all 0.25s;
-		&:hover {
-			background: #333;
-			color: #f7f7f7 !important;
-		}
-	}
-	
-	.sg-button__settings-close {
-		position: absolute;
-		top: 1em;
-		right: 2em;
-		svg {
-			width: 25px;
-			height: auto;
-			
-		}
-	}
+
 }
 </style>
 
@@ -146,29 +139,29 @@
   <div class="sg-settings modal-mask" v-show="settings.show" transition="modal">
     <div class="modal-wrapper">
       <div class="modal-container sg-stack">
-				<button v-on:click="toggleSettings" class="sg-button sg-button__settings-close"><icon name="cancel"></icon></button>
-        <h1 class="sg-font-dark sg-settings-title">Settings</h1>
+				<button v-on:click="toggleSettings" class="sg-button sg-set__close"><icon name="cancel"></icon></button>
+        <h1 class="sg-font-dark sg-set__title">{{ styleguide_options.str_settings }}</h1>
 				
-				<div class="sg-settings-group">
-					<h3 class="sg-settings-input-label">Privacy:</h3>
-					<div class="radio-group">
+				<div class="sg-set__group">
+					<h3 class="sg-set__label">Privacy:</h3>
+					<div class="sg-set__radio-group">
 						<input type="radio" id="private" value="private" v-model="privacy">
 						<label for="private">Private <br />Only logged in users can view and edit.</label>
 						<div class="check"></div>
 					</div>
-					<div class="radio-group">
+					<div class="sg-set__radio-group">
 						<input type="radio" id="public" value="public" v-model="privacy">
 						<label for="public">Public <br />Anybody can view, logged in users can edit.</label>
 						<div class="check"></div>
 					</div>
 				</div>
-        <div class="sg-settings-group">
-          <label class="sg-settings-input-label sg-font-dark">Styleguide URL:</label>
-          <span>{{ root }}</span><input class="sg-settings-input sg-settings-endpoint" type="text" v-model="settings.endpoint" />
+        <div class="sg-set__group">
+          <label class="sg-set__label">Styleguide URL:</label>
+          <span>{{ root }}</span><input class="sg-set__endpoint" type="text" v-model="settings.endpoint" />
         </div>
         
-        <div class="sg-settings-group">
-          <button v-on:click="saveSettings" class="sg-button sg-button-settings-save">Save Settings</button>
+        <div class="sg-st__group">
+          <button v-on:click="saveSettings" class="sg-button sg-set__save">Save Settings</button>
         </div>
       </div>
     </div>

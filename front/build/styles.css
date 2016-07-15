@@ -157,7 +157,6 @@ Grid
       -o-tab-size: 4;
          tab-size: 4;
     -webkit-hyphens: none;
-       -moz-hyphens: none;
         -ms-hyphens: none;
             hyphens: none;
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -363,7 +362,7 @@ Grid
 #styleguide .sg-st__output {
   margin: 24px 0; }
 
-#styleguide .sg-confirm-style {
+#styleguide .sg-st__confirm {
   position: absolute;
   background: #ef5350;
   width: 100%;
@@ -390,11 +389,11 @@ Grid
           align-items: center;
   font-size: 24px;
   z-index: 10; }
-  #styleguide .sg-confirm-style button {
+  #styleguide .sg-st__confirm button {
     color: white !important;
     border: 1px solid white;
     padding: 5px 20px; }
-    #styleguide .sg-confirm-style button:hover {
+    #styleguide .sg-st__confirm button:hover {
       background: white;
       color: #ef5350 !important; }
 
@@ -410,10 +409,10 @@ Grid
   transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   -webkit-transform: translateY(100%);
           transform: translateY(100%); }
-#styleguide .sg-settings-title {
+#styleguide .sg-set__title {
   font-size: 36px;
-  margin-bottom: 1em;
-  margin-top: 2em; }
+  margin-bottom: 10px;
+  margin-top: 40px; }
 
 #styleguide .modal-mask {
   position: fixed;
@@ -435,11 +434,27 @@ Grid
 #styleguide .modal-enter, #styleguide .modal-leave {
   opacity: 0; }
 
-#styleguide .sg-settings-group {
-  margin: 3em auto;
-  max-width: 350px; }
+#styleguide .sg-set__close {
+  position: absolute;
+  top: 1em;
+  right: 2em;
+  box-shadow: none; }
+  #styleguide .sg-set__close svg {
+    width: 25px;
+    height: auto; }
 
-#styleguide .sg-st__radio-group {
+#styleguide .sg-set__group {
+  margin: 40px 0; }
+
+#styleguide .sg-set__label {
+  display: block;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px; }
+
+#styleguide .sg-set__radio-group {
   margin: 0 auto;
   max-width: 350px;
   display: block;
@@ -448,10 +463,10 @@ Grid
   height: 100px;
   text-align: left;
   cursor: pointer; }
-  #styleguide .sg-st__radio-group input[type="radio"] {
+  #styleguide .sg-set__radio-group input[type="radio"] {
     position: absolute;
     visibility: hidden; }
-  #styleguide .sg-st__radio-group label {
+  #styleguide .sg-set__radio-group label {
     display: block;
     position: relative;
     padding: 25px 25px 25px 80px;
@@ -461,7 +476,7 @@ Grid
     transition: all 0.25s;
     color: #666;
     cursor: pointer; }
-  #styleguide .sg-st__radio-group .check {
+  #styleguide .sg-set__radio-group .check {
     display: block;
     position: absolute;
     border: 5px solid #666;
@@ -473,7 +488,7 @@ Grid
     z-index: 5;
     -webkit-transition: boder .25s;
     transition: boder .25s; }
-    #styleguide .sg-st__radio-group .check:before {
+    #styleguide .sg-set__radio-group .check:before {
       display: block;
       position: absolute;
       content: '';
@@ -485,20 +500,12 @@ Grid
       margin: auto;
       -webkit-transition: background 0.25s linear;
       transition: background 0.25s linear; }
-  #styleguide .sg-st__radio-group input[type=radio]:checked ~ .check {
+  #styleguide .sg-set__radio-group input[type=radio]:checked ~ .check {
     border: 5px solid #333; }
-  #styleguide .sg-st__radio-group input[type=radio]:checked ~ .check::before {
+  #styleguide .sg-set__radio-group input[type=radio]:checked ~ .check::before {
     background: #333; }
-  #styleguide .sg-st__radio-group input[type=radio]:checked ~ label {
+  #styleguide .sg-set__radio-group input[type=radio]:checked ~ label {
     color: #333; }
-
-#styleguide .sg-settings-input-label {
-  text-transform: uppercase;
-  display: block;
-  font-weight: 700;
-  margin-bottom: 10px;
-  background: transparent;
-  font-size: 14px; }
 
 #styleguide .sg-set__endpoint {
   border: none;
@@ -510,49 +517,39 @@ Grid
 
 #styleguide .sg-set__endpoint:focus {
   border-bottom-color: #333; }
+#styleguide .sg-nav__container {
+  position: fixed;
+  width: 300px; }
 
-#styleguide .sg-button-settings-save {
-  border: 1px solid #333;
-  padding: 10px;
-  -webkit-transition: all 0.25s;
-  transition: all 0.25s; }
-  #styleguide .sg-button-settings-save:hover {
-    background: #333;
-    color: #f7f7f7 !important; }
-
-#styleguide .sg-button__settings-close {
-  position: absolute;
-  top: 1em;
-  right: 2em; }
-  #styleguide .sg-button__settings-close svg {
-    width: 25px;
-    height: auto; }
-#styleguide .sg-nav-container {
-  position: fixed; }
-
-#styleguide .sg-nav-links {
+#styleguide .sg-nav__links {
   list-style: none;
   margin: 0;
-  padding: 1em;
+  padding: 0;
   font-size: 13px;
   font-weight: normal; }
+  #styleguide .sg-nav__links .sg-nav__link {
+    font-weight: bold; }
+  #styleguide .sg-nav__links.m-children .sg-nav-link {
+    font-weight: normal; }
+  #styleguide .sg-nav__links.m-children a {
+    padding-left: 20px; }
 
-#styleguide .sg-nav-link {
-  list-style: none; }
-  #styleguide .sg-nav-link a {
+#styleguide .sg-nav__link {
+  list-style: none;
+  margin-bottom: 5px; }
+  #styleguide .sg-nav__link a {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 4px 8px;
+    border-left: 3px solid transparent;
     box-sizing: border-box;
-    border-radius: 5px; }
+    border-radius: 0;
+    margin-bottom: 5px; }
+    #styleguide .sg-nav__link a:hover, #styleguide .sg-nav__link a.selected {
+      border-color: #eee; }
 
-#styleguide .sg-nav-sublinks {
-  padding: 0;
-  padding-left: 10px;
-  font-size: 13px; }
-
-#styleguide .sg-nav-link--link:hover, #styleguide .sg-nav-link--link.selected {
-  background: #eee; }
+#styleguide .sg-button__settings {
+  margin-top: 20px; }
 #styleguide .sg-onboarding {
   text-align: center;
   max-width: 600px;

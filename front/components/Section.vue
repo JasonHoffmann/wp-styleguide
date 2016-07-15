@@ -98,8 +98,8 @@
   <section id="{{section.slug }}" class="sg-sct" v-bind:class="{'loading' : loading}">
 		<form class="sg-stack sg-sct__wrap" v-on:submit.prevent="pushEdit" v-if="logged_in">
 			<input type="text" class="sg-stack sg-font-dark sg-sct__title" placeholder="Add a Section..." v-model="title" />
-			<span class="sg-sct__loader"><icon name="load" v-if="loading"></icon></span>
 			<button class="sg-button sg-sct__add">Edit</button>
+			<span class="sg-sct__loader"><icon name="load" v-if="loading"></icon></span>
 		</form>
 		<div class="sg-stack sg-sct__wrap" v-else>
 			<h3 class="sg-stack sg-section-title" v-if="!logged_in">

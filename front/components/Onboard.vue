@@ -67,12 +67,12 @@
   
   <section v-if="step === 2">
       <h3 class="sg-ob__subtitle m-main">Would you like your styleguide to be private or public?</h3>
-      <div class="sg-st__radio-group">
+      <div class="sg-set__radio-group">
         <input type="radio" id="private" value="private" v-model="privacy">
         <label for="private"><strong>Private</strong> <br />Only logged in users can view and edit.</label>
         <div class="check"></div>
       </div>
-      <div class="sg-st__radio-group">
+      <div class="sg-set__radio-group">
         <input type="radio" id="public" value="public" v-model="privacy">
         <label for="public"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>
         <div class="check"></div>

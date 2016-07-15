@@ -7,8 +7,8 @@
  * Version: 0.0.1
  * Author URI: 
  * License: GPL2+
- * Text Domain: me
- * Domain Path: /languages/
+ * Text Domain: styleguide
+ * Domain Path: /languages
  */
 define( 'STYLEGUIDE__VERSION',            '0.0.1' );
 define( 'STYLEGUIDE__PLUGIN_DIR',         plugin_dir_path( __FILE__ ) );
@@ -36,5 +36,10 @@ require_once( STYLEGUIDE__PLUGIN_DIR . 'back/class.styleguide.activate.php' );
  */
 register_activation_hook( __FILE__, array( 'Styleguide_Activate', 'plugin_activation' ) );
 register_deactivation_hook( __FILE__, array( 'Styleguide_Activate', 'plugin_deactivation' ) );
+
+function my_plugin_load_plugin_textdomain() {
+    load_plugin_textdomain( 'my-plugin', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'plugins_loaded', 'my_plugin_load_plugin_textdomain' );
 
 Styleguide_Loader::init();

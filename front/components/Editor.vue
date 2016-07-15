@@ -1,5 +1,5 @@
 <template>
-	<pre :contenteditable="editing" class="language-markup">{{ html }}</pre>
+	<pre tabindex="2" :contenteditable="editing" class="language-markup">{{ html }}</pre>
 </template>
 <script>
 import Prism from 'prismjs'
@@ -71,53 +71,64 @@ export default {
 		};
 		
 		this.handlePaste = function(evt) {
-			var pre = this,
-				ss = pre.selectionStart,
-				se = pre.selectionEnd,
-				selection = ss === se? '': pre.textContent.slice(ss, se);
-			
-			if (evt.clipboardData) {
-				evt.preventDefault();
-				
-				var pasted = evt.clipboardData.getData("text/plain");
-				
-				document.execCommand("insertText", false, pasted);
-				
-				ss += pasted.length;
-				
-				Prism.highlightElement(this);
-				pre.setSelectionRange(ss, ss);
-			} else {
-	
-				setTimeout(function(){
-					var newse = pre.selectionEnd,
-						innerHTML = pre.innerHTML;
-										
-					pre.innerHTML = innerHTML;
-										
-					var pasted = pre.textContent.slice(ss, newse);
-					
-					ss += pasted.length;
-					
-					Prism.highlightElement(this);
-					pre.setSelectionRange(ss, ss);
-				}, 10);
-			}
+			setTimeout(function(){
+				var pre = this;
+			console.log(self.$el);
+			Prism.highlightElement(this);
+			var code = pre.textContent;
+			console.log(code);
+			self.html = code;
+		}, 10);
+			// console.log('pasting');
+			// var pre = this,
+			// 	ss = pre.selectionStart,
+			// 	se = pre.selectionEnd,
+			// 	selection = ss === se? '': pre.textContent.slice(ss, se);
+			// 
+			// if (evt.clipboardData) {
+			// 	evt.preventDefault();
+			// 	
+			// 	var pasted = evt.clipboardData.getData("text/plain");
+			// 	
+			// 	document.execCommand("insertText", false, pasted);
+			// 	
+			// 	ss += pasted.length;
+			// 	
+			// 	Prism.highlightElement(this);
+			// 	pre.setSelectionRange(ss, ss);
+			// } else {
+			// 
+			// 	setTimeout(function(){
+			// 		var newse = pre.selectionEnd,
+			// 			innerHTML = pre.innerHTML;
+			// 							
+			// 		pre.innerHTML = innerHTML;
+			// 							
+			// 		var pasted = pre.textContent.slice(ss, newse);
+			// 		
+			// 		ss += pasted.length;
+			// 		
+			// 		Prism.highlightElement(this);
+			// 		pre.setSelectionRange(ss, ss);
+			// 	}, 10);
+			// }
 		};
 		
 		this.handleFocus = function(evt) {
-			var cell = this;
-			var range, selection;
-			if (document.body.createTextRange) {
-				range = document.body.createTextRange();
-				range.moveToElementText(cell);
-				range.select();
-			} else if (window.getSelection) {
-				selection = window.getSelection();
-				range = document.createRange();
-				range.selectNodeContents(cell);
-				selection.removeAllRanges();
-				selection.addRange(range);
+			if( !self.editing ) {
+				var cell = this;
+				var range, selection;
+				if (document.body.createTextRange) {
+					range = document.body.createTextRange();
+					range.moveToElementText(cell);
+					range.select();
+				} else if (window.getSelection) {
+					selection = window.getSelection();
+					range = document.createRange();
+					range.selectNodeContents(cell);
+					selection.removeAllRanges();
+					selection.addRange(range);
+				}
 			}
 		};
 		

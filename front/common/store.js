@@ -10,7 +10,7 @@ const state = {
 	root: styleguide_options.home_url,
   sections: [],
   // TODO: Change this to ID instead of full object
-  activeSection: {},
+  activeSection: '',
   retainedIndex: '',
   sectionPositions: [],
   settings: {},
@@ -19,6 +19,9 @@ const state = {
 
 const mutations = {
 	RECIEVE_SECTIONS(state, sections) {
+		for( var i = 0, len = sections.length; i < len; i++ ) {
+			sections[i].selected = false;
+		}
 		state.sections = sections;
 		state.loaded = true;
 	},
@@ -39,7 +42,14 @@ const mutations = {
   },
 	
 	TOGGLE_ACTIVE(state, section) {
-		state.activeSection = section;
+		
+		for( var i = 0, len = state.sections.length; i < len; i++) {
+			if( state.sections[i].id !== section.id ) {
+				state.sections[i].selected = false;
+			}
+		}
+		state.activeSection = section.id;
+		section.selected = true;
 	},
 	
 	DELETE_SECTION(state, section) {
