@@ -44,13 +44,17 @@ export default {
 					}
 				}
 			}
-		}.debounce(500)
+		},
+	
+		processImagesDebounce: function() {
+			this.processImages();
+		}.debounce(500),
 	},
 	
 	watch: {
 		'html' : function( val, oldval ) {
 			if( val !== oldval ) {
-				this.processImages();
+				this.processImagesDebounce();
 			}
 		}
 	}

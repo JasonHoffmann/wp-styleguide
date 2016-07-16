@@ -7,17 +7,34 @@
 		v-on:keydown="handleKeydown"
 		v-on:focus="handleFocus"
 		v-on:paste="handlePaste"
-		>
-		{{ html }}</pre>
+		>{{ html | comments }}</pre>
 </template>
 <script>
-import Prism from 'prismjs'
+import Prism from 'prismjs';
+import actions from '../common/actions.js';
 export default {
 	props: ['html', 'editing'],
 	
 	ready: function() {
 		var pre = this.$el;
 		Prism.highlightElement(pre);
+	},
+	
+	vuex: {
+		getters: {
+			undoStack: function(state) {
+				return state.undoStack;
+			},
+			
+			redoStack: function(state) {
+				return state.redoStack
+			}
+		},
+		actions: {
+			updateHtml: actions.updateHtml,
+			undo: actions.undoHtml,
+			redo: actions.redoHtml
+		}
 	},
 	
 	data: function() {
@@ -30,9 +47,21 @@ export default {
 				selection: ''
 			}
 		}
-	}
+	},
+	
+	watch: {
+		editing: function(val) {
+			if( val ) {
+				console.log(this.$el);
+			}
+		}
+	},
 	
 	methods: {
+		
+		debounceUpdate: function( code, style, ss, se ) {
+			this.updateHtml(code, style, ss, se);
+		}.debounce(250),
 		
 		handlePaste: function(evt) {
 			var self = this;
@@ -59,6 +88,24 @@ export default {
 			}
 		},
 		
+		handleUndo: function() {
+			var l = this.undoStack.length - 1;
+			var latest = this.undoStack[l];
+			this.$el.textContent = latest.html;
+			Prism.highlightElement( this.$el );
+			this.$el.setSelectionRange(latest.ss, latest.se);
+			this.undo( this.$parent.style );
+		},
+		
+		handleRedo: function() {
+			var l = this.redoStack.length - 1;
+			var latest = this.redoStack[l];
+			this.$el.textContent = latest.html;
+			Prism.highlightElement( this.$el );
+			this.$el.setSelectionRange(latest.ss, latest.se);
+			this.undo( this.$parent.style );
+		},
+		
 		handleKeyup: function(evt) {
 			var keyCode = evt.keyCode;
 			var code = this.$el.textContent;
@@ -78,9 +125,8 @@ export default {
 			if (keyCode !== 37 && keyCode !== 39) {
 					var ss = this.$el.selectionStart;
 					var se = this.$el.selectionEnd;
-				console.log(code);
 				Prism.highlightElement(this.$el);
-				this.html = code;
+				this.debounceUpdate( code, this.$parent.style, ss, se );
 				
 				if(!/\n$/.test(code)) {
 					this.$el.innerHTML = this.$el.innerHTML + '\n';
@@ -115,119 +161,132 @@ export default {
 						return false;
 					}
 					break;
+				case 89:
+					if(cmdOrCtrl) {
+						console.log('here');
+						this.handleRedo();
+						evt.preventDefault();
+						return false;
+					}
+				case 90:
+					if(cmdOrCtrl) {
+						this.handleUndo();
+						return false;
+					}
+					break;
 			}
 		},
 	
 		action: function(action, options) {
-			options = options || {};
 			var pre = this.$el,
 			text = pre.textContent,
-			ss = options.start || pre.selectionStart,
-			se = options.end || pre.selectionEnd;
-			var state = {
-					ss: ss,
-					se: se,
-					before: text.slice(0, ss),
-					after: text.slice(se),
-					selection: text.slice(ss,se)
-				};
-			var textAction = this[action](state, options);
-			pre.textContent = state.before + state.selection + state.after;
-			pre.setSelectionRange(state.ss, state.se);
+			ss = pre.selectionStart,
+			se = pre.selectionEnd;
+			this.state.ss = ss;
+			this.state.se = se;
+			this.state.before = text.slice(0, ss);
+			this.state.after = text.slice(se);
+			this.state.selection = text.slice(ss, se);
+			
+			var textAction = this[action](options);
+			
+			//console.log('before: ' + this.state.before + '\n selection: ' + this.state.selection + ' after: ' + this.state.after );
+			pre.textContent = this.state.before + this.state.selection + this.state.after;
+			pre.setSelectionRange(this.state.ss, this.state.se);
 			
 			Prism.highlightElement(pre);
-			if(!/\n$/.test(state.after)) {
+			if(!/\n$/.test(this.state.after)) {
 				pre.innerHTML = pre.innerHTML + '\n';
 			}
-			pre.setSelectionRange(state.ss, state.se);
+			pre.setSelectionRange(this.state.ss, this.state.se);
 			
 		},
 		
-			newline: function(state) {
-				var ss = state.ss,
-						lf = state.before.lastIndexOf('\n') + 1,
-						indent = (state.before.slice(lf).match(/^\s+/) || [''])[0];
+			newline: function() {
+				var ss = this.state.ss,
+						lf = this.state.before.lastIndexOf('\n') + 1,
+						indent = (this.state.before.slice(lf).match(/^\s+/) || [''])[0];
 				
-				state.before += '\n' + indent;
+				this.state.before += '\n' + indent;
 				
-				var selection = state.selection;
-				state.selection = '';	
+				var selection = this.state.selection;
+				this.state.selection = '';	
 				
-				state.ss += indent.length + 1;
-				state.se = state.ss;
+				this.state.ss += indent.length + 1;
+				this.state.se = this.state.ss;
 			},
 			
-			indent: function(state, options) {
-				var lf = state.before.lastIndexOf('\n') + 1;
+			indent: function(options) {
+				var lf = this.state.before.lastIndexOf('\n') + 1;
 			
 				if (options.inverse) {
-					if(/\s/.test(state.before.charAt(lf))) {
-						state.before = state.before.splice(lf, 1);
+					if(/\s/.test(this.state.before.charAt(lf))) {
+						this.state.before = this.state.before.splice(lf, 1);
 						
-						state.ss--;
-						state.se--;
+						this.state.ss--;
+						this.state.se--;
 					}
 					
-					state.selection = state.selection.replace(/\r?\n\s/g, '\n');
+					this.state.selection = this.state.selection.replace(/\r?\n\s/g, '\n');
 				}
-				else if (state.selection) {
-					state.before = state.before.splice(lf, 0, '\t');
-					state.selection = state.selection.replace(/\r?\n/g, '\n\t');
+				else if (this.state.selection) {
+					this.state.before = this.state.before.splice(lf, 0, '\t');
+					this.state.selection = this.state.selection.replace(/\r?\n/g, '\n\t');
 					
-					state.ss++;
-					state.se++;
+					this.state.ss++;
+					this.state.se++;
 				}
 				else {
-					state.before += '\t';
+					this.state.before += '\t';
 					
-					state.ss++;
-					state.se++;
+					this.state.ss++;
+					this.state.se++;
 				}
 			},
 			
-			comment: function(state, options) {
+			comment: function(options) {
 				var open = '<!--',
 						close = '-->';
-				var start = state.before.lastIndexOf(open),
-						end = state.after.indexOf(close),
-						closeBefore = state.before.lastIndexOf(close),
-						openAfter = state.after.indexOf(start);
+				var start = this.state.before.lastIndexOf(open),
+						end = this.state.after.indexOf(close),
+						closeBefore = this.state.before.lastIndexOf(close),
+						openAfter = this.state.after.indexOf(start);
 		
 				if(start > -1 && end > -1 && (start > closeBefore || closeBefore === -1) 
 				&& (end < openAfter || openAfter === -1) ) {
 						// Uncomment
-						state.before = state.before.splice(start, open.length);
-						state.after = state.after.splice(end, close.length);
+						this.state.before = this.state.before.splice(start, open.length);
+						this.state.after = this.state.after.splice(end, close.length);
 		
-						state.ss -= open.length;
-						state.se -= open.length;
+						this.state.ss -= open.length;
+						this.state.se -= open.length;
 		
 					} else {
 						// Comment
-						if(state.selection) {
+						if(this.state.selection) {
 							// Comment selection
-							state.selection = open + state.selection + close;
+							this.state.selection = open + this.state.selection + close;
 						} else {
 							// Comment whole line
-							start = state.before.lastIndexOf('\n') + 1;
-							end = state.after.indexOf('\n');
+							start = this.state.before.lastIndexOf('\n') + 1;
+							end = this.state.after.indexOf('\n');
 				
 							if(end === -1) {
 								end = after.length;
 							}
 				
-							while(/\s/.test(state.before.charAt(start))) {
+							while(/\s/.test(this.state.before.charAt(start))) {
 								start++;
 							}
 				
-							state.before = state.before.splice(start, 0, open);
+							this.state.before = this.state.before.splice(start, 0, open);
 				
-							state.after = state.after.splice(end, 0, close);
+							this.state.after = this.state.after.splice(end, 0, close);
 				
 						}
 			
-						state.ss += open.length;
-						state.se += open.length;
+						this.state.ss += open.length;
+						this.state.se += open.length;
 				}
 			}
 	}

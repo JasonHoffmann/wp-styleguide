@@ -9,6 +9,8 @@ const state = {
   logged_in: styleguide_options.logged_in,
 	root: styleguide_options.home_url,
   sections: [],
+  undoStack: [],
+  redoStack: [],
   // TODO: Change this to ID instead of full object
   activeSection: '',
   retainedIndex: '',
@@ -72,6 +74,37 @@ const mutations = {
     if( data.html ) {
       style.html = data.html;
     }
+  },
+  
+  UPDATE_HTML(state, data, style, ss, se) {
+    state.undoStack.push({
+      html: style.html,
+      ss: ss,
+      se: se
+    });
+    style.html = data;
+  },
+  
+  UNDO_HTML(state, style) {
+    var latest = state.undoStack.pop();
+    if(latest) {
+      style.html = latest.html;
+      state.redoStack.push(latest);
+    }
+
+  },
+  
+  REDO_HTML(state, style) {
+    var latest = state.redoStack.pop();
+    if(latest) {
+      style.html = latest.html;
+      state.undoStack.push(latest);
+    }
+  },
+  
+  CLEAR_UNDO(state) {
+    state.undoStack = [];
+    state.redoStack = [];
   },
   
   DELETE_STYLE(state, index, section) {

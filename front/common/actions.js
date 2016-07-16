@@ -51,12 +51,29 @@ export default {
 		var dispatch = store.dispatch;
 		api.addStyle(style, section).then(function(response) {
 			dispatch('RECIEVE_STYLE_ID', style, response.data.id);
+			dispatch('CLEAR_UNDO');
 		})
+	},
+	
+	updateHtml: function(store, data, style, ss, se) {
+		var dispatch = store.dispatch;
+		dispatch('UPDATE_HTML', data, style, ss, se);
+	},
+	
+	undoHtml: function(store, style) {
+		var dispatch = store.dispatch;
+		dispatch('UNDO_HTML', style);
+	},
+	
+	redoHtml: function(store, style) {
+		var dispatch = store.dispatch;
+		dispatch('REDO_HTML', style);
 	},
 	
 	updateStyle: function( store, data, style ) {
 	  var dispatch = store.dispatch;
 	  dispatch('EDIT_STYLE', data, style);
+		dispatch('CLEAR_UNDO');
 	  api.editStyle(data);
 	},
 	

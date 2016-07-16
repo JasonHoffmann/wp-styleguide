@@ -171,7 +171,7 @@
 		</div>
 		
     <div class="sg-markup" v-show="editing || showMarkup">
-      <code-editor :html.sync="style.html" :editing="editing"></code-editor>
+      <code-editor :html="style.html" :editing="editing"></code-editor>
     </div>
 		
 		<div v-if="editing" class="sg-st__actions">

@@ -60,7 +60,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_Vue2.default.use(__webpack_require__(81));
+	_Vue2.default.use(__webpack_require__(82));
 	// import html from './components/Html.vue';
 	// Vue.directive('html-directive', html);
 
@@ -10258,7 +10258,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/App.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(80)
+	__vue_template__ = __webpack_require__(81)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10296,27 +10296,27 @@
 
 	var _Section2 = _interopRequireDefault(_Section);
 
-	var _Settings = __webpack_require__(29);
+	var _Settings = __webpack_require__(30);
 
 	var _Settings2 = _interopRequireDefault(_Settings);
 
-	var _Navbar = __webpack_require__(33);
+	var _Navbar = __webpack_require__(34);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _Icon = __webpack_require__(21);
+	var _Icon = __webpack_require__(24);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _Onboard = __webpack_require__(37);
+	var _Onboard = __webpack_require__(38);
 
 	var _Onboard2 = _interopRequireDefault(_Onboard);
 
-	var _store = __webpack_require__(41);
+	var _store = __webpack_require__(42);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _actions = __webpack_require__(25);
+	var _actions = __webpack_require__(18);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -10459,7 +10459,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Section.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(28)
+	__vue_template__ = __webpack_require__(29)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10497,11 +10497,11 @@
 
 	var _Style2 = _interopRequireDefault(_Style);
 
-	var _Icon = __webpack_require__(21);
+	var _Icon = __webpack_require__(24);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(25);
+	var _actions = __webpack_require__(18);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -10734,7 +10734,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Style.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(27)
+	__vue_template__ = __webpack_require__(28)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10772,15 +10772,15 @@
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _Html = __webpack_require__(18);
+	var _Html = __webpack_require__(21);
 
 	var _Html2 = _interopRequireDefault(_Html);
 
-	var _Icon = __webpack_require__(21);
+	var _Icon = __webpack_require__(24);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(25);
+	var _actions = __webpack_require__(18);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -10959,7 +10959,7 @@
 	// 		</div>
 	//
 	//     <div class="sg-markup" v-show="editing || showMarkup">
-	//       <code-editor :html.sync="style.html" :editing="editing"></code-editor>
+	//       <code-editor :html="style.html" :editing="editing"></code-editor>
 	//     </div>
 	//
 	// 		<div v-if="editing" class="sg-st__actions">
@@ -11094,12 +11094,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"!!babel-loader!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./Editor.vue\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()))
+	__vue_script__ = __webpack_require__(16)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Editor.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(17)
+	__vue_template__ = __webpack_require__(20)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11118,275 +11118,1104 @@
 	})()}
 
 /***/ },
-/* 16 */,
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _prismjs = __webpack_require__(17);
+
+	var _prismjs2 = _interopRequireDefault(_prismjs);
+
+	var _actions = __webpack_require__(18);
+
+	var _actions2 = _interopRequireDefault(_actions);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// <template>
+	// 	<pre
+	// 		tabindex="2"
+	// 		:contenteditable="editing"
+	// 		class="language-markup"
+	// 		v-on:keyup="handleKeyup"
+	// 		v-on:keydown="handleKeydown"
+	// 		v-on:focus="handleFocus"
+	// 		v-on:paste="handlePaste"
+	// 		>{{ html | comments }}</pre>
+	// </template>
+	// <script>
+	exports.default = {
+		props: ['html', 'editing'],
+
+		ready: function ready() {
+			var pre = this.$el;
+			_prismjs2.default.highlightElement(pre);
+		},
+
+		vuex: {
+			getters: {
+				undoStack: function undoStack(state) {
+					return state.undoStack;
+				},
+
+				redoStack: function redoStack(state) {
+					return state.redoStack;
+				}
+			},
+			actions: {
+				updateHtml: _actions2.default.updateHtml,
+				undo: _actions2.default.undoHtml,
+				redo: _actions2.default.redoHtml
+			}
+		},
+
+		data: function data() {
+			return {
+				state: {
+					ss: '',
+					se: '',
+					before: '',
+					after: '',
+					selection: ''
+				}
+			};
+		},
+
+		watch: {
+			editing: function editing(val) {
+				if (val) {
+					console.log(this.$el);
+				}
+			}
+		},
+
+		methods: {
+
+			debounceUpdate: function (code, style, ss, se) {
+				this.updateHtml(code, style, ss, se);
+			}.debounce(250),
+
+			handlePaste: function handlePaste(evt) {
+				var self = this;
+				setTimeout(function () {
+					self.handleKeyup(evt);
+				}, 10);
+			},
+
+			handleFocus: function handleFocus(evt) {
+				if (!this.editing) {
+					var cell = this.$el;
+					var range, selection;
+					if (document.body.createTextRange) {
+						range = document.body.createTextRange();
+						range.moveToElementText(cell);
+						range.select();
+					} else if (window.getSelection) {
+						selection = window.getSelection();
+						range = document.createRange();
+						range.selectNodeContents(cell);
+						selection.removeAllRanges();
+						selection.addRange(range);
+					}
+				}
+			},
+
+			handleUndo: function handleUndo() {
+				var l = this.undoStack.length - 1;
+				var latest = this.undoStack[l];
+				this.$el.textContent = latest.html;
+				_prismjs2.default.highlightElement(this.$el);
+				this.$el.setSelectionRange(latest.ss, latest.se);
+				this.undo(this.$parent.style);
+			},
+
+			handleRedo: function handleRedo() {
+				var l = this.redoStack.length - 1;
+				var latest = this.redoStack[l];
+				this.$el.textContent = latest.html;
+				_prismjs2.default.highlightElement(this.$el);
+				this.$el.setSelectionRange(latest.ss, latest.se);
+				this.undo(this.$parent.style);
+			},
+
+			handleKeyup: function handleKeyup(evt) {
+				var keyCode = evt.keyCode;
+				var code = this.$el.textContent;
+
+				if ([9, 91, 93, 16, 17, 18, // modifiers
+				20, // caps lock
+				13, // Enter (handled by keydown)
+				112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, // F[0-12]
+				27 // Esc
+				].indexOf(keyCode) > -1) {
+					return;
+				}
+
+				if (keyCode !== 37 && keyCode !== 39) {
+					var ss = this.$el.selectionStart;
+					var se = this.$el.selectionEnd;
+					_prismjs2.default.highlightElement(this.$el);
+					this.debounceUpdate(code, this.$parent.style, ss, se);
+
+					if (!/\n$/.test(code)) {
+						this.$el.innerHTML = this.$el.innerHTML + '\n';
+					}
+
+					if (ss !== null || se !== null) {
+						this.$el.setSelectionRange(ss, se);
+					}
+				}
+			},
+
+			handleKeydown: function handleKeydown(evt) {
+				var cmdOrCtrl = evt.metaKey || evt.ctrlKey;
+				switch (evt.keyCode) {
+					case 9:
+						// Tab
+						if (!cmdOrCtrl) {
+							this.action('indent', {
+								inverse: evt.shiftKey
+							});
+							evt.preventDefault();
+							return false;
+						}
+						break;
+					case 13:
+						this.action('newline');
+						evt.preventDefault();
+						return false;
+					case 191:
+						if (cmdOrCtrl && !evt.altKey) {
+							this.action('comment');
+							evt.preventDefault();
+							return false;
+						}
+						break;
+					case 89:
+						if (cmdOrCtrl) {
+							console.log('here');
+							this.handleRedo();
+							evt.preventDefault();
+							return false;
+						}
+					case 90:
+						if (cmdOrCtrl) {
+							this.handleUndo();
+							return false;
+						}
+						break;
+				}
+			},
+
+			action: function action(_action, options) {
+				var pre = this.$el,
+				    text = pre.textContent,
+				    ss = pre.selectionStart,
+				    se = pre.selectionEnd;
+				this.state.ss = ss;
+				this.state.se = se;
+				this.state.before = text.slice(0, ss);
+				this.state.after = text.slice(se);
+				this.state.selection = text.slice(ss, se);
+
+				var textAction = this[_action](options);
+
+				//console.log('before: ' + this.state.before + '\n selection: ' + this.state.selection + ' after: ' + this.state.after );
+				pre.textContent = this.state.before + this.state.selection + this.state.after;
+				pre.setSelectionRange(this.state.ss, this.state.se);
+
+				_prismjs2.default.highlightElement(pre);
+				if (!/\n$/.test(this.state.after)) {
+					pre.innerHTML = pre.innerHTML + '\n';
+				}
+				pre.setSelectionRange(this.state.ss, this.state.se);
+			},
+
+			newline: function newline() {
+				var ss = this.state.ss,
+				    lf = this.state.before.lastIndexOf('\n') + 1,
+				    indent = (this.state.before.slice(lf).match(/^\s+/) || [''])[0];
+
+				this.state.before += '\n' + indent;
+
+				var selection = this.state.selection;
+				this.state.selection = '';
+
+				this.state.ss += indent.length + 1;
+				this.state.se = this.state.ss;
+			},
+
+			indent: function indent(options) {
+				var lf = this.state.before.lastIndexOf('\n') + 1;
+
+				if (options.inverse) {
+					if (/\s/.test(this.state.before.charAt(lf))) {
+						this.state.before = this.state.before.splice(lf, 1);
+
+						this.state.ss--;
+						this.state.se--;
+					}
+
+					this.state.selection = this.state.selection.replace(/\r?\n\s/g, '\n');
+				} else if (this.state.selection) {
+					this.state.before = this.state.before.splice(lf, 0, '\t');
+					this.state.selection = this.state.selection.replace(/\r?\n/g, '\n\t');
+
+					this.state.ss++;
+					this.state.se++;
+				} else {
+					this.state.before += '\t';
+
+					this.state.ss++;
+					this.state.se++;
+				}
+			},
+
+			comment: function comment(options) {
+				var open = '<!--',
+				    close = '-->';
+				var start = this.state.before.lastIndexOf(open),
+				    end = this.state.after.indexOf(close),
+				    closeBefore = this.state.before.lastIndexOf(close),
+				    openAfter = this.state.after.indexOf(start);
+
+				if (start > -1 && end > -1 && (start > closeBefore || closeBefore === -1) && (end < openAfter || openAfter === -1)) {
+					// Uncomment
+					this.state.before = this.state.before.splice(start, open.length);
+					this.state.after = this.state.after.splice(end, close.length);
+
+					this.state.ss -= open.length;
+					this.state.se -= open.length;
+				} else {
+					// Comment
+					if (this.state.selection) {
+						// Comment selection
+						this.state.selection = open + this.state.selection + close;
+					} else {
+						// Comment whole line
+						start = this.state.before.lastIndexOf('\n') + 1;
+						end = this.state.after.indexOf('\n');
+
+						if (end === -1) {
+							end = after.length;
+						}
+
+						while (/\s/.test(this.state.before.charAt(start))) {
+							start++;
+						}
+
+						this.state.before = this.state.before.splice(start, 0, open);
+
+						this.state.after = this.state.after.splice(end, 0, close);
+					}
+
+					this.state.ss += open.length;
+					this.state.se += open.length;
+				}
+			}
+		}
+	};
+	// </script>
+
+/***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<pre \n\ttabindex=\"2\" \n\t:contenteditable=\"editing\" \n\tclass=\"language-markup\"\n\tv-on:keyup=\"handleKeyup\"\n\tv-on:keydown=\"handleKeydown\"\n\tv-on:focus=\"handleFocus\"\n\tv-on:paste=\"handlePaste\"\n\t>\n\t{{ html }}</pre>\n";
+	/* WEBPACK VAR INJECTION */(function(global) {
+	/* **********************************************
+	     Begin prism-core.js
+	********************************************** */
+
+	var _self = (typeof window !== 'undefined')
+		? window   // if in browser
+		: (
+			(typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope)
+			? self // if in worker
+			: {}   // if in node js
+		);
+
+	/**
+	 * Prism: Lightweight, robust, elegant syntax highlighting
+	 * MIT license http://www.opensource.org/licenses/mit-license.php/
+	 * @author Lea Verou http://lea.verou.me
+	 */
+
+	var Prism = (function(){
+
+	// Private helper vars
+	var lang = /\blang(?:uage)?-(\w+)\b/i;
+	var uniqueId = 0;
+
+	var _ = _self.Prism = {
+		util: {
+			encode: function (tokens) {
+				if (tokens instanceof Token) {
+					return new Token(tokens.type, _.util.encode(tokens.content), tokens.alias);
+				} else if (_.util.type(tokens) === 'Array') {
+					return tokens.map(_.util.encode);
+				} else {
+					return tokens.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\u00a0/g, ' ');
+				}
+			},
+
+			type: function (o) {
+				return Object.prototype.toString.call(o).match(/\[object (\w+)\]/)[1];
+			},
+
+			objId: function (obj) {
+				if (!obj['__id']) {
+					Object.defineProperty(obj, '__id', { value: ++uniqueId });
+				}
+				return obj['__id'];
+			},
+
+			// Deep clone a language definition (e.g. to extend it)
+			clone: function (o) {
+				var type = _.util.type(o);
+
+				switch (type) {
+					case 'Object':
+						var clone = {};
+
+						for (var key in o) {
+							if (o.hasOwnProperty(key)) {
+								clone[key] = _.util.clone(o[key]);
+							}
+						}
+
+						return clone;
+
+					case 'Array':
+						// Check for existence for IE8
+						return o.map && o.map(function(v) { return _.util.clone(v); });
+				}
+
+				return o;
+			}
+		},
+
+		languages: {
+			extend: function (id, redef) {
+				var lang = _.util.clone(_.languages[id]);
+
+				for (var key in redef) {
+					lang[key] = redef[key];
+				}
+
+				return lang;
+			},
+
+			/**
+			 * Insert a token before another token in a language literal
+			 * As this needs to recreate the object (we cannot actually insert before keys in object literals),
+			 * we cannot just provide an object, we need anobject and a key.
+			 * @param inside The key (or language id) of the parent
+			 * @param before The key to insert before. If not provided, the function appends instead.
+			 * @param insert Object with the key/value pairs to insert
+			 * @param root The object that contains `inside`. If equal to Prism.languages, it can be omitted.
+			 */
+			insertBefore: function (inside, before, insert, root) {
+				root = root || _.languages;
+				var grammar = root[inside];
+
+				if (arguments.length == 2) {
+					insert = arguments[1];
+
+					for (var newToken in insert) {
+						if (insert.hasOwnProperty(newToken)) {
+							grammar[newToken] = insert[newToken];
+						}
+					}
+
+					return grammar;
+				}
+
+				var ret = {};
+
+				for (var token in grammar) {
+
+					if (grammar.hasOwnProperty(token)) {
+
+						if (token == before) {
+
+							for (var newToken in insert) {
+
+								if (insert.hasOwnProperty(newToken)) {
+									ret[newToken] = insert[newToken];
+								}
+							}
+						}
+
+						ret[token] = grammar[token];
+					}
+				}
+
+				// Update references in other language definitions
+				_.languages.DFS(_.languages, function(key, value) {
+					if (value === root[inside] && key != inside) {
+						this[key] = ret;
+					}
+				});
+
+				return root[inside] = ret;
+			},
+
+			// Traverse a language definition with Depth First Search
+			DFS: function(o, callback, type, visited) {
+				visited = visited || {};
+				for (var i in o) {
+					if (o.hasOwnProperty(i)) {
+						callback.call(o, i, o[i], type || i);
+
+						if (_.util.type(o[i]) === 'Object' && !visited[_.util.objId(o[i])]) {
+							visited[_.util.objId(o[i])] = true;
+							_.languages.DFS(o[i], callback, null, visited);
+						}
+						else if (_.util.type(o[i]) === 'Array' && !visited[_.util.objId(o[i])]) {
+							visited[_.util.objId(o[i])] = true;
+							_.languages.DFS(o[i], callback, i, visited);
+						}
+					}
+				}
+			}
+		},
+		plugins: {},
+
+		highlightAll: function(async, callback) {
+			var env = {
+				callback: callback,
+				selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
+			};
+
+			_.hooks.run("before-highlightall", env);
+
+			var elements = env.elements || document.querySelectorAll(env.selector);
+
+			for (var i=0, element; element = elements[i++];) {
+				_.highlightElement(element, async === true, env.callback);
+			}
+		},
+
+		highlightElement: function(element, async, callback) {
+			// Find language
+			var language, grammar, parent = element;
+
+			while (parent && !lang.test(parent.className)) {
+				parent = parent.parentNode;
+			}
+
+			if (parent) {
+				language = (parent.className.match(lang) || [,''])[1];
+				grammar = _.languages[language];
+			}
+
+			// Set language on the element, if not present
+			element.className = element.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
+
+			// Set language on the parent, for styling
+			parent = element.parentNode;
+
+			if (/pre/i.test(parent.nodeName)) {
+				parent.className = parent.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
+			}
+
+			var code = element.textContent;
+
+			var env = {
+				element: element,
+				language: language,
+				grammar: grammar,
+				code: code
+			};
+
+			_.hooks.run('before-sanity-check', env);
+
+			if (!env.code || !env.grammar) {
+				_.hooks.run('complete', env);
+				return;
+			}
+
+			_.hooks.run('before-highlight', env);
+
+			if (async && _self.Worker) {
+				var worker = new Worker(_.filename);
+
+				worker.onmessage = function(evt) {
+					env.highlightedCode = evt.data;
+
+					_.hooks.run('before-insert', env);
+
+					env.element.innerHTML = env.highlightedCode;
+
+					callback && callback.call(env.element);
+					_.hooks.run('after-highlight', env);
+					_.hooks.run('complete', env);
+				};
+
+				worker.postMessage(JSON.stringify({
+					language: env.language,
+					code: env.code,
+					immediateClose: true
+				}));
+			}
+			else {
+				env.highlightedCode = _.highlight(env.code, env.grammar, env.language);
+
+				_.hooks.run('before-insert', env);
+
+				env.element.innerHTML = env.highlightedCode;
+
+				callback && callback.call(element);
+
+				_.hooks.run('after-highlight', env);
+				_.hooks.run('complete', env);
+			}
+		},
+
+		highlight: function (text, grammar, language) {
+			var tokens = _.tokenize(text, grammar);
+			return Token.stringify(_.util.encode(tokens), language);
+		},
+
+		tokenize: function(text, grammar, language) {
+			var Token = _.Token;
+
+			var strarr = [text];
+
+			var rest = grammar.rest;
+
+			if (rest) {
+				for (var token in rest) {
+					grammar[token] = rest[token];
+				}
+
+				delete grammar.rest;
+			}
+
+			tokenloop: for (var token in grammar) {
+				if(!grammar.hasOwnProperty(token) || !grammar[token]) {
+					continue;
+				}
+
+				var patterns = grammar[token];
+				patterns = (_.util.type(patterns) === "Array") ? patterns : [patterns];
+
+				for (var j = 0; j < patterns.length; ++j) {
+					var pattern = patterns[j],
+						inside = pattern.inside,
+						lookbehind = !!pattern.lookbehind,
+						greedy = !!pattern.greedy,
+						lookbehindLength = 0,
+						alias = pattern.alias;
+
+					pattern = pattern.pattern || pattern;
+
+					for (var i=0; i<strarr.length; i++) { // Don’t cache length as it changes during the loop
+
+						var str = strarr[i];
+
+						if (strarr.length > text.length) {
+							// Something went terribly wrong, ABORT, ABORT!
+							break tokenloop;
+						}
+
+						if (str instanceof Token) {
+							continue;
+						}
+
+						pattern.lastIndex = 0;
+
+						var match = pattern.exec(str),
+						    delNum = 1;
+
+						// Greedy patterns can override/remove up to two previously matched tokens
+						if (!match && greedy && i != strarr.length - 1) {
+							// Reconstruct the original text using the next two tokens
+							var nextToken = strarr[i + 1].matchedStr || strarr[i + 1],
+							    combStr = str + nextToken;
+
+							if (i < strarr.length - 2) {
+								combStr += strarr[i + 2].matchedStr || strarr[i + 2];
+							}
+
+							// Try the pattern again on the reconstructed text
+							pattern.lastIndex = 0;
+							match = pattern.exec(combStr);
+							if (!match) {
+								continue;
+							}
+
+							var from = match.index + (lookbehind ? match[1].length : 0);
+							// To be a valid candidate, the new match has to start inside of str
+							if (from >= str.length) {
+								continue;
+							}
+							var to = match.index + match[0].length,
+							    len = str.length + nextToken.length;
+
+							// Number of tokens to delete and replace with the new match
+							delNum = 3;
+
+							if (to <= len) {
+								if (strarr[i + 1].greedy) {
+									continue;
+								}
+								delNum = 2;
+								combStr = combStr.slice(0, len);
+							}
+							str = combStr;
+						}
+
+						if (!match) {
+							continue;
+						}
+
+						if(lookbehind) {
+							lookbehindLength = match[1].length;
+						}
+
+						var from = match.index + lookbehindLength,
+						    match = match[0].slice(lookbehindLength),
+						    to = from + match.length,
+						    before = str.slice(0, from),
+						    after = str.slice(to);
+
+						var args = [i, delNum];
+
+						if (before) {
+							args.push(before);
+						}
+
+						var wrapped = new Token(token, inside? _.tokenize(match, inside) : match, alias, match, greedy);
+
+						args.push(wrapped);
+
+						if (after) {
+							args.push(after);
+						}
+
+						Array.prototype.splice.apply(strarr, args);
+					}
+				}
+			}
+
+			return strarr;
+		},
+
+		hooks: {
+			all: {},
+
+			add: function (name, callback) {
+				var hooks = _.hooks.all;
+
+				hooks[name] = hooks[name] || [];
+
+				hooks[name].push(callback);
+			},
+
+			run: function (name, env) {
+				var callbacks = _.hooks.all[name];
+
+				if (!callbacks || !callbacks.length) {
+					return;
+				}
+
+				for (var i=0, callback; callback = callbacks[i++];) {
+					callback(env);
+				}
+			}
+		}
+	};
+
+	var Token = _.Token = function(type, content, alias, matchedStr, greedy) {
+		this.type = type;
+		this.content = content;
+		this.alias = alias;
+		// Copy of the full string this token was created from
+		this.matchedStr = matchedStr || null;
+		this.greedy = !!greedy;
+	};
+
+	Token.stringify = function(o, language, parent) {
+		if (typeof o == 'string') {
+			return o;
+		}
+
+		if (_.util.type(o) === 'Array') {
+			return o.map(function(element) {
+				return Token.stringify(element, language, o);
+			}).join('');
+		}
+
+		var env = {
+			type: o.type,
+			content: Token.stringify(o.content, language, parent),
+			tag: 'span',
+			classes: ['token', o.type],
+			attributes: {},
+			language: language,
+			parent: parent
+		};
+
+		if (env.type == 'comment') {
+			env.attributes['spellcheck'] = 'true';
+		}
+
+		if (o.alias) {
+			var aliases = _.util.type(o.alias) === 'Array' ? o.alias : [o.alias];
+			Array.prototype.push.apply(env.classes, aliases);
+		}
+
+		_.hooks.run('wrap', env);
+
+		var attributes = '';
+
+		for (var name in env.attributes) {
+			attributes += (attributes ? ' ' : '') + name + '="' + (env.attributes[name] || '') + '"';
+		}
+
+		return '<' + env.tag + ' class="' + env.classes.join(' ') + '" ' + attributes + '>' + env.content + '</' + env.tag + '>';
+
+	};
+
+	if (!_self.document) {
+		if (!_self.addEventListener) {
+			// in Node.js
+			return _self.Prism;
+		}
+	 	// In worker
+		_self.addEventListener('message', function(evt) {
+			var message = JSON.parse(evt.data),
+			    lang = message.language,
+			    code = message.code,
+			    immediateClose = message.immediateClose;
+
+			_self.postMessage(_.highlight(code, _.languages[lang], lang));
+			if (immediateClose) {
+				_self.close();
+			}
+		}, false);
+
+		return _self.Prism;
+	}
+
+	//Get current script and highlight
+	var script = document.currentScript || [].slice.call(document.getElementsByTagName("script")).pop();
+
+	if (script) {
+		_.filename = script.src;
+
+		if (document.addEventListener && !script.hasAttribute('data-manual')) {
+			document.addEventListener('DOMContentLoaded', _.highlightAll);
+		}
+	}
+
+	return _self.Prism;
+
+	})();
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = Prism;
+	}
+
+	// hack for components to work correctly in node.js
+	if (typeof global !== 'undefined') {
+		global.Prism = Prism;
+	}
+
+
+	/* **********************************************
+	     Begin prism-markup.js
+	********************************************** */
+
+	Prism.languages.markup = {
+		'comment': /<!--[\w\W]*?-->/,
+		'prolog': /<\?[\w\W]+?\?>/,
+		'doctype': /<!DOCTYPE[\w\W]+?>/,
+		'cdata': /<!\[CDATA\[[\w\W]*?]]>/i,
+		'tag': {
+			pattern: /<\/?(?!\d)[^\s>\/=.$<]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\\1|\\?(?!\1)[\w\W])*\1|[^\s'">=]+))?)*\s*\/?>/i,
+			inside: {
+				'tag': {
+					pattern: /^<\/?[^\s>\/]+/i,
+					inside: {
+						'punctuation': /^<\/?/,
+						'namespace': /^[^\s>\/:]+:/
+					}
+				},
+				'attr-value': {
+					pattern: /=(?:('|")[\w\W]*?(\1)|[^\s>]+)/i,
+					inside: {
+						'punctuation': /[=>"']/
+					}
+				},
+				'punctuation': /\/?>/,
+				'attr-name': {
+					pattern: /[^\s>\/]+/,
+					inside: {
+						'namespace': /^[^\s>\/:]+:/
+					}
+				}
+
+			}
+		},
+		'entity': /&#?[\da-z]{1,8};/i
+	};
+
+	// Plugin to make entity title show the real entity, idea by Roman Komarov
+	Prism.hooks.add('wrap', function(env) {
+
+		if (env.type === 'entity') {
+			env.attributes['title'] = env.content.replace(/&amp;/, '&');
+		}
+	});
+
+	Prism.languages.xml = Prism.languages.markup;
+	Prism.languages.html = Prism.languages.markup;
+	Prism.languages.mathml = Prism.languages.markup;
+	Prism.languages.svg = Prism.languages.markup;
+
+
+	/* **********************************************
+	     Begin prism-css.js
+	********************************************** */
+
+	Prism.languages.css = {
+		'comment': /\/\*[\w\W]*?\*\//,
+		'atrule': {
+			pattern: /@[\w-]+?.*?(;|(?=\s*\{))/i,
+			inside: {
+				'rule': /@[\w-]+/
+				// See rest below
+			}
+		},
+		'url': /url\((?:(["'])(\\(?:\r\n|[\w\W])|(?!\1)[^\\\r\n])*\1|.*?)\)/i,
+		'selector': /[^\{\}\s][^\{\};]*?(?=\s*\{)/,
+		'string': /("|')(\\(?:\r\n|[\w\W])|(?!\1)[^\\\r\n])*\1/,
+		'property': /(\b|\B)[\w-]+(?=\s*:)/i,
+		'important': /\B!important\b/i,
+		'function': /[-a-z0-9]+(?=\()/i,
+		'punctuation': /[(){};:]/
+	};
+
+	Prism.languages.css['atrule'].inside.rest = Prism.util.clone(Prism.languages.css);
+
+	if (Prism.languages.markup) {
+		Prism.languages.insertBefore('markup', 'tag', {
+			'style': {
+				pattern: /(<style[\w\W]*?>)[\w\W]*?(?=<\/style>)/i,
+				lookbehind: true,
+				inside: Prism.languages.css,
+				alias: 'language-css'
+			}
+		});
+		
+		Prism.languages.insertBefore('inside', 'attr-value', {
+			'style-attr': {
+				pattern: /\s*style=("|').*?\1/i,
+				inside: {
+					'attr-name': {
+						pattern: /^\s*style/i,
+						inside: Prism.languages.markup.tag.inside
+					},
+					'punctuation': /^\s*=\s*['"]|['"]\s*$/,
+					'attr-value': {
+						pattern: /.+/i,
+						inside: Prism.languages.css
+					}
+				},
+				alias: 'language-css'
+			}
+		}, Prism.languages.markup.tag);
+	}
+
+	/* **********************************************
+	     Begin prism-clike.js
+	********************************************** */
+
+	Prism.languages.clike = {
+		'comment': [
+			{
+				pattern: /(^|[^\\])\/\*[\w\W]*?\*\//,
+				lookbehind: true
+			},
+			{
+				pattern: /(^|[^\\:])\/\/.*/,
+				lookbehind: true
+			}
+		],
+		'string': {
+			pattern: /(["'])(\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+			greedy: true
+		},
+		'class-name': {
+			pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/i,
+			lookbehind: true,
+			inside: {
+				punctuation: /(\.|\\)/
+			}
+		},
+		'keyword': /\b(if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
+		'boolean': /\b(true|false)\b/,
+		'function': /[a-z0-9_]+(?=\()/i,
+		'number': /\b-?(?:0x[\da-f]+|\d*\.?\d+(?:e[+-]?\d+)?)\b/i,
+		'operator': /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/,
+		'punctuation': /[{}[\];(),.:]/
+	};
+
+
+	/* **********************************************
+	     Begin prism-javascript.js
+	********************************************** */
+
+	Prism.languages.javascript = Prism.languages.extend('clike', {
+		'keyword': /\b(as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/,
+		'number': /\b-?(0x[\dA-Fa-f]+|0b[01]+|0o[0-7]+|\d*\.?\d+([Ee][+-]?\d+)?|NaN|Infinity)\b/,
+		// Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
+		'function': /[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*(?=\()/i
+	});
+
+	Prism.languages.insertBefore('javascript', 'keyword', {
+		'regex': {
+			pattern: /(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\\\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
+			lookbehind: true,
+			greedy: true
+		}
+	});
+
+	Prism.languages.insertBefore('javascript', 'class-name', {
+		'template-string': {
+			pattern: /`(?:\\\\|\\?[^\\])*?`/,
+			greedy: true,
+			inside: {
+				'interpolation': {
+					pattern: /\$\{[^}]+\}/,
+					inside: {
+						'interpolation-punctuation': {
+							pattern: /^\$\{|\}$/,
+							alias: 'punctuation'
+						},
+						rest: Prism.languages.javascript
+					}
+				},
+				'string': /[\s\S]+/
+			}
+		}
+	});
+
+	if (Prism.languages.markup) {
+		Prism.languages.insertBefore('markup', 'tag', {
+			'script': {
+				pattern: /(<script[\w\W]*?>)[\w\W]*?(?=<\/script>)/i,
+				lookbehind: true,
+				inside: Prism.languages.javascript,
+				alias: 'language-javascript'
+			}
+		});
+	}
+
+	Prism.languages.js = Prism.languages.javascript;
+
+	/* **********************************************
+	     Begin prism-file-highlight.js
+	********************************************** */
+
+	(function () {
+		if (typeof self === 'undefined' || !self.Prism || !self.document || !document.querySelector) {
+			return;
+		}
+
+		self.Prism.fileHighlight = function() {
+
+			var Extensions = {
+				'js': 'javascript',
+				'py': 'python',
+				'rb': 'ruby',
+				'ps1': 'powershell',
+				'psm1': 'powershell',
+				'sh': 'bash',
+				'bat': 'batch',
+				'h': 'c',
+				'tex': 'latex'
+			};
+
+			if(Array.prototype.forEach) { // Check to prevent error in IE8
+				Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+					var src = pre.getAttribute('data-src');
+
+					var language, parent = pre;
+					var lang = /\blang(?:uage)?-(?!\*)(\w+)\b/i;
+					while (parent && !lang.test(parent.className)) {
+						parent = parent.parentNode;
+					}
+
+					if (parent) {
+						language = (pre.className.match(lang) || [, ''])[1];
+					}
+
+					if (!language) {
+						var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+						language = Extensions[extension] || extension;
+					}
+
+					var code = document.createElement('code');
+					code.className = 'language-' + language;
+
+					pre.textContent = '';
+
+					code.textContent = 'Loading…';
+
+					pre.appendChild(code);
+
+					var xhr = new XMLHttpRequest();
+
+					xhr.open('GET', src, true);
+
+					xhr.onreadystatechange = function () {
+						if (xhr.readyState == 4) {
+
+							if (xhr.status < 400 && xhr.responseText) {
+								code.textContent = xhr.responseText;
+
+								Prism.highlightElement(code);
+							}
+							else if (xhr.status >= 400) {
+								code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+							}
+							else {
+								code.textContent = '✖ Error: File does not exist or is empty';
+							}
+						}
+					};
+
+					xhr.send(null);
+				});
+			}
+
+		};
+
+		document.addEventListener('DOMContentLoaded', self.Prism.fileHighlight);
+
+	})();
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(19)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] components/Html.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(20)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "./Html.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	// <template>
-	// 	<div class="sg-st__output">
-	// 		{{{ html }}}
-	// 	</div>
-	// </template>
-	// <script>
-	exports.default = {
-		props: ['html'],
-
-		vuex: {
-			getters: {
-				root: function root(store) {
-					return store.root;
-				},
-				endpoint: function endpoint(store) {
-					return store.settings.endpoint;
-				}
-			}
-		},
-
-		computed: {
-			full_url: function full_url() {
-				return this.root + this.endpoint + '#';
-			}
-		},
-
-		ready: function ready() {
-			this.processImages();
-		},
-
-		methods: {
-			processImages: function () {
-				var images = this.$el.querySelectorAll('img');
-				if (images.length > 0) {
-					var w;
-					var h;
-					for (var i = 0; i < images.length; i++) {
-						var src = images[i].src;
-						if (src === this.full_url) {
-							w = images[i].getAttribute('width') || 300;
-							h = images[i].getAttribute('height') || 300;
-							var newimg = 'https://unsplash.it/' + w + '/' + h;
-							images[i].src = newimg;
-						}
-					}
-				}
-			}.debounce(500)
-		},
-
-		watch: {
-			'html': function html(val, oldval) {
-				if (val !== oldval) {
-					this.processImages();
-				}
-			}
-		}
-	};
-	// </script>
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<div class=\"sg-st__output\">\n\t{{{ html }}}\n</div>\n";
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(22)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] components/Icon.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(24)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  var id = "./Icon.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 
-	var _svg = __webpack_require__(23);
-
-	var _svg2 = _interopRequireDefault(_svg);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-		props: {
-			name: {
-				type: String,
-				required: true
-			}
-		},
-		computed: {
-			box: function box() {
-				return '0 0 ' + this.icon.width + ' ' + this.icon.height;
-			},
-			icon: function icon() {
-				return _svg2.default[this.name];
-			}
-		}
-	};
-	// </script>
-	// <template>
-	// 	<svg class="sg-icon" :view-box.camel="box" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	// 		<title>{{ icon.title }}</title>
-	// 		<g>{{{ icon.g }}}</g>
-	// 	</svg>
-	// </template>
-	//
-	// <script>
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.default = {
-		styles: {
-			title: 'Styles',
-			width: 100,
-			height: 50,
-			g: '<path class="st1" d="m10.4 11.4c0 0.8 0.2 1.4 0.7 2 0.4 0.6 1 1.2 1.8 1.7 0.7 0.5 1.6 1 2.5 1.5s1.9 0.9 2.8 1.4c1 0.5 1.9 1 2.8 1.6s1.8 1.2 2.5 1.9c0.7 0.7 1.3 1.5 1.8 2.4s0.7 1.9 0.7 3c0 1-0.2 2-0.5 2.9s-0.8 1.6-1.4 2.3-1.3 1.3-2.1 1.8-1.6 1-2.6 1.3c-0.9 0.3-1.9 0.6-2.9 0.8s-2 0.3-3.1 0.3c-1.4 0-2.8-0.2-4.2-0.5-1.4-0.4-2.6-0.9-3.6-1.6s-1.9-1.6-2.5-2.7c-0.6-1.1-1-2.3-1-3.7 0-0.7 0.1-1.4 0.4-1.9 0.2-0.6 0.5-1 0.9-1.4s0.7-0.7 1.1-0.8c0.4-0.2 0.8-0.3 1.2-0.3s0.7 0.1 0.9 0.3c0.2 0 0.4 0.3 0.4 0.8 0 0.2 0 0.4-0.1 0.6 0 0.2-0.1 0.5-0.1 0.7-0.1 0.3-0.1 0.5-0.1 0.9 0 0.3-0.1 0.6-0.1 1 0 0.8 0.2 1.5 0.6 2.1s0.9 1.1 1.5 1.4 1.3 0.7 2.1 0.8c0.8 0.2 1.6 0.3 2.5 0.3 1 0 2-0.1 3-0.4 1-0.2 1.9-0.6 2.7-1.1s1.4-1 1.9-1.7 0.7-1.5 0.7-2.4c0-0.8-0.2-1.5-0.7-2.2s-1-1.2-1.8-1.8c-0.7-0.5-1.6-1.1-2.5-1.5-0.9-0.5-1.9-1-2.8-1.5-1-0.5-1.9-1-2.8-1.6-0.9-0.5-1.8-1.1-2.5-1.8s-1.3-1.4-1.8-2.2c-0.5-0.6-0.7-1.6-0.7-2.6s0.2-1.9 0.7-2.9c0.5-0.9 1.2-1.8 2.1-2.5s2.1-1.3 3.5-1.8 3-0.7 4.9-0.7c1.2 0 2.4 0.2 3.5 0.5 1.1 0.4 2.2 0.9 3.1 1.5 0.9 0.7 1.6 1.4 2.2 2.3 0.5 0.9 0.8 1.9 0.8 3 0 0.7-0.1 1.3-0.3 2s-0.6 1.4-1.1 2.2c-0.5 0.7-1 1.3-1.6 1.6-0.6 0.4-1.1 0.5-1.5 0.5-0.3 0-0.6-0.1-0.8-0.3s-0.3-0.5-0.3-0.9c0-0.3 0.1-0.7 0.2-1.1s0.4-0.9 0.7-1.4 0.5-1 0.7-1.4 0.2-0.9 0.2-1.2c0-0.6-0.2-1.1-0.5-1.5s-0.8-0.8-1.3-1.1c-0.6-0.3-1.2-0.5-2-0.7-0.8-0.1-1.6-0.2-2.6-0.2s-1.9 0.1-2.7 0.4c-0.8 0.2-1.4 0.5-1.9 0.9-0.6 0.4-1 0.8-1.2 1.3-0.3 0.5-0.4 0.9-0.4 1.4z"/><path class="st1" d="m43.5 30.1c-1.1 0.6-2.1 1.2-2.9 1.7-0.9 0.5-1.6 0.9-2.3 1.2s-1.3 0.6-1.8 0.7-1 0.2-1.4 0.2c-0.9 0-1.6-0.3-2.3-0.8s-1.2-1.3-1.7-2.3-0.8-2.2-1-3.6c-0.2-1.4-0.3-3-0.3-4.8 0-0.7 0-1.4 0.1-2.2s0.1-1.6 0.2-2.3c-0.3 0-0.6-0.1-0.8-0.1s-0.4-0.1-0.6-0.1-0.5-0.1-0.8-0.1-0.8-0.1-1.4-0.2c-0.3 0-0.5-0.1-0.6-0.2s-0.3-0.2-0.3-0.3c-0.1-0.1-0.1-0.3-0.1-0.4v-0.4c0-0.2 0.1-0.4 0.3-0.5s0.5-0.2 0.9-0.3c0.4-0.1 0.7-0.1 1.2-0.1h1.2 1 0.6c0.3-1.6 0.7-3.1 1.2-4.5s1-2.7 1.6-3.9c0.6-1.1 1.2-2 1.9-2.7s1.4-1 2.2-1c0.5 0 0.9 0.1 1.4 0.4 0.4 0.3 0.8 0.6 1 1.1 0.3 0.5 0.5 1 0.7 1.6s0.2 1.3 0.2 1.9-0.1 1.2-0.2 1.8c-0.2 0.6-0.4 1.3-0.7 1.9s-0.6 1.3-1 2c-0.4 0.7-0.8 1.3-1.2 2h0.5 0.8 1 1.1 1 0.7c0.2 0 0.4 0.1 0.5 0.3s0.2 0.5 0.2 0.8c0 0.4-0.1 0.7-0.3 1s-0.5 0.4-0.8 0.4h-6.6c-0.3 0.5-0.7 0.9-1 1.4-0.3 0.4-0.7 0.8-0.9 1.2 0 0.7-0.1 1.4-0.1 2.1v0.9 0.9 0.9s0 0.6 0 0.8c0 0.6 0.1 1.1 0.2 1.6 0.1 0.4 0.3 0.8 0.5 1s0.5 0.5 0.8 0.6c0.3 0.1 0.7 0.2 1.1 0.2 0.2 0 0.5-0.1 0.9-0.2s0.8-0.3 1.2-0.5 0.9-0.4 1.4-0.7 0.9-0.6 1.4-0.9c0.5-0.3 0.9-0.7 1.3-1s0.8-0.7 1.2-1.1v4.6zm-5.5-21.8v-0.4c0-0.2-0.1-0.3-0.1-0.4-0.1-0.1-0.1-0.3-0.3-0.3-0.1-0.2-0.3-0.2-0.5-0.2-0.3 0-0.6 0.3-0.9 0.8s-0.6 1.2-0.9 2-0.5 1.7-0.8 2.7c-0.2 1-0.5 1.9-0.7 2.9 0.2 0 0.3 0 0.5 0.1 0.2 0 0.4 0 0.5 0.1 0.3-0.6 0.7-1.2 1.1-1.9s0.7-1.4 1-2c0.3-0.7 0.5-1.3 0.7-1.9 0.3-0.7 0.4-1.1 0.4-1.5z"/><path class="st1" d="m51.8 20.8c0.1-0.4 0.3-0.7 0.5-1s0.5-0.6 0.8-0.8 0.6-0.4 1-0.5c0.3-0.1 0.6-0.2 0.9-0.2 0.4 0 0.7 0.1 0.9 0.2 0.2 0.2 0.4 0.4 0.4 0.7 0 0.1 0 0.2-0.1 0.4-0.1 0.3-0.2 0.7-0.3 1.2s-0.2 1.1-0.3 1.8-0.2 1.3-0.4 2.1c-0.1 0.7-0.2 1.5-0.4 2.2-0.3 1.7-0.6 3.5-0.9 5.5 0.3-0.2 0.7-0.4 1.1-0.7s0.8-0.7 1.3-1.2 1-1.1 1.7-1.8c0.6-0.7 1.3-1.6 2.1-2.7l0.8 3.8c-0.2 0.4-0.5 0.7-0.8 1.1s-0.7 0.7-1.1 1.1-0.8 0.7-1.2 1.1-0.9 0.7-1.3 1c-1 0.7-2 1.4-3.2 2.1-0.2 1.2-0.5 2.4-0.8 3.6s-0.7 2.3-1.1 3.3c-0.4 1-0.9 2-1.4 2.8-0.5 0.9-1.1 1.6-1.8 2.2s-1.4 1.1-2.2 1.4c-0.8 0.3-1.7 0.5-2.7 0.5-0.4 0-0.8 0-1.3-0.1s-0.9-0.2-1.3-0.5c-0.4-0.2-0.7-0.6-1-1s-0.4-1-0.4-1.8c0-0.5 0.1-1.1 0.4-1.8 0.3-0.6 0.6-1.3 1.1-2.1 0.5-0.7 1-1.5 1.6-2.2 0.6-0.8 1.3-1.5 2.1-2.3 0.7-0.8 1.5-1.5 2.3-2.3 0.8-0.7 1.6-1.5 2.5-2.1l0.5-1.6c-0.6 0.6-1.3 1-1.9 1.3-0.7 0.3-1.3 0.5-2 0.5-0.6 0-1.1-0.1-1.6-0.3s-1-0.5-1.4-1-0.7-0.9-1-1.5c-0.2-0.6-0.4-1.3-0.4-2 0-1 0-1.9 0.1-2.8 0.1-0.8 0.2-1.6 0.4-2.4s0.4-1.5 0.7-2.2 0.6-1.4 0.9-2.1c0.3-0.5 0.6-0.9 1.1-1.2s1-0.4 1.4-0.4c0.4 0 0.7 0.1 1 0.3s0.4 0.5 0.4 0.9v0.4c0 0.1-0.1 0.3-0.1 0.5-0.2 0.5-0.4 1.2-0.6 1.9s-0.4 1.5-0.5 2.2c-0.2 0.8-0.3 1.5-0.4 2.2s-0.1 1.4-0.1 1.9c0 0.3 0 0.6 0.1 0.8 0 0.3 0.1 0.5 0.2 0.7s0.2 0.4 0.4 0.5c0.2 0.1 0.4 0.2 0.7 0.2 0.4 0 0.8-0.2 1.2-0.6 0.3-0.4 0.6-0.8 0.9-1.3s0.5-1.1 0.6-1.6c0.2-0.6 0.3-1 0.3-1.4l1.6-4.9zm-8 25.9c0.5 0 0.9-0.1 1.4-0.4s0.8-0.7 1.2-1.1c0.4-0.5 0.7-1 1-1.6s0.6-1.2 0.8-1.8 0.4-1.2 0.6-1.8c0.2-0.6 0.3-1.1 0.4-1.6-0.4 0.3-0.9 0.7-1.4 1.1s-0.9 0.9-1.4 1.3c-0.4 0.5-0.9 1-1.3 1.5s-0.7 1-1 1.5c-0.3 0.5-0.5 0.9-0.7 1.3s-0.3 0.7-0.3 1c0 0.4 0.2 0.6 0.7 0.6z"/><path class="st1" d="m62.8 34c-0.6 0-1.2-0.3-1.7-0.8s-1-1.3-1.4-2.2-0.7-2-0.9-3.2-0.3-2.5-0.3-3.8c0-1 0.1-2.1 0.2-3.3s0.4-2.4 0.7-3.7 0.6-2.6 1-3.8c0.4-1.3 0.8-2.5 1.3-3.7s1-2.3 1.6-3.3c0.6-1 1.2-1.9 1.8-2.7s1.3-1.4 2-1.8 1.4-0.7 2.1-0.7c0.5 0 0.9 0.1 1.2 0.3s0.6 0.5 0.8 0.9 0.3 0.8 0.4 1.2c0.1 0.5 0.1 0.9 0.1 1.4 0 1.1-0.1 2.2-0.4 3.3-0.2 1.1-0.6 2.2-1 3.4-0.4 1.1-0.9 2.3-1.5 3.4s-1.1 2.3-1.7 3.4-1.2 2.2-1.8 3.3-1.2 2.1-1.7 3.2c-0.1 0.1-0.1 0.3-0.2 0.4-0.1 0.2-0.1 0.4-0.2 0.6s-0.1 0.4-0.2 0.7c-0.1 0.2-0.1 0.5-0.1 0.7v0.2c0 0.3 0 0.6 0.1 0.9s0.1 0.5 0.2 0.8c0.1 0.2 0.2 0.4 0.3 0.5s0.2 0.2 0.3 0.2c0.2 0 0.5 0 0.8-0.1s0.6-0.2 0.9-0.4 0.6-0.3 1-0.5c0.3-0.2 0.7-0.4 1-0.6 0.7-0.5 1.5-1 2.3-1.7l1.4 3.6c-1 0.7-2 1.4-3 2-0.4 0.2-0.9 0.5-1.4 0.7s-0.9 0.4-1.4 0.6-0.9 0.3-1.4 0.4-0.8 0.2-1.2 0.2zm0.1-13.8c0.5-0.9 1.1-2 1.6-3.1 0.6-1.1 1.1-2.3 1.6-3.6 0.5-1.2 1-2.4 1.3-3.6 0.4-1.2 0.6-2.3 0.7-3.4v-0.9c0-0.2-0.1-0.4-0.2-0.4-0.3 0-0.7 0.2-1.1 0.6s-0.8 1-1.2 1.8-0.8 1.6-1.1 2.6c-0.4 1-0.7 2-0.9 3.1-0.3 1.1-0.5 2.2-0.7 3.4s0 2.4 0 3.5z"/><path class="st1" d="m74.7 34c-1.1 0-2-0.2-2.8-0.6s-1.5-0.9-2-1.6-0.9-1.4-1.2-2.3-0.4-1.8-0.4-2.7c0-0.6 0.1-1.3 0.2-2s0.3-1.4 0.6-2.1 0.6-1.3 1-2 0.8-1.2 1.4-1.7c0.5-0.5 1.1-0.9 1.8-1.1 0.6-0.3 1.4-0.4 2.2-0.4 0.6 0 1.2 0.1 1.8 0.3s1 0.5 1.4 0.9 0.7 0.8 1 1.4c0.2 0.5 0.3 1.1 0.3 1.8s-0.2 1.4-0.5 2.1c-0.4 0.7-0.8 1.4-1.5 2-0.6 0.6-1.4 1.2-2.2 1.7s-1.8 0.9-2.8 1.2c0.2 0.3 0.3 0.6 0.5 0.8s0.3 0.4 0.5 0.5 0.4 0.2 0.5 0.2c0.2 0 0.4 0.1 0.6 0.1 0.7 0 1.4-0.1 2.2-0.4s1.5-0.6 2.2-1 1.4-0.9 2.1-1.4 1.2-1 1.6-1.4l2.2 2.3c-1 1-2.1 2-3.2 2.8-0.5 0.3-1 0.7-1.6 1l-1.8 0.9c-0.6 0.3-1.3 0.5-1.9 0.6-0.8 0-1.5 0.1-2.2 0.1zm-2.3-8.1c0.4 0 0.9-0.1 1.4-0.3s0.9-0.5 1.4-0.8 0.8-0.7 1.1-1.1c0.3-0.4 0.4-0.8 0.4-1.1 0-0.5-0.1-0.9-0.3-1.3s-0.4-0.5-0.7-0.5c-0.5 0-0.9 0.1-1.3 0.3s-0.6 0.4-0.9 0.7c-0.2 0.3-0.4 0.6-0.6 1s-0.3 0.8-0.3 1.1c-0.1 0.4-0.1 0.7-0.1 1.1 0 0.3-0.1 0.6-0.1 0.9z"/><path class="st1" d="m81.9 27.4c0.6-0.6 1.2-1 1.6-1.4l1-1s0.5-0.6 0.8-0.9c0.2-0.3 0.5-0.7 0.8-1.1s0.7-0.9 1.2-1.6 1.1-1.4 1.8-2.3c0.1-0.2 0.3-0.4 0.5-0.6s0.4-0.4 0.6-0.5c0.2-0.2 0.5-0.3 0.7-0.4 0.3-0.1 0.6-0.1 0.9-0.1 0.6 0 1 0.1 1.3 0.2s0.5 0.3 0.7 0.4 0.2 0.4 0.2 0.5v0.5c0 0.3-0.1 0.6-0.3 0.9s-0.5 0.7-0.7 1c-0.3 0.3-0.5 0.6-0.8 0.9-0.2 0.3-0.4 0.5-0.4 0.6 0 0.4 0 0.7 0.1 1s0.1 0.6 0.2 0.9l0.3 0.9c0.1 0.3 0.2 0.7 0.3 1.1s0.2 0.9 0.2 1.4c0.1 0.5 0.1 1.2 0.1 1.9 0.4-0.3 0.9-0.5 1.3-0.8 0.5-0.2 1-0.5 1.5-0.7s1-0.5 1.6-0.8 1.1-0.6 1.6-1.1v3.9c-0.7 0.6-1.5 1.1-2.5 1.6-0.9 0.5-1.9 0.9-2.9 1.3s-2.1 0.7-3.1 0.9c-1.1 0.2-2 0.3-3 0.3-0.7 0-1.3-0.1-1.9-0.2s-1.1-0.3-1.5-0.6-0.8-0.6-1.1-1.1c-0.3-0.4-0.4-1-0.5-1.6-0.2 0-0.3 0.1-0.5 0.1h-0.5-0.5c-0.2 0-0.3-0.1-0.4-0.1-0.1-0.1-0.2-0.2-0.3-0.4s-0.1-0.4-0.1-0.7c0-0.3 0.1-0.5 0.2-0.8 0.1-0.2 0.3-0.4 0.5-0.6s0.4-0.3 0.6-0.5l0.4-0.4zm2.2 2.2c0.1 0 0.3 0.1 0.5 0.3l0.6 0.6c0.2 0.2 0.5 0.4 0.8 0.6s0.6 0.3 1 0.3 0.8-0.1 1.1-0.2 0.5-0.3 0.7-0.6c0.2-0.2 0.3-0.5 0.4-0.9 0.1-0.3 0.1-0.7 0.1-1s0-0.6-0.1-0.9-0.2-0.9-0.2-1.1c-0.1-0.3-0.1-0.6-0.2-0.8-0.1-0.3-0.1-0.5-0.2-0.7l-4.5 4.4z"/>'
-		},
-		save: {
-			title: 'Save',
-			width: 19,
-			height: 19,
-			g: '<path d="M9.5,19 C6.962,19 4.577,18.012 2.782,16.218 C0.987,14.424 0,12.038 0,9.501 C0,6.963 0.988,4.578 2.782,2.783 C4.576,0.988 6.962,1.33226763e-15 9.5,1.33226763e-15 C12.038,1.33226763e-15 14.423,0.988 16.218,2.783 C18.013,4.578 19,6.963 19,9.501 C19,12.039 18.012,14.424 16.218,16.218 C14.424,18.012 12.038,19 9.5,19 L9.5,19 Z M9.5,1 C4.813,1 1,4.813 1,9.5 C1,14.187 4.813,18 9.5,18 C14.187,18 18,14.187 18,9.5 C18,4.813 14.187,1 9.5,1 L9.5,1 Z" id="Shape"></path><path d="M7.5,13.5 C7.372,13.5 7.244,13.451 7.146,13.354 L4.146,10.354 C3.951,10.159 3.951,9.842 4.146,9.647 C4.341,9.452 4.658,9.452 4.853,9.647 L7.499,12.293 L14.145,5.647 C14.34,5.452 14.657,5.452 14.852,5.647 C15.047,5.842 15.047,6.159 14.852,6.354 L7.852,13.354 C7.754,13.452 7.626,13.5 7.498,13.5 L7.5,13.5 Z" id="Shape"></path>'
-		},
-
-		load: {
-			title: 'Load',
-			width: 70,
-			height: 20,
-			g: '<rect width="20" height="20" x="0" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/></rect><rect width="20" height="20" x="25" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="35;25;25;25;35" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" begin="200ms" dur="1000ms" repeatCount="indefinite"/></rect><rect width="20" height="20" x="50" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="60;50;50;50;60" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" begin="400ms" dur="1000ms" repeatCount="indefinite"/></rect>'
-		},
-
-		cancel: {
-			title: 'Cancel',
-			width: 19,
-			height: 19,
-			g: '<path d="M14.332,13.126 L10.252,9.5 L14.332,5.874 C14.538,5.691 14.557,5.375 14.374,5.168 C14.191,4.961 13.875,4.943 13.668,5.126 L9.5,8.831 L5.332,5.126 C5.126,4.943 4.81,4.961 4.626,5.168 C4.442,5.375 4.461,5.69 4.668,5.874 L8.748,9.5 L4.668,13.126 C4.462,13.309 4.443,13.625 4.626,13.832 C4.725,13.943 4.862,14 5,14 C5.118,14 5.237,13.958 5.332,13.874 L9.5,10.169 L13.668,13.874 C13.763,13.959 13.882,14 14,14 C14.138,14 14.275,13.943 14.374,13.832 C14.557,13.626 14.539,13.31 14.332,13.126 L14.332,13.126 Z"></path><path d="M9.5,19 C6.962,19 4.577,18.012 2.782,16.218 C0.987,14.424 0,12.038 0,9.501 C0,6.963 0.988,4.578 2.782,2.783 C4.576,0.988 6.962,1.33226763e-15 9.5,1.33226763e-15 C12.038,1.33226763e-15 14.423,0.988 16.218,2.783 C18.013,4.578 19,6.963 19,9.501 C19,12.039 18.012,14.424 16.218,16.218 C14.424,18.012 12.038,19 9.5,19 L9.5,19 Z M9.5,1 C4.813,1 1,4.813 1,9.5 C1,14.187 4.813,18 9.5,18 C14.187,18 18,14.187 18,9.5 C18,4.813 14.187,1 9.5,1 L9.5,1 Z" ></path>'
-		},
-
-		markup: {
-			title: 'Show Markup',
-			width: 50,
-			height: 25,
-			g: '<path d="M11.8,24c-0.3,0-0.7-0.1-0.9-0.4L0.7,13.4c-0.5-0.5-0.5-1.3,0-1.8L10.9,1.3c0.5-0.5,1.3-0.5,1.8,0 s0.5,1.3,0,1.8l-9.3,9.3l9.3,9.3c0.5,0.5,0.5,1.3,0,1.8C12.5,23.9,12.2,24,11.8,24L11.8,24z"/><path class="st2" d="M37.5,24c-0.3,0-0.7-0.1-0.9-0.4c-0.5-0.5-0.5-1.3,0-1.8l9.3-9.3l-9.3-9.3c-0.5-0.5-0.5-1.3,0-1.8s1.3-0.5,1.8,0l10.3,10.3c0.5,0.5,0.5,1.3,0,1.8L38.4,23.7C38.1,23.9,37.8,24,37.5,24L37.5,24z"/><path class="st2" d="M18.2,24c-0.2,0-0.5-0.1-0.7-0.2c-0.6-0.4-0.8-1.2-0.4-1.8L30,1.6c0.4-0.6,1.2-0.8,1.8-0.4	c0.6,0.4,0.8,1.2,0.4,1.8L19.3,23.4C19.1,23.8,18.7,24,18.2,24z"/>'
-		},
-
-		edit: {
-			title: 'Edit',
-			width: 50,
-			height: 50,
-			g: '<path d="M47.8,2.2C46.4,0.8,44.5,0,42.6,0s-3.9,0.8-5.3,2.2L5.4,34.1c-0.1,0.1-0.2,0.3-0.3,0.5l-5,13.8 c-0.2,0.5-0.1,1,0.3,1.3C0.6,49.9,0.9,50,1.2,50c0.1,0,0.3,0,0.4-0.1l13.8-5c0.2-0.1,0.3-0.2,0.5-0.3l31.9-31.9 c1.4-1.4,2.2-3.3,2.2-5.3S49.2,3.6,47.8,2.2L47.8,2.2z M14.3,42.7l-11,4l4-11L35,8l7,7C42,15,14.3,42.7,14.3,42.7z M46,10.9 l-2.2,2.2l-7-7L39.1,4C40,3,41.2,2.5,42.6,2.5S45.1,3,46,4c0.9,0.9,1.4,2.2,1.4,3.5S47,10,46,10.9L46,10.9z"/>'
-		},
-
-		delete: {
-			title: 'Delete',
-			width: 50,
-			height: 50,
-			g: '<path class="st2" d="M40.5,5h-8.8V3.8C31.8,1.7,30.1,0,28,0h-5c-2.1,0-3.8,1.7-3.8,3.8V5h-8.8C8.4,5,6.8,6.7,6.8,8.8v2.5 c0,1.6,1,3,2.5,3.5v31.5c0,2.1,1.7,3.8,3.8,3.8h25c2.1,0,3.8-1.7,3.8-3.8V14.8c1.5-0.5,2.5-1.9,2.5-3.5V8.7C44.2,6.7,42.6,5,40.5,5 z M21.8,3.8c0-0.7,0.6-1.2,1.2-1.2h5c0.7,0,1.2,0.6,1.2,1.2V5h-7.5V3.8z M38,47.5H13c-0.7,0-1.2-0.6-1.2-1.2V15h27.5v31.2 C39.2,46.9,38.7,47.5,38,47.5z M41.8,11.2c0,0.7-0.6,1.2-1.2,1.2h-30c-0.7,0-1.2-0.6-1.2-1.2V8.8c0-0.7,0.6-1.2,1.2-1.2h30 c0.7,0,1.2,0.6,1.2,1.2V11.2z"/><path class="st2" d="M33,17.5c-0.7,0-1.2,0.6-1.2,1.2v25c0,0.7,0.6,1.2,1.2,1.2s1.2-0.6,1.2-1.2v-25C34.2,18.1,33.7,17.5,33,17.5z"/><path d="M25.5,17.5c-0.7,0-1.2,0.6-1.2,1.2v25c0,0.7,0.6,1.2,1.2,1.2s1.2-0.6,1.2-1.2v-25 C26.8,18.1,26.2,17.5,25.5,17.5z"/><path d="M18,17.5c-0.7,0-1.2,0.6-1.2,1.2v25c0,0.7,0.6,1.2,1.2,1.2s1.2-0.6,1.2-1.2v-25C19.2,18.1,18.7,17.5,18,17.5z"/>'
-		},
-
-		add: {
-			title: 'Add',
-			width: 19,
-			height: 19,
-			g: '<path d="M15.5,9 L10,9 L10,3.5 C10,3.224 9.776,3 9.5,3 C9.224,3 9,3.224 9,3.5 L9,9 L3.5,9 C3.224,9 3,9.224 3,9.5 C3,9.776 3.224,10 3.5,10 L9,10 L9,15.5 C9,15.776 9.224,16 9.5,16 C9.776,16 10,15.776 10,15.5 L10,10 L15.5,10 C15.776,10 16,9.776 16,9.5 C16,9.224 15.776,9 15.5,9 L15.5,9 Z"></path>'
-		},
-
-		cog: {
-			title: 'Settings',
-			width: 20,
-			height: 20,
-			g: '<path d="M7.631,19.702 C7.59,19.702 7.548,19.697 7.506,19.686 C6.608,19.455 5.745,19.099 4.942,18.627 C4.709,18.49 4.627,18.193 4.756,17.956 C4.915,17.664 4.999,17.334 4.999,16.999 C4.999,15.896 4.102,14.999 2.999,14.999 C2.665,14.999 2.334,15.083 2.042,15.242 C1.805,15.371 1.508,15.289 1.371,15.056 C0.899,14.252 0.543,13.39 0.312,12.492 C0.247,12.238 0.389,11.977 0.637,11.894 C1.451,11.62 1.999,10.858 1.999,9.999 C1.999,9.14 1.452,8.378 0.637,8.104 C0.389,8.02 0.247,7.76 0.312,7.506 C0.543,6.608 0.899,5.745 1.371,4.942 C1.508,4.709 1.805,4.627 2.042,4.756 C2.333,4.915 2.664,4.999 2.999,4.999 C4.102,4.999 4.999,4.102 4.999,2.999 C4.999,2.665 4.915,2.334 4.756,2.042 C4.627,1.805 4.709,1.508 4.942,1.371 C5.746,0.899 6.608,0.543 7.506,0.312 C7.76,0.247 8.021,0.389 8.104,0.637 C8.378,1.451 9.14,1.999 9.999,1.999 C10.858,1.999 11.62,1.452 11.894,0.637 C11.978,0.389 12.239,0.247 12.492,0.312 C13.39,0.543 14.253,0.899 15.056,1.371 C15.289,1.508 15.371,1.805 15.242,2.042 C15.083,2.334 14.999,2.664 14.999,2.999 C14.999,4.102 15.896,4.999 16.999,4.999 C17.333,4.999 17.664,4.915 17.956,4.756 C18.193,4.627 18.49,4.709 18.627,4.942 C19.099,5.746 19.455,6.608 19.686,7.506 C19.751,7.76 19.609,8.021 19.361,8.104 C18.547,8.378 17.999,9.14 17.999,9.999 C17.999,10.858 18.546,11.62 19.361,11.894 C19.609,11.978 19.751,12.238 19.686,12.492 C19.455,13.39 19.099,14.253 18.627,15.056 C18.49,15.289 18.193,15.371 17.956,15.242 C17.664,15.083 17.334,14.999 16.999,14.999 C15.896,14.999 14.999,15.896 14.999,16.999 C14.999,17.333 15.083,17.664 15.242,17.956 C15.371,18.193 15.289,18.49 15.056,18.627 C14.252,19.099 13.39,19.455 12.492,19.686 C12.238,19.751 11.977,19.609 11.894,19.361 C11.62,18.547 10.858,17.999 9.999,17.999 C9.14,17.999 8.378,18.546 8.104,19.361 C8.034,19.568 7.84,19.702 7.63,19.702 L7.631,19.702 Z M10,17 C11.127,17 12.142,17.628 12.655,18.602 C13.175,18.441 13.681,18.233 14.165,17.98 C14.057,17.666 14.001,17.334 14.001,17 C14.001,15.346 15.347,14 17.001,14 C17.335,14 17.667,14.056 17.981,14.164 C18.234,13.68 18.443,13.175 18.603,12.654 C17.629,12.142 17.001,11.127 17.001,9.999 C17.001,8.871 17.629,7.857 18.603,7.344 C18.442,6.824 18.234,6.318 17.981,5.834 C17.667,5.942 17.335,5.998 17.001,5.998 C15.347,5.998 14.001,4.652 14.001,2.998 C14.001,2.664 14.057,2.332 14.165,2.018 C13.681,1.765 13.176,1.556 12.655,1.396 C12.143,2.37 11.128,2.998 10,2.998 C8.872,2.998 7.858,2.37 7.345,1.396 C6.825,1.556 6.319,1.765 5.835,2.018 C5.943,2.332 5.999,2.664 5.999,2.998 C5.999,4.652 4.653,5.998 2.999,5.998 C2.665,5.998 2.333,5.942 2.019,5.834 C1.766,6.318 1.557,6.823 1.397,7.344 C2.371,7.856 2.999,8.871 2.999,9.999 C2.999,11.127 2.371,12.141 1.397,12.654 C1.557,13.174 1.766,13.68 2.019,14.164 C2.333,14.056 2.665,14 2.999,14 C4.653,14 5.999,15.346 5.999,17 C5.999,17.334 5.943,17.666 5.835,17.98 C6.319,18.233 6.824,18.442 7.345,18.602 C7.857,17.628 8.872,17 10,17 L10,17 Z" id="Shape"></path><path d="M10,13 C8.346,13 7,11.654 7,10 C7,8.346 8.346,7 10,7 C11.654,7 13,8.346 13,10 C13,11.654 11.654,13 10,13 L10,13 Z M10,8 C8.897,8 8,8.897 8,10 C8,11.103 8.897,12 10,12 C11.103,12 12,11.103 12,10 C12,8.897 11.103,8 10,8 L10,8 Z"></path>'
-		}
-
-	};
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<svg class=\"sg-icon\" :view-box.camel=\"box\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n\t<title>{{ icon.title }}</title>\n\t<g>{{{ icon.g }}}</g>\n</svg>\n";
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _api = __webpack_require__(26);
+	var _api = __webpack_require__(19);
 
 	var _api2 = _interopRequireDefault(_api);
 
@@ -11443,12 +12272,29 @@
 			var dispatch = store.dispatch;
 			_api2.default.addStyle(style, section).then(function (response) {
 				dispatch('RECIEVE_STYLE_ID', style, response.data.id);
+				dispatch('CLEAR_UNDO');
 			});
+		},
+
+		updateHtml: function updateHtml(store, data, style, ss, se) {
+			var dispatch = store.dispatch;
+			dispatch('UPDATE_HTML', data, style, ss, se);
+		},
+
+		undoHtml: function undoHtml(store, style) {
+			var dispatch = store.dispatch;
+			dispatch('UNDO_HTML', style);
+		},
+
+		redoHtml: function redoHtml(store, style) {
+			var dispatch = store.dispatch;
+			dispatch('REDO_HTML', style);
 		},
 
 		updateStyle: function updateStyle(store, data, style) {
 			var dispatch = store.dispatch;
 			dispatch('EDIT_STYLE', data, style);
+			dispatch('CLEAR_UNDO');
 			_api2.default.editStyle(data);
 		},
 
@@ -11491,7 +12337,7 @@
 	};
 
 /***/ },
-/* 26 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11599,29 +12445,291 @@
 	};
 
 /***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<pre \n\ttabindex=\"2\" \n\t:contenteditable=\"editing\" \n\tclass=\"language-markup\"\n\tv-on:keyup=\"handleKeyup\"\n\tv-on:keydown=\"handleKeydown\"\n\tv-on:focus=\"handleFocus\"\n\tv-on:paste=\"handlePaste\"\n\t>{{ html | comments }}</pre>\n";
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(22)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/Html.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(23)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./Html.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="sg-st__output">
+	// 		{{{ html }}}
+	// 	</div>
+	// </template>
+	// <script>
+	exports.default = {
+		props: ['html'],
+
+		vuex: {
+			getters: {
+				root: function root(store) {
+					return store.root;
+				},
+				endpoint: function endpoint(store) {
+					return store.settings.endpoint;
+				}
+			}
+		},
+
+		computed: {
+			full_url: function full_url() {
+				return this.root + this.endpoint + '#';
+			}
+		},
+
+		ready: function ready() {
+			this.processImages();
+		},
+
+		methods: {
+			processImages: function processImages() {
+				var images = this.$el.querySelectorAll('img');
+				if (images.length > 0) {
+					var w;
+					var h;
+					for (var i = 0; i < images.length; i++) {
+						var src = images[i].src;
+						if (src === this.full_url) {
+							w = images[i].getAttribute('width') || 300;
+							h = images[i].getAttribute('height') || 300;
+							var newimg = 'https://unsplash.it/' + w + '/' + h;
+							images[i].src = newimg;
+						}
+					}
+				}
+			},
+
+			processImagesDebounce: function () {
+				this.processImages();
+			}.debounce(500)
+		},
+
+		watch: {
+			'html': function html(val, oldval) {
+				if (val !== oldval) {
+					this.processImagesDebounce();
+				}
+			}
+		}
+	};
+	// </script>
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"sg-st__output\">\n\t{{{ html }}}\n</div>\n";
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(25)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/Icon.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(27)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./Icon.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _svg = __webpack_require__(26);
+
+	var _svg2 = _interopRequireDefault(_svg);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+		props: {
+			name: {
+				type: String,
+				required: true
+			}
+		},
+		computed: {
+			box: function box() {
+				return '0 0 ' + this.icon.width + ' ' + this.icon.height;
+			},
+			icon: function icon() {
+				return _svg2.default[this.name];
+			}
+		}
+	};
+	// </script>
+	// <template>
+	// 	<svg class="sg-icon" :view-box.camel="box" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	// 		<title>{{ icon.title }}</title>
+	// 		<g>{{{ icon.g }}}</g>
+	// 	</svg>
+	// </template>
+	//
+	// <script>
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = {
+		styles: {
+			title: 'Styles',
+			width: 100,
+			height: 50,
+			g: '<path class="st1" d="m10.4 11.4c0 0.8 0.2 1.4 0.7 2 0.4 0.6 1 1.2 1.8 1.7 0.7 0.5 1.6 1 2.5 1.5s1.9 0.9 2.8 1.4c1 0.5 1.9 1 2.8 1.6s1.8 1.2 2.5 1.9c0.7 0.7 1.3 1.5 1.8 2.4s0.7 1.9 0.7 3c0 1-0.2 2-0.5 2.9s-0.8 1.6-1.4 2.3-1.3 1.3-2.1 1.8-1.6 1-2.6 1.3c-0.9 0.3-1.9 0.6-2.9 0.8s-2 0.3-3.1 0.3c-1.4 0-2.8-0.2-4.2-0.5-1.4-0.4-2.6-0.9-3.6-1.6s-1.9-1.6-2.5-2.7c-0.6-1.1-1-2.3-1-3.7 0-0.7 0.1-1.4 0.4-1.9 0.2-0.6 0.5-1 0.9-1.4s0.7-0.7 1.1-0.8c0.4-0.2 0.8-0.3 1.2-0.3s0.7 0.1 0.9 0.3c0.2 0 0.4 0.3 0.4 0.8 0 0.2 0 0.4-0.1 0.6 0 0.2-0.1 0.5-0.1 0.7-0.1 0.3-0.1 0.5-0.1 0.9 0 0.3-0.1 0.6-0.1 1 0 0.8 0.2 1.5 0.6 2.1s0.9 1.1 1.5 1.4 1.3 0.7 2.1 0.8c0.8 0.2 1.6 0.3 2.5 0.3 1 0 2-0.1 3-0.4 1-0.2 1.9-0.6 2.7-1.1s1.4-1 1.9-1.7 0.7-1.5 0.7-2.4c0-0.8-0.2-1.5-0.7-2.2s-1-1.2-1.8-1.8c-0.7-0.5-1.6-1.1-2.5-1.5-0.9-0.5-1.9-1-2.8-1.5-1-0.5-1.9-1-2.8-1.6-0.9-0.5-1.8-1.1-2.5-1.8s-1.3-1.4-1.8-2.2c-0.5-0.6-0.7-1.6-0.7-2.6s0.2-1.9 0.7-2.9c0.5-0.9 1.2-1.8 2.1-2.5s2.1-1.3 3.5-1.8 3-0.7 4.9-0.7c1.2 0 2.4 0.2 3.5 0.5 1.1 0.4 2.2 0.9 3.1 1.5 0.9 0.7 1.6 1.4 2.2 2.3 0.5 0.9 0.8 1.9 0.8 3 0 0.7-0.1 1.3-0.3 2s-0.6 1.4-1.1 2.2c-0.5 0.7-1 1.3-1.6 1.6-0.6 0.4-1.1 0.5-1.5 0.5-0.3 0-0.6-0.1-0.8-0.3s-0.3-0.5-0.3-0.9c0-0.3 0.1-0.7 0.2-1.1s0.4-0.9 0.7-1.4 0.5-1 0.7-1.4 0.2-0.9 0.2-1.2c0-0.6-0.2-1.1-0.5-1.5s-0.8-0.8-1.3-1.1c-0.6-0.3-1.2-0.5-2-0.7-0.8-0.1-1.6-0.2-2.6-0.2s-1.9 0.1-2.7 0.4c-0.8 0.2-1.4 0.5-1.9 0.9-0.6 0.4-1 0.8-1.2 1.3-0.3 0.5-0.4 0.9-0.4 1.4z"/><path class="st1" d="m43.5 30.1c-1.1 0.6-2.1 1.2-2.9 1.7-0.9 0.5-1.6 0.9-2.3 1.2s-1.3 0.6-1.8 0.7-1 0.2-1.4 0.2c-0.9 0-1.6-0.3-2.3-0.8s-1.2-1.3-1.7-2.3-0.8-2.2-1-3.6c-0.2-1.4-0.3-3-0.3-4.8 0-0.7 0-1.4 0.1-2.2s0.1-1.6 0.2-2.3c-0.3 0-0.6-0.1-0.8-0.1s-0.4-0.1-0.6-0.1-0.5-0.1-0.8-0.1-0.8-0.1-1.4-0.2c-0.3 0-0.5-0.1-0.6-0.2s-0.3-0.2-0.3-0.3c-0.1-0.1-0.1-0.3-0.1-0.4v-0.4c0-0.2 0.1-0.4 0.3-0.5s0.5-0.2 0.9-0.3c0.4-0.1 0.7-0.1 1.2-0.1h1.2 1 0.6c0.3-1.6 0.7-3.1 1.2-4.5s1-2.7 1.6-3.9c0.6-1.1 1.2-2 1.9-2.7s1.4-1 2.2-1c0.5 0 0.9 0.1 1.4 0.4 0.4 0.3 0.8 0.6 1 1.1 0.3 0.5 0.5 1 0.7 1.6s0.2 1.3 0.2 1.9-0.1 1.2-0.2 1.8c-0.2 0.6-0.4 1.3-0.7 1.9s-0.6 1.3-1 2c-0.4 0.7-0.8 1.3-1.2 2h0.5 0.8 1 1.1 1 0.7c0.2 0 0.4 0.1 0.5 0.3s0.2 0.5 0.2 0.8c0 0.4-0.1 0.7-0.3 1s-0.5 0.4-0.8 0.4h-6.6c-0.3 0.5-0.7 0.9-1 1.4-0.3 0.4-0.7 0.8-0.9 1.2 0 0.7-0.1 1.4-0.1 2.1v0.9 0.9 0.9s0 0.6 0 0.8c0 0.6 0.1 1.1 0.2 1.6 0.1 0.4 0.3 0.8 0.5 1s0.5 0.5 0.8 0.6c0.3 0.1 0.7 0.2 1.1 0.2 0.2 0 0.5-0.1 0.9-0.2s0.8-0.3 1.2-0.5 0.9-0.4 1.4-0.7 0.9-0.6 1.4-0.9c0.5-0.3 0.9-0.7 1.3-1s0.8-0.7 1.2-1.1v4.6zm-5.5-21.8v-0.4c0-0.2-0.1-0.3-0.1-0.4-0.1-0.1-0.1-0.3-0.3-0.3-0.1-0.2-0.3-0.2-0.5-0.2-0.3 0-0.6 0.3-0.9 0.8s-0.6 1.2-0.9 2-0.5 1.7-0.8 2.7c-0.2 1-0.5 1.9-0.7 2.9 0.2 0 0.3 0 0.5 0.1 0.2 0 0.4 0 0.5 0.1 0.3-0.6 0.7-1.2 1.1-1.9s0.7-1.4 1-2c0.3-0.7 0.5-1.3 0.7-1.9 0.3-0.7 0.4-1.1 0.4-1.5z"/><path class="st1" d="m51.8 20.8c0.1-0.4 0.3-0.7 0.5-1s0.5-0.6 0.8-0.8 0.6-0.4 1-0.5c0.3-0.1 0.6-0.2 0.9-0.2 0.4 0 0.7 0.1 0.9 0.2 0.2 0.2 0.4 0.4 0.4 0.7 0 0.1 0 0.2-0.1 0.4-0.1 0.3-0.2 0.7-0.3 1.2s-0.2 1.1-0.3 1.8-0.2 1.3-0.4 2.1c-0.1 0.7-0.2 1.5-0.4 2.2-0.3 1.7-0.6 3.5-0.9 5.5 0.3-0.2 0.7-0.4 1.1-0.7s0.8-0.7 1.3-1.2 1-1.1 1.7-1.8c0.6-0.7 1.3-1.6 2.1-2.7l0.8 3.8c-0.2 0.4-0.5 0.7-0.8 1.1s-0.7 0.7-1.1 1.1-0.8 0.7-1.2 1.1-0.9 0.7-1.3 1c-1 0.7-2 1.4-3.2 2.1-0.2 1.2-0.5 2.4-0.8 3.6s-0.7 2.3-1.1 3.3c-0.4 1-0.9 2-1.4 2.8-0.5 0.9-1.1 1.6-1.8 2.2s-1.4 1.1-2.2 1.4c-0.8 0.3-1.7 0.5-2.7 0.5-0.4 0-0.8 0-1.3-0.1s-0.9-0.2-1.3-0.5c-0.4-0.2-0.7-0.6-1-1s-0.4-1-0.4-1.8c0-0.5 0.1-1.1 0.4-1.8 0.3-0.6 0.6-1.3 1.1-2.1 0.5-0.7 1-1.5 1.6-2.2 0.6-0.8 1.3-1.5 2.1-2.3 0.7-0.8 1.5-1.5 2.3-2.3 0.8-0.7 1.6-1.5 2.5-2.1l0.5-1.6c-0.6 0.6-1.3 1-1.9 1.3-0.7 0.3-1.3 0.5-2 0.5-0.6 0-1.1-0.1-1.6-0.3s-1-0.5-1.4-1-0.7-0.9-1-1.5c-0.2-0.6-0.4-1.3-0.4-2 0-1 0-1.9 0.1-2.8 0.1-0.8 0.2-1.6 0.4-2.4s0.4-1.5 0.7-2.2 0.6-1.4 0.9-2.1c0.3-0.5 0.6-0.9 1.1-1.2s1-0.4 1.4-0.4c0.4 0 0.7 0.1 1 0.3s0.4 0.5 0.4 0.9v0.4c0 0.1-0.1 0.3-0.1 0.5-0.2 0.5-0.4 1.2-0.6 1.9s-0.4 1.5-0.5 2.2c-0.2 0.8-0.3 1.5-0.4 2.2s-0.1 1.4-0.1 1.9c0 0.3 0 0.6 0.1 0.8 0 0.3 0.1 0.5 0.2 0.7s0.2 0.4 0.4 0.5c0.2 0.1 0.4 0.2 0.7 0.2 0.4 0 0.8-0.2 1.2-0.6 0.3-0.4 0.6-0.8 0.9-1.3s0.5-1.1 0.6-1.6c0.2-0.6 0.3-1 0.3-1.4l1.6-4.9zm-8 25.9c0.5 0 0.9-0.1 1.4-0.4s0.8-0.7 1.2-1.1c0.4-0.5 0.7-1 1-1.6s0.6-1.2 0.8-1.8 0.4-1.2 0.6-1.8c0.2-0.6 0.3-1.1 0.4-1.6-0.4 0.3-0.9 0.7-1.4 1.1s-0.9 0.9-1.4 1.3c-0.4 0.5-0.9 1-1.3 1.5s-0.7 1-1 1.5c-0.3 0.5-0.5 0.9-0.7 1.3s-0.3 0.7-0.3 1c0 0.4 0.2 0.6 0.7 0.6z"/><path class="st1" d="m62.8 34c-0.6 0-1.2-0.3-1.7-0.8s-1-1.3-1.4-2.2-0.7-2-0.9-3.2-0.3-2.5-0.3-3.8c0-1 0.1-2.1 0.2-3.3s0.4-2.4 0.7-3.7 0.6-2.6 1-3.8c0.4-1.3 0.8-2.5 1.3-3.7s1-2.3 1.6-3.3c0.6-1 1.2-1.9 1.8-2.7s1.3-1.4 2-1.8 1.4-0.7 2.1-0.7c0.5 0 0.9 0.1 1.2 0.3s0.6 0.5 0.8 0.9 0.3 0.8 0.4 1.2c0.1 0.5 0.1 0.9 0.1 1.4 0 1.1-0.1 2.2-0.4 3.3-0.2 1.1-0.6 2.2-1 3.4-0.4 1.1-0.9 2.3-1.5 3.4s-1.1 2.3-1.7 3.4-1.2 2.2-1.8 3.3-1.2 2.1-1.7 3.2c-0.1 0.1-0.1 0.3-0.2 0.4-0.1 0.2-0.1 0.4-0.2 0.6s-0.1 0.4-0.2 0.7c-0.1 0.2-0.1 0.5-0.1 0.7v0.2c0 0.3 0 0.6 0.1 0.9s0.1 0.5 0.2 0.8c0.1 0.2 0.2 0.4 0.3 0.5s0.2 0.2 0.3 0.2c0.2 0 0.5 0 0.8-0.1s0.6-0.2 0.9-0.4 0.6-0.3 1-0.5c0.3-0.2 0.7-0.4 1-0.6 0.7-0.5 1.5-1 2.3-1.7l1.4 3.6c-1 0.7-2 1.4-3 2-0.4 0.2-0.9 0.5-1.4 0.7s-0.9 0.4-1.4 0.6-0.9 0.3-1.4 0.4-0.8 0.2-1.2 0.2zm0.1-13.8c0.5-0.9 1.1-2 1.6-3.1 0.6-1.1 1.1-2.3 1.6-3.6 0.5-1.2 1-2.4 1.3-3.6 0.4-1.2 0.6-2.3 0.7-3.4v-0.9c0-0.2-0.1-0.4-0.2-0.4-0.3 0-0.7 0.2-1.1 0.6s-0.8 1-1.2 1.8-0.8 1.6-1.1 2.6c-0.4 1-0.7 2-0.9 3.1-0.3 1.1-0.5 2.2-0.7 3.4s0 2.4 0 3.5z"/><path class="st1" d="m74.7 34c-1.1 0-2-0.2-2.8-0.6s-1.5-0.9-2-1.6-0.9-1.4-1.2-2.3-0.4-1.8-0.4-2.7c0-0.6 0.1-1.3 0.2-2s0.3-1.4 0.6-2.1 0.6-1.3 1-2 0.8-1.2 1.4-1.7c0.5-0.5 1.1-0.9 1.8-1.1 0.6-0.3 1.4-0.4 2.2-0.4 0.6 0 1.2 0.1 1.8 0.3s1 0.5 1.4 0.9 0.7 0.8 1 1.4c0.2 0.5 0.3 1.1 0.3 1.8s-0.2 1.4-0.5 2.1c-0.4 0.7-0.8 1.4-1.5 2-0.6 0.6-1.4 1.2-2.2 1.7s-1.8 0.9-2.8 1.2c0.2 0.3 0.3 0.6 0.5 0.8s0.3 0.4 0.5 0.5 0.4 0.2 0.5 0.2c0.2 0 0.4 0.1 0.6 0.1 0.7 0 1.4-0.1 2.2-0.4s1.5-0.6 2.2-1 1.4-0.9 2.1-1.4 1.2-1 1.6-1.4l2.2 2.3c-1 1-2.1 2-3.2 2.8-0.5 0.3-1 0.7-1.6 1l-1.8 0.9c-0.6 0.3-1.3 0.5-1.9 0.6-0.8 0-1.5 0.1-2.2 0.1zm-2.3-8.1c0.4 0 0.9-0.1 1.4-0.3s0.9-0.5 1.4-0.8 0.8-0.7 1.1-1.1c0.3-0.4 0.4-0.8 0.4-1.1 0-0.5-0.1-0.9-0.3-1.3s-0.4-0.5-0.7-0.5c-0.5 0-0.9 0.1-1.3 0.3s-0.6 0.4-0.9 0.7c-0.2 0.3-0.4 0.6-0.6 1s-0.3 0.8-0.3 1.1c-0.1 0.4-0.1 0.7-0.1 1.1 0 0.3-0.1 0.6-0.1 0.9z"/><path class="st1" d="m81.9 27.4c0.6-0.6 1.2-1 1.6-1.4l1-1s0.5-0.6 0.8-0.9c0.2-0.3 0.5-0.7 0.8-1.1s0.7-0.9 1.2-1.6 1.1-1.4 1.8-2.3c0.1-0.2 0.3-0.4 0.5-0.6s0.4-0.4 0.6-0.5c0.2-0.2 0.5-0.3 0.7-0.4 0.3-0.1 0.6-0.1 0.9-0.1 0.6 0 1 0.1 1.3 0.2s0.5 0.3 0.7 0.4 0.2 0.4 0.2 0.5v0.5c0 0.3-0.1 0.6-0.3 0.9s-0.5 0.7-0.7 1c-0.3 0.3-0.5 0.6-0.8 0.9-0.2 0.3-0.4 0.5-0.4 0.6 0 0.4 0 0.7 0.1 1s0.1 0.6 0.2 0.9l0.3 0.9c0.1 0.3 0.2 0.7 0.3 1.1s0.2 0.9 0.2 1.4c0.1 0.5 0.1 1.2 0.1 1.9 0.4-0.3 0.9-0.5 1.3-0.8 0.5-0.2 1-0.5 1.5-0.7s1-0.5 1.6-0.8 1.1-0.6 1.6-1.1v3.9c-0.7 0.6-1.5 1.1-2.5 1.6-0.9 0.5-1.9 0.9-2.9 1.3s-2.1 0.7-3.1 0.9c-1.1 0.2-2 0.3-3 0.3-0.7 0-1.3-0.1-1.9-0.2s-1.1-0.3-1.5-0.6-0.8-0.6-1.1-1.1c-0.3-0.4-0.4-1-0.5-1.6-0.2 0-0.3 0.1-0.5 0.1h-0.5-0.5c-0.2 0-0.3-0.1-0.4-0.1-0.1-0.1-0.2-0.2-0.3-0.4s-0.1-0.4-0.1-0.7c0-0.3 0.1-0.5 0.2-0.8 0.1-0.2 0.3-0.4 0.5-0.6s0.4-0.3 0.6-0.5l0.4-0.4zm2.2 2.2c0.1 0 0.3 0.1 0.5 0.3l0.6 0.6c0.2 0.2 0.5 0.4 0.8 0.6s0.6 0.3 1 0.3 0.8-0.1 1.1-0.2 0.5-0.3 0.7-0.6c0.2-0.2 0.3-0.5 0.4-0.9 0.1-0.3 0.1-0.7 0.1-1s0-0.6-0.1-0.9-0.2-0.9-0.2-1.1c-0.1-0.3-0.1-0.6-0.2-0.8-0.1-0.3-0.1-0.5-0.2-0.7l-4.5 4.4z"/>'
+		},
+		save: {
+			title: 'Save',
+			width: 19,
+			height: 19,
+			g: '<path d="M9.5,19 C6.962,19 4.577,18.012 2.782,16.218 C0.987,14.424 0,12.038 0,9.501 C0,6.963 0.988,4.578 2.782,2.783 C4.576,0.988 6.962,1.33226763e-15 9.5,1.33226763e-15 C12.038,1.33226763e-15 14.423,0.988 16.218,2.783 C18.013,4.578 19,6.963 19,9.501 C19,12.039 18.012,14.424 16.218,16.218 C14.424,18.012 12.038,19 9.5,19 L9.5,19 Z M9.5,1 C4.813,1 1,4.813 1,9.5 C1,14.187 4.813,18 9.5,18 C14.187,18 18,14.187 18,9.5 C18,4.813 14.187,1 9.5,1 L9.5,1 Z" id="Shape"></path><path d="M7.5,13.5 C7.372,13.5 7.244,13.451 7.146,13.354 L4.146,10.354 C3.951,10.159 3.951,9.842 4.146,9.647 C4.341,9.452 4.658,9.452 4.853,9.647 L7.499,12.293 L14.145,5.647 C14.34,5.452 14.657,5.452 14.852,5.647 C15.047,5.842 15.047,6.159 14.852,6.354 L7.852,13.354 C7.754,13.452 7.626,13.5 7.498,13.5 L7.5,13.5 Z" id="Shape"></path>'
+		},
+
+		load: {
+			title: 'Load',
+			width: 70,
+			height: 20,
+			g: '<rect width="20" height="20" x="0" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/></rect><rect width="20" height="20" x="25" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="35;25;25;25;35" begin="200ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" begin="200ms" dur="1000ms" repeatCount="indefinite"/></rect><rect width="20" height="20" x="50" y="0" rx="3" ry="3"><animate attributeName="width" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="height" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="x" values="60;50;50;50;60" begin="400ms" dur="1000ms" repeatCount="indefinite"/><animate attributeName="y" values="10;0;0;0;10" begin="400ms" dur="1000ms" repeatCount="indefinite"/></rect>'
+		},
+
+		cancel: {
+			title: 'Cancel',
+			width: 19,
+			height: 19,
+			g: '<path d="M14.332,13.126 L10.252,9.5 L14.332,5.874 C14.538,5.691 14.557,5.375 14.374,5.168 C14.191,4.961 13.875,4.943 13.668,5.126 L9.5,8.831 L5.332,5.126 C5.126,4.943 4.81,4.961 4.626,5.168 C4.442,5.375 4.461,5.69 4.668,5.874 L8.748,9.5 L4.668,13.126 C4.462,13.309 4.443,13.625 4.626,13.832 C4.725,13.943 4.862,14 5,14 C5.118,14 5.237,13.958 5.332,13.874 L9.5,10.169 L13.668,13.874 C13.763,13.959 13.882,14 14,14 C14.138,14 14.275,13.943 14.374,13.832 C14.557,13.626 14.539,13.31 14.332,13.126 L14.332,13.126 Z"></path><path d="M9.5,19 C6.962,19 4.577,18.012 2.782,16.218 C0.987,14.424 0,12.038 0,9.501 C0,6.963 0.988,4.578 2.782,2.783 C4.576,0.988 6.962,1.33226763e-15 9.5,1.33226763e-15 C12.038,1.33226763e-15 14.423,0.988 16.218,2.783 C18.013,4.578 19,6.963 19,9.501 C19,12.039 18.012,14.424 16.218,16.218 C14.424,18.012 12.038,19 9.5,19 L9.5,19 Z M9.5,1 C4.813,1 1,4.813 1,9.5 C1,14.187 4.813,18 9.5,18 C14.187,18 18,14.187 18,9.5 C18,4.813 14.187,1 9.5,1 L9.5,1 Z" ></path>'
+		},
+
+		markup: {
+			title: 'Show Markup',
+			width: 50,
+			height: 25,
+			g: '<path d="M11.8,24c-0.3,0-0.7-0.1-0.9-0.4L0.7,13.4c-0.5-0.5-0.5-1.3,0-1.8L10.9,1.3c0.5-0.5,1.3-0.5,1.8,0 s0.5,1.3,0,1.8l-9.3,9.3l9.3,9.3c0.5,0.5,0.5,1.3,0,1.8C12.5,23.9,12.2,24,11.8,24L11.8,24z"/><path class="st2" d="M37.5,24c-0.3,0-0.7-0.1-0.9-0.4c-0.5-0.5-0.5-1.3,0-1.8l9.3-9.3l-9.3-9.3c-0.5-0.5-0.5-1.3,0-1.8s1.3-0.5,1.8,0l10.3,10.3c0.5,0.5,0.5,1.3,0,1.8L38.4,23.7C38.1,23.9,37.8,24,37.5,24L37.5,24z"/><path class="st2" d="M18.2,24c-0.2,0-0.5-0.1-0.7-0.2c-0.6-0.4-0.8-1.2-0.4-1.8L30,1.6c0.4-0.6,1.2-0.8,1.8-0.4	c0.6,0.4,0.8,1.2,0.4,1.8L19.3,23.4C19.1,23.8,18.7,24,18.2,24z"/>'
+		},
+
+		edit: {
+			title: 'Edit',
+			width: 50,
+			height: 50,
+			g: '<path d="M47.8,2.2C46.4,0.8,44.5,0,42.6,0s-3.9,0.8-5.3,2.2L5.4,34.1c-0.1,0.1-0.2,0.3-0.3,0.5l-5,13.8 c-0.2,0.5-0.1,1,0.3,1.3C0.6,49.9,0.9,50,1.2,50c0.1,0,0.3,0,0.4-0.1l13.8-5c0.2-0.1,0.3-0.2,0.5-0.3l31.9-31.9 c1.4-1.4,2.2-3.3,2.2-5.3S49.2,3.6,47.8,2.2L47.8,2.2z M14.3,42.7l-11,4l4-11L35,8l7,7C42,15,14.3,42.7,14.3,42.7z M46,10.9 l-2.2,2.2l-7-7L39.1,4C40,3,41.2,2.5,42.6,2.5S45.1,3,46,4c0.9,0.9,1.4,2.2,1.4,3.5S47,10,46,10.9L46,10.9z"/>'
+		},
+
+		delete: {
+			title: 'Delete',
+			width: 50,
+			height: 50,
+			g: '<path class="st2" d="M40.5,5h-8.8V3.8C31.8,1.7,30.1,0,28,0h-5c-2.1,0-3.8,1.7-3.8,3.8V5h-8.8C8.4,5,6.8,6.7,6.8,8.8v2.5 c0,1.6,1,3,2.5,3.5v31.5c0,2.1,1.7,3.8,3.8,3.8h25c2.1,0,3.8-1.7,3.8-3.8V14.8c1.5-0.5,2.5-1.9,2.5-3.5V8.7C44.2,6.7,42.6,5,40.5,5 z M21.8,3.8c0-0.7,0.6-1.2,1.2-1.2h5c0.7,0,1.2,0.6,1.2,1.2V5h-7.5V3.8z M38,47.5H13c-0.7,0-1.2-0.6-1.2-1.2V15h27.5v31.2 C39.2,46.9,38.7,47.5,38,47.5z M41.8,11.2c0,0.7-0.6,1.2-1.2,1.2h-30c-0.7,0-1.2-0.6-1.2-1.2V8.8c0-0.7,0.6-1.2,1.2-1.2h30 c0.7,0,1.2,0.6,1.2,1.2V11.2z"/><path class="st2" d="M33,17.5c-0.7,0-1.2,0.6-1.2,1.2v25c0,0.7,0.6,1.2,1.2,1.2s1.2-0.6,1.2-1.2v-25C34.2,18.1,33.7,17.5,33,17.5z"/><path d="M25.5,17.5c-0.7,0-1.2,0.6-1.2,1.2v25c0,0.7,0.6,1.2,1.2,1.2s1.2-0.6,1.2-1.2v-25 C26.8,18.1,26.2,17.5,25.5,17.5z"/><path d="M18,17.5c-0.7,0-1.2,0.6-1.2,1.2v25c0,0.7,0.6,1.2,1.2,1.2s1.2-0.6,1.2-1.2v-25C19.2,18.1,18.7,17.5,18,17.5z"/>'
+		},
+
+		add: {
+			title: 'Add',
+			width: 19,
+			height: 19,
+			g: '<path d="M15.5,9 L10,9 L10,3.5 C10,3.224 9.776,3 9.5,3 C9.224,3 9,3.224 9,3.5 L9,9 L3.5,9 C3.224,9 3,9.224 3,9.5 C3,9.776 3.224,10 3.5,10 L9,10 L9,15.5 C9,15.776 9.224,16 9.5,16 C9.776,16 10,15.776 10,15.5 L10,10 L15.5,10 C15.776,10 16,9.776 16,9.5 C16,9.224 15.776,9 15.5,9 L15.5,9 Z"></path>'
+		},
+
+		cog: {
+			title: 'Settings',
+			width: 20,
+			height: 20,
+			g: '<path d="M7.631,19.702 C7.59,19.702 7.548,19.697 7.506,19.686 C6.608,19.455 5.745,19.099 4.942,18.627 C4.709,18.49 4.627,18.193 4.756,17.956 C4.915,17.664 4.999,17.334 4.999,16.999 C4.999,15.896 4.102,14.999 2.999,14.999 C2.665,14.999 2.334,15.083 2.042,15.242 C1.805,15.371 1.508,15.289 1.371,15.056 C0.899,14.252 0.543,13.39 0.312,12.492 C0.247,12.238 0.389,11.977 0.637,11.894 C1.451,11.62 1.999,10.858 1.999,9.999 C1.999,9.14 1.452,8.378 0.637,8.104 C0.389,8.02 0.247,7.76 0.312,7.506 C0.543,6.608 0.899,5.745 1.371,4.942 C1.508,4.709 1.805,4.627 2.042,4.756 C2.333,4.915 2.664,4.999 2.999,4.999 C4.102,4.999 4.999,4.102 4.999,2.999 C4.999,2.665 4.915,2.334 4.756,2.042 C4.627,1.805 4.709,1.508 4.942,1.371 C5.746,0.899 6.608,0.543 7.506,0.312 C7.76,0.247 8.021,0.389 8.104,0.637 C8.378,1.451 9.14,1.999 9.999,1.999 C10.858,1.999 11.62,1.452 11.894,0.637 C11.978,0.389 12.239,0.247 12.492,0.312 C13.39,0.543 14.253,0.899 15.056,1.371 C15.289,1.508 15.371,1.805 15.242,2.042 C15.083,2.334 14.999,2.664 14.999,2.999 C14.999,4.102 15.896,4.999 16.999,4.999 C17.333,4.999 17.664,4.915 17.956,4.756 C18.193,4.627 18.49,4.709 18.627,4.942 C19.099,5.746 19.455,6.608 19.686,7.506 C19.751,7.76 19.609,8.021 19.361,8.104 C18.547,8.378 17.999,9.14 17.999,9.999 C17.999,10.858 18.546,11.62 19.361,11.894 C19.609,11.978 19.751,12.238 19.686,12.492 C19.455,13.39 19.099,14.253 18.627,15.056 C18.49,15.289 18.193,15.371 17.956,15.242 C17.664,15.083 17.334,14.999 16.999,14.999 C15.896,14.999 14.999,15.896 14.999,16.999 C14.999,17.333 15.083,17.664 15.242,17.956 C15.371,18.193 15.289,18.49 15.056,18.627 C14.252,19.099 13.39,19.455 12.492,19.686 C12.238,19.751 11.977,19.609 11.894,19.361 C11.62,18.547 10.858,17.999 9.999,17.999 C9.14,17.999 8.378,18.546 8.104,19.361 C8.034,19.568 7.84,19.702 7.63,19.702 L7.631,19.702 Z M10,17 C11.127,17 12.142,17.628 12.655,18.602 C13.175,18.441 13.681,18.233 14.165,17.98 C14.057,17.666 14.001,17.334 14.001,17 C14.001,15.346 15.347,14 17.001,14 C17.335,14 17.667,14.056 17.981,14.164 C18.234,13.68 18.443,13.175 18.603,12.654 C17.629,12.142 17.001,11.127 17.001,9.999 C17.001,8.871 17.629,7.857 18.603,7.344 C18.442,6.824 18.234,6.318 17.981,5.834 C17.667,5.942 17.335,5.998 17.001,5.998 C15.347,5.998 14.001,4.652 14.001,2.998 C14.001,2.664 14.057,2.332 14.165,2.018 C13.681,1.765 13.176,1.556 12.655,1.396 C12.143,2.37 11.128,2.998 10,2.998 C8.872,2.998 7.858,2.37 7.345,1.396 C6.825,1.556 6.319,1.765 5.835,2.018 C5.943,2.332 5.999,2.664 5.999,2.998 C5.999,4.652 4.653,5.998 2.999,5.998 C2.665,5.998 2.333,5.942 2.019,5.834 C1.766,6.318 1.557,6.823 1.397,7.344 C2.371,7.856 2.999,8.871 2.999,9.999 C2.999,11.127 2.371,12.141 1.397,12.654 C1.557,13.174 1.766,13.68 2.019,14.164 C2.333,14.056 2.665,14 2.999,14 C4.653,14 5.999,15.346 5.999,17 C5.999,17.334 5.943,17.666 5.835,17.98 C6.319,18.233 6.824,18.442 7.345,18.602 C7.857,17.628 8.872,17 10,17 L10,17 Z" id="Shape"></path><path d="M10,13 C8.346,13 7,11.654 7,10 C7,8.346 8.346,7 10,7 C11.654,7 13,8.346 13,10 C13,11.654 11.654,13 10,13 L10,13 Z M10,8 C8.897,8 8,8.897 8,10 C8,11.103 8.897,12 10,12 C11.103,12 12,11.103 12,10 C12,8.897 11.103,8 10,8 L10,8 Z"></path>'
+		}
+
+	};
+
+/***/ },
 /* 27 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<section id=\"{{ style.slug }}\" class=\"sg-st\">\n\t\t\n\t\t<div v-if=\"confirm\" transition=\"expand\" class=\"sg-st__confirm sg-stack\">\n\t\t\t<p>Are you sure you want to delete this style?</p>\n\t\t\t<div>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"deleteStyle\">Yes</button>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"toggleConfirm\">No</button>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<form class=\"sg-stack\" v-if=\"editing\" v-on:submit.prevent=\"editStyle\">\n\t\t\t<input \n\t\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\t\ttype=\"text\" class=\"sg-st__title sg-st__input\" \n\t\t\t\t\t\tv-model=\"style.title\" \n\t\t\t\t\t\tv-if=\"editing\"\n\t\t\t\t\t\ttabindex=\"1\"\n\t\t\t\t\t\tlazy\n\t\t\t\t/>\n\t\t</form>\n\t\t\n\t\t<div v-else>\n\t\t\t<h4 class=\"sg-stack sg-st__title\">{{ style.title }}</h4>\n\t\t\t<span class=\"sg-st__toggle\">\n\t\t\t\t<button v-on:click=\"enterEditing\" class=\"sg-button\">\n\t\t\t\t\t<icon name=\"edit\"></icon>\n\t\t\t\t</button>\n\t\t\t\t<button v-on:click=\"toggleConfirm\" class=\"sg-button sg-st__trash\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t\t\t</button>\n\t\t\t</span>\n\t\t</div>\n\t\t\n\t\t<output :html=\"style.html\"></output>\n\t\t\n\t\t\n\t\t<div class=\"sg-markuptoggle\">\n\t\t\t<button class=\"sg-button sg-st__markupbutton\" v-bind:class=\"{ 'm-active' : showMarkup || editing }\" v-on:click=\"toggleMarkup\">\n\t\t\t\t<icon name=\"markup\"></icon>\n\t\t\t</button>\n\t\t\t<span class=\"sg-stack sg-st__markuptext\" v-show=\"editing\">Edit Markup Below</span>\n\t\t</div>\n\t\t\n    <div class=\"sg-markup\" v-show=\"editing || showMarkup\">\n      <code-editor :html.sync=\"style.html\" :editing=\"editing\"></code-editor>\n    </div>\n\t\t\n\t\t<div v-if=\"editing\" class=\"sg-st__actions\">\n\t\t\t<button v-on:click.prevent=\"editStyle\" class=\"sg-button\">\n\t\t\t\t{{ save_text }}\n\t\t\t</button>\n\t\t\t\n\t\t\t<button class=\"sg-button\" v-on:click=\"exitEditing\">\n\t\t\t\tCancel\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t\n</section>\n";
+	module.exports = "\n<svg class=\"sg-icon\" :view-box.camel=\"box\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n\t<title>{{ icon.title }}</title>\n\t<g>{{{ icon.g }}}</g>\n</svg>\n";
 
 /***/ },
 /* 28 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <section id=\"{{section.slug }}\" class=\"sg-sct\" v-bind:class=\"{'loading' : loading}\">\n\t\t<form class=\"sg-stack sg-sct__wrap\" v-on:submit.prevent=\"pushEdit\" v-if=\"logged_in\">\n\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-sct__title\" placeholder=\"Add a Section...\" v-model=\"title\" />\n\t\t\t<button class=\"sg-button sg-sct__add\">Edit</button>\n\t\t\t<span class=\"sg-sct__loader\"><icon name=\"load\" v-if=\"loading\"></icon></span>\n\t\t</form>\n\t\t<div class=\"sg-stack sg-sct__wrap\" v-else>\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!logged_in\">\n\t\t\t\t{{ section.title }}\n\t\t\t</h3>\n\t\t</div>\n\t\t\n    <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n\t\t\n    <section class=\"sg-stack sg-sct__actions\" v-if=\"logged_in\">\n\t\t\t\n      <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\tAdd Style\n\t\t\t</button>\n      <button class=\"sg-button sg-sct__delete\" v-on:click=\"toggleConfirm\">\n        <icon name=\"delete\"></icon>\n      </button>\n\t\t\t\n\t\t\t<div v-if=\"confirm\" class=\"sg-sct__confirm\">\n\t\t\t\tAre you sure?\n\t\t\t\t<button class=\"sg-button sg-sct__yes\" v-on:click=\"removeSection\"><icon name=\"save\"></icon></button>\n\t\t\t\t<button class=\"sg-button sg-sct__no\" v-on:click=\"toggleConfirm\"><icon name=\"cancel\"</button>\n\t\t\t</div>\n    </section>\n\t\t\t\n  </section>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<section id=\"{{ style.slug }}\" class=\"sg-st\">\n\t\t\n\t\t<div v-if=\"confirm\" transition=\"expand\" class=\"sg-st__confirm sg-stack\">\n\t\t\t<p>Are you sure you want to delete this style?</p>\n\t\t\t<div>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"deleteStyle\">Yes</button>\n\t\t\t\t<button class=\"sg-button sg-confirm-button\" v-on:click=\"toggleConfirm\">No</button>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<form class=\"sg-stack\" v-if=\"editing\" v-on:submit.prevent=\"editStyle\">\n\t\t\t<input \n\t\t\t\t\t\tplaceholder=\"Add a title...\" \n\t\t\t\t\t\ttype=\"text\" class=\"sg-st__title sg-st__input\" \n\t\t\t\t\t\tv-model=\"style.title\" \n\t\t\t\t\t\tv-if=\"editing\"\n\t\t\t\t\t\ttabindex=\"1\"\n\t\t\t\t\t\tlazy\n\t\t\t\t/>\n\t\t</form>\n\t\t\n\t\t<div v-else>\n\t\t\t<h4 class=\"sg-stack sg-st__title\">{{ style.title }}</h4>\n\t\t\t<span class=\"sg-st__toggle\">\n\t\t\t\t<button v-on:click=\"enterEditing\" class=\"sg-button\">\n\t\t\t\t\t<icon name=\"edit\"></icon>\n\t\t\t\t</button>\n\t\t\t\t<button v-on:click=\"toggleConfirm\" class=\"sg-button sg-st__trash\">\n\t\t\t\t\t<icon name=\"delete\"></icon>\n\t\t\t\t</button>\n\t\t\t</span>\n\t\t</div>\n\t\t\n\t\t<output :html=\"style.html\"></output>\n\t\t\n\t\t\n\t\t<div class=\"sg-markuptoggle\">\n\t\t\t<button class=\"sg-button sg-st__markupbutton\" v-bind:class=\"{ 'm-active' : showMarkup || editing }\" v-on:click=\"toggleMarkup\">\n\t\t\t\t<icon name=\"markup\"></icon>\n\t\t\t</button>\n\t\t\t<span class=\"sg-stack sg-st__markuptext\" v-show=\"editing\">Edit Markup Below</span>\n\t\t</div>\n\t\t\n    <div class=\"sg-markup\" v-show=\"editing || showMarkup\">\n      <code-editor :html=\"style.html\" :editing=\"editing\"></code-editor>\n    </div>\n\t\t\n\t\t<div v-if=\"editing\" class=\"sg-st__actions\">\n\t\t\t<button v-on:click.prevent=\"editStyle\" class=\"sg-button\">\n\t\t\t\t{{ save_text }}\n\t\t\t</button>\n\t\t\t\n\t\t\t<button class=\"sg-button\" v-on:click=\"exitEditing\">\n\t\t\t\tCancel\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t\n</section>\n";
 
 /***/ },
 /* 29 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <section id=\"{{section.slug }}\" class=\"sg-sct\" v-bind:class=\"{'loading' : loading}\">\n\t\t<form class=\"sg-stack sg-sct__wrap\" v-on:submit.prevent=\"pushEdit\" v-if=\"logged_in\">\n\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-sct__title\" placeholder=\"Add a Section...\" v-model=\"title\" />\n\t\t\t<button class=\"sg-button sg-sct__add\">Edit</button>\n\t\t\t<span class=\"sg-sct__loader\"><icon name=\"load\" v-if=\"loading\"></icon></span>\n\t\t</form>\n\t\t<div class=\"sg-stack sg-sct__wrap\" v-else>\n\t\t\t<h3 class=\"sg-stack sg-section-title\" v-if=\"!logged_in\">\n\t\t\t\t{{ section.title }}\n\t\t\t</h3>\n\t\t</div>\n\t\t\n    <style v-for=\"style in section.styles\" :style=\"style\" :index=\"$index\" :section=\"section\"></style>\n\t\t\n    <section class=\"sg-stack sg-sct__actions\" v-if=\"logged_in\">\n\t\t\t\n      <button v-on:click=\"pushStyle()\" class=\"sg-button sg-button__add\">\n\t\t\t\t<icon name=\"add\"></icon>\n\t\t\t\tAdd Style\n\t\t\t</button>\n      <button class=\"sg-button sg-sct__delete\" v-on:click=\"toggleConfirm\">\n        <icon name=\"delete\"></icon>\n      </button>\n\t\t\t\n\t\t\t<div v-if=\"confirm\" class=\"sg-sct__confirm\">\n\t\t\t\tAre you sure?\n\t\t\t\t<button class=\"sg-button sg-sct__yes\" v-on:click=\"removeSection\"><icon name=\"save\"></icon></button>\n\t\t\t\t<button class=\"sg-button sg-sct__no\" v-on:click=\"toggleConfirm\"><icon name=\"cancel\"</button>\n\t\t\t</div>\n    </section>\n\t\t\t\n  </section>\n";
+
+/***/ },
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(30)
-	__vue_script__ = __webpack_require__(31)
+	__webpack_require__(31)
+	__vue_script__ = __webpack_require__(32)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Settings.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(32)
+	__vue_template__ = __webpack_require__(33)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11640,13 +12748,13 @@
 	})()}
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11655,11 +12763,11 @@
 		value: true
 	});
 
-	var _actions = __webpack_require__(25);
+	var _actions = __webpack_require__(18);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
-	var _Icon = __webpack_require__(21);
+	var _Icon = __webpack_require__(24);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
@@ -11887,23 +12995,23 @@
 	// </script>
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <div class=\"sg-settings modal-mask\" v-show=\"settings.show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container sg-stack\">\n\t\t\t\t<button v-on:click=\"toggleSettings\" class=\"sg-button sg-set__close\"><icon name=\"cancel\"></icon></button>\n        <h1 class=\"sg-font-dark sg-set__title\">{{ styleguide_options.str_settings }}</h1>\n\t\t\t\t\n\t\t\t\t<div class=\"sg-set__group\">\n\t\t\t\t\t<h3 class=\"sg-set__label\">Privacy:</h3>\n\t\t\t\t\t<div class=\"sg-set__radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"private\">Private <br />Only logged in users can view and edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"sg-set__radio-group\">\n\t\t\t\t\t\t<input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n\t\t\t\t\t\t<label for=\"public\">Public <br />Anybody can view, logged in users can edit.</label>\n\t\t\t\t\t\t<div class=\"check\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n        <div class=\"sg-set__group\">\n          <label class=\"sg-set__label\">Styleguide URL:</label>\n          <span>{{ root }}</span><input class=\"sg-set__endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n        </div>\n        \n        <div class=\"sg-st__group\">\n          <button v-on:click=\"saveSettings\" class=\"sg-button sg-set__save\">Save Settings</button>\n        </div>\n      </div>\n    </div>\n  </div>\n";
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(34)
-	__vue_script__ = __webpack_require__(35)
+	__webpack_require__(35)
+	__vue_script__ = __webpack_require__(36)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Navbar.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(36)
+	__vue_template__ = __webpack_require__(37)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11922,13 +13030,13 @@
 	})()}
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11937,11 +13045,11 @@
 	  value: true
 	});
 
-	var _Icon = __webpack_require__(21);
+	var _Icon = __webpack_require__(24);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(25);
+	var _actions = __webpack_require__(18);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -12039,23 +13147,23 @@
 	// </script>
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  <nav class=\"sg-nav sg-stack sg-col-3\">\n    <ul class=\"sg-nav__links sg-nav__container\">\n\t\t\t<li v-for=\"section in sections\" class=\"sg-nav__link\">\n\t\t\t\t\t<a v-on:click=\"toggleActive(section)\" v-bind:class=\"{ 'selected': section.selected }\" href=\"#{{ section.slug }}\">{{ section.title }}</a>\n\t\t\t\t\t<ul class=\"sg-nav__links m-children\" v-show=\"section.selected\">\n\t\t\t\t\t\t<li class=\"sg-nav__linkd\" v-for=\"style in section.styles\">\n\t\t\t\t\t\t\t<a href=\"#{{ style.slug }}\">{{ style.title }}</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t</li>\n        <li v-if=\"logged_in\"><button v-on:click=\"toggleSettings\" class=\"sg-button sg-button__settings\"><icon name=\"cog\"></icon> Settings</button></li>\n    </ul>\n  </nav>\n";
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(38)
-	__vue_script__ = __webpack_require__(39)
+	__webpack_require__(39)
+	__vue_script__ = __webpack_require__(40)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/Onboard.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(40)
+	__vue_template__ = __webpack_require__(41)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12074,13 +13182,13 @@
 	})()}
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12089,11 +13197,11 @@
 	  value: true
 	});
 
-	var _Icon = __webpack_require__(21);
+	var _Icon = __webpack_require__(24);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _actions = __webpack_require__(25);
+	var _actions = __webpack_require__(18);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
@@ -12258,22 +13366,22 @@
 	// </script>
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-onboarding sg-stack\">\n  <section v-if=\"step === 1\">\n    <h3 class=\"sg-ob__title\">Welcome to <span class=\"sg-ob__icon\"><icon name=\"styles\"></icon></span></h3>\n\t\t<h4 class=\"sg-ob__subtitle\">An easy way to build Front-end Styleguides</h4>\n    <p class=\"sg-ob__text\">Let's start by setting a few things up.</p>\n    <button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button\">Get Started</button>\n  </section>\n  \n  <section v-if=\"step === 2\">\n      <h3 class=\"sg-ob__subtitle m-main\">Would you like your styleguide to be private or public?</h3>\n      <div class=\"sg-set__radio-group\">\n        <input type=\"radio\" id=\"private\" value=\"private\" v-model=\"privacy\">\n        <label for=\"private\"><strong>Private</strong> <br />Only logged in users can view and edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-set__radio-group\">\n        <input type=\"radio\" id=\"public\" value=\"public\" v-model=\"privacy\">\n        <label for=\"public\"><strong>Public</strong> <br />Anybody can view, logged in users can edit.</label>\n        <div class=\"check\"></div>\n      </div>\n      <div class=\"sg-row\">\n      \t<button v-on:click=\"incrementStep\" class=\"sg-button sg-ob__button m-right\">Next</button>\n\t\t\t</div>\n  </section>\n  \n  <section v-if=\"step === 3\">\n    <h3 class=\"sg-ob__subtitle m-main\">The URL for your Styleguide:</h3>\n    <p class=\"sg-ob__text m-push\">\n\t\t\t<span>{{ root }}</span><input class=\"sg-set__endpoint\" type=\"text\" v-model=\"settings.endpoint\" />\n\t\t</p>\n\t\t<div class=\"sg-row\">\n\t\t\t<button v-on:click=\"decrementStep\" class=\"sg-button sg-ob__button m-left\">Previous</button>\n\t    <button v-on:click=\"saveSettings\" class=\"sg-button sg-ob__button m-right\">Save Settings and Finish</button>\n\t\t</div>\n  </section>\n</div>\n";
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 
-	var _assign = __webpack_require__(42);
+	var _assign = __webpack_require__(43);
 
 	var _assign2 = _interopRequireDefault(_assign);
 
@@ -12281,7 +13389,7 @@
 
 	var _Vue2 = _interopRequireDefault(_Vue);
 
-	var _vuex = __webpack_require__(79);
+	var _vuex = __webpack_require__(80);
 
 	var _vuex2 = _interopRequireDefault(_vuex);
 
@@ -12290,121 +13398,149 @@
 	_Vue2.default.use(_vuex2.default);
 
 	var state = {
-		logged_in: styleguide_options.logged_in,
-		root: styleguide_options.home_url,
-		sections: [],
-		// TODO: Change this to ID instead of full object
-		activeSection: '',
-		retainedIndex: '',
-		sectionPositions: [],
-		settings: {},
-		loaded: false
+	  logged_in: styleguide_options.logged_in,
+	  root: styleguide_options.home_url,
+	  sections: [],
+	  undoStack: [],
+	  redoStack: [],
+	  // TODO: Change this to ID instead of full object
+	  activeSection: '',
+	  retainedIndex: '',
+	  sectionPositions: [],
+	  settings: {},
+	  loaded: false
 	};
 
 	var mutations = {
-		RECIEVE_SECTIONS: function RECIEVE_SECTIONS(state, sections) {
-			for (var i = 0, len = sections.length; i < len; i++) {
-				sections[i].selected = false;
-			}
-			state.sections = sections;
-			state.loaded = true;
-		},
-		ADD_SECTION: function ADD_SECTION(state, section) {
-			state.sections.push(section);
-		},
-		UPDATE_SECTION: function UPDATE_SECTION(state, title, section) {
-			section.title = title;
-		},
-		EDIT_SECTION: function EDIT_SECTION(state, title, section) {},
-		RECIEVE_ID: function RECIEVE_ID(state, section, data) {
-			section.id = data.id;
-		},
-		TOGGLE_ACTIVE: function TOGGLE_ACTIVE(state, section) {
+	  RECIEVE_SECTIONS: function RECIEVE_SECTIONS(state, sections) {
+	    for (var i = 0, len = sections.length; i < len; i++) {
+	      sections[i].selected = false;
+	    }
+	    state.sections = sections;
+	    state.loaded = true;
+	  },
+	  ADD_SECTION: function ADD_SECTION(state, section) {
+	    state.sections.push(section);
+	  },
+	  UPDATE_SECTION: function UPDATE_SECTION(state, title, section) {
+	    section.title = title;
+	  },
+	  EDIT_SECTION: function EDIT_SECTION(state, title, section) {},
+	  RECIEVE_ID: function RECIEVE_ID(state, section, data) {
+	    section.id = data.id;
+	  },
+	  TOGGLE_ACTIVE: function TOGGLE_ACTIVE(state, section) {
 
-			for (var i = 0, len = state.sections.length; i < len; i++) {
-				if (state.sections[i].id !== section.id) {
-					state.sections[i].selected = false;
-				}
-			}
-			state.activeSection = section.id;
-			section.selected = true;
-		},
-		DELETE_SECTION: function DELETE_SECTION(state, section) {
-			state.sections.$remove(section);
-		},
-		RECIEVE_STYLE_ID: function RECIEVE_STYLE_ID(state, style, id) {
-			style.id = id;
-		},
-		ADD_STYLE: function ADD_STYLE(state, style, section) {
-			section.styles.push(style);
-		},
-		EDIT_STYLE: function EDIT_STYLE(state, data, style) {
-			if (data.title) {
-				style.title = data.title;
-			}
+	    for (var i = 0, len = state.sections.length; i < len; i++) {
+	      if (state.sections[i].id !== section.id) {
+	        state.sections[i].selected = false;
+	      }
+	    }
+	    state.activeSection = section.id;
+	    section.selected = true;
+	  },
+	  DELETE_SECTION: function DELETE_SECTION(state, section) {
+	    state.sections.$remove(section);
+	  },
+	  RECIEVE_STYLE_ID: function RECIEVE_STYLE_ID(state, style, id) {
+	    style.id = id;
+	  },
+	  ADD_STYLE: function ADD_STYLE(state, style, section) {
+	    section.styles.push(style);
+	  },
+	  EDIT_STYLE: function EDIT_STYLE(state, data, style) {
+	    if (data.title) {
+	      style.title = data.title;
+	    }
 
-			if (data.html) {
-				style.html = data.html;
-			}
-		},
-		DELETE_STYLE: function DELETE_STYLE(state, index, section) {
-			setTimeout(function () {
-				section.styles.splice(index, 1);
-			}, 10);
-		},
-		ADD_POSITION: function ADD_POSITION(state, pos) {
-			state.sectionPositions.push(pos);
-		},
-		RECIEVE_SETTINGS: function RECIEVE_SETTINGS(state, settings) {
-			settings.show = false;
-			state.settings = settings;
-		},
-		TOGGLE_PRIVACY: function TOGGLE_PRIVACY(state, section) {
-			state.settings.private = !state.settings.private;
-		},
-		TOGGLE_SETTINGS: function TOGGLE_SETTINGS(state) {
-			state.settings.show = !state.settings.show;
-		},
-		UPDATE_SETTINGS: function UPDATE_SETTINGS(state, newSettings) {
-			state.settings = (0, _assign2.default)({}, state.settings, newSettings);
-		}
+	    if (data.html) {
+	      style.html = data.html;
+	    }
+	  },
+	  UPDATE_HTML: function UPDATE_HTML(state, data, style, ss, se) {
+	    state.undoStack.push({
+	      html: style.html,
+	      ss: ss,
+	      se: se
+	    });
+	    style.html = data;
+	  },
+	  UNDO_HTML: function UNDO_HTML(state, style) {
+	    var latest = state.undoStack.pop();
+	    if (latest) {
+	      style.html = latest.html;
+	      state.redoStack.push(latest);
+	    }
+	  },
+	  REDO_HTML: function REDO_HTML(state, style) {
+	    var latest = state.redoStack.pop();
+	    if (latest) {
+	      style.html = latest.html;
+	      state.undoStack.push(latest);
+	    }
+	  },
+	  CLEAR_UNDO: function CLEAR_UNDO(state) {
+	    state.undoStack = [];
+	    state.redoStack = [];
+	  },
+	  DELETE_STYLE: function DELETE_STYLE(state, index, section) {
+	    setTimeout(function () {
+	      section.styles.splice(index, 1);
+	    }, 10);
+	  },
+	  ADD_POSITION: function ADD_POSITION(state, pos) {
+	    state.sectionPositions.push(pos);
+	  },
+	  RECIEVE_SETTINGS: function RECIEVE_SETTINGS(state, settings) {
+	    settings.show = false;
+	    state.settings = settings;
+	  },
+	  TOGGLE_PRIVACY: function TOGGLE_PRIVACY(state, section) {
+	    state.settings.private = !state.settings.private;
+	  },
+	  TOGGLE_SETTINGS: function TOGGLE_SETTINGS(state) {
+	    state.settings.show = !state.settings.show;
+	  },
+	  UPDATE_SETTINGS: function UPDATE_SETTINGS(state, newSettings) {
+	    state.settings = (0, _assign2.default)({}, state.settings, newSettings);
+	  }
 	};
 
 	exports.default = new _vuex2.default.Store({
-		state: state,
-		mutations: mutations
+	  state: state,
+	  mutations: mutations
 	});
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(43), __esModule: true };
 
 /***/ },
 /* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(44);
-	module.exports = __webpack_require__(47).Object.assign;
+	module.exports = { "default": __webpack_require__(44), __esModule: true };
 
 /***/ },
 /* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// 19.1.3.1 Object.assign(target, source)
-	var $export = __webpack_require__(45);
-
-	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(60)});
+	__webpack_require__(45);
+	module.exports = __webpack_require__(48).Object.assign;
 
 /***/ },
 /* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global    = __webpack_require__(46)
-	  , core      = __webpack_require__(47)
-	  , ctx       = __webpack_require__(48)
-	  , hide      = __webpack_require__(50)
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(46);
+
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(61)});
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(47)
+	  , core      = __webpack_require__(48)
+	  , ctx       = __webpack_require__(49)
+	  , hide      = __webpack_require__(51)
 	  , PROTOTYPE = 'prototype';
 
 	var $export = function(type, name, source){
@@ -12464,7 +13600,7 @@
 	module.exports = $export;
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -12473,18 +13609,18 @@
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports) {
 
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(49);
+	var aFunction = __webpack_require__(50);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -12505,7 +13641,7 @@
 	};
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -12514,12 +13650,12 @@
 	};
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP         = __webpack_require__(51)
-	  , createDesc = __webpack_require__(59);
-	module.exports = __webpack_require__(55) ? function(object, key, value){
+	var dP         = __webpack_require__(52)
+	  , createDesc = __webpack_require__(60);
+	module.exports = __webpack_require__(56) ? function(object, key, value){
 	  return dP.f(object, key, createDesc(1, value));
 	} : function(object, key, value){
 	  object[key] = value;
@@ -12527,15 +13663,15 @@
 	};
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var anObject       = __webpack_require__(52)
-	  , IE8_DOM_DEFINE = __webpack_require__(54)
-	  , toPrimitive    = __webpack_require__(58)
+	var anObject       = __webpack_require__(53)
+	  , IE8_DOM_DEFINE = __webpack_require__(55)
+	  , toPrimitive    = __webpack_require__(59)
 	  , dP             = Object.defineProperty;
 
-	exports.f = __webpack_require__(55) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	exports.f = __webpack_require__(56) ? Object.defineProperty : function defineProperty(O, P, Attributes){
 	  anObject(O);
 	  P = toPrimitive(P, true);
 	  anObject(Attributes);
@@ -12548,17 +13684,17 @@
 	};
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(53);
+	var isObject = __webpack_require__(54);
 	module.exports = function(it){
 	  if(!isObject(it))throw TypeError(it + ' is not an object!');
 	  return it;
 	};
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -12566,24 +13702,24 @@
 	};
 
 /***/ },
-/* 54 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = !__webpack_require__(55) && !__webpack_require__(56)(function(){
-	  return Object.defineProperty(__webpack_require__(57)('div'), 'a', {get: function(){ return 7; }}).a != 7;
-	});
-
-/***/ },
 /* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(56)(function(){
-	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	module.exports = !__webpack_require__(56) && !__webpack_require__(57)(function(){
+	  return Object.defineProperty(__webpack_require__(58)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
 /* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Thank's IE8 for his funny defineProperty
+	module.exports = !__webpack_require__(57)(function(){
+	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 57 */
 /***/ function(module, exports) {
 
 	module.exports = function(exec){
@@ -12595,11 +13731,11 @@
 	};
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(53)
-	  , document = __webpack_require__(46).document
+	var isObject = __webpack_require__(54)
+	  , document = __webpack_require__(47).document
 	  // in old IE typeof document.createElement is 'object'
 	  , is = isObject(document) && isObject(document.createElement);
 	module.exports = function(it){
@@ -12607,11 +13743,11 @@
 	};
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
-	var isObject = __webpack_require__(53);
+	var isObject = __webpack_require__(54);
 	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
 	module.exports = function(it, S){
@@ -12624,7 +13760,7 @@
 	};
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -12637,20 +13773,20 @@
 	};
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	// 19.1.2.1 Object.assign(target, source, ...)
-	var getKeys  = __webpack_require__(61)
-	  , gOPS     = __webpack_require__(76)
-	  , pIE      = __webpack_require__(77)
-	  , toObject = __webpack_require__(78)
-	  , IObject  = __webpack_require__(65)
+	var getKeys  = __webpack_require__(62)
+	  , gOPS     = __webpack_require__(77)
+	  , pIE      = __webpack_require__(78)
+	  , toObject = __webpack_require__(79)
+	  , IObject  = __webpack_require__(66)
 	  , $assign  = Object.assign;
 
 	// should work with symbols and should have deterministic property order (V8 bug)
-	module.exports = !$assign || __webpack_require__(56)(function(){
+	module.exports = !$assign || __webpack_require__(57)(function(){
 	  var A = {}
 	    , B = {}
 	    , S = Symbol()
@@ -12675,25 +13811,25 @@
 	} : $assign;
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-	var $keys       = __webpack_require__(62)
-	  , enumBugKeys = __webpack_require__(75);
+	var $keys       = __webpack_require__(63)
+	  , enumBugKeys = __webpack_require__(76);
 
 	module.exports = Object.keys || function keys(O){
 	  return $keys(O, enumBugKeys);
 	};
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var has          = __webpack_require__(63)
-	  , toIObject    = __webpack_require__(64)
-	  , arrayIndexOf = __webpack_require__(68)(false)
-	  , IE_PROTO     = __webpack_require__(72)('IE_PROTO');
+	var has          = __webpack_require__(64)
+	  , toIObject    = __webpack_require__(65)
+	  , arrayIndexOf = __webpack_require__(69)(false)
+	  , IE_PROTO     = __webpack_require__(73)('IE_PROTO');
 
 	module.exports = function(object, names){
 	  var O      = toIObject(object)
@@ -12709,7 +13845,7 @@
 	};
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports) {
 
 	var hasOwnProperty = {}.hasOwnProperty;
@@ -12718,28 +13854,28 @@
 	};
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// to indexed object, toObject with fallback for non-array-like ES3 strings
-	var IObject = __webpack_require__(65)
-	  , defined = __webpack_require__(67);
+	var IObject = __webpack_require__(66)
+	  , defined = __webpack_require__(68);
 	module.exports = function(it){
 	  return IObject(defined(it));
 	};
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(66);
+	var cof = __webpack_require__(67);
 	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 	  return cof(it) == 'String' ? it.split('') : Object(it);
 	};
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -12749,7 +13885,7 @@
 	};
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports) {
 
 	// 7.2.1 RequireObjectCoercible(argument)
@@ -12759,14 +13895,14 @@
 	};
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// false -> Array#indexOf
 	// true  -> Array#includes
-	var toIObject = __webpack_require__(64)
-	  , toLength  = __webpack_require__(69)
-	  , toIndex   = __webpack_require__(71);
+	var toIObject = __webpack_require__(65)
+	  , toLength  = __webpack_require__(70)
+	  , toIndex   = __webpack_require__(72);
 	module.exports = function(IS_INCLUDES){
 	  return function($this, el, fromIndex){
 	    var O      = toIObject($this)
@@ -12785,18 +13921,18 @@
 	};
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.15 ToLength
-	var toInteger = __webpack_require__(70)
+	var toInteger = __webpack_require__(71)
 	  , min       = Math.min;
 	module.exports = function(it){
 	  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 	};
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports) {
 
 	// 7.1.4 ToInteger
@@ -12807,10 +13943,10 @@
 	};
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(70)
+	var toInteger = __webpack_require__(71)
 	  , max       = Math.max
 	  , min       = Math.min;
 	module.exports = function(index, length){
@@ -12819,20 +13955,20 @@
 	};
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var shared = __webpack_require__(73)('keys')
-	  , uid    = __webpack_require__(74);
+	var shared = __webpack_require__(74)('keys')
+	  , uid    = __webpack_require__(75);
 	module.exports = function(key){
 	  return shared[key] || (shared[key] = uid(key));
 	};
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global = __webpack_require__(46)
+	var global = __webpack_require__(47)
 	  , SHARED = '__core-js_shared__'
 	  , store  = global[SHARED] || (global[SHARED] = {});
 	module.exports = function(key){
@@ -12840,7 +13976,7 @@
 	};
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports) {
 
 	var id = 0
@@ -12850,7 +13986,7 @@
 	};
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports) {
 
 	// IE 8- don't enum bug keys
@@ -12859,29 +13995,29 @@
 	).split(',');
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports) {
 
 	exports.f = Object.getOwnPropertySymbols;
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
 	exports.f = {}.propertyIsEnumerable;
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.13 ToObject(argument)
-	var defined = __webpack_require__(67);
+	var defined = __webpack_require__(68);
 	module.exports = function(it){
 	  return Object(defined(it));
 	};
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -13525,13 +14661,13 @@
 	}));
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports) {
 
 	module.exports = "\n\n\n\n\n\n\n\n\n\n\n\n<div class=\"sg-wrap\" v-bind:class=\"{'loaded' : !loaded}\">\n\t\n<div class=\"sg-row sg-main-content\" v-if=\"onboarded\">\n\t\n\t<settings v-if=\"showSettings\"></settings>\n\t\n\t<navbar></navbar>\n\t\n\t<div class=\"sg-col-9\">\n\t\t<wrapper v-for=\"section in sections\" :section=\"section\"></wrapper>\n\t\t\t<form class=\"sg-stack sg-sct__wrap\" v-on:submit.prevent=\"addWrapper\" v-show=\"logged_in\">\n\t\t\t\t<input type=\"text\" class=\"sg-stack sg-font-dark sg-sct__title\" placeholder=\"Add a Section...\" />\n\t\t\t\t<button class=\"sg-button sg-sct__add\"><icon name=\"add\"></icon> Add</button>\n\t\t\t</form>\n\t\t</div>\n\t\t\n</div>\n\n<onboard v-else></onboard>\n\n</div>\n";
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
 	/**
