@@ -23,9 +23,7 @@ export default {
 	
 	vuex: {
 		actions: {
-			updateHtml: actions.updateHtml,
-			undo: actions.undoHtml,
-			redo: actions.redoHtml
+			updateHtml: actions.updateHtml
 		}
 	},
 	

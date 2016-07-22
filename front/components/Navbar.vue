@@ -62,7 +62,7 @@
 						</li>
 					</ul>
 			</li>
-        <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> Settings</button></li>
+        <li v-if="logged_in"><button v-on:click="toggleSettings" class="sg-button sg-button__settings"><icon name="cog"></icon> {{ settings }}</button></li>
     </ul>
   </nav>
 </template>
@@ -83,6 +83,11 @@ export default {
     actions:{
       toggleSettings: actions.toggleSettings,
 			toggleActive: actions.toggleActive
+    }
+  },
+  data: function() {
+    return {
+      settings: styleguide_options.str_settings
     }
   },
   components: {

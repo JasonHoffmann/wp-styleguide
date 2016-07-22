@@ -80,7 +80,7 @@ class Styleguide_Front {
 				'plugin_url' => STYLEGUIDE__PLUGIN_URL,
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 				'logged_in' => is_user_logged_in() ? true : false,
-				'str_settings' => __( 'Settings', 'styleguide' )
+				'str_settings' => __( 'Settings', 'styles' )
 			);
 			wp_localize_script( 'app', 'styleguide_options', $site_options );
 			// Enqueued script with localized data.

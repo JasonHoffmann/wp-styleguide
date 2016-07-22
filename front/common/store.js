@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const state = {
   logged_in: styleguide_options.logged_in,
 	root: styleguide_options.home_url,
+  str_settings: styleguide_options.str_settings,
   sections: [],
   // TODO: Change this to ID instead of full object
   activeSection: '',

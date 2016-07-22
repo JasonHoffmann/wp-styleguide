@@ -38,7 +38,7 @@ register_activation_hook( __FILE__, array( 'Styleguide_Activate', 'plugin_activa
 register_deactivation_hook( __FILE__, array( 'Styleguide_Activate', 'plugin_deactivation' ) );
 
 function my_plugin_load_plugin_textdomain() {
-    load_plugin_textdomain( 'my-plugin', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+    load_plugin_textdomain( 'styles', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 add_action( 'plugins_loaded', 'my_plugin_load_plugin_textdomain' );
 
